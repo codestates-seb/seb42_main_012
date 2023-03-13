@@ -1,7 +1,19 @@
+import GymNewest from './GymNewest';
+
+// const gymList = [{
+
+// },]
+
 function GymNewestList() {
   return (
-    <div className="text-[14px] font-bold h-160">
-      <h2>신규 헬스장</h2>
+    <div className="box-border border-b">
+      <h2 className="text-[14px] font-bol">신규 헬스장</h2>
+      <ul className="flex overflow-scroll">
+        <GymNewest />
+        <GymNewest />
+        <GymNewest />
+        <GymNewest />
+      </ul>
     </div>
   );
 }
