@@ -5,7 +5,7 @@ import PostButton from '../../UI/PostButton';
 
 function Header({ titleText }) {
   const defaultClass =
-    'fixed top-0 flex items-center justify-between w-full pt-10 px-5 bg-[#fff]';
+    'fixed top-0 flex items-center justify-between w-full pt-10 px-2 bg-[#fff]';
 
   return (
     <header className={defaultClass}>
