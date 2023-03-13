@@ -1,20 +1,17 @@
-import GymNewestList from '../components/GymNewestList';
-import GymTabList from '../components/GymTabList';
 import Header from '../components/layouts/Header/Header';
 import Main from '../components/layouts/Main/Main';
 import Nav from '../components/layouts/Nav/Nav';
 
-function GymPage() {
+function HomePage() {
   return (
     <>
-      <Header titleText="GYM" />
+      <Header titleText="HOME" />
       <Main>
-        <GymNewestList />
-        <GymTabList />
+        <></>
       </Main>
       <Nav />
     </>
   );
 }
 
-export default GymPage;
+export default HomePage;
