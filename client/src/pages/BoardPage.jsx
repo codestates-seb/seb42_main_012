@@ -1,3 +1,6 @@
+import BoardSearchContainer from '../components/Board/BoardSearchContainer';
+import BoardTapList from '../components/Board/BoardTabList';
+import BoardList from '../components/Board/BoardList';
 import Header from '../components/layouts/Header/Header';
 import Main from '../components/layouts/Main/Main';
 import Nav from '../components/layouts/Nav/Nav';
@@ -7,7 +10,9 @@ function BoardPage() {
     <>
       <Header titleText="BOARD" />
       <Main>
-        <h2>커뮤니티 페이지입니다.</h2>
+        <BoardSearchContainer />
+        <BoardTapList />
+        <BoardList />
       </Main>
       <Nav />
     </>
