@@ -7,6 +7,7 @@ module.exports = {
     colors: {
       orange: '#FCA43B',
       grey: '#d4d4d4',
+      lightGrey: '#CBCBCB',
       white: '#FFFFFF',
     },
   },

@@ -1,6 +1,7 @@
 // import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import BoardPage from './pages/BoardPage';
+import GymDetailPage from './pages/GymDetailPage';
 import GymPage from './pages/GymPage';
 import HomePage from './pages/HomePage';
 import MyDetailPage from './pages/MyDetailPage';
@@ -14,6 +15,7 @@ function App() {
       <Route path="/communities" element={<BoardPage />} />
       <Route path="/my" element={<MyPage />} />
       <Route path="/my/communities" element={<MyDetailPage />} />
+      <Route path="/gyms/:id" element={<GymDetailPage />} />
     </Routes>
   );
 }
