@@ -1,4 +1,4 @@
-import TabButton from './UI/TabButton';
+import TabButton from '../UI/TabButton';
 
 function GymTabList() {
   return (

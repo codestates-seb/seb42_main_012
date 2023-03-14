@@ -15,11 +15,11 @@ function Nav() {
           <GiWeightLiftingUp className="text-4xl" />
           <span>GYM</span>
         </NavItem>
-        <NavItem to="">
+        <NavItem to="/communities">
           <BsFillPeopleFill className="text-4xl" />
           <span>BOARD</span>
         </NavItem>
-        <NavItem to="">
+        <NavItem to="/my">
           <BsFillPersonFill className="text-4xl" />
           <span>MY</span>
         </NavItem>

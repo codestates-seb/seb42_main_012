@@ -1,6 +1,6 @@
 import Header from '../components/layouts/Header/Header';
 import Main from '../components/layouts/Main/Main';
-import BoardPost from '../components/UI/Board/BoardPost';
+import BoardPost from '../components/Board/BoardPost';
 
 function BoardPostPage() {
   return (
