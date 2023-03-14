@@ -1,3 +1,4 @@
+import GymList from '../components/GymList';
 import GymNewestList from '../components/GymNewestList';
 import GymTabList from '../components/GymTabList';
 import Header from '../components/layouts/Header/Header';
@@ -11,6 +12,7 @@ function GymPage() {
       <Main>
         <GymNewestList />
         <GymTabList />
+        <GymList />
       </Main>
       <Nav />
     </>

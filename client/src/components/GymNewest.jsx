@@ -1,11 +1,11 @@
 import HeartButton from './UI/HeartButton';
 
-function GymNewest() {
+function GymNewest({ gymName }) {
   return (
-    <li className="mr-1 h-[165px]">
-      <div className=" bg-grey w-[160px] h-[130px]" />
+    <li className="mr-1 h-[160px]">
+      <div className=" bg-grey w-[160px] h-[130px] rounded-md" />
       <div className="flex items-center justify-between">
-        <h3 className="text-[12px]">스마트짐</h3>
+        <span className="text-[14px]">{gymName}</span>
         <HeartButton />
       </div>
     </li>
