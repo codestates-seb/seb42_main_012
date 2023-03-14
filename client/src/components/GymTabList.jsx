@@ -1,5 +1,13 @@
+import TabButton from './UI/TabButton';
+
 function GymTabList() {
-  return <div className="h-screen">Tab</div>;
+  return (
+    <ul className="flex my-3">
+      <TabButton text="거리" />
+      <TabButton text="평점" />
+      <TabButton text="찜" />
+    </ul>
+  );
 }
 
 export default GymTabList;
