@@ -17,7 +17,7 @@ permissions:
   contents: read
 
 env:
-  WORKING_DIRECTORY: ./back
+  WORKING_DIRECTORY: ./back/
   S3_BUCKET_NAME: main-012-bucket
 
 jobs:
