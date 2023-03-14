@@ -7,7 +7,7 @@ function HomePage() {
     <>
       <Header titleText="HOME" />
       <Main>
-        <></>
+        <h2>메인 홈페이지입니다</h2>
       </Main>
       <Nav />
     </>
