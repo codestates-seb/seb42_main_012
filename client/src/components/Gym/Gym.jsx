@@ -1,6 +1,6 @@
 import GymTagList from './GymTagList';
-import ReviewScore from './ReviewScore';
-import HeartButton from './UI/HeartButton';
+import ReviewScore from '../ReviewScore';
+import HeartButton from '../UI/HeartButton';
 
 function Gym() {
   return (

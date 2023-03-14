@@ -1,4 +1,4 @@
-import HeartButton from './UI/HeartButton';
+import HeartButton from '../UI/HeartButton';
 
 function GymNewest({ gymName }) {
   return (

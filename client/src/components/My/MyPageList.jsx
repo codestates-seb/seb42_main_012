@@ -1,4 +1,4 @@
-import MyPageButton from './UI/MyPageButton';
+import MyPageButton from '../UI/MyPageButton';
 
 function MyPageList() {
   return (

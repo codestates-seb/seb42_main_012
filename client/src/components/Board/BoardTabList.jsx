@@ -1,9 +1,9 @@
-import TabButton from '../TabButton';
+import TabButton from '../UI/TabButton';
 
 function BoardTabList() {
   return (
     <>
-      <ul className="flex block mt-5 ">
+      <ul className="flex mt-5 ">
         <TabButton text="자유게시판" />
         <TabButton text="꿀팁" />
         <TabButton text="오운완인증" />

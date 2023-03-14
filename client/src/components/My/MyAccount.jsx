@@ -1,5 +1,5 @@
 // import classNames from 'classnames';
-import BasicButton from './UI/BasicButton';
+import BasicButton from '../UI/BasicButton';
 
 function MyPasswordEdit() {
   return (

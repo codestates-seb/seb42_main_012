@@ -1,4 +1,4 @@
-import GymTag from './UI/GymTag';
+import GymTag from '../UI/GymTag';
 
 function GymTagList() {
   return (

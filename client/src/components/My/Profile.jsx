@@ -1,6 +1,6 @@
-import ProfileImg from './UI/ProfileImg';
-import EditButton from './UI/EditButton';
-import DisplayName from './UI/DisplayName';
+import ProfileImg from '../UI/ProfileImg';
+import EditButton from '../UI/EditButton';
+import DisplayName from '../UI/DisplayName';
 
 function Profile() {
   return (
