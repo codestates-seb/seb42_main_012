@@ -9,6 +9,8 @@ function BasicButton(props) {
     classes += 'bg-[#FCA43B] text-[#fff]';
   } else if (page === 'login') {
     classes += 'bg-[#000] text-[#fff]';
+  } else if (page === 'board') {
+    classes += 'bg-[#000] text-[#fff]';
   }
 
   return (

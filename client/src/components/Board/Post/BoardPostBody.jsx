@@ -1,4 +1,4 @@
-import TextInput from '../UI/TextInput';
+import TextInput from '../../UI/TextInput';
 
 function BoardPostBody() {
   return (
