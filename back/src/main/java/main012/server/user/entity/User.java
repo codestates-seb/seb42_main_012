@@ -51,8 +51,9 @@ public class User extends Auditable {
 
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<CommunityBookmark> communityBookmarks = new ArrayList<>();@Setter(AccessLevel.NONE)
+    private List<CommunityBookmark> communityBookmarks = new ArrayList<>();
 
+    @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<CommunityComment> communityComments = new ArrayList<>();
 
