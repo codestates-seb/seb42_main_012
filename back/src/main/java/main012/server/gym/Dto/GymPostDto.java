@@ -1,13 +1,13 @@
-package main012.server.gyms.Dto;
+package main012.server.gym.Dto;
 
-public class GymsDto {
+public class GymPostDto {
     private String gymName;
     private String address;
     private String offDays;
     private String facilities;
-    private long phoneNumber;
+    private String phoneNumber;
     private long prices;
-    private long openingTime;
+    private String openingTime;
 
     public String getgymName() {
         return gymName;
