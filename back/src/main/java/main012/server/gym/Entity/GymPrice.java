@@ -1,21 +1,19 @@
 package main012.server.gym.Entity;
 
-import main012.server.user.entity.User;
-
 import javax.persistence.*;
 
-public class GymBookmark {
+public class GymPrice {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "gym_bookmark_id")
-    private long id;
+    @Column(name = "gym_price_id")
+    private Long id;
+
+    private Long price;
+
+    private String priceName;
 
     @ManyToOne
     @JoinColumn(name = "gym_id")
     private Gym gym;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
 }
