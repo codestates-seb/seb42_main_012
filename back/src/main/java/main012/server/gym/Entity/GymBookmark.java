@@ -8,7 +8,7 @@ public class GymBookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "gym_bookmark_id")
-    private long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "gym_id")
