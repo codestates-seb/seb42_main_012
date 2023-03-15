@@ -13,13 +13,14 @@ import javax.persistence.*;
 @Setter
 @Entity
 @NoArgsConstructor
-public class GymEntity extends Auditable {
+public class Gym extends Auditable {
 
     @Id
+    @Column(name = "gym_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long gymId;
+    private long id;
 
-    @Column(nullable = false)
+    @Column(length = 100, nullable = false)
     private String gymName;
 
     @Column(nullable = false)
