@@ -7,6 +7,7 @@ function PostButton({ nav }) {
   const handlerClickPost = () => {
     navigate(nav);
   };
+
   return (
     <button type="button" className="pr-2 text-2xl">
       <BsPencilSquare onClick={handlerClickPost} />

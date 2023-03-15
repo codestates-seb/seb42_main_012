@@ -8,7 +8,7 @@ import Nav from '../components/layouts/Nav/Nav';
 function GymPage() {
   return (
     <>
-      <Header titleText="GYM" />
+      <Header titleText="GYM" nav="gympost" />
       <Main>
         <GymNewestList />
         <GymTabList />

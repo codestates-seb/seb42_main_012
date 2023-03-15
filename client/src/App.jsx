@@ -11,6 +11,7 @@ import HomePage from './pages/HomePage';
 import MyDetailPage from './pages/MyDetailPage';
 import MyPage from './pages/MyPage';
 import AccountDeletePage from './pages/AccountDeletePage';
+import GymPostPage from './pages/GymPostPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/gyms" element={<GymPage />} />
       <Route path="/gyms/:id" element={<GymDetailPage />} />
+      <Route path="/gyms/gympost" element={<GymPostPage />} />
       <Route path="/gyms/:id/reviews/" element={<GymReviewPage />} />
       <Route path="/board" element={<BoardPage />} />
       <Route path="/board/:id" element={<BoardDetailPage />} />

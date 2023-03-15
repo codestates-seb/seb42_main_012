@@ -6,7 +6,7 @@ import Nav from '../components/layouts/Nav/Nav';
 function BoardDetailPage() {
   return (
     <>
-      <Header titleText="BOARD" />
+      <Header titleText="BOARD" nav="/board/boardpost" />
       <Main>
         <BoardDetail />
       </Main>
