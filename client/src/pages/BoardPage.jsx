@@ -8,7 +8,7 @@ import Nav from '../components/layouts/Nav/Nav';
 function BoardPage() {
   return (
     <>
-      <Header titleText="BOARD" />
+      <Header titleText="BOARD" nav="/board/boardpost" />
       <Main>
         <BoardSearchContainer />
         <BoardTapList />

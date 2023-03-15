@@ -10,11 +10,11 @@ function BasicButton(props) {
   } else if (page === 'login') {
     classes += 'bg-[#000] text-[#fff]';
   } else if (page === 'board') {
-    classes += 'w-[70%] bg-[#000] text-[#fff] m-2';
+    classes += 'w-[70%] w-[70%] bg-[#000] text-[#fff] m-2';
   } else if (page === 'my_password') {
     classes += 'w-full bg-[#FCA43B] text-[#fff] mt-6';
   } else if (page === 'gymReview') {
-    classes += 'border w-48 mt-1 text-[14px]';
+    classes += 'border w-48 mt-1 text-[14px] m-2';
   }
 
   return (
