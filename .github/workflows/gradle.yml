@@ -9,9 +9,9 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ "main", "dev" ]
+    branches: [ "main", "BE/dev" ]
   pull_request:
-    branches: [ "main", "dev" ]
+    branches: [ "main", "BE/dev" ]
 
 permissions:
   contents: read
@@ -22,7 +22,7 @@ env:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
     - uses: actions/checkout@v3
@@ -34,15 +34,16 @@ jobs:
     - name: init with Gradle
       uses: gradle/gradle-build-action@v2
     - run: gradle init
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      working-directory: ./back/
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
-      with:
-        gradle-version: 7.5.1
-        arguments: build
+      run: ./gradlew build -x test
+      working-directory: ./back/
         
   # build한 후 프로젝트를 압축합니다.
     - name: Make zip file
-      run: zip -r ./practice-deploy.zip .
+      run: zip -r ./main012-deploy.zip .
       shell: bash
     
     # Access Key와 Secret Access Key를 통해 권한을 확인합니다.
@@ -56,4 +57,14 @@ jobs:
         
    # 압축한 프로젝트를 S3로 전송합니다.
     - name: Upload to S3
-      run: aws s3 cp --region ap-northeast-2 ./practice-deploy.zip s3://main-012-bucket/practice-deploy.zip
+      run: aws s3 cp --region ap-northeast-2 ./main012-deploy.zip s3://main-012-bucket/main012-deploy.zip
+
+     # CodeDeploy에게 배포 명령을 내립니다.
+    - name: Code Deploy
+      run: >
+       aws deploy create-deployment --application-name main012
+       --deployment-config-name CodeDeployDefault.AllAtOnce
+       --deployment-group-name main012-group
+       --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=main012-deploy.zip
+
+
