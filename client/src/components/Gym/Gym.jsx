@@ -5,7 +5,7 @@ import HeartButton from '../UI/HeartButton';
 function Gym() {
   return (
     <li className="flex pb-3 mb-3 border-b border-[lightGrey]">
-      <div className=" bg-grey w-[160px] h-[130px] rounded-md" />
+      <div className=" bg-grey h-[130px] rounded-md w-40" />
       <div className="flex flex-col ml-2 w-[190px]">
         <div className="flex items-center">
           <h3 className="mr-1 font-bold">버니짐</h3>

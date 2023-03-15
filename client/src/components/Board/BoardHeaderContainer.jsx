@@ -1,11 +1,8 @@
 import DisplayName from '../UI/DisplayName';
 
-import ProfileImgContainer from '../UI/ProfileImgContainer';
-
 function BoardHeaderContainer() {
   return (
     <div className="flex">
-      <ProfileImgContainer />
       <div>
         <div>
           <DisplayName />

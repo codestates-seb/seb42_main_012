@@ -1,6 +1,14 @@
-function TextInput({ placeholder }) {
+function TextInput({ placeholder, type, inputId, text, classname }) {
   return (
-    <input placeholder={placeholder} className="w-full h-full rounded-full" />
+    <>
+      <p className="mt-2 text-sm text-[#FCA43B]">{text}</p>
+      <input
+        id={inputId}
+        type={type}
+        placeholder={placeholder}
+        className={classname}
+      />
+    </>
   );
 }
 

@@ -5,6 +5,7 @@ import BoardPage from './pages/BoardPage';
 import BoardPostPage from './pages/BoardPostPage';
 import GymDetailPage from './pages/GymDetailPage';
 import GymPage from './pages/GymPage';
+import GymReviewPage from './pages/GymReviewPage';
 import HomePage from './pages/HomePage';
 import MyDetailPage from './pages/MyDetailPage';
 import MyPage from './pages/MyPage';
@@ -20,6 +21,7 @@ function App() {
       <Route path="/my" element={<MyPage />} />
       <Route path="/my/communities" element={<MyDetailPage />} />
       <Route path="/gyms/:id" element={<GymDetailPage />} />
+      <Route path="/gyms/:id/reviews/" element={<GymReviewPage />} />
     </Routes>
   );
 }
