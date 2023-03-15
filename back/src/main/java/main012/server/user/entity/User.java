@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import main012.server.common.Auditable;
+import main012.server.user.enums.UserStatus;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -31,6 +32,10 @@ public class User extends Auditable {
     @Column(length = 100, nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20, nullable = false)
+    private UserStatus userStatus = UserStatus.USER_ACTIVE;
+
     // N : N
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
@@ -46,7 +51,7 @@ public class User extends Auditable {
 
     // 1 : N
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Community> communities = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
@@ -54,7 +59,7 @@ public class User extends Auditable {
     private List<CommunityBookmark> communityBookmarks = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<CommunityComment> communityComments = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
@@ -66,7 +71,7 @@ public class User extends Auditable {
     private List<GymBookmark> gymBookmarks = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<GymReview> gymReviews = new ArrayList<>();
 
     /*
@@ -111,6 +116,19 @@ public class User extends Auditable {
         this.gymReviews.add(gymReview);
         if (gymReview.getUser() != this) {
             gymReview.setUser(this);
+        }
+    }
+
+    public enum UserStatus {
+        USER_ACTIVE("활동중"),
+        USER_SLEEP("휴먼 상태"),
+        USER_DELETED("탈퇴 상태");
+
+        @Getter
+        private String status;
+
+        UserStatus(String status) {
+            this.status = status;
         }
     }
 }
