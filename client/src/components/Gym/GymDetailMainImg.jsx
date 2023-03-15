@@ -1,7 +1,7 @@
 function GymDetailMainImg() {
   return (
     <>
-      <div className="bg-grey w-90 h-[200px]" />
+      <div className="h-48 bg-grey w-90" />
     </>
   );
 }

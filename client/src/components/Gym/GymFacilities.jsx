@@ -6,7 +6,9 @@ function GymFacilities() {
   return (
     <div className="border-b border-lightGrey">
       <GymDetailTitle titleText="편의시설">
-        <FaShower />
+        <div className="mr-0.5">
+          <FaShower />
+        </div>
       </GymDetailTitle>
       <GymTagList />
     </div>

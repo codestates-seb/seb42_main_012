@@ -1,22 +1,26 @@
-// import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 
 function BasicButton(props) {
-  const { text, page } = props;
+  const { text, page, to, type } = props;
 
-  let classes = 'w-[70%] text-md py-2 font-medium rounded-lg m-2 ';
+  let classes = 'text-md py-2 text-center font-medium rounded-lg ';
 
   if (page === 'my') {
-    classes += 'bg-[#FCA43B] text-[#fff]';
+    classes += 'w-[70%] bg-[#FCA43B] text-[#fff] m-2';
   } else if (page === 'login') {
     classes += 'bg-[#000] text-[#fff]';
   } else if (page === 'board') {
-    classes += 'bg-[#000] text-[#fff]';
+    classes += 'w-[70%] bg-[#000] text-[#fff] m-2';
+  } else if (page === 'my_password') {
+    classes += 'w-full bg-[#FCA43B] text-[#fff] mt-6';
+  } else if (page === 'gymReview') {
+    classes += 'border w-48 mt-1 text-[14px]';
   }
 
   return (
-    <button className={classes} type="button">
+    <Link to={to} className={classes} type={type}>
       {text}
-    </button>
+    </Link>
   );
 }
 
