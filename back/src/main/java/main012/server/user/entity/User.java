@@ -1,11 +1,16 @@
 package main012.server.user.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import main012.server.common.Auditable;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -26,5 +31,85 @@ public class User extends Auditable {
     @Column(length = 100, nullable = false)
     private String password;
 
+    // N : N
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
+    // 1 : 1
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private UserInfo userInfo;
+
+    // 1 : N
+    @Setter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Community> communities = new ArrayList<>();
+
+    @Setter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<CommunityBookmark> communityBookmarks = new ArrayList<>();@Setter(AccessLevel.NONE)
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<CommunityComment> communityComments = new ArrayList<>();
+
+    @Setter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Gym> gyms = new ArrayList<>();
+
+    @Setter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<GymBookmark> gymBookmarks = new ArrayList<>();
+
+    @Setter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<GymReview> gymReviews = new ArrayList<>();
+
+    /*
+     * 양방향 매핑 설정
+     */
+    public void setCommunity (Community community) {
+        this.communities.add(community);
+        if (community.getUser() != this) {
+            community.setUser(this);
+        }
+    }
+
+    public void setCommunityBookmark (CommunityBookmark communityBookmark) {
+        this.communityBookmarks.add(communityBookmark);
+        if (communityBookmark.getUser() != this) {
+            communityBookmark.setUser(this);
+        }
+    }
+
+    public void setCommunityComment (CommunityComment communityComment) {
+        this.communityComments.add(communityComment);
+        if (communityComment.getUser() != this) {
+            communityComment.setUser(this);
+        }
+    }
+
+    public void setGym (Gym gym) {
+        this.gyms.add(gym);
+        if (gym.getUser() != this) {
+            gym.setUser(this);
+        }
+    }
+
+    public void setGymBookmark (GymBookmark gymBookmark) {
+        this.gymBookmarks.add(gymBookmark);
+        if (gymBookmark.getUser() != this) {
+            gymBookmark.setUser(this);
+        }
+    }
+
+    public void setGymReview (GymReview gymReview) {
+        this.gymReviews.add(gymReview);
+        if (gymReview.getUser() != this) {
+            gymReview.setUser(this);
+        }
+    }
 }
