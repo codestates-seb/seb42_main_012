@@ -83,21 +83,21 @@ public class Gym extends Auditable {
     }
 
     public void setGymPrice (GymPrice gymPrice) {
-        this.gymPrice.add(gymPrice);
+        this.gymPrices.add(gymPrice);
         if(gymPrice.getGym() != this) {
             gymPrice.setGym(this);
         }
     }
 
     public void setGymReview(GymReview gymReview){
-        this.gymReview.add(gymReview);
+        this.gymReviews.add(gymReview);
         if(gymReview.getGym() != this) {
             gymReview.setGym(this);
         }
     }
 
     public void setGymFacility(GymFacility gymFacility){
-        this.gymFacility.add(gymFacility);
+        this.gymFacilities.add(gymFacility);
         if (gymFacility.getGym() != this) {
             gymFacility.setGym(this);
         }
