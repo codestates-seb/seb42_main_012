@@ -1,11 +1,16 @@
+import { useNavigate } from 'react-router-dom';
 import { AiFillEdit } from 'react-icons/ai';
-// import axios from 'axios';
 
-function EditButton() {
+function EditButton({ nav }) {
+  const navigate = useNavigate();
+
+  const handlerClickEdit = () => {
+    navigate(nav);
+  };
   return (
-    <div className="text-2xl">
-      <AiFillEdit />
-    </div>
+    <button type="button" className="pr-2 text-2xl">
+      <AiFillEdit onClick={handlerClickEdit} />
+    </button>
   );
 }
 

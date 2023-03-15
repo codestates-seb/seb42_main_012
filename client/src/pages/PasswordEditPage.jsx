@@ -1,20 +1,19 @@
+// import { useState } from 'react';
 import Header from '../components/layouts/Header/Header';
 import Main from '../components/layouts/Main/Main';
 import Nav from '../components/layouts/Nav/Nav';
-import MyDetailTitle from '../components/My/MyDetailTitle';
-import MyDetailList from '../components/My/MyDetailList';
+import PasswordList from '../components/My/PasswordList';
 
-function MyDetailPage({ text }) {
+function PasswordEditPage() {
   return (
     <>
       <Header titleText="MY" />
       <Main>
-        <MyDetailTitle text={text} />
-        <MyDetailList />
+        <PasswordList />
       </Main>
       <Nav />
     </>
   );
 }
 
-export default MyDetailPage;
+export default PasswordEditPage;

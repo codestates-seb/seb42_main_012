@@ -1,16 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import { BsPencilSquare } from 'react-icons/bs';
 
-function PostButton() {
+function PostButton({ nav }) {
   const navigate = useNavigate();
 
   const handlerClickPost = () => {
-    navigate('/communities/newpost', {});
+    navigate(nav);
   };
   return (
-    <div className="pr-2 text-2xl">
+    <button type="button" className="pr-2 text-2xl">
       <BsPencilSquare onClick={handlerClickPost} />
-    </div>
+    </button>
   );
 }
 
