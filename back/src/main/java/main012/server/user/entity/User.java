@@ -33,6 +33,7 @@ public class User extends Auditable {
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 20, nullable = false)
     private UserStatus userStatus = UserStatus.USER_ACTIVE;
 
     // N : N
