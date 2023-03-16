@@ -6,9 +6,9 @@ import GymPostAddress from '../components/Gym/GymPostAddress';
 import GymPostPhoneNumber from '../components/Gym/GymPostPhoneNumber';
 import GymPostImage from '../components/Gym/GymPostImage';
 import GymPostFacilities from '../components/Gym/GymPostFacilities';
-import GymPostPrice from '../components/Gym/GymPostPrice';
-import GymPostTrainer from '../components/Gym/GymPostTrainer';
+import GymPostDetailPrice from '../components/Gym/GymPostDetailPrice';
 import GymPostHours from '../components/Gym/GymPostHours';
+import GymPostPrice from '../components/Gym/GymPostPrice';
 
 function GymPostPage() {
   return (
@@ -19,10 +19,11 @@ function GymPostPage() {
         <GymPostImage />
         <GymPostFacilities />
         <GymPostPrice />
+        <GymPostDetailPrice />
         <GymPostHours />
         <GymPostAddress />
         <GymPostPhoneNumber />
-        <GymPostTrainer />
+        {/* <GymPostTrainer /> */}
       </Main>
       <Nav />
     </>
