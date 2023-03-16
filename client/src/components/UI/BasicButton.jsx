@@ -25,6 +25,9 @@ function BasicButton(props) {
   } else if (page === 'modal') {
     classes +=
       'px-5 py-1 mt-4 mx-2 border border-[#FCA43B] bg-[#fff] text-[#FCA43B] active:bg-[#FCA43B] active:text-[#fff] text-xs';
+  } else if (page === 'more') {
+    classes +=
+      'px-5 py-1 bg-[#fff] text-[#FCA43B] active:bg-[#FCA43B] active:bg-opacity-[10%] text-xs';
   }
 
   return (

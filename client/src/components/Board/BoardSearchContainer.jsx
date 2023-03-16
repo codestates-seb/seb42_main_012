@@ -3,11 +3,13 @@ import TextInput from '../UI/TextInput';
 
 function BoardSearchContainer() {
   return (
-    <div className="flex">
-      <AiOutlineSearch className="w-6 h-6 " />
-      <div className="ml-2 flex rounded-full w-full border border-[#D9D9D9]">
-        <TextInput />
-      </div>
+    <div className="flex items-center w-full px-4 bg-white top-[100px]">
+      <AiOutlineSearch className="mr-2 text-2xl" />
+      <TextInput
+        classname="w-full py-1 px-2 border border-[#D9D9D9] rounded-xl focus:outline-[#FCA43B]"
+        inputId="search"
+        placeholder="search..."
+      />
     </div>
   );
 }
