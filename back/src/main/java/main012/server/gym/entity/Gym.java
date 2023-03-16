@@ -1,4 +1,4 @@
-package main012.server.gym.Entity;
+package main012.server.gym.entity;
 
 
 import lombok.AccessLevel;
@@ -16,32 +16,34 @@ import java.util.List;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Gym extends Auditable {
 
-    @Id
-    @Column(name = "gym_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Gym extends Auditable{
 
-    @Column(length = 100, nullable = false)
+//    @Id
+//    @Column(name = "gym_id")
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
+    private long gymId;
+
+
     private String gymName;
 
     @Column(nullable = false)
     private String address;
 
-    @Column(nullable = false)
+
     private String phoneNumber;
 
-    @Column(nullable = false)
+
     private String offDays;
-    @Column(nullable = false)
+
     private String openingTime;
 
-    @Column(nullable = false)
-    private double latitude;
-
-    @Column(nullable = false)
-    private double longitude;
+//    @Column(nullable = false)
+//    private double latitude;
+//
+//    @Column(nullable = false)
+//    private double longitude;
 
 
     // N : 1

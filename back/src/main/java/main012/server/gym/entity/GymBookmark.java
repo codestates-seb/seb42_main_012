@@ -1,9 +1,16 @@
-package main012.server.gym.Entity;
+package main012.server.gym.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import main012.server.user.entity.User;
 
 import javax.persistence.*;
 
+@Getter
+@Setter
+@Entity
+@NoArgsConstructor
 public class GymBookmark {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

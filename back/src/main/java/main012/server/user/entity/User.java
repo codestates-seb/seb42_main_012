@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import main012.server.common.Auditable;
-import main012.server.user.enums.UserStatus;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -77,42 +76,42 @@ public class User extends Auditable {
     /*
      * 양방향 매핑 설정
      */
-    public void setCommunity (Community community) {
+    public void setCommunity(Community community) {
         this.communities.add(community);
         if (community.getUser() != this) {
             community.setUser(this);
         }
     }
 
-    public void setCommunityBookmark (CommunityBookmark communityBookmark) {
+    public void setCommunityBookmark(CommunityBookmark communityBookmark) {
         this.communityBookmarks.add(communityBookmark);
         if (communityBookmark.getUser() != this) {
             communityBookmark.setUser(this);
         }
     }
 
-    public void setCommunityComment (CommunityComment communityComment) {
+    public void setCommunityComment(CommunityComment communityComment) {
         this.communityComments.add(communityComment);
         if (communityComment.getUser() != this) {
             communityComment.setUser(this);
         }
     }
 
-    public void setGym (Gym gym) {
+    public void setGym(Gym gym) {
         this.gyms.add(gym);
         if (gym.getUser() != this) {
             gym.setUser(this);
         }
     }
 
-    public void setGymBookmark (GymBookmark gymBookmark) {
+    public void setGymBookmark(GymBookmark gymBookmark) {
         this.gymBookmarks.add(gymBookmark);
         if (gymBookmark.getUser() != this) {
             gymBookmark.setUser(this);
         }
     }
 
-    public void setGymReview (GymReview gymReview) {
+    public void setGymReview(GymReview gymReview) {
         this.gymReviews.add(gymReview);
         if (gymReview.getUser() != this) {
             gymReview.setUser(this);
