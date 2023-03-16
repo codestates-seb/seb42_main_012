@@ -2,7 +2,7 @@ import BoardTabButton from './BoardTabButton';
 
 function BoardTapList() {
   return (
-    <ul className="flex mt-4 overflow-scroll">
+    <ul className="flex pb-4 mt-4 overflow-scroll">
       <BoardTabButton text="전체" />
       <BoardTabButton text="자유게시판" />
       <BoardTabButton text="꿀팁" />
