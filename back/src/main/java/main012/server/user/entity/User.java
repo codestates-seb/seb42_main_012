@@ -5,6 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import main012.server.common.Auditable;
+import main012.server.community.entity.Community;
+import main012.server.community.entity.CommunityBookmark;
+import main012.server.community.entity.CommunityComment;
+import main012.server.gym.Entity.Gym;
+import main012.server.gym.Entity.GymBookmark;
+import main012.server.gym.Entity.GymReview;
 import main012.server.user.enums.UserStatus;
 
 import javax.persistence.*;
