@@ -2,7 +2,7 @@ import Board from './Board';
 
 function BoardList() {
   return (
-    <div className="relative top-[-5rem]">
+    <div className="w-full">
       <Board />
     </div>
   );
