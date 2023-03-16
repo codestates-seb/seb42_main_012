@@ -1,14 +1,14 @@
-import BoardTabButton from './BoardTabButton';
+import TabButton from '../UI/TabButton';
 
 function BoardTapList() {
   return (
-    <ul className="flex mt-4 overflow-scroll">
-      <BoardTabButton text="전체" />
-      <BoardTabButton text="자유게시판" />
-      <BoardTabButton text="꿀팁" />
-      <BoardTabButton text="오운완인증" />
-      <BoardTabButton text="자세피드백" />
-      <BoardTabButton text="파트너모집" />
+    <ul className="flex mt-4 overflow-x-scroll scrollbar-hide">
+      <TabButton text="전체" />
+      <TabButton text="자유게시판" />
+      <TabButton text="꿀팁" />
+      <TabButton text="오운완인증" />
+      <TabButton text="자세피드백" />
+      <TabButton text="파트너모집" />
     </ul>
   );
 }

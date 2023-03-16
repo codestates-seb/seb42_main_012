@@ -2,9 +2,9 @@ import { useLocation, useParams } from 'react-router-dom';
 import HeaderTitle from '../../UI/HeaderTitle';
 import BackButton from '../../UI/BackButton';
 import PostButton from '../../UI/PostButton';
-import EditButton from '../../UI/EditButton';
 import CompleteButton from '../../UI/CompleteButton';
 import AlertButton from '../../UI/AlertButton';
+import MoreButton from '../../UI/MoreButton';
 
 function Header({ titleText, nav }) {
   const param = useParams();
@@ -30,7 +30,7 @@ function Header({ titleText, nav }) {
         <header className={defaultClass}>
           <BackButton />
           <HeaderTitle titleText={titleText} />
-          <EditButton nav={nav} />
+          <MoreButton nav={nav} />
         </header>
       );
     case '/gyms/gympost':
