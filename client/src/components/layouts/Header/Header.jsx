@@ -12,7 +12,7 @@ function Header({ titleText, nav }) {
   const path = location.pathname;
 
   const defaultClass =
-    'fixed top-0 flex items-center justify-between w-full pt-10 px-2 bg-[#fff]';
+    'fixed top-0 z-10 flex items-center justify-between w-full pt-10 px-2 bg-[#fff]';
 
   switch (path) {
     case '/gyms':

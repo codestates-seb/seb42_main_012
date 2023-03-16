@@ -13,9 +13,9 @@ function BoardPage() {
       <Main>
         <BoardSearchContainer />
         <BoardTapList />
+        <BoardList />
+        <ChatButton />
       </Main>
-      <BoardList />
-      <ChatButton />
       <Nav />
     </>
   );

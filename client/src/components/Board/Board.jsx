@@ -1,5 +1,5 @@
 import BoardContentList from './BoardContentList';
-import BoardCard from './BoardCard';
+// import BoardCard from './BoardCard';
 
 function Board() {
   return (
@@ -12,7 +12,7 @@ function Board() {
         <BoardContentList to="/board/:id" />
         <BoardContentList to="/board/:id" />
       </ul>
-      <BoardCard />
+      {/* <BoardCard /> */}
     </>
   );
 }
