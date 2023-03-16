@@ -45,7 +45,7 @@ public class Member extends Auditable {
     // N : N
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
-            name = "user_role",
+            name = "member_role",
             joinColumns = @JoinColumn(name = "member_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
