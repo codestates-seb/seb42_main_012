@@ -29,19 +29,4 @@ public class CommunityBookmark {
     @JoinColumn(name = "community_id")
     private Community community;
 
-    // 양방향 매핑
-    public void setUser (User user){
-        this.user = user;
-        if (!this.user.getCommunityBookmarks().contains(this)){
-            this.user.getCommunityBookmarks().add(this);
-        }
-    }
-
-    public void setCommunity (Community community){
-        this.community = community;
-        if(!this.community.getCommunityBookmarks().contains(this)){
-            this.community.getCommunityBookmarks().add(this);
-        }
-    }
-
 }

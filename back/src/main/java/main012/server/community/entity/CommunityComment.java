@@ -31,21 +31,4 @@ public class CommunityComment extends Auditable {
     @JoinColumn(name = "community_id")
     private Community community;
 
-    // 양방향 매핑
-
-    public void setUser(User user){
-        this.user = user;
-        if(!this.user.getCommunityComments().contains(this)){
-            this.user.getCommunityComments().add(this);
-        }
-    }
-
-    public void setCommunity(Community community){
-        this.community = community;
-        if (!this.community.getCommunityComments().contains(this)){
-            this.community.getCommunityComments().add(this);
-        }
-    }
-
-
 }

@@ -1,5 +1,6 @@
 package main012.server.community.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,13 +16,22 @@ import java.util.List;
 public class Tab {
 
     @Id
-    @Column(name = "community_tab_id")
+    @Column(name = "tab_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String tabName;
 
-    // N : M
-    @ManyToMany(mappedBy = "tabs")
-    private List<Community> communities = new ArrayList<>();
+    // 1 : N
+    @Setter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "tab", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Community> tabCommunities = new ArrayList<>();
+
+    public void setCommunities(Community community){
+        this.tabCommunities.add(community);
+        if(community.getTab() != this) {
+            community.setTab(this);
+        }
+    }
+
 }

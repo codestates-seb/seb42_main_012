@@ -8,6 +8,9 @@ import main012.server.common.Auditable;
 import main012.server.community.entity.Community;
 import main012.server.community.entity.CommunityBookmark;
 import main012.server.community.entity.CommunityComment;
+import main012.server.gym.Entity.Gym;
+import main012.server.gym.Entity.GymBookmark;
+import main012.server.gym.Entity.GymReview;
 import main012.server.user.enums.UserStatus;
 
 import javax.persistence.*;
@@ -54,7 +57,7 @@ public class User extends Auditable {
 
     // 1 : N
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Community> communities = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
@@ -62,7 +65,7 @@ public class User extends Auditable {
     private List<CommunityBookmark> communityBookmarks = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<CommunityComment> communityComments = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
@@ -74,7 +77,7 @@ public class User extends Auditable {
     private List<GymBookmark> gymBookmarks = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<GymReview> gymReviews = new ArrayList<>();
 
     /*
