@@ -47,9 +47,9 @@ jobs:
         spring.datasource.url: ${{ secrets.AWS_RDS_URL }}
         spring.datasource.username: ${{ secrets.AWS_RDS_USERNAME }}
         spring.datasource.password: ${{ secrets.AWS_RDS_PASSWORD }}
-#        cloud.aws.credentials.access-key: ${{ secrets.S3_ACCESS_KEY }}
-#        cloud.aws.credentials.secret-key: ${{ secrets.S3_SECRET_KEY }}
-#        cloud.s3.bucket: ${{ secrets.S3_IMAGE_BUCKET_NAME }}
+        cloud.aws.credentials.access-key: ${{ secrets.S3_ACCESS_KEY }}
+        cloud.aws.credentials.secret-key: ${{ secrets.S3_SECRET_KEY }}
+        cloud.s3.bucket: ${{ secrets.S3_IMAGE_BUCKET_NAME }}
 
     - name: Build with Gradle
       run: ./gradlew build -x test
