@@ -36,7 +36,7 @@ public class Community extends Auditable {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "tab_id")
     private Tab tab;
 
 
