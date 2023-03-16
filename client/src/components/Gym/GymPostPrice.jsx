@@ -10,12 +10,12 @@ function GymPostPrice() {
           <BsDot />
           <TextInput
             placeholder=" ex) 3개월 150,000원"
-            classname="w-[19.5rem] ml-1 border rounded-md"
+            classname="w-full border rounded-md"
           />
         </div>
         <div className="flex items-center">
           <BsDot />
-          <TextInput classname="ml-1 border rounded-md w-[19.6rem]" />
+          <TextInput classname="w-full border rounded-md" />
         </div>
       </div>
     </div>

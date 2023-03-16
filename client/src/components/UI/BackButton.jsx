@@ -11,7 +11,8 @@ function BackButton() {
       location.pathname === '/' ||
       location.pathname === '/gyms' ||
       location.pathname === '/board' ||
-      location.pathname === '/my'
+      location.pathname === '/my' ||
+      location.pathname === '/login'
     )
   ) {
     classes += 'text-4xl';

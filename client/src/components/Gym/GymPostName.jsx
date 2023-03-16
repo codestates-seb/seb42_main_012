@@ -6,7 +6,7 @@ function GymPostName() {
       <TextInput
         text="헬스장 이름"
         placeholder="  헬스장 이름을 입력해주세요"
-        classname="h-8 mt-1 ml-2 border rounded-md w-[20.4rem]"
+        classname="w-full h-8 mt-1 border rounded-md"
       />
     </div>
   );

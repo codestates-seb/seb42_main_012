@@ -7,7 +7,7 @@ function GymPostPhoneNumber() {
         <TextInput
           text="연락처"
           placeholder="  연락처를 입력해주세요 (- 제외)"
-          classname="h-8 mt-1 ml-2 border rounded-md w-[20.4rem]"
+          classname="w-full h-8 mt-1 border rounded-md"
         />
       </div>
     </div>
