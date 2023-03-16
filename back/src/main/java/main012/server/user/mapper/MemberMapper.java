@@ -1,12 +1,10 @@
 package main012.server.user.mapper;
 
-import main012.server.user.dto.MemberDto;
-import main012.server.user.entity.Member;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
 
-    Member commonMemberRequestDtoToUser(MemberDto.CommonMemberRequest request);
+//    Member commonMemberRequestDtoToUser(MemberDto.CommonMemberRequest request);
 
 }
