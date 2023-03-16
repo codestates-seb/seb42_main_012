@@ -6,7 +6,7 @@ function ProfileImg(props) {
   if (page === 'my') {
     classes += 'w-[80px] h-[80px]';
   } else if (page === 'board') {
-    classes += 'w-[80px] h-[80px]';
+    classes += 'w-[40px] h-[40px]';
   }
 
   return <img className={classes} src={src} alt={alt} />;

@@ -4,12 +4,14 @@ import ProfileImg from '../UI/ProfileImg';
 function BoardHeaderContainer() {
   return (
     <div className="flex">
-      <ProfileImg />
       <div>
-        <div>
-          <DisplayName />
+        <div className="flex">
+          <ProfileImg page="board" />
+          <div className="mt-1">
+            <DisplayName />
+            <p className="ml-4 text-sm">16분전</p>
+          </div>
         </div>
-        <span className="ml-4">34초전</span>
       </div>
     </div>
   );

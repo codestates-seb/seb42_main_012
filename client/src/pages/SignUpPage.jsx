@@ -1,17 +1,18 @@
 import Header from '../components/layouts/Header/Header';
 import Main from '../components/layouts/Main/Main';
 import Nav from '../components/layouts/Nav/Nav';
+import SignUpStep1 from '../components/SignUp/SignUpStep1';
 
-function SignUp() {
+function SignUpPage() {
   return (
     <>
       <Header titleText="SIGN UP" />
       <Main>
-        <h2>회원가입 홈페이지입니다</h2>
+        <SignUpStep1 />
       </Main>
       <Nav />
     </>
   );
 }
 
-export default SignUp;
+export default SignUpPage;

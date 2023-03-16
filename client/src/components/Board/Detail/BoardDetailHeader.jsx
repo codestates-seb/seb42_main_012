@@ -5,7 +5,9 @@ function BoardDetailHeader() {
   return (
     <div className="flex">
       <BoardHeaderContainer />
-      <HeartContainer />
+      <div className="mt-2 ml-[35%]">
+        <HeartContainer />
+      </div>
     </div>
   );
 }

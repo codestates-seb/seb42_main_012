@@ -13,7 +13,9 @@ function BasicButton(props) {
   if (page === 'my') {
     classes += 'w-[70%] bg-[#FCA43B] text-[#fff] m-2';
   } else if (page === 'login') {
-    classes += 'bg-[#000] text-[#fff]';
+    classes += 'w-[80%] bg-[#000] text-[#fff]';
+  } else if (page === 'signup') {
+    classes += 'w-[80%] bg-[#fff] text-[#000] border border-[#151414]';
   } else if (page === 'board') {
     classes += 'w-[70%] w-[70%] bg-[#000] text-[#fff] m-2';
   } else if (page === 'my_password') {

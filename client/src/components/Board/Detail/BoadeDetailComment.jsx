@@ -6,6 +6,8 @@ function BoardDetailComment() {
     <>
       <CommentPost />
       <CommentList />
+      <CommentList />
+      <CommentList />
     </>
   );
 }
