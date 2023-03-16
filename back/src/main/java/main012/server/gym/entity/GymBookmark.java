@@ -3,7 +3,7 @@ package main012.server.gym.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import main012.server.user.entity.User;
+import main012.server.user.entity.Member;
 
 import javax.persistence.*;
 
@@ -22,7 +22,7 @@ public class GymBookmark {
     private Gym gym;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
 }

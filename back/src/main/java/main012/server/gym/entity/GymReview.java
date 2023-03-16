@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import main012.server.common.Auditable;
-import main012.server.user.entity.User;
+import main012.server.user.entity.Member;
 
 import javax.persistence.*;
 
@@ -24,8 +24,8 @@ public class GymReview extends Auditable {
     private String comment;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne
     @JoinColumn(name = "gym_id")

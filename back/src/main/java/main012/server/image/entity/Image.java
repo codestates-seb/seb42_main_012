@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import main012.server.user.entity.User;
 
 import javax.persistence.*;
 
@@ -26,8 +25,6 @@ public class Image {
     private String imagePath; // 이미지 url
 
 //    // 1 :  1 - 이미지를 통해 유저에 접근할 일이 없으니까 여기선 연관관계 매핑을 안해줘도 됨. (일대일 단반향 매핑)
-//    @OneToOne(mappedBy = "images")
-//    private User user;
 
     @Builder
     public Image(String imageName, String imagePath) {

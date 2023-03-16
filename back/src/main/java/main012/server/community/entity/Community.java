@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import main012.server.common.Auditable;
 import main012.server.image.entity.CommunityImage;
-import main012.server.image.entity.GymImage;
-import main012.server.user.entity.User;
+import main012.server.user.entity.Member;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -34,8 +33,8 @@ public class Community extends Auditable {
 
     // N : 1
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne
     @JoinColumn(name = "tab_id")
