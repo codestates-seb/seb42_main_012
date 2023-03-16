@@ -1,4 +1,7 @@
 package main012.server.gym.repository;
 
-public interface GymRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface GymRepository extends JpaRepository {
+    
 }
