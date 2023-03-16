@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import main012.server.common.Auditable;
+import main012.server.image.entity.CommunityImage;
+import main012.server.image.entity.GymImage;
 import main012.server.user.entity.User;
 
 import javax.persistence.*;
@@ -49,6 +51,10 @@ public class Community extends Auditable {
     @OneToMany(mappedBy = "community", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CommunityBookmark> communityBookmarks = new ArrayList<>();
 
+    // orphanRemoval => CommunityImage List 에서 remove(communityImage) 하면 해당 communityImage 객체의 로우값이 CommunityImage 테이블에서 자동 삭제됨
+    @Setter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "community", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommunityImage> communityImages = new ArrayList<>();
 
 
     // 양방향 매핑
@@ -67,5 +73,11 @@ public class Community extends Auditable {
         }
     }
 
+    public void setCommunityImage (CommunityImage communityImage) {
+        this.communityImages.add(communityImage);
+        if (communityImage.getCommunity() != this) {
+            communityImage.setCommunity(this);
+        }
+    }
 }
 

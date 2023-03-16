@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import main012.server.common.Auditable;
+import main012.server.image.entity.GymImage;
 import main012.server.user.entity.User;
 
 import javax.persistence.*;
@@ -71,6 +72,11 @@ public class Gym extends Auditable{
     @OneToMany(mappedBy = "gym", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<GymFacility> gymFacilities = new ArrayList<>();
 
+    // 1 : N
+    // orphanRemoval => GymImage List 에서 remove(gymImage) 하면 해당 gymImage 객체의 로우값이 GymImage 테이블에서 자동 삭제됨
+    @Setter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "gym", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GymImage> gymImages = new ArrayList<>();
 
     /*
     * 양방향 매핑 설정
@@ -104,5 +110,11 @@ public class Gym extends Auditable{
         }
     }
 
+    public void setGymImage(GymImage gymImage) {
+        this.gymImages.add(gymImage);
+        if (gymImage.getGym() != this) {
+            gymImage.setGym(this);
+        }
+    }
 
 }
