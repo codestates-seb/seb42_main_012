@@ -17,7 +17,7 @@ function Modal({ setOpenModal }) {
         </p>
         <span>정말 회원 탈퇴를 진행할까요?</span>
         <div>
-          <BasicButton page="modal" text="네" nav="/" />
+          <BasicButton page="modal" text="네" nav="/login" />
           <button className={classes} type="button" onClick={closeModalHandler}>
             아니오
           </button>
