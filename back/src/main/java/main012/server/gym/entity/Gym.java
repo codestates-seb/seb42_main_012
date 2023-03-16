@@ -19,11 +19,10 @@ import java.util.List;
 
 public class Gym extends Auditable{
 
-//    @Id
-//    @Column(name = "gym_id")
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
-    private long gymId;
+    @Id
+    @Column(name = "gym_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
 
     private String gymName;
@@ -38,6 +37,7 @@ public class Gym extends Auditable{
     private String offDays;
 
     private String openingTime;
+    private String closingTime;
 
 //    @Column(nullable = false)
 //    private double latitude;
@@ -47,7 +47,6 @@ public class Gym extends Auditable{
 
 
     // N : 1
-    @Setter(AccessLevel.NONE)
     @ManyToOne // 유저는 여러개의 헬스장 등록을 할 수 있다.
     @JoinColumn(name = "user_id")
     private User user;

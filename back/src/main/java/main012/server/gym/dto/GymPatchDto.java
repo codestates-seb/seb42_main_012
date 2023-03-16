@@ -17,18 +17,23 @@ public class GymPatchDto {
     private String offDays;
     @NotBlank(message = "오픈 시간을 입력해 주세요")
     private String openingTime;
-    @NotBlank(message = "위도를 입력해 주세요")
-    private Double latitude;
-    @NotBlank(message = "경도를 입력해 주세요")
-    private Double longitude;
+
+    @NotBlank(message = "닫는 시간을 입력해 주세요")
+    private String closingTime;
+//    @NotBlank(message = "위도를 입력해 주세요")
+//    private Double latitude;
+//    @NotBlank(message = "경도를 입력해 주세요")
+//    private Double longitude;
 
     public String getGymName() {
         return gymName;
     }
 
+
     public long getGymId() {
         return gymId;
     }
+
 
     public void setGymId(long gymId) {
         this.gymId = gymId;
@@ -67,21 +72,28 @@ public class GymPatchDto {
         this.openingTime = openingTime;
     }
 
-    public Double getLatitude() {
-        return latitude;
+    public String closingTime() {
+        return closingTime;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
+    public void setClosingTime(String closingTime) {
+        this.closingTime = closingTime;
     }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
+//    public Double getLatitude() {
+//        return latitude;
+//    }
+//
+//    public void setLatitude(Double latitude) {
+//        this.latitude = latitude;
+//    }
+//
+//    public Double getLongitude() {
+//        return longitude;
+//    }
+//
+//    public void setLongitude(Double longitude) {
+//        this.longitude = longitude;
+//    }
 
 
 }

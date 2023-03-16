@@ -12,6 +12,7 @@ public class GymResponseDto {
     private String phoneNumber;
     private String offDays;
     private String openingTime;
-    private Double latitude;
-    private Double longitude;
+    private String closingTime;
+//    private Double latitude;
+//    private Double longitude;
 }

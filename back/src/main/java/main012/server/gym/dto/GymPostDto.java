@@ -16,6 +16,9 @@ public class GymPostDto {
     private String offDays;
     @NotBlank(message = "오픈 시간을 입력해 주세요")
     private String openingTime;
+
+    @NotBlank(message = "닫는 시간을 입력해 주세요")
+    private String closingTime;
 //    @NotBlank(message = "위도를 입력해 주세요")
 //    private Double latitude;
 //    @NotBlank(message = "경도를 입력해 주세요")
@@ -59,21 +62,21 @@ public class GymPostDto {
         this.openingTime = openingTime;
     }
 
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
+//    public Double getLatitude() {
+//        return latitude;
+//    }
+//
+//    public void setLatitude(Double latitude) {
+//        this.latitude = latitude;
+//    }
+//
+//    public Double getLongitude() {
+//        return longitude;
+//    }
+//
+//    public void setLongitude(Double longitude) {
+//        this.longitude = longitude;
+//    }
+//
 
 }
