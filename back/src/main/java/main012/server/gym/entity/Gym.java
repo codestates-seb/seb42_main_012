@@ -1,4 +1,4 @@
-package main012.server.gym.Entity;
+package main012.server.gym.entity;
 
 
 import lombok.AccessLevel;
@@ -16,36 +16,37 @@ import java.util.List;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Gym extends Auditable {
+
+public class Gym extends Auditable{
 
     @Id
     @Column(name = "gym_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 100, nullable = false)
+
     private String gymName;
 
     @Column(nullable = false)
     private String address;
 
-    @Column(nullable = false)
+
     private String phoneNumber;
 
-    @Column(nullable = false)
+
     private String offDays;
-    @Column(nullable = false)
+
     private String openingTime;
+    private String closingTime;
 
-    @Column(nullable = false)
-    private double latitude;
-
-    @Column(nullable = false)
-    private double longitude;
+//    @Column(nullable = false)
+//    private double latitude;
+//
+//    @Column(nullable = false)
+//    private double longitude;
 
 
     // N : 1
-    @Setter(AccessLevel.NONE)
     @ManyToOne // 유저는 여러개의 헬스장 등록을 할 수 있다.
     @JoinColumn(name = "user_id")
     private User user;
