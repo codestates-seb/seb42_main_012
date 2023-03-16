@@ -9,7 +9,7 @@ function PostButton({ nav }) {
   };
 
   return (
-    <button type="button" className="pr-2 text-2xl">
+    <button type="button" className="pr-2 text-xl">
       <BsPencilSquare onClick={handlerClickPost} />
     </button>
   );

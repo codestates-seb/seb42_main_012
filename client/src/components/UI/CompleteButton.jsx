@@ -8,7 +8,7 @@ function CompleteButton({ nav }) {
     navigate(nav);
   };
   return (
-    <button type="submit" className="pr-2 text-2xl">
+    <button type="submit" className="pr-2 text-xl">
       <BsFillCheckSquareFill onClick={handlerClickComplete} />
     </button>
   );

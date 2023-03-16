@@ -4,6 +4,7 @@ import BackButton from '../../UI/BackButton';
 import PostButton from '../../UI/PostButton';
 import EditButton from '../../UI/EditButton';
 import CompleteButton from '../../UI/CompleteButton';
+import AlertButton from '../../UI/AlertButton';
 
 function Header({ titleText, nav }) {
   const param = useParams();
@@ -39,6 +40,19 @@ function Header({ titleText, nav }) {
           <BackButton />
           <HeaderTitle titleText={titleText} />
           <CompleteButton nav={nav} />
+        </header>
+      );
+    case '/my':
+    case '/my/board':
+    case '/my/comments':
+    case '/my/reviews':
+    case '/my/bookmarks/board':
+    case '/my/bookmarks/gyms':
+      return (
+        <header className={defaultClass}>
+          <BackButton />
+          <HeaderTitle titleText={titleText} />
+          <AlertButton nav={nav} />
         </header>
       );
     default:

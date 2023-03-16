@@ -9,12 +9,7 @@ function PasswordList() {
       <PasswordNow />
       <PasswordNew />
       <PasswordNewCheck />
-      <BasicButton
-        to="/my"
-        page="my_password"
-        type="button"
-        text="비밀번호 변경"
-      />
+      <BasicButton nav="/my" page="my_password" text="비밀번호 변경" />
     </form>
   );
 }

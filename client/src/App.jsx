@@ -12,6 +12,7 @@ import MyDetailPage from './pages/MyDetailPage';
 import MyPage from './pages/MyPage';
 import AccountDeletePage from './pages/AccountDeletePage';
 import GymPostPage from './pages/GymPostPage';
+// import Modal from './components/layouts/Modal/Modal';
 
 function App() {
   return (

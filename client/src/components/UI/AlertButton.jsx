@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { AiFillEdit } from 'react-icons/ai';
+import { FaBell } from 'react-icons/fa';
 
-function EditButton({ nav }) {
+function AlertButton({ nav }) {
   const navigate = useNavigate();
 
   const handlerClickEdit = () => {
@@ -9,9 +9,9 @@ function EditButton({ nav }) {
   };
   return (
     <button type="button" className="pr-2 text-xl">
-      <AiFillEdit onClick={handlerClickEdit} />
+      <FaBell onClick={handlerClickEdit} />
     </button>
   );
 }
 
-export default EditButton;
+export default AlertButton;

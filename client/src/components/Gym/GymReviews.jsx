@@ -23,7 +23,7 @@ function GymReviews() {
       <GymReviewPost />
       <GymReviewList />
       <div className="flex justify-center mt-3">
-        <BasicButton text="리뷰 전체보기" page="gymReview" to="reviews" />
+        <BasicButton text="리뷰 전체보기" page="gymReview" nav="reviews" />
       </div>
     </div>
   );
