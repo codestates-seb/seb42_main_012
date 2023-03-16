@@ -35,6 +35,7 @@ function Header({ titleText, nav }) {
       );
     case '/gyms/gympost':
     case '/board/boardpost':
+    case '/board/boardedit':
       return (
         <header className={defaultClass}>
           <BackButton />

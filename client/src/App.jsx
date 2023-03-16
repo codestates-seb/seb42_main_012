@@ -15,6 +15,7 @@ import GymPostPage from './pages/GymPostPage';
 import SignUpPage from './pages/SignUpPage';
 import SignUpStep2 from './components/SignUp/SignUpStep2';
 import LoginPage from './pages/LoginPage';
+import BoardEditPage from './pages/BoardEditPage';
 // import Modal from './components/layouts/Modal/Modal';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
       <Route path="/board" element={<BoardPage />} />
       <Route path="/board/:id" element={<BoardDetailPage />} />
       <Route path="/board/boardpost" element={<BoardPostPage />} />
+      <Route path="/board/boardedit" element={<BoardEditPage />} />
       <Route path="/my" element={<MyPage />} />
       <Route path="/my/board" element={<MyDetailPage />} />
       <Route path="/my/comments" element={<MyDetailPage />} />
