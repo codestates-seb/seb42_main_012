@@ -1,7 +1,12 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function BasicButton(props) {
-  const { text, page, to, type } = props;
+  const { text, page, nav } = props;
+
+  const navigate = useNavigate();
+  const buttonHandler = () => {
+    navigate(nav);
+  };
 
   let classes = 'text-md py-2 text-center font-medium rounded-lg ';
 
@@ -15,12 +20,15 @@ function BasicButton(props) {
     classes += 'w-full bg-[#FCA43B] text-[#fff] mt-6';
   } else if (page === 'gymReview') {
     classes += 'border w-48 mt-1 text-[14px] m-2';
+  } else if (page === 'modal') {
+    classes +=
+      'px-5 py-1 mt-4 mx-2 border border-[#FCA43B] bg-[#fff] text-[#FCA43B] active:bg-[#FCA43B] active:text-[#fff] text-xs';
   }
 
   return (
-    <Link to={to} className={classes} type={type}>
+    <button className={classes} type="button" onClick={buttonHandler}>
       {text}
-    </Link>
+    </button>
   );
 }
 

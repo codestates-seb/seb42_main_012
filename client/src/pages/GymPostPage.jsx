@@ -13,7 +13,7 @@ import GymPostHours from '../components/Gym/GymPostHours';
 function GymPostPage() {
   return (
     <>
-      <Header titleText="게시글 작성" />
+      <Header titleText="게시글 작성" nav="/gyms" />
       <Main>
         <GymPostName />
         <GymPostImage />
