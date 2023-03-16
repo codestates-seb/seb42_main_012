@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import main012.server.common.Auditable;
 import main012.server.image.entity.GymImage;
-import main012.server.user.entity.User;
+import main012.server.user.entity.Member;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -49,8 +49,8 @@ public class Gym extends Auditable{
 
     // N : 1
     @ManyToOne // 유저는 여러개의 헬스장 등록을 할 수 있다.
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     // 1 : N
     @Setter(AccessLevel.NONE)

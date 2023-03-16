@@ -23,10 +23,9 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
-public class User extends Auditable {
+public class Member extends Auditable {
     @Id
-    @Column(name = "user_id")
+    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -41,13 +40,13 @@ public class User extends Auditable {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false)
-    private UserStatus userStatus = UserStatus.USER_ACTIVE;
+    private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
     // N : N
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
+            joinColumns = @JoinColumn(name = "member_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
@@ -60,27 +59,27 @@ public class User extends Auditable {
 
     // 1 : N
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Community> communities = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<CommunityBookmark> communityBookmarks = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<CommunityComment> communityComments = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Gym> gyms = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<GymBookmark> gymBookmarks = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<GymReview> gymReviews = new ArrayList<>();
 
     /*
@@ -88,55 +87,55 @@ public class User extends Auditable {
      */
     public void setCommunity(Community community) {
         this.communities.add(community);
-        if (community.getUser() != this) {
-            community.setUser(this);
+        if (community.getMember() != this) {
+            community.setMember(this);
         }
     }
 
     public void setCommunityBookmark(CommunityBookmark communityBookmark) {
         this.communityBookmarks.add(communityBookmark);
-        if (communityBookmark.getUser() != this) {
-            communityBookmark.setUser(this);
+        if (communityBookmark.getMember() != this) {
+            communityBookmark.setMember(this);
         }
     }
 
     public void setCommunityComment(CommunityComment communityComment) {
         this.communityComments.add(communityComment);
-        if (communityComment.getUser() != this) {
-            communityComment.setUser(this);
+        if (communityComment.getMember() != this) {
+            communityComment.setMember(this);
         }
     }
 
     public void setGym(Gym gym) {
         this.gyms.add(gym);
-        if (gym.getUser() != this) {
-            gym.setUser(this);
+        if (gym.getMember() != this) {
+            gym.setMember(this);
         }
     }
 
     public void setGymBookmark(GymBookmark gymBookmark) {
         this.gymBookmarks.add(gymBookmark);
-        if (gymBookmark.getUser() != this) {
-            gymBookmark.setUser(this);
+        if (gymBookmark.getMember() != this) {
+            gymBookmark.setMember(this);
         }
     }
 
     public void setGymReview(GymReview gymReview) {
         this.gymReviews.add(gymReview);
-        if (gymReview.getUser() != this) {
-            gymReview.setUser(this);
+        if (gymReview.getMember() != this) {
+            gymReview.setMember(this);
         }
     }
 
-    public enum UserStatus {
-        USER_ACTIVE("활동중"),
-        USER_SLEEP("휴먼 상태"),
-        USER_DELETED("탈퇴 상태");
+    public enum MemberStatus {
+        MEMBER_ACTIVE("활동중"),
+        MEMBER_SLEEP("휴먼 상태"),
+        MEMBER_DELETED("탈퇴 상태");
 
         @Getter
         private String status;
 
-        UserStatus(String status) {
+        MemberStatus(String status) {
             this.status = status;
         }
     }

@@ -3,11 +3,9 @@ package main012.server.community.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import main012.server.user.entity.User;
+import main012.server.user.entity.Member;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @NoArgsConstructor
 @Setter
@@ -22,8 +20,8 @@ public class CommunityBookmark {
 
     // N : 1
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne
     @JoinColumn(name = "community_id")
