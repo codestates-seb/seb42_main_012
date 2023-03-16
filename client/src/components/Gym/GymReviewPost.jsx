@@ -8,7 +8,7 @@ function GymReviewPost() {
       <StartIconContainer />
       <div className="flex items-center justify-between w-90">
         <div className="w-full mr-3">
-          <TextInput classname="w-full p-2 border-2 rounded-xl focus:outline-[#FCA43B]" />
+          <TextInput classname="w-full p-2 border border-grey rounded-xl focus:outline-[#FCA43B]" />
         </div>
         <div className="mt-2">
           <PostButton />
