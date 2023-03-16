@@ -1,17 +1,18 @@
 import Header from '../components/layouts/Header/Header';
 import Main from '../components/layouts/Main/Main';
 import Nav from '../components/layouts/Nav/Nav';
+import Login from '../components/Login';
 
-function Login() {
+function LoginPage() {
   return (
     <>
       <Header titleText="LOGIN" />
       <Main>
-        <h2>로그인 홈페이지입니다</h2>
+        <Login />
       </Main>
       <Nav />
     </>
   );
 }
 
-export default Login;
+export default LoginPage;

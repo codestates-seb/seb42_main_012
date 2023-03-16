@@ -9,8 +9,8 @@ function BoardPost() {
       <BoardTapList />
       <BoardPostTitle />
       <BoardPostBody />
-      <div className="ml-16 mt-72 ">
-        <BasicButton page="board" text="사진 업로드" nav="" />
+      <div className="ml-16 mt-72">
+        <BasicButton page="board" text="사진 업로드" />
       </div>
     </div>
   );
