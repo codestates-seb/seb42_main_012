@@ -13,17 +13,11 @@ public class GymPatchDto {
     @Pattern(regexp = "^010-\\d{3,4}-\\d{4}$",
             message = "휴대폰 번호는 010으로 시작하는 11자리 숫자와 '-'로 구성되어야 합니다.")
     private String phoneNumber;
-    @NotBlank(message = "휴무일을 입력해 주세요")
-    private String offDays;
-    @NotBlank(message = "오픈 시간을 입력해 주세요")
-    private String openingTime;
-
-    @NotBlank(message = "닫는 시간을 입력해 주세요")
-    private String closingTime;
-//    @NotBlank(message = "위도를 입력해 주세요")
-//    private Double latitude;
-//    @NotBlank(message = "경도를 입력해 주세요")
-//    private Double longitude;
+    private String businessHours;
+    @NotBlank(message = "위도를 입력해 주세요")
+    private Double latitude;
+    @NotBlank(message = "경도를 입력해 주세요")
+    private Double longitude;
 
     public String getGymName() {
         return gymName;
@@ -33,6 +27,12 @@ public class GymPatchDto {
     public long getGymId() {
         return gymId;
     }
+
+    public String getBusinessHours() {
+        return businessHours;
+    }
+
+    public void setBusinessHours(String businessHours){this.businessHours = businessHours;}
 
 
     public void setGymId(long gymId) {
@@ -56,44 +56,22 @@ public class GymPatchDto {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-    public String getOffDays() {
-        return offDays;
+
+    public Double getLatitude() {
+        return latitude;
     }
 
-    public void setOffDays(String offDays) {
-        this.offDays = offDays;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
 
-    public String getOpeningTime() {
-        return openingTime;
+    public Double getLongitude() {
+        return longitude;
     }
 
-    public void setOpeningTime(String openingTime) {
-        this.openingTime = openingTime;
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
-
-    public String closingTime() {
-        return closingTime;
-    }
-
-    public void setClosingTime(String closingTime) {
-        this.closingTime = closingTime;
-    }
-//    public Double getLatitude() {
-//        return latitude;
-//    }
-//
-//    public void setLatitude(Double latitude) {
-//        this.latitude = latitude;
-//    }
-//
-//    public Double getLongitude() {
-//        return longitude;
-//    }
-//
-//    public void setLongitude(Double longitude) {
-//        this.longitude = longitude;
-//    }
 
 
 }

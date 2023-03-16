@@ -35,16 +35,13 @@ public class Gym extends Auditable{
     private String phoneNumber;
 
 
-    private String offDays;
+    private String businessHours;
 
-    private String openingTime;
-    private String closingTime;
+    @Column(nullable = false)
+    private double latitude;
 
-//    @Column(nullable = false)
-//    private double latitude;
-//
-//    @Column(nullable = false)
-//    private double longitude;
+    @Column(nullable = false)
+    private double longitude;
 
 
     // N : 1
