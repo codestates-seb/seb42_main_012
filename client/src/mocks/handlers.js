@@ -28,7 +28,7 @@ const handlers = [
     res(ctx.status(200), ctx.json(reviews)),
   ),
 
-  // ** 등록요청 **
+  // ** 등록 요청 **
 
   // 멤버 등록
   rest.post('/members/common', (req, res, ctx) => {

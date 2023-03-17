@@ -1,15 +1,19 @@
 import Gym from '../Gym';
 
-function GymList() {
+function GymList({ gyms }) {
   return (
     <ul>
-      <Gym />
-      <Gym />
-      <Gym />
-      <Gym />
-      <Gym />
-      <Gym />
-      <Gym />
+      {gyms.map(gym => (
+        <Gym
+          key={gym.gymId}
+          id={gym.gymId}
+          gymName={gym.gymName}
+          gymImage={gym.gymImage}
+          address={gym.address}
+          prices={gym.prices}
+          facilities={gym.facilities}
+        />
+      ))}
     </ul>
   );
 }
