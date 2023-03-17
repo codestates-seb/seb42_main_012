@@ -10,17 +10,17 @@ function GymPostTag({ text }) {
   return (
     <li>
       {buttonOn ? (
-        <div className="flex items-center justify-center px-3 py-4 mr-2 border-2 rounded-md h-7 bg-orange">
-          <button onClick={buttonHandler} type="button" className="text-[14px]">
+        <div className="flex items-center justify-center px-3 py-4 mr-2 rounded-md h-7 bg-[var(--main)]">
+          <button onClick={buttonHandler} type="button" className="text-sm">
             {text}
           </button>
         </div>
       ) : (
-        <div className="flex items-center justify-center px-3 py-4 mr-2 rounded-md h-7 bg-grey">
+        <div className="flex items-center justify-center px-3 py-4 mr-2 rounded-md h-7 bg-[var(--second-bg)]">
           <button
             onClick={buttonHandler}
             type="button"
-            className="text-[14px] text-darkGrey"
+            className="text-sm text-[var(--second)]"
           >
             {text}
           </button>

@@ -4,9 +4,6 @@ import axios from 'axios';
 import GymList from '../../components/Gym/List/GymList';
 import GymNewestList from '../../components/Gym/Newest/GymNewestList';
 import GymTabList from '../../components/Gym/List/GymTabList';
-import Header from '../../components/layouts/Header/Header';
-import Main from '../../components/layouts/Main/Main';
-import Nav from '../../components/layouts/Nav/Nav';
 
 function GymPage() {
   const [gyms, setGyms] = useState([]);
@@ -19,13 +16,9 @@ function GymPage() {
 
   return (
     <>
-      <Header titleText="GYM" nav="gympost" />
-      <Main>
-        <GymNewestList gyms={gyms} />
-        <GymTabList />
-        <GymList gyms={gyms} />
-      </Main>
-      <Nav />
+      <GymNewestList gyms={gyms} />
+      <GymTabList />
+      <GymList gyms={gyms} />
     </>
   );
 }

@@ -6,7 +6,7 @@ function BoardContentList({ to, classname }) {
     <>
       <Link to={to}>
         <li
-          className={`px-4 py-8 border-b border-[#FCA43B] border-opacity-[10%] active:bg-[#FCA43B] active:bg-opacity-[10%] ${classname}`}
+          className={`px-4 py-8 border-b border-[var(--second-border)] border-opacity-10 active:bg-[var(--main-active)] active:bg-opacity-10 ${classname}`}
         >
           <p>글 제목 테스트 입니다.</p>
           <BoardInfo />

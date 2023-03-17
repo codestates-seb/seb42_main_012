@@ -9,7 +9,7 @@ function TabButton({ text, nav }) {
     <li>
       <button
         type="button"
-        className="border border-[#575757] w-[95px] rounded-full flex justify-center mr-2 text-[#575757]"
+        className="border border-[var(--second)] w-24 rounded-full flex justify-center mr-2 text-[var(--second)]"
         onClick={buttonHandler}
       >
         {text}

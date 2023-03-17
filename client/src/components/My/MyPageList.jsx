@@ -3,7 +3,7 @@ import MyPageButton from '../UI/Button/MyPageButton';
 function MyPageList() {
   return (
     <>
-      <ul className="w-full bg-[#FCA43B] bg-opacity-10 flex flex-wrap flex-auto justify-between mt-9 mb-10 border border-[#FCA43B] rounded-xl">
+      <ul className="w-full bg-[var(--main-active)] flex flex-wrap flex-auto justify-between mt-9 mb-10 border border-[var(--main)] rounded-xl">
         <MyPageButton to="/my/board" text="내가 쓴 글" count="20" />
         <MyPageButton to="/my/comments" text="내가 쓴 댓글" count="40" />
         <MyPageButton to="/my/reviews" text="내가 쓴 리뷰" count="5" />

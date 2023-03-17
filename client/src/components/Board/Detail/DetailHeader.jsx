@@ -3,9 +3,9 @@ import BoardHeaderContainer from '../Container/Header';
 
 function BoardDetailHeader() {
   return (
-    <div className="flex">
+    <div className="flex items-center justify-between">
       <BoardHeaderContainer />
-      <div className="mt-2 ml-[35%]">
+      <div className="mt-2">
         <HeartContainer />
       </div>
     </div>

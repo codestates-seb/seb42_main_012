@@ -17,20 +17,20 @@ function Nav() {
         <nav className="fixed bottom-0 w-full bg-[#f8f8f8] py-5">
           <ul className="flex items-center justify-around">
             <NavItem to="/">
-              <AiFillHome className="text-4xl" />
-              <span>HOME</span>
+              <AiFillHome className="text-3xl" />
+              <span className="font-medium text-md">HOME</span>
             </NavItem>
             <NavItem to="/gyms">
-              <GiWeightLiftingUp className="text-4xl" />
-              <span>GYM</span>
+              <GiWeightLiftingUp className="text-3xl" />
+              <span className="font-medium text-md">GYM</span>
             </NavItem>
             <NavItem to="/board">
-              <BsFillPeopleFill className="text-4xl" />
-              <span>BOARD</span>
+              <BsFillPeopleFill className="text-3xl" />
+              <span className="font-medium text-md">BOARD</span>
             </NavItem>
             <NavItem to="/my">
-              <BsFillPersonFill className="text-4xl" />
-              <span>MY</span>
+              <BsFillPersonFill className="text-3xl" />
+              <span className="font-medium text-md">MY</span>
             </NavItem>
           </ul>
         </nav>

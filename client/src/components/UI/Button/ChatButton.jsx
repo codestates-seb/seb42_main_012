@@ -8,7 +8,7 @@ function ChatButton() {
   return (
     <>
       {(path === '/gyms' || path === '/board') && (
-        <div className="fixed text-5xl right-4 bottom-[120px] text-[#FCA43B]">
+        <div className="fixed text-5xl right-4 bottom-32 text-[var(--main)]">
           <IoMdChatbubbles />
         </div>
       )}

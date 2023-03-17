@@ -5,12 +5,12 @@ import BasicButton from '../../UI/Button/BasicButton';
 
 function BoardPost() {
   return (
-    <div className="border-t border-[#d9d9d9]">
+    <div className="border-t border-[var(--second-border)]">
       <BoardTapList />
       <BoardPostTitle />
       <BoardPostBody />
-      <div className="ml-16 mt-72">
-        <BasicButton page="board" text="사진 업로드" />
+      <div className="mt-10">
+        <BasicButton page="board" text="Post" nav="/board" />
       </div>
     </div>
   );

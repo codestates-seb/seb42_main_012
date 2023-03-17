@@ -4,7 +4,7 @@ import GymTagList from './List/GymTagList';
 
 function GymFacilities() {
   return (
-    <div className="border-b border-lightGrey">
+    <div className="border-b border-[var(--second-border)]">
       <GymDetailTitle titleText="편의시설">
         <div className="mr-0.5">
           <FaShower />

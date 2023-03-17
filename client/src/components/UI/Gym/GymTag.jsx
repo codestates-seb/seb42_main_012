@@ -1,8 +1,8 @@
 function GymTag({ facilityName }) {
   return (
     <li>
-      <div className="flex h-[22px] justify-center items-center rounded-md bg-grey mr-1 w-[50px]">
-        <span className="text-[10px]">{facilityName}</span>
+      <div className="flex items-center justify-center w-20 h-5 mr-1 rounded-md bg-[var(--second-bg)]">
+        <span className="text-xs">{facilityName}</span>
       </div>
     </li>
   );

@@ -6,7 +6,7 @@ function GymMap() {
   return (
     <div className="flex flex-col mt-4">
       <GymDetailTitle titleText="지역정보">
-        <div className="text-[20px]">
+        <div className="text-xl">
           <IoLocationSharp />
         </div>
       </GymDetailTitle>

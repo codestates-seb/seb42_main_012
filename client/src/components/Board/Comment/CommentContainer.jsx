@@ -4,8 +4,8 @@ import { FaPencilAlt } from 'react-icons/fa';
 function CommentContainer() {
   return (
     <div className="flex ">
-      <BsTrash3Fill className="text-[#d9d9d9] ml-32 mr-2 mt-1" />
-      <FaPencilAlt className="text-[#d9d9d9] mt-1" />
+      <BsTrash3Fill className="text-[var(--second)] ml-8 mr-2 mt-1" />
+      <FaPencilAlt className="text-[var(--second)] mt-1" />
     </div>
   );
 }

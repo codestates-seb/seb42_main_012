@@ -2,7 +2,7 @@ import { useRef, useMemo, useState } from 'react';
 import ReactQuill from 'react-quill';
 import axios from 'axios';
 import 'react-quill/dist/quill.snow.css';
-import TextInput from '../../UI/Input/TextInput';
+// import TextInput from '../../UI/Input/TextInput';
 
 function BoardPostBody() {
   const [value, setValue] = useState(''); // 에디터 속 콘텐츠를 저장하는 state
@@ -81,18 +81,15 @@ function BoardPostBody() {
   ];
 
   return (
-    <div className="w-full h-5 mx-4 mt-6 text-xl">
-      <TextInput placeholder="내용을 입력하세요." />
-      <ReactQuill
-        ref={quillRef}
-        theme="snow"
-        placeholder="플레이스 홀더"
-        value={value}
-        onChange={setValue}
-        modules={modules}
-        formats={formats}
-      />
-    </div>
+    <ReactQuill
+      ref={quillRef}
+      theme="snow"
+      placeholder="플레이스 홀더"
+      value={value}
+      onChange={setValue}
+      modules={modules}
+      formats={formats}
+    />
   );
 }
 
