@@ -42,6 +42,9 @@ public class Member extends Auditable {
     @Column(length = 20, nullable = false)
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
+    @Column(nullable = true)
+    private String businessNumber;
+
     // N : N
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
