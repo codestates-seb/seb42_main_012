@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-// import axios from 'axios';
 
 function GymNameButton({ gymName, gymId }) {
   return (
