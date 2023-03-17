@@ -22,8 +22,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GymController {
 
+
     private final GymService gymService;
     private final GymMapper gymMapper;
+
+    @PostMapping
+    public ResponseEntity postGym(@Valid @RequestBody GymPostDto gymPostDto) {
+        return new ResponseEntity<>(gymPostDto,HttpStatus.CREATED);
+    }
 
 
 }
