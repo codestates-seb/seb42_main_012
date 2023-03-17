@@ -4,7 +4,15 @@ function TextInput({ placeholder, type, inputId, text, classname }) {
       <p className="mt-2 text-sm text-[#FCA43B]">{text}</p>
       <input
         id={inputId}
-        type={type}
+        type={
+          type === 'file'
+            ? 'file'
+            : type === 'password'
+            ? 'password'
+            : type === 'email'
+            ? 'email'
+            : 'text'
+        }
         placeholder={placeholder}
         className={classname}
       />
