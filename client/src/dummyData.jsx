@@ -48,208 +48,214 @@ export const dummyComment = {
 };
 
 export const dummyBoard = {
-  data: [
-    {
-      data: {
-        contents: [
-          {
-            boardId: 1,
-            title: '운동 잘하는 법 공유',
-            tabName: '자유게시판',
-            createdAt: '2023-12-04',
-            views: 124,
-          },
-        ],
-        totalElements: 20,
-        nextCursor: 20,
+  data: {
+    contents: [
+      {
+        boardId: 1,
+        title: '운동 잘하는 법 공유',
+        tabName: '자유게시판',
+        createdAt: '2023-12-04',
+        views: 124,
       },
-    },
-    {
-      data: {
-        contents: [
-          {
-            boardId: 2,
-            title: '날씬해지는 식단 궁금하면 드루와',
-            tabName: '자유게시판',
-            createdAt: '2023-12-04',
-            views: 1,
-          },
-        ],
-        totalElements: 20,
-        nextCursor: 20,
+      {
+        boardId: 2,
+        title: '날씬해지는 식단 궁금하면 드루와',
+        tabName: '자유게시판',
+        createdAt: '2023-12-04',
+        views: 1,
       },
-    },
-    {
-      data: {
-        contents: [
-          {
-            boardId: 3,
-            title: '운동 루틴 추천해주세요',
-            tabName: '자유게시판',
-            createdAt: '2023-12-04',
-            views: 30,
-          },
-        ],
-        totalElements: 20,
-        nextCursor: 20,
+      {
+        boardId: 3,
+        title: '운동 루틴 추천해주세요',
+        tabName: '자유게시판',
+        createdAt: '2023-12-04',
+        views: 30,
       },
-    },
-    {
-      data: {
-        contents: [
-          {
-            boardId: 4,
-            title: '자세 이거 맞나요?',
-            tabName: '자세피드백',
-            createdAt: '2023-12-04',
-            views: 9,
-          },
-        ],
-        totalElements: 20,
-        nextCursor: 20,
+      {
+        boardId: 4,
+        title: '자세 이거 맞나요?',
+        tabName: '자세피드백',
+        createdAt: '2023-12-04',
+        views: 9,
       },
-    },
-    {
-      data: {
-        contents: [
-          {
-            boardId: 5,
-            title: '헬린이 여기 헬스장 추천좀여',
-            tabName: '자유게시판',
-            createdAt: '2023-12-04',
-            views: 3,
-          },
-        ],
-        totalElements: 20,
-        nextCursor: 20,
+      {
+        boardId: 5,
+        title: '헬린이 여기 헬스장 추천좀여',
+        tabName: '자유게시판',
+        createdAt: '2023-12-04',
+        views: 3,
       },
-    },
-    {
-      data: {
-        contents: [
-          {
-            boardId: 6,
-            title: '헬스장 고를때 꿀팁',
-            tabName: '꿀팁',
-            createdAt: '2023-12-04',
-            views: 290,
-          },
-        ],
-        totalElements: 20,
-        nextCursor: 20,
+      {
+        boardId: 6,
+        title: '헬스장 고를때 꿀팁',
+        tabName: '꿀팁',
+        createdAt: '2023-12-04',
+        views: 290,
       },
-    },
-    {
-      data: {
-        contents: [
-          {
-            boardId: 7,
-            title: '하체 루틴 짜주세요',
-            tabName: '운동루틴',
-            createdAt: '2023-12-05',
-            views: 2,
-          },
-        ],
-        totalElements: 20,
-        nextCursor: 20,
+      {
+        boardId: 7,
+        title: '하체 루틴 짜주세요',
+        tabName: '운동루틴',
+        createdAt: '2023-12-05',
+        views: 2,
       },
-    },
-    {
-      data: {
-        contents: [
-          {
-            boardId: 8,
-            title: '여름맞이 다이어트 같이해요',
-            tabName: '파트너모집',
-            createdAt: '2023-12-05',
-            views: 445,
-          },
-        ],
-        totalElements: 20,
-        nextCursor: 20,
+      {
+        boardId: 8,
+        title: '여름맞이 다이어트 같이해요',
+        tabName: '파트너모집',
+        createdAt: '2023-12-05',
+        views: 445,
       },
-    },
-    {
-      data: {
-        contents: [
-          {
-            boardId: 9,
-            title: '운동 가기 싫다',
-            tabName: '자유게시판',
-            createdAt: '2023-12-06',
-            views: 20,
-          },
-        ],
-        totalElements: 20,
-        nextCursor: 20,
+      {
+        boardId: 9,
+        title: '운동 가기 싫다',
+        tabName: '자유게시판',
+        createdAt: '2023-12-06',
+        views: 20,
       },
-    },
-    {
-      data: {
-        contents: [
-          {
-            boardId: 10,
-            title: '야밤에 치킨 먹기',
-            tabName: '자유게시판',
-            createdAt: '2023-12-07',
-            views: 40,
-          },
-        ],
-        totalElements: 20,
-        nextCursor: 20,
+      {
+        boardId: 10,
+        title: '야밤에 치킨 먹기',
+        tabName: '자유게시판',
+        createdAt: '2023-12-07',
+        views: 40,
       },
-    },
-  ],
+    ],
+    totalElements: 20,
+    nextCursor: 20,
+  },
 };
 
 export const dummyBoardDetail = {
   data: [
     {
+      boardId: 1,
       ProfileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: 'dotori',
       tabName: '자유게시판',
-      title: '오늘 헬스장 가기 싫다',
+      title: '운동 잘하는 법 공유',
       content: '가기 싫다',
       contentImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
-      createdAt: '2023-04-10',
+      createdAt: '2023-12-04',
       boardBookmarkCnt: '9',
     },
     {
+      boardId: 2,
       ProfileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '냥냥이',
-      tabName: '오운완인증',
-      title: 'title',
+      tabName: '자유게시판',
+      title: '날씬해지는 식단 궁금하면 드루와',
       content: 'content',
       contentImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
-      createdAt: '2023-04-10',
+      createdAt: '2023-12-04',
       boardBookmarkCnt: '0',
     },
     {
+      boardId: 3,
       ProfileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '갱얼즤2',
-      tabName: '파트너모집',
-      title: 'title',
+      tabName: '자유게시판',
+      title: '운동 루틴 추천해주세요',
       content: 'content',
       contentImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
-      createdAt: '2023-04-10',
+      createdAt: '2023-12-04',
       boardBookmarkCnt: '0',
     },
     {
+      boardId: 4,
+      ProfileImage:
+        'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
+      displayName: '도토리',
+      tabName: '자세피드백',
+      title: '자세 이거 맞나요?',
+      content: 'content',
+      contentImage:
+        'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
+      createdAt: '2023-12-04',
+      boardBookmarkCnt: '0',
+    },
+    {
+      boardId: 5,
+      ProfileImage:
+        'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
+      displayName: '도토리',
+      tabName: '자유게시판',
+      title: '헬린이 여기 헬스장 추천좀여',
+      content: 'content',
+      contentImage:
+        'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
+      createdAt: '2023-12-04',
+      boardBookmarkCnt: '0',
+    },
+    {
+      boardId: 6,
+      ProfileImage:
+        'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
+      displayName: '도토리',
+      tabName: '꿀팁',
+      title: '헬스장 고를때 꿀팁',
+      content: 'content',
+      contentImage:
+        'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
+      createdAt: '2023-12-04',
+      boardBookmarkCnt: '0',
+    },
+    {
+      boardId: 7,
       ProfileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '도토리',
       tabName: '운동루틴',
-      title: 'title',
+      title: '하체 루틴 짜주세요',
       content: 'content',
       contentImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
-      createdAt: '2023-04-10',
+      createdAt: '2023-12-05',
+      boardBookmarkCnt: '0',
+    },
+    {
+      boardId: 8,
+      ProfileImage:
+        'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
+      displayName: '도토리',
+      tabName: '파트너모집',
+      title: '여름맞이 다이어트 같이해요',
+      content: 'content',
+      contentImage:
+        'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
+      createdAt: '2023-12-05',
+      boardBookmarkCnt: '0',
+    },
+    {
+      boardId: 9,
+      ProfileImage:
+        'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
+      displayName: '도토리',
+      tabName: '자유게시판',
+      title: '운동 가기 싫다',
+      content: 'content',
+      contentImage:
+        'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
+      createdAt: '2023-12-06',
+      boardBookmarkCnt: '0',
+    },
+    {
+      boardId: 10,
+      ProfileImage:
+        'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
+      displayName: '도토리',
+      tabName: '자유게시판',
+      title: '자세 이거 맞나요?',
+      content: 'content',
+      contentImage:
+        'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
+      createdAt: '2023-12-07',
       boardBookmarkCnt: '0',
     },
   ],
@@ -266,126 +272,54 @@ export const dummyReviews = {
               '음...여기 너무 깨끗하고 넓고 쾌적해요, 값짒맚셊욦 샤워실 최고 덟럽웝룝',
             CreatedAt: '2023-01-01',
           },
-        ],
-        totalElements: 20,
-        nextCursor: 20,
-      },
-    },
-    {
-      data: {
-        contents: [
           {
             reviewId: 2,
             displayName: '양갱이',
             comment: '기구 종류가 다양해서 좋아요!!',
             CreatedAt: '2023-01-01',
           },
-        ],
-        totalElements: 20,
-        nextCursor: 20,
-      },
-    },
-    {
-      data: {
-        contents: [
           {
             reviewId: 3,
             displayName: '김자반',
             comment: '트레이너쌤들 친철하세요 ㅜㅜ ',
             CreatedAt: '2023-01-01',
           },
-        ],
-        totalElements: 20,
-        nextCursor: 20,
-      },
-    },
-    {
-      data: {
-        contents: [
           {
             reviewId: 4,
             displayName: '김코딩',
             comment: '쾌적합니다.',
             CreatedAt: '2023-01-01',
           },
-        ],
-        totalElements: 20,
-        nextCursor: 20,
-      },
-    },
-    {
-      data: {
-        contents: [
           {
             reviewId: 5,
             displayName: '박해커',
             comment: '두번 가고싶지는 않음',
             CreatedAt: '2023-01-01',
           },
-        ],
-        totalElements: 20,
-        nextCursor: 20,
-      },
-    },
-    {
-      data: {
-        contents: [
           {
             reviewId: 6,
             displayName: '간장공장공장장',
             comment: '다른 헬스장에 비해 비싼편 인것같슴니다,..',
             CreatedAt: '2023-01-01',
           },
-        ],
-        totalElements: 20,
-        nextCursor: 20,
-      },
-    },
-    {
-      data: {
-        contents: [
           {
             reviewId: 7,
             displayName: '퇴사하고싶다',
             comment: '사람은 많지만 가성비 있게 다닐 수 있어서 좋네요',
             CreatedAt: '2023-01-01',
           },
-        ],
-        totalElements: 20,
-        nextCursor: 20,
-      },
-    },
-    {
-      data: {
-        contents: [
           {
             reviewId: 8,
             displayName: '잼민이',
             comment: '퇴근시간인데도 한가해서 좋아요 ',
             CreatedAt: '2023-01-01',
           },
-        ],
-        totalElements: 20,
-        nextCursor: 20,
-      },
-    },
-    {
-      data: {
-        contents: [
           {
             reviewId: 9,
             displayName: '학생1',
             comment: '부대시설 모두 잘되어있네요',
             CreatedAt: '2023-01-01',
           },
-        ],
-        totalElements: 20,
-        nextCursor: 20,
-      },
-    },
-    {
-      data: {
-        contents: [
           {
             reviewId: 10,
             displayName: '학생2',
@@ -446,43 +380,7 @@ export const dummyGymList = {
     },
     {
       data: {
-        contents: [
-          {
-            gymId: 2,
-            gymImage:
-              'https://mediahub.seoul.go.kr/uploads/mediahub/2021/01/d617bd125f644bae918def98044087aa.jpg',
-            gymName: '건강건강해짐',
-            address: 'test',
-            prices: [
-              {
-                priceId: 1,
-                priceName: '3달 등록비',
-                price: 100000,
-              },
-              {
-                priceId: 2,
-                priceName: '10회 pt 비용',
-                price: 1000000,
-              },
-              {
-                priceId: 3,
-                priceName: '락커 및 운동복 대여',
-                price: 10000,
-              },
-            ],
-            reviewAverage: 5,
-            facilities: [
-              {
-                facilityId: 1,
-                facilityName: '운동복',
-              },
-              {
-                facilityId: 4,
-                facilityName: '락커',
-              },
-            ],
-          },
-        ],
+        contents: [],
         totalElements: 20,
         nextCursor: 20,
       },

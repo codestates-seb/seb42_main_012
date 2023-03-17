@@ -1,15 +1,11 @@
 import Nav from '../../components/layouts/Nav/Nav';
-import logo from '../logo.png';
+import logo from '../../assets/images/logo.svg';
 
 function HomePage() {
   return (
     <>
       <div className="flex flex-col items-center justify-center w-full h-screen px-4">
-        <img
-          className="w-[20rem] mt-[-124px]"
-          src={logo}
-          alt="헬스타트업 로고"
-        />
+        <img className="w-48 mt-[-124px]" src={logo} alt="헬스타트업 로고" />
         {/* <ul className="flex items-center justify-center">
           <li>김용희</li>
           <li>이서연</li>

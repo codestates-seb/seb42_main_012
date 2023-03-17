@@ -1,5 +1,5 @@
 import { useLocation, useParams } from 'react-router-dom';
-import HeaderTitle from '../../UI/HeaderTitle';
+import HeaderTitle from '../../UI/Title/HeaderTitle';
 import BackButton from '../../UI/Button/BackButton';
 import PostButton from '../../UI/Button/PostButton';
 import CompleteButton from '../../UI/Button/CompleteButton';

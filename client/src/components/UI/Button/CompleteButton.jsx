@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { AiOutlineCheck } from 'react-icons/ai';
+import { BsFillCheckCircleFill } from 'react-icons/bs';
 
 function CompleteButton({ nav }) {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ function CompleteButton({ nav }) {
   };
   return (
     <button type="submit" className="pr-2 text-xl">
-      <AiOutlineCheck onClick={handlerClickComplete} />
+      <BsFillCheckCircleFill onClick={handlerClickComplete} />
     </button>
   );
 }

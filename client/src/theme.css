@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --main: #fda02f;
+  --main-hover: #f8951b;
+  --second: #e1ecf4;
+  --second-border: #39739d;
+  --second-hover: #b3d3ea;
+  --danger: #b91c1c;
+  --link: #0074cc;
+}
+
+.container {
+  text-align: center;
+  max-width: 1264px;
+  margin: 0 auto;
+}
+
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-4 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}

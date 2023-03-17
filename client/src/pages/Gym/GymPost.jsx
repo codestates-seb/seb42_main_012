@@ -1,14 +1,14 @@
 import Header from '../../components/layouts/Header/Header';
 import Main from '../../components/layouts/Main/Main';
 import Nav from '../../components/layouts/Nav/Nav';
-import GymPostName from '../../components/Gym/Post/GymPostName';
-import GymPostAddress from '../../components/Gym/Post/GymPostAddress';
-import GymPostPhoneNumber from '../../components/Gym/Post/GymPostPhoneNumber';
-import GymPostImage from '../../components/Gym/Post/GymPostImage';
-import GymPostFacilities from '../../components/Gym/Post/GymPostFacilities';
-import GymPostDetailPrice from '../../components/Gym/Post/GymPostDetailPrice';
-import GymPostHours from '../../components/Gym/Post/GymPostHours';
-import GymPostPrice from '../../components/Gym/Post/GymPostPrice';
+import GymPostName from '../../components/Gym/Post/PostName';
+import GymPostAddress from '../../components/Gym/Post/PostAddress';
+import GymPostPhoneNumber from '../../components/Gym/Post/PostPhoneNumber';
+import GymPostImage from '../../components/Gym/Post/PostImage';
+import GymPostFacilities from '../../components/Gym/Post/PostFacilities';
+import GymPostDetailPrice from '../../components/Gym/Post/PostDetailPrice';
+import GymPostHours from '../../components/Gym/Post/PostHours';
+import GymPostPrice from '../../components/Gym/Post/PostPrice';
 
 function GymPostPage() {
   return (
