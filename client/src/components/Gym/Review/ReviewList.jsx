@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import GymReview from './GymReview';
+import GymReview from './Review';
 
 function GymReviewList() {
   const location = useLocation();

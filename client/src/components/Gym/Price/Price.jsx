@@ -1,6 +1,6 @@
 import { TbCurrencyWon } from 'react-icons/tb';
 import GymDetailTitle from '../Detail/DetailTitle';
-import GymPriceTableContainer from './GymPriceTableContainer';
+import GymPriceTableContainer from './PriceTableContainer';
 
 function GymPrice() {
   return (

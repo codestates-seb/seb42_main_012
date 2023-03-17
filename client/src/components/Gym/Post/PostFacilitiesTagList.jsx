@@ -1,4 +1,4 @@
-import GymPostTag from '../../UI/GymPostTag';
+import GymPostTag from '../../UI/Gym/GymPostTag';
 
 function GymPostFacilitiesTagList() {
   return (

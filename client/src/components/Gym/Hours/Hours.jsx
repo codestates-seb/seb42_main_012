@@ -1,6 +1,6 @@
 import { BiTimeFive } from 'react-icons/bi';
 import GymDetailTitle from '../Detail/DetailTitle';
-import GymHoursContainer from './GymHoursContainer';
+import GymHoursContainer from './HoursContainer';
 
 function GymHours() {
   return (

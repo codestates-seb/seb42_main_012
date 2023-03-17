@@ -1,6 +1,6 @@
 import { IoLocationSharp } from 'react-icons/io5';
 import GymDetailTitle from '../Detail/DetailTitle';
-import GymMapContainer from './GymMapContainer';
+import GymMapContainer from './MapContainer';
 
 function GymMap() {
   return (

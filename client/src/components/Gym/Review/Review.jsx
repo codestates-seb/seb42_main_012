@@ -1,5 +1,5 @@
-import GymReviewConmment from './GymReviewConmment';
-import GymReviewTitle from './GymReviewTitle';
+import GymReviewConmment from './ReviewConmment';
+import GymReviewTitle from './ReviewTitle';
 
 function GymReview({ review }) {
   return (

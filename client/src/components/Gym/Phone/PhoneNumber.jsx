@@ -1,6 +1,6 @@
 import { BsFillTelephoneFill } from 'react-icons/bs';
 import GymDetailTitle from '../Detail/DetailTitle';
-import GymPhoneNumberContainer from './GymPhoneNumberContainer';
+import GymPhoneNumberContainer from './PhoneNumberContainer';
 
 function GymPhoneNumber() {
   return (
