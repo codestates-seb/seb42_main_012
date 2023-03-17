@@ -6,7 +6,7 @@ function GymHours() {
   return (
     <div className="flex flex-col mt-4">
       <GymDetailTitle titleText="운영시간">
-        <div className="text-[20px]">
+        <div className="text-xl">
           <BiTimeFive />
         </div>
       </GymDetailTitle>

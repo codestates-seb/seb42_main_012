@@ -1,7 +1,7 @@
 function HeaderTitle({ titleText }) {
   return (
     <>
-      <h1 className="text-[20px] font-bold">{titleText}</h1>
+      <h1 className="text-xl font-bold">{titleText}</h1>
     </>
   );
 }

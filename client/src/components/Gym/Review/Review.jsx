@@ -3,7 +3,7 @@ import GymReviewTitle from './ReviewTitle';
 
 function GymReview({ review }) {
   return (
-    <div className="pb-2 mt-4 border-b border-grey">
+    <div className="pb-2 mt-4 border-b border-[var(--second-border)]">
       <GymReviewTitle review={review} />
       <GymReviewConmment review={review} />
     </div>

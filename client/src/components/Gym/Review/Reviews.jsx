@@ -11,7 +11,7 @@ function GymReviews() {
       <div className="flex items-center justify-between mt-4 w-90">
         <div>
           <GymDetailTitle titleText="리뷰">
-            <div className="text-[22px]">
+            <div className="text-xl">
               <MdOutlineRateReview />
             </div>
           </GymDetailTitle>

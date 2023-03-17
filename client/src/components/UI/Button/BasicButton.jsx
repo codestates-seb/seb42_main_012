@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 function BasicButton(props) {
-  const { text, page, nav } = props;
+  const { text, page, nav, type } = props;
 
   const navigate = useNavigate();
   const buttonHandler = () => {
@@ -11,27 +11,31 @@ function BasicButton(props) {
   let classes = 'text-md py-2 text-center font-medium rounded-lg ';
 
   if (page === 'my') {
-    classes += 'w-[70%] bg-[#FCA43B] text-[#fff] m-2';
+    classes += 'w-[70%] bg-[var(--main)] text-[#fff] m-2';
   } else if (page === 'login') {
-    classes += 'w-[80%] bg-[#000] text-[#fff]';
+    classes += 'w-full bg-[#000] text-[#fff]';
   } else if (page === 'signup') {
-    classes += 'w-[80%] bg-[#fff] text-[#000] border border-[#151414]';
+    classes += 'w-full bg-[#fff] text-[#000] border border-[#151414]';
   } else if (page === 'board') {
-    classes += 'w-[70%] w-[70%] bg-[#000] text-[#fff] m-2';
+    classes += 'w-full bg-[#000] text-[#fff] my-10';
   } else if (page === 'my_password') {
-    classes += 'w-full bg-[#FCA43B] text-[#fff] mt-6';
+    classes += 'w-full bg-[var(--main)] text-[#fff] mt-6';
   } else if (page === 'gymReview') {
-    classes += 'border w-48 mt-1 text-[14px] m-2';
+    classes += 'border w-48 mt-1 text-sm m-2';
   } else if (page === 'modal') {
     classes +=
-      'px-5 py-1 mt-4 mx-2 border border-[#FCA43B] bg-[#fff] text-[#FCA43B] active:bg-[#FCA43B] active:text-[#fff] text-xs';
+      'px-5 py-1 mt-4 mx-2 border border-[var(--main)] bg-[#fff] text-[var(--main)] active:bg-[var(--main)] active:text-[#fff] text-xs';
   } else if (page === 'more') {
     classes +=
-      'px-5 py-1 bg-[#fff] text-[#FCA43B] active:bg-[#FCA43B] active:bg-opacity-[10%] text-xs';
+      'px-5 py-1 bg-[#fff] text-[var(--main)] active:bg-[var(--main)] active:bg-opacity-10 text-xs';
   }
 
   return (
-    <button className={classes} type="button" onClick={buttonHandler}>
+    <button
+      className={classes}
+      type={type === 'button' ? 'button' : 'submit'}
+      onClick={buttonHandler}
+    >
       {text}
     </button>
   );

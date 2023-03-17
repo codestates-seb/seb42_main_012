@@ -14,7 +14,7 @@ function CheckPasswordList() {
       <PasswordNow />
       <PasswordNowCheck />
       <button
-        className="text-md py-2 text-center font-medium rounded-lg w-full bg-[#FCA43B] text-[#fff] mt-6"
+        className="text-md py-2 text-center font-medium rounded-lg w-full bg-[var(--main)] text-[#fff] mt-6"
         type="button"
         onClick={openModalHandler}
       >

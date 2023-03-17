@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FiMoreVertical } from 'react-icons/fi';
-import More from '../../layouts/More';
+import More from '../More';
 
 function MoreButton() {
   const [openMore, setOpenMore] = useState(false);

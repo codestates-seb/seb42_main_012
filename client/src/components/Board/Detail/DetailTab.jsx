@@ -1,6 +1,6 @@
 function BoardDetailTap() {
   return (
-    <div className=" mt-3 ml-2 px-1 w-[80px] h-6 text-[#FCA43B] border border-[#FCA43B] rounded-sm">
+    <div className="mt-2 p-1 w-24 text-[var(--main)] text-center border border-[var(--main)] rounded-lg">
       자유게시판
     </div>
   );

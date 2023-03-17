@@ -1,7 +1,7 @@
 function TextInput({ placeholder, type, inputId, text, classname }) {
   return (
     <>
-      <p className="mt-2 text-sm text-[#FCA43B]">{text}</p>
+      <p className="mt-2 text-sm text-[var(--main)]">{text}</p>
       <input
         id={inputId}
         type={

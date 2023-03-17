@@ -2,7 +2,7 @@ import { HiStar } from 'react-icons/hi';
 
 function StarIcon() {
   return (
-    <div className="text-[#ffd700]">
+    <div className="text-[var(--main)]">
       <HiStar />
     </div>
   );

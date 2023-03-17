@@ -6,7 +6,7 @@ function GymPrice() {
   return (
     <div>
       <GymDetailTitle titleText="상세가격">
-        <div className="text-[20px]">
+        <div className="text-xl">
           <TbCurrencyWon />
         </div>
       </GymDetailTitle>

@@ -6,7 +6,7 @@ function GymPhoneNumber() {
   return (
     <div className="flex flex-col mt-4">
       <GymDetailTitle titleText="전화번호">
-        <div className="text-[20px]">
+        <div className="text-xl">
           <BsFillTelephoneFill />
         </div>
       </GymDetailTitle>

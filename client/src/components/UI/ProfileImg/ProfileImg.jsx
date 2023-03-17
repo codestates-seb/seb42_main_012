@@ -1,12 +1,12 @@
 function ProfileImg(props) {
   const { page, src, alt } = props;
 
-  let classes = 'bg-[#eee] rounded-full ';
+  let classes = 'bg-[var(--second)] rounded-full ';
 
   if (page === 'my') {
-    classes += 'w-[80px] h-[80px]';
+    classes += 'w-20 h-20';
   } else if (page === 'board') {
-    classes += 'w-[40px] h-[40px]';
+    classes += 'w-20 h-20';
   }
 
   return <img className={classes} src={src} alt={alt} />;

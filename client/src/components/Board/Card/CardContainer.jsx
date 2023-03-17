@@ -1,4 +1,4 @@
-import BoardCardList from './BoardCardList';
+import BoardCardList from './CardList';
 
 function BoardCardContainer() {
   return <BoardCardList />;
