@@ -10,9 +10,7 @@ public class GymResponseDto {
     private String gymName;
     private String address;
     private String phoneNumber;
-    private String offDays;
-    private String openingTime;
-    private String closingTime;
-//    private Double latitude;
-//    private Double longitude;
+    private String businessHours;
+    private Double latitude;
+    private Double longitude;
 }
