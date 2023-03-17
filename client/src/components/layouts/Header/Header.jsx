@@ -1,10 +1,10 @@
 import { useLocation, useParams } from 'react-router-dom';
 import HeaderTitle from '../../UI/HeaderTitle';
-import BackButton from '../../UI/BackButton';
-import PostButton from '../../UI/PostButton';
-import CompleteButton from '../../UI/CompleteButton';
-import AlertButton from '../../UI/AlertButton';
-import MoreButton from '../../UI/MoreButton';
+import BackButton from '../../UI/Button/BackButton';
+import PostButton from '../../UI/Button/PostButton';
+import CompleteButton from '../../UI/Button/CompleteButton';
+import AlertButton from '../../UI/Button/AlertButton';
+import MoreButton from '../../UI/Button/MoreButton';
 
 function Header({ titleText, nav }) {
   const param = useParams();

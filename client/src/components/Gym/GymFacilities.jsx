@@ -1,6 +1,6 @@
 import { FaShower } from 'react-icons/fa';
-import GymDetailTitle from './GymDetailTitle';
-import GymTagList from './GymTagList';
+import GymDetailTitle from './Detail/DetailTitle';
+import GymTagList from './List/GymTagList';
 
 function GymFacilities() {
   return (

@@ -1,5 +1,5 @@
 import { AiOutlineUpCircle } from 'react-icons/ai';
-import TextInput from '../../UI/TextInput';
+import TextInput from '../../UI/Input/TextInput';
 
 function CommentPost() {
   return (
