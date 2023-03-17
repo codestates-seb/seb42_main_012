@@ -1,5 +1,6 @@
 package main012.server.gym.controller;
 
+import lombok.RequiredArgsConstructor;
 import main012.server.gym.dto.GymPatchDto;
 import main012.server.gym.dto.GymPostDto;
 import main012.server.gym.dto.GymResponseDto;
@@ -18,6 +19,11 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/gyms")
+@RequiredArgsConstructor
 public class GymController {
+
+    private final GymService gymService;
+    private final GymMapper gymMapper;
+
 
 }
