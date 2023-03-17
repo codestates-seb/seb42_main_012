@@ -1,4 +1,4 @@
-import BasicButton from '../../UI/BasicButton';
+import BasicButton from '../../UI/Button/BasicButton';
 
 function Modal({ setOpenModal }) {
   const classes =

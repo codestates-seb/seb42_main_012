@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import BasicButton from '../UI/BasicButton';
+import BasicButton from '../UI/Button/BasicButton';
 
 function More() {
   const location = useLocation();

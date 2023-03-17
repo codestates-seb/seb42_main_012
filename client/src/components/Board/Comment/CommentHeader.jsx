@@ -1,5 +1,5 @@
-import DisplayName from '../../UI/DisplayName';
-import ProfileImg from '../../UI/ProfileImg';
+import DisplayName from '../../UI/DisplayName/DisplayName';
+import ProfileImg from '../../UI/ProfileImg/ProfileImg';
 import CommentContainer from './CommentContainer';
 
 function CommentHeader() {

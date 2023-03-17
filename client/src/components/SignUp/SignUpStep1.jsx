@@ -1,5 +1,5 @@
-import BasicButton from '../UI/BasicButton';
-import TextInput from '../UI/TextInput';
+import BasicButton from '../UI/Button/BasicButton';
+import TextInput from '../UI/Input/TextInput';
 
 function SignUpStep1() {
   return (

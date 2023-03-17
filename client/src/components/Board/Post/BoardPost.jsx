@@ -1,7 +1,7 @@
-import BoardTapList from '../BoardTabList';
-import BoardPostTitle from './BoardPostTitle';
-import BoardPostBody from './BoardPostBody';
-import BasicButton from '../../UI/BasicButton';
+import BoardTapList from '../Tab/TabList';
+import BoardPostTitle from './PostTitle';
+import BoardPostBody from './PostBody';
+import BasicButton from '../../UI/Button/BasicButton';
 
 function BoardPost() {
   return (

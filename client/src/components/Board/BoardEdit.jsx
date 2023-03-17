@@ -1,7 +1,7 @@
-import BasicButton from '../UI/BasicButton';
-import BoardTapList from './BoardTabList';
-import BoardPostBody from './Post/BoardPostBody';
-import BoardPostTitle from './Post/BoardPostTitle';
+import BasicButton from '../UI/Button/BasicButton';
+import BoardTapList from './Tab/TabList';
+import BoardPostBody from './Post/PostBody';
+import BoardPostTitle from './Post/PostTitle';
 
 function BoardEdit() {
   return (

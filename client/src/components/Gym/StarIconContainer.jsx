@@ -1,4 +1,4 @@
-import StarIcon from '../UI/StarIcon';
+import StarIcon from '../UI/Icon/StarIcon';
 
 function StartIconContainer() {
   return (
