@@ -4,6 +4,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 public class GymPostDto {
+
     @NotBlank(message = "헬스장 이름을 입력해 주세요")
     private String gymName;
     @NotBlank(message = "주소를 입력해 주세요")
@@ -13,9 +14,9 @@ public class GymPostDto {
             message = "휴대폰 번호는 010으로 시작하는 11자리 숫자와 '-'로 구성되어야 합니다.")
     private String phoneNumber;
     private String businessHours;
-    @NotBlank(message = "위도를 입력해 주세요")
+
     private Double latitude;
-    @NotBlank(message = "경도를 입력해 주세요")
+
     private Double longitude;
 
     public String getGymName() {
