@@ -1,9 +1,9 @@
 import GymFacilities from '../GymFacilities';
-import GymMap from '../Map/GymMap';
-import GymPrice from '../Price/GymPrice';
-import GymReviews from '../Review/GymReviews';
-import GymHours from '../Hours/GymHours';
-import GymPhoneNumber from '../Phone/GymPhoneNumber';
+import GymMap from '../Map/Map';
+import GymPrice from '../Price/Price';
+import GymReviews from '../Review/Reviews';
+import GymHours from '../Hours/Hours';
+import GymPhoneNumber from '../Phone/PhoneNumber';
 
 function GymDetailList() {
   return (

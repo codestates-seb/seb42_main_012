@@ -1,4 +1,4 @@
-import GymNameButton from '../../UI/Button/GymNameButton';
+import GymNameButton from '../../UI/Gym/GymNameButton';
 import HeartButton from '../../UI/Button/HeartButton';
 import pikachu from '../pikachu.JPG';
 

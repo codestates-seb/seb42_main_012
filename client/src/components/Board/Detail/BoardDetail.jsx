@@ -1,8 +1,8 @@
-import BoardDetailComment from './BoadeDetailComment';
-import BoardDetailBody from './BoardDetailBody';
-import BoardDetailHeader from './BoardDetailHeader';
-import BoardDetailTap from './BoardDetailTab';
-import BoardDetailTitle from './BoardDetailTitle';
+import BoardDetailComment from './DetailComment';
+import BoardDetailBody from './DetailBody';
+import BoardDetailHeader from './DetailHeader';
+import BoardDetailTap from './DetailTab';
+import BoardDetailTitle from './DetailTitle';
 
 function BoardDetail() {
   return (

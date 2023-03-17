@@ -1,4 +1,4 @@
-import GymPostFacilitiesTagList from './GymPostFacilitiesTagList';
+import GymPostFacilitiesTagList from './PostFacilitiesTagList';
 
 function GymPostFacilities() {
   return (

@@ -1,4 +1,4 @@
-import ChatButton from '../../UI/ChatButton';
+import ChatButton from '../../UI/Button/ChatButton';
 
 function Main({ children }) {
   return (

@@ -1,6 +1,6 @@
 import Header from '../../components/layouts/Header/Header';
 import Nav from '../../components/layouts/Nav/Nav';
-import MyDetailTitle from '../../components/My/MyDetailTitle';
+import MyDetailTitle from '../../components/My/Detail/MyDetailTitle';
 import MyDetailList from '../../components/My/Detail/MyDetailList';
 
 function MyDetailPage({ text }) {
