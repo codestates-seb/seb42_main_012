@@ -5,10 +5,10 @@ import GymReviews from '../Review/Reviews';
 import GymHours from '../Hours/Hours';
 import GymPhoneNumber from '../Phone/PhoneNumber';
 
-function GymDetailList() {
+function GymDetailList({ gym }) {
   return (
     <div className="mb-32">
-      <GymFacilities />
+      <GymFacilities facilities={gym.facilities} />
       <GymPrice />
       <GymHours />
       <GymMap />

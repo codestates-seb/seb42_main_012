@@ -2,7 +2,7 @@ import { FaShower } from 'react-icons/fa';
 import GymDetailTitle from './Detail/DetailTitle';
 import GymTagList from './List/GymTagList';
 
-function GymFacilities() {
+function GymFacilities({ facilities }) {
   return (
     <div className="border-b border-[var(--second-border)]">
       <GymDetailTitle titleText="편의시설">
@@ -10,7 +10,7 @@ function GymFacilities() {
           <FaShower />
         </div>
       </GymDetailTitle>
-      <GymTagList />
+      <GymTagList facilities={facilities} />
     </div>
   );
 }
