@@ -1,8 +1,12 @@
 // import Comment from './Comment';
 // import CommentHeader from './CommentHeader';
 import CommentBody from './CommentBody';
+// import { useParams } from 'react-router-dom';
 
 function CommentList({ comments }) {
+  // import
+  // const comments.filter((comment) => comment.commentId === )
+
   return (
     <ul className="mt-5">
       {/* {members.map(member => (

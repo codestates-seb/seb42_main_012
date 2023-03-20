@@ -7,7 +7,9 @@ function GymReviewList() {
   const { reviews } = useStore();
   const { id } = useParams();
 
-  const reviewFilter = reviews.filter(review => review.gymId === Number(id));
+  const reviewFilter = reviews
+    .filter(review => review.gymId === Number(id))
+    .reverse();
 
   return (
     <div>

@@ -56,7 +56,7 @@ const handlers = [
 
   // 헬스장 리뷰 등록
   rest.post('/gyms/reviews', (req, res, ctx) => {
-    reviews.push(req.body);
+    reviews.data.contents.push(req.body);
     return res(ctx.status(201));
   }),
 ];
