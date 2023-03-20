@@ -1,4 +1,4 @@
-package main012.server.gym.exception;
+package main012.server.exception;
 
 import lombok.Getter;
 

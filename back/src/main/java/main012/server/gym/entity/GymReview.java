@@ -3,6 +3,7 @@ package main012.server.gym.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import main012.server.common.Auditable;
 import main012.server.user.entity.Member;
 import org.springframework.data.annotation.Id;
 
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @NoArgsConstructor // extends Auditable 해야함
-public class GymReview {
+public class GymReview extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

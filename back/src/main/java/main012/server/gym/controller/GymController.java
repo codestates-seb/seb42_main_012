@@ -2,12 +2,14 @@ package main012.server.gym.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import main012.server.dto.MultiResponseDto;
 import main012.server.gym.dto.GymPatchDto;
 import main012.server.gym.dto.GymPostDto;
 import main012.server.gym.dto.GymResponseDto;
 import main012.server.gym.entity.Gym;
 import main012.server.gym.mapper.GymMapper;
 import main012.server.gym.service.GymService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -23,7 +25,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/gyms")
-@Component
 public class GymController {
     private final GymService gymService;
     private final GymMapper mapper;
@@ -68,12 +69,20 @@ public class GymController {
 
     //헬스장 목록 조회
     @GetMapping
-    public ResponseEntity getGyms() {
+    public ResponseEntity getGyms(@Positive @RequestParam int page,
+                                  @Positive @RequestParam int size) {
         // (7)
-        List<Gym> response = gymService.findGyms();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+//        List<Gym> response = gymService.findGyms();
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+        Page<Gym> pageGyms = gymService.findGyms(page-1,size);
+        List<Gym> gyms = pageGyms.getContent();
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(mapper.gymsToGymResponseDtos(gyms),
+                        pageGyms),
+                HttpStatus.OK);
     }
 
+    //
     @DeleteMapping("/{gym_id}")
     public ResponseEntity deleteGym(@PathVariable("gym_id") @Positive long gymId) {
         System.out.println("# deleted gymId: " + gymId);

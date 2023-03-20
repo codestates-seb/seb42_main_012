@@ -1,7 +1,7 @@
-package main012.server.gym.advice;
+package main012.server.advice;
 
 
-import main012.server.gym.exception.BusinessLoginException;
+import main012.server.exception.BusinessLoginException;
 import main012.server.gym.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
