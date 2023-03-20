@@ -1,19 +1,21 @@
 import BoardContentList from './BoardContentList';
 // import BoardCard from './BoardCard';
 
-function Board() {
+function Board({ boards }) {
   return (
-    <>
-      <ul>
-        <BoardContentList to="/board/:id" classname="mt-4" />
-        <BoardContentList to="/board/:id" />
-        <BoardContentList to="/board/:id" />
-        <BoardContentList to="/board/:id" />
-        <BoardContentList to="/board/:id" />
-        <BoardContentList to="/board/:id" />
-      </ul>
-      {/* <BoardCard /> */}
-    </>
+    <ul>
+      {boards.map(board => (
+        <BoardContentList
+          to="/board/:id"
+          classname="border-t"
+          key={board.boardId}
+          id={board.boardId}
+          tabName={board.tabName}
+          title={board.title}
+          content={board.content}
+        />
+      ))}
+    </ul>
   );
 }
 
