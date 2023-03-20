@@ -1,12 +1,12 @@
 import HeartContainer from '../../UI/HeartContainer';
 import ReviewScore from '../Review/ReviewScore';
 
-function GymDetailHeader() {
+function GymDetailHeader({ gymName, gymBookmarkCnt }) {
   return (
     <div className="flex items-center">
-      <h3 className="text-xl font-bold mr-1 text-[var(--second)]">스마트짐</h3>
+      <h3 className="text-xl font-bold mr-1 text-[var(--second)]">{gymName}</h3>
       <ReviewScore />
-      <HeartContainer />
+      <HeartContainer gymBookmarkCnt={gymBookmarkCnt} />
     </div>
   );
 }

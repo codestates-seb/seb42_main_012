@@ -6,7 +6,7 @@ function GymList({ gyms }) {
       {gyms.map(gym => (
         <Gym
           key={gym.gymId}
-          id={gym.gymId}
+          gymId={gym.gymId}
           gymName={gym.gymName}
           gymImage={gym.gymImage}
           address={gym.address}
