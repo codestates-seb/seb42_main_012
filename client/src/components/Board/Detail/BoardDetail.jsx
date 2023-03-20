@@ -4,14 +4,14 @@ import BoardDetailHeader from './DetailHeader';
 import BoardDetailTap from './DetailTab';
 import BoardDetailTitle from './DetailTitle';
 
-function BoardDetail() {
+function BoardDetail({ comments, members }) {
   return (
     <>
       <BoardDetailHeader />
       <BoardDetailTap />
       <BoardDetailTitle />
       <BoardDetailBody />
-      <BoardDetailComment />
+      <BoardDetailComment comments={comments} members={members} />
     </>
   );
 }

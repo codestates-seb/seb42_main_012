@@ -1,13 +1,11 @@
 import CommentList from '../Comment/CommentList';
 import CommentPost from '../Comment/CommentPost';
 
-function BoardDetailComment() {
+function BoardDetailComment({ comments, members }) {
   return (
     <>
       <CommentPost />
-      <CommentList />
-      <CommentList />
-      <CommentList />
+      <CommentList comments={comments} members={members} />
     </>
   );
 }
