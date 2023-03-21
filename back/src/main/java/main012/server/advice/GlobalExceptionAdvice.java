@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ErrorResponse;
 import main012.server.exception.ErrorResponseDto;
+import main012.server.exception.ExceptionCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -20,44 +21,50 @@ import javax.validation.ConstraintViolationException;
 public class GlobalExceptionAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleMethodArgumentNotValidException(
+    public ResponseEntity handleMethodArgumentNotValidException(
             MethodArgumentNotValidException e) {
-        final ErrorResponse response = ErrorResponse.of(e.getBindingResult());
 
-        return response;
+        ErrorResponseDto response = ErrorResponseDto.of(e.getBindingResult());
+
+        return new ResponseEntity(response, HttpStatus.EXPECTATION_FAILED);
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleConstraintViolationException(
+    public ResponseEntity handleConstraintViolationException(
             ConstraintViolationException e) {
-        final ErrorResponse response = ErrorResponse.of(e.getConstraintViolations());
-        return response;
+
+        ErrorResponseDto response = ErrorResponseDto.of(ExceptionCode.REQUEST_NOT_SUPPORT);
+
+        return new ResponseEntity(response, HttpStatus.EXPECTATION_FAILED);
     }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleResourceNotFoundException(RuntimeException e) {
-        System.out.println(e.getMessage());
-        return null;
-    }
+//    @ExceptionHandler
+//    @ResponseStatus(HttpStatus.NOT_FOUND)
+//    public ErrorResponse handleResourceNotFoundException(RuntimeException e) {
+//        System.out.println(e.getMessage());
+//        return null;
+//    }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity handleBusinessLogicException(BusinessLoginException e) {
-        System.out.println(e.getExceptionCode().getStatus());
-        System.out.println(e.getMessage());
+        log.info("## BusinessLogicException : {}, {}",
+                e.getExceptionCode().getStatus(),
+                e.getExceptionCode().getMessage());
 
-        return new ResponseEntity<>(HttpStatus.valueOf(e.getExceptionCode().getStatus()));
+        ErrorResponseDto response = ErrorResponseDto.of(e.getExceptionCode());
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseEntity handleExpiredJwtException(ExpiredJwtException e) {
-        log.debug(e.getMessage());
-        log.debug("## AccessToken expiration");
+        log.info("## JWT Token expired : {}",
+                e.getMessage());
 
-        ErrorResponseDto response = new ErrorResponseDto(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
+        ErrorResponseDto response = ErrorResponseDto.of(ExceptionCode.JWT_TOKEN_EXPIRED);
 
         return new ResponseEntity(response,HttpStatus.UNAUTHORIZED);
     }
