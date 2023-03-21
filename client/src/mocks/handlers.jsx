@@ -32,25 +32,25 @@ const handlers = [
 
   // 멤버 등록
   rest.post('/members/common', (req, res, ctx) => {
-    members.push(req.body);
+    members.data.contents.push(req.body);
     return res(ctx.status(201));
   }),
 
   // 커뮤니티 게시글 등록
   rest.post('/communities', (req, res, ctx) => {
-    board.push(req.body);
+    board.data.contents.push(req.body);
     return res(ctx.status(201));
   }),
 
   // 커뮤니티 댓글 등록
   rest.post('/communities/comments', (req, res, ctx) => {
-    comments.push(req.body);
+    comments.data.contents.push(req.body);
     return res(ctx.status(201));
   }),
 
   // 헬스장 등록
   rest.post('/gyms', (req, res, ctx) => {
-    gyms.push(req.body);
+    gyms.data.contents.push(req.body);
     return res(ctx.status(201));
   }),
 

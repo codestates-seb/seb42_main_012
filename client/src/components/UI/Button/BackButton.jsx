@@ -5,6 +5,7 @@ function BackButton() {
   const navigate = useNavigate();
   const location = useLocation();
   let classes = '';
+  let nav = -1;
 
   if (
     !(
@@ -20,9 +21,13 @@ function BackButton() {
     classes += 'w-0 h-0 ml-[36px]';
   }
 
+  if (location.pathname === '/gyms/gympost') {
+    nav = '/gyms';
+  }
+
   return (
     <div className="h-[36px]">
-      <FiChevronLeft className={classes} onClick={() => navigate(-1)} />
+      <FiChevronLeft className={classes} onClick={() => navigate(nav)} />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import { BsFillTelephoneFill } from 'react-icons/bs';
 import GymDetailTitle from '../Detail/DetailTitle';
 import GymPhoneNumberContainer from './PhoneNumberContainer';
 
-function GymPhoneNumber() {
+function GymPhoneNumber({ phoneNumber }) {
   return (
     <div className="flex flex-col mt-4">
       <GymDetailTitle titleText="전화번호">
@@ -10,7 +10,7 @@ function GymPhoneNumber() {
           <BsFillTelephoneFill />
         </div>
       </GymDetailTitle>
-      <GymPhoneNumberContainer />
+      <GymPhoneNumberContainer phoneNumber={phoneNumber} />
     </div>
   );
 }
