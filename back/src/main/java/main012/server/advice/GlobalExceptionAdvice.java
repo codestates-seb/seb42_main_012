@@ -4,7 +4,6 @@ package main012.server.advice;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import main012.server.exception.BusinessLoginException;
-import main012.server.exception.ErrorResponse;
 import main012.server.exception.ErrorResponseDto;
 import main012.server.exception.ExceptionCode;
 import org.springframework.http.HttpStatus;
