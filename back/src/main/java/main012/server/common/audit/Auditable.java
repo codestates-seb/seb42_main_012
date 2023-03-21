@@ -1,4 +1,4 @@
-package main012.server.common;
+package main012.server.common.audit;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
