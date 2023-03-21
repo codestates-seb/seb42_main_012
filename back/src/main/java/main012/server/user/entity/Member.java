@@ -42,7 +42,7 @@ public class Member extends Auditable {
     private String businessNumber;
 
     // N : N
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "member_role",
             joinColumns = @JoinColumn(name = "member_id"),

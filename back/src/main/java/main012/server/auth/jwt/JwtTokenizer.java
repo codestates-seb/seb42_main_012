@@ -1,16 +1,20 @@
 package main012.server.auth.jwt;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import main012.server.user.entity.Member;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /*
@@ -22,24 +26,23 @@ import java.util.Map;
 public class JwtTokenizer {
     @Getter
     private final Key key;
-    private final Date accessExpiration;
-    private final Date refreshExpiration;
+
+    @Value("${jwt.access.expiration}")
+    private int accessTokenExpiration;
+
+    @Value("${jwt.refresh.expiration}")
+    private int refreshTokenExpiration;
 
     // 초기값 설정
-    public JwtTokenizer(
-            @Value("${jwt.key}") String secretKey,
-            @Value("${jwt.access.expiration}") int accessTokenExpiration,
-            @Value("${jwt.refresh.expiration}") int refreshTokenExpiration
-    ) {
+    public JwtTokenizer( @Value("${jwt.key}") String secretKey) {
         key = getKeyFromBase64EncodedKey(secretKey);
-        accessExpiration = getTokenExpirationDate(accessTokenExpiration);
-        refreshExpiration = getTokenExpirationDate(refreshTokenExpiration);
     }
 
     // AccessToken 생성
     public String generateAccessToken(Map<String, Object> claims,
                                       String subject) {
         Date now = new Date();
+        Date accessExpiration = getTokenExpirationDate(accessTokenExpiration);
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -53,6 +56,7 @@ public class JwtTokenizer {
     // refreshToken 생성
     public String generateRefreshToken(String subject) {
         Date now = new Date();
+        Date refreshExpiration = getTokenExpirationDate(refreshTokenExpiration);
 
         return Jwts.builder()
                 .setSubject(subject)
@@ -63,8 +67,8 @@ public class JwtTokenizer {
     }
 
     // Jwt 토큰 유효성 체크 하고 claims 얻음
-    public void verifySignature(String jws) {
-        Jwts.parserBuilder()
+    public Jws<Claims> verifySignature(String jws) {
+        return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
                 .parseClaimsJws(jws); // jws = Signature 가 포함된 JWT
@@ -81,6 +85,14 @@ public class JwtTokenizer {
         return claims;
     }
 
+    // refreshToken에서 sub(email) 찾기
+    public String getEmailFromRefreshToken (String refreshToken) {
+        Jws<Claims> claimsJws = verifySignature(refreshToken);
+        String email = claimsJws.getBody().getSubject();
+
+        return email;
+    }
+
     // String secretKey -> byte[] key 로 dncode -> 알고리즘 이용해서 키 생성
     private Key getKeyFromBase64EncodedKey(String secretKey) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
@@ -88,7 +100,7 @@ public class JwtTokenizer {
     }
 
     // int expirationMinutes -> Date 로 변환
-    private Date getTokenExpirationDate(int expirationMinutes) {
+    public Date getTokenExpirationDate(int expirationMinutes) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MILLISECOND, expirationMinutes);
         return calendar.getTime();

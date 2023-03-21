@@ -17,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.Optional;
 
 @Service
@@ -140,6 +142,17 @@ public class MemberServiceImpl implements MemberService {
         MemberResponseDto.Profile response = memberMapper.memberToProfileDto(findMember);
 
         return response;
+    }
+
+    /**
+     * 회원 탈퇴
+     */
+    @Override
+    public void removeMember(Long memberId) {
+        Member findMember = findVerifyMember(memberId);
+        log.info("## deleteMember: {}", findMember.getEmail());
+
+        memberRepository.delete(findMember);
     }
 
     /**
