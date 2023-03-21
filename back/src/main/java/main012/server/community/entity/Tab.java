@@ -18,7 +18,7 @@ public class Tab {
     @Id
     @Column(name = "tab_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long tabId;
 
     private String tabName;
 

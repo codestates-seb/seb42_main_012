@@ -17,7 +17,7 @@ public class CommunityComment extends Auditable {
     @Id
     @Column(name = "community_comment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long commentId;
 
     @Column(nullable = false)
     private String comment;
