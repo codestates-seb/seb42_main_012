@@ -1,7 +1,7 @@
 function GymPostName({ register }) {
   return (
     <div className="mb-8">
-      <span>헬스장 이름</span>
+      <p className="text-sm text-[var(--main)]">헬스장 이름</p>
       <input
         {...register('gymName', {
           required: '내용을 입력해주세요',

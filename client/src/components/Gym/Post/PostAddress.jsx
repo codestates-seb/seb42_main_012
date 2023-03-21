@@ -1,13 +1,10 @@
-import TextInput from '../../UI/Input/TextInput';
+import Postcode from '../../UI/Postcode';
 
-function GymPostAddress() {
+function GymPostAddress({ address, setAddress }) {
   return (
     <div className="mb-8">
-      <TextInput
-        text="지역정보"
-        placeholder="주소를 입력해주세요"
-        classname="border border-[var(--second-border)] outline-[var(--main)] mt-2 rounded-sm w-full p-2"
-      />
+      <p className="text-sm text-[var(--main)] mb-2">주소</p>
+      <Postcode address={address} setAddress={setAddress} />
     </div>
   );
 }
