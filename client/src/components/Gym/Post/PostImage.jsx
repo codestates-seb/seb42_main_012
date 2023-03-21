@@ -43,7 +43,7 @@ function GymPostImage({ imageUrl, setImageUrl }) {
   return (
     <>
       <div className="mb-8">
-        <p className="m-2 text-sm text-[var(--main)]">헬스장 대표이미지</p>
+        <p className="text-sm text-[var(--main)]">대표 이미지</p>
         <div className="flex flex-col">
           <img src={imageUrl} alt="" />
           <div className="flex justify-center mt-3 ">
@@ -55,14 +55,14 @@ function GymPostImage({ imageUrl, setImageUrl }) {
             />
             <label
               htmlFor="image"
-              className="w-40 px-2 py-1 mr-4 text-center border rounded-lg border-grey hover:bg-grey"
+              className="w-40 px-2 py-1 mr-4 text-center border rounded-lg border-grey hover:bg-grey text-[var(--second)]"
             >
               사진 선택
             </label>
             <button
               type="button"
               onClick={() => uploadFile(selectedFile)}
-              className="w-40 px-2 border rounded-lg py-1text-center border-grey hover:bg-grey"
+              className="w-40 px-2 border rounded-lg py-1text-center border-grey hover:bg-grey text-[var(--second)]"
             >
               사진 확인
             </button>

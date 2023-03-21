@@ -18,6 +18,7 @@ import Today from '../../components/UI/Today';
 function GymPostPage() {
   const { register, handleSubmit } = useForm();
   const [imageUrl, setImageUrl] = useState('');
+  const [address, setAddress] = useState('');
   const { gyms } = useStore();
   const navigate = useNavigate();
 
@@ -58,7 +59,7 @@ function GymPostPage() {
       createdAt: Today(),
       gymName: data.gymName,
       gymImage: imageUrl,
-      address: data.address,
+      address,
       phoneNumber: data.phoneNumber,
       prices: [data.price1, data.price2],
       detailPrices: data.detailPrice,
@@ -80,7 +81,7 @@ function GymPostPage() {
       <GymPostPrice register={register} />
       <GymPostDetailPrice register={register} />
       <GymPostHours register={register} />
-      <GymPostAddress register={register} />
+      <GymPostAddress address={address} setAddress={setAddress} />
       <GymPostPhoneNumber register={register} />
       <BasicButton page="board" text="Post" />
     </form>

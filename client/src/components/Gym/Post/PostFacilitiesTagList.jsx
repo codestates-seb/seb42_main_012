@@ -2,7 +2,7 @@ import GymPostTag from '../../UI/Gym/GymPostTag';
 
 function GymPostFacilitiesTagList({ register }) {
   return (
-    <ul className="flex items-center w-full">
+    <ul className="flex items-center w-full mt-3">
       <GymPostTag
         text="샤워실"
         register={register}
