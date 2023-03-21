@@ -1,8 +1,11 @@
 package main012.server.gym.controller;
 
+import lombok.RequiredArgsConstructor;
+import main012.server.auth.resolver.AuthMember;
 import main012.server.common.dto.MultiResponseDto;
 import main012.server.gym.dto.GymPatchDto;
 import main012.server.gym.dto.GymPostDto;
+import main012.server.gym.dto.GymResponseDto;
 import main012.server.gym.entity.Gym;
 import main012.server.gym.mapper.GymMapper;
 import main012.server.gym.service.GymService;
@@ -18,22 +21,19 @@ import javax.validation.constraints.Positive;
 import java.util.List;
 
 
-
-@CrossOrigin
-@RestController
+@RequiredArgsConstructor
 @RequestMapping("/gyms")
+@RestController
+
 public class GymController {
     private final GymService gymService;
     private final GymMapper mapper;
 
-    public GymController(GymService gymService, GymMapper mapper) {
-        this.gymService = gymService;
-        this.mapper = mapper;
-    }
-
 //    @RolesAllowed("ROLE_OWNER")
     @PostMapping
-    public ResponseEntity postGym(@Valid @RequestBody GymPostDto gymPostDto) {
+    @RolesAllowed("ROLE_OWNER")
+    public ResponseEntity postGym(@Valid @RequestBody GymPostDto gymPostDto,
+                                  @AuthMember Long memberId) {
         Gym gym = mapper.gymPostDtoToGym(gymPostDto);
         Gym createGym = gymService.createGym(gym);
         GymResponseDto response = mapper.gymToGymResponseDto(createGym);
@@ -43,7 +43,9 @@ public class GymController {
 
     //     헬스장 정보 수정
     @PatchMapping("/{gym_id}")
+    @RolesAllowed("ROLE_OWNER")
     public ResponseEntity patchGym(@PathVariable("gym_id") @Positive Long gymId,
+                                   @AuthMember Long memberId,
                                    @Valid @RequestBody GymPatchDto gymPatchDto) {
         gymPatchDto.setGymId(gymId);
 
@@ -82,6 +84,7 @@ public class GymController {
 
     //
     @DeleteMapping("/{gym_id}")
+    @RolesAllowed("ROLE_OWNER")
     public ResponseEntity deleteGym(@PathVariable("gym_id") @Positive Long gymId) {
         System.out.println("# deleted gymId: " + gymId);
         // No need business logic
