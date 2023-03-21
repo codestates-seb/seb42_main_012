@@ -43,13 +43,17 @@ cloud:
     stack:
       auto: false
 
-#jwt:
-#  key: ${JWT_SECRET_KEY}
-#  access-token-expiration-minutes: 30
-#  refresh-token-expiration-minutes: 720
-#
-#mail:
-#  address:
-#    admin: admin@gmail.com
+jwt:
+  key: ${JWT_SECRET_KEY}
+  access:
+    expiration: 7200000 # 1000(ms) * 60(s) * 60(minute) * 2(hour) = 7200000
+    header: Authorization
+  refresh:
+    expiration: 43200000 # 1000(ms) * 60(s) * 60(minute) * 12(hour)
+    header: Authorization-Refresh
+
+mail:
+  address:
+    admin: admin@email.com
 #config:
 #  domain: ${AWS_S3_ENDPOINT}
