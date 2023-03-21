@@ -5,13 +5,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import main012.server.common.Auditable;
 import main012.server.user.entity.Member;
+import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor // extends Auditable 해야함
 public class GymReview extends Auditable {
 
     @Id
