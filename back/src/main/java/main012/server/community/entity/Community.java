@@ -20,7 +20,7 @@ public class Community extends Auditable {
     @Id
     @Column(name = "community_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long communityId;
 
     @Column(length = 100, nullable = false)
     private String title;
