@@ -1,10 +1,7 @@
 package main012.server.user.entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import main012.server.common.Auditable;
+import lombok.*;
+import main012.server.common.audit.Auditable;
 import main012.server.community.entity.Community;
 import main012.server.community.entity.CommunityBookmark;
 import main012.server.community.entity.CommunityComment;
@@ -12,12 +9,10 @@ import main012.server.gym.entity.Gym;
 import main012.server.gym.entity.GymBookmark;
 import main012.server.gym.entity.GymReview;
 import main012.server.image.entity.Image;
+import main012.server.user.enums.MemberStatus;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @NoArgsConstructor
 @Getter
@@ -53,6 +48,10 @@ public class Member extends Auditable {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
+
+    public void addRole(Role role) {
+        this.roles.add(role);
+    }
 
     // 1 : 1
     // 오펀 붙어 있어야 user.setImage(null) 했을 때, image 테이블에서 매핑된 로우값이 삭제됨.
@@ -130,16 +129,16 @@ public class Member extends Auditable {
         }
     }
 
-    public enum MemberStatus {
-        MEMBER_ACTIVE("활동중"),
-        MEMBER_SLEEP("휴먼 상태"),
-        MEMBER_DELETED("탈퇴 상태");
+    // 생성자
+    @Builder
+    public Member(String displayName, String email, String password) {
+        this.displayName = displayName;
+        this.email = email;
+        this.password = password;
+    }
 
-        @Getter
-        private String status;
 
-        MemberStatus(String status) {
-            this.status = status;
-        }
+    public Member(Long id) {
+        this.id = id;
     }
 }

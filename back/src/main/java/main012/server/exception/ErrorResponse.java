@@ -1,4 +1,4 @@
-package main012.server.gym.response;
+package main012.server.exception;
 
 import lombok.Getter;
 import org.springframework.validation.BindingResult;

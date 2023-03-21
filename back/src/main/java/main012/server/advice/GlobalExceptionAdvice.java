@@ -1,8 +1,11 @@
 package main012.server.advice;
 
 
+import io.jsonwebtoken.ExpiredJwtException;
+import lombok.extern.slf4j.Slf4j;
 import main012.server.exception.BusinessLoginException;
-import main012.server.gym.response.ErrorResponse;
+import main012.server.exception.ErrorResponse;
+import main012.server.exception.ErrorResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.validation.ConstraintViolationException;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -33,16 +37,28 @@ public class GlobalExceptionAdvice {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleResourceNotFoundException(RuntimeException e){
+    public ErrorResponse handleResourceNotFoundException(RuntimeException e) {
         System.out.println(e.getMessage());
         return null;
     }
 
     @ExceptionHandler
-    public ResponseEntity handleBusinessLogicException(BusinessLoginException e){
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity handleBusinessLogicException(BusinessLoginException e) {
         System.out.println(e.getExceptionCode().getStatus());
         System.out.println(e.getMessage());
 
         return new ResponseEntity<>(HttpStatus.valueOf(e.getExceptionCode().getStatus()));
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity handleExpiredJwtException(ExpiredJwtException e) {
+        log.debug(e.getMessage());
+        log.debug("## AccessToken expiration");
+
+        ErrorResponseDto response = new ErrorResponseDto(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
+
+        return new ResponseEntity(response,HttpStatus.UNAUTHORIZED);
     }
 }

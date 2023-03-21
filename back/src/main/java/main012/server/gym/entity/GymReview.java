@@ -3,9 +3,8 @@ package main012.server.gym.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import main012.server.common.Auditable;
+import main012.server.common.audit.Auditable;
 import main012.server.user.entity.Member;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 

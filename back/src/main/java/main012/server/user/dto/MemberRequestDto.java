@@ -2,12 +2,14 @@ package main012.server.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-public class MemberDto {
+public class MemberRequestDto {
 
     @Getter
     @AllArgsConstructor
-    public static class MemberSignUp {
+    @NoArgsConstructor
+    public static class SignUpMember {
         private String email;
         private String displayName;
         private String password;
@@ -15,13 +17,13 @@ public class MemberDto {
 
     @Getter
     @AllArgsConstructor
-    public static class OwnerSignUp {
+    @NoArgsConstructor
+    public static class SignUpOwner {
         private String email;
         private String displayName;
         private String password;
         private String businessNumber;
     }
-
 
 
 }

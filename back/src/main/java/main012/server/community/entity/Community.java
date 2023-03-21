@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import main012.server.common.Auditable;
+import main012.server.common.audit.Auditable;
 import main012.server.image.entity.CommunityImage;
 import main012.server.user.entity.Member;
 

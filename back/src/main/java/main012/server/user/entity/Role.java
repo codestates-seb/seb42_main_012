@@ -6,10 +6,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,4 +18,13 @@ public class Role {
 
     @Column(length = 20, nullable = false)
     private String name;
+
+    public Role(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }
