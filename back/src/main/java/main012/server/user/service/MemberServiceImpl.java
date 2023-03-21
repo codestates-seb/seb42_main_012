@@ -1,11 +1,15 @@
 package main012.server.user.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
+import main012.server.image.entity.Image;
 import main012.server.user.dto.MemberRequestDto;
+import main012.server.user.dto.MemberResponseDto;
 import main012.server.user.entity.Member;
 import main012.server.user.entity.Role;
+import main012.server.user.mapper.MemberMapper;
 import main012.server.user.repository.MemberRepository;
 import main012.server.user.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,11 +22,13 @@ import java.util.Optional;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MemberMapper memberMapper;
 
     @Value("${mail.address.admin}")
     private String adminMailAddress;
@@ -72,6 +78,69 @@ public class MemberServiceImpl implements MemberService {
         member.addRole(role);
     }
 
+    /**
+     * 마이페이지 메인 조회
+     */
+    @Override
+    public MemberResponseDto.MainPage findMainInfo(Long memberId) {
+        Member findMember = findVerifyMember(memberId);
+
+        String profileImageUrl;
+        if (findMember.getImage() != null) {
+            profileImageUrl = findMember.getImage().getImagePath();
+        } else {
+            profileImageUrl = null;
+        }
+
+        MemberResponseDto.MainPage response = memberMapper.memberToMainPageDto(findMember, profileImageUrl);
+
+        return response;
+    }
+
+    /**
+     * 마이페이지 내가 쓴 글 조회
+     */
+
+
+    /**
+     * 비밀번호 수정
+     */
+    @Override
+    public void updatePassword(Long memberId, MemberRequestDto.ModifyPassword request) {
+        Member findMember = findVerifyMember(memberId);
+        log.info("## origin request password: {}", request.getOriginPassword());
+
+        String encryptedNewPassword = passwordEncoder.encode(request.getNewPassword());
+
+        log.info("## original Password : {}", findMember.getPassword());
+        log.info("## New Password: {}", encryptedNewPassword);
+
+        if (passwordEncoder.matches(request.getOriginPassword(), findMember.getPassword())) {
+            findMember.setPassword(encryptedNewPassword);
+        } else {
+            throw new BusinessLoginException(ExceptionCode.WRONG_PASSWORD);
+        }
+    }
+
+    /**
+     * 프로필 수정
+     */
+    @Override
+    public MemberResponseDto.Profile updateProfile(Long memberId, MemberRequestDto.ModifyProfile request, Image image) {
+        Member findMember = findVerifyMember(memberId);
+        if (request.getDisplayName() != null) {
+            findMember.setDisplayName(request.getDisplayName());
+        }
+        if (image != null) {
+            findMember.setImage(image);
+        }
+
+        log.info("## profileImageUrl : {}", findMember.getImage().getImagePath());
+
+        MemberResponseDto.Profile response = memberMapper.memberToProfileDto(findMember);
+
+        return response;
+    }
 
     /**
      * 존재하는 이메일인지 확인
