@@ -33,6 +33,11 @@ public class GymService {
         return gymRepository.save(gym);
     }
 
+//    public List<Gym> bookmarks(long memberId) {
+//        gymRepository.findByMemberMemberId(memberId);
+//
+//    }
+
 
     public Gym updateGym(Gym gym) {
         // 존재하는 헬스장인지 검증
