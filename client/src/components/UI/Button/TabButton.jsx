@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-function TabButton({ text, nav }) {
+function TabButton({ tabName, nav }) {
   const navigate = useNavigate();
   const buttonHandler = () => {
     navigate(nav);
@@ -12,7 +12,7 @@ function TabButton({ text, nav }) {
         className="border border-[var(--second)] w-24 rounded-full flex justify-center mr-2 text-[var(--second)]"
         onClick={buttonHandler}
       >
-        {text}
+        {tabName}
       </button>
     </li>
   );

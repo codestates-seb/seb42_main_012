@@ -48,18 +48,21 @@ export const comments = {
       commentId: 1,
       memberId: 1,
       comment: '감사합니다 좋은 정보 알아가네요 호호',
+      createdAt: '30분전',
     },
     {
       boardId: 2,
       commentId: 1,
       memberId: 1,
       comment: '퍼가요 ^&^',
+      createdAt: '30분전',
     },
     {
       boardId: 3,
       commentId: 1,
       memberId: 2,
       comment: '안녕하세요 오늘도 득근 하세요!',
+      createdAt: '1시간전',
     },
     {
       boardId: 4,
@@ -67,6 +70,7 @@ export const comments = {
       memberId: 2,
       comment:
         '바른 자세는 척추가 정상적인 곡선을 이루고 있고 하반신의 골격이 체중을 유지할 수 있는 이상적인 정렬상태를 말한다. 중립자세에 있는 골반은 복부와 몸통, 그리고 그 아래에 놓인 하지가 올바른 정렬이 되도록 돕고 가슴과 등 상부는 호흡기가 활동하기 좋은 상태를 만들어 준다. 또한 머리는 균형이 잘 잡힌 상태에서 목 근육의 스트레스를 최소화시킨다. ',
+      createdAt: '1시간전',
     },
     {
       boardId: 5,
@@ -74,24 +78,28 @@ export const comments = {
       memberId: 3,
       comment:
         '바르지 못한 목의 자세는 목이 앞으로 빠져나와 있고 등은 굽어 있는 상태이다. 이런 자세가 오래 지속되게 되면 목뒤 근육이 비대해져 낙타등과 같이 불룩해진다. ',
+      createdAt: '1시간전',
     },
     {
       boardId: 6,
       commentId: 1,
       memberId: 3,
       comment: '감사합니다 좋은 정보 알아가네요 호호',
+      createdAt: '2시간전',
     },
     {
       boardId: 7,
       commentId: 1,
       memberId: 4,
       comment: '퍼가요 ^&^',
+      createdAt: '2시간전',
     },
     {
       boardId: 8,
       commentId: 1,
       memberId: 4,
       comment: '안녕하세요 오늘도 득근 하세요!',
+      createdAt: '2시간전',
     },
     {
       boardId: 9,
@@ -99,6 +107,7 @@ export const comments = {
       memberId: 5,
       comment:
         '바른 자세는 척추가 정상적인 곡선을 이루고 있고 하반신의 골격이 체중을 유지할 수 있는 이상적인 정렬상태를 말한다. 중립자세에 있는 골반은 복부와 몸통, 그리고 그 아래에 놓인 하지가 올바른 정렬이 되도록 돕고 가슴과 등 상부는 호흡기가 활동하기 좋은 상태를 만들어 준다. 또한 머리는 균형이 잘 잡힌 상태에서 목 근육의 스트레스를 최소화시킨다. ',
+      createdAt: '3시간전',
     },
     {
       boardId: 10,
@@ -106,6 +115,7 @@ export const comments = {
       memberId: 5,
       comment:
         '바르지 못한 목의 자세는 목이 앞으로 빠져나와 있고 등은 굽어 있는 상태이다. 이런 자세가 오래 지속되게 되면 목뒤 근육이 비대해져 낙타등과 같이 불룩해진다. ',
+      createdAt: '3시간전',
     },
   ],
 };
@@ -114,6 +124,7 @@ export const board = {
   data: [
     {
       boardId: 1,
+      memberId: 1,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: 'dotori',
@@ -128,6 +139,7 @@ export const board = {
     },
     {
       boardId: 2,
+      memberId: 1,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '냥냥이',
@@ -142,6 +154,7 @@ export const board = {
     },
     {
       boardId: 3,
+      memberId: 2,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '갱얼즤2',
@@ -156,6 +169,7 @@ export const board = {
     },
     {
       boardId: 4,
+      memberId: 2,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '도토리',
@@ -170,6 +184,7 @@ export const board = {
     },
     {
       boardId: 5,
+      memberId: 3,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '도토리',
@@ -184,6 +199,7 @@ export const board = {
     },
     {
       boardId: 6,
+      memberId: 3,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '도토리',
@@ -198,6 +214,7 @@ export const board = {
     },
     {
       boardId: 7,
+      memberId: 4,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '도토리',
@@ -212,6 +229,7 @@ export const board = {
     },
     {
       boardId: 8,
+      memberId: 4,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '도토리',
@@ -226,6 +244,7 @@ export const board = {
     },
     {
       boardId: 9,
+      memberId: 5,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '도토리',
@@ -240,6 +259,7 @@ export const board = {
     },
     {
       boardId: 10,
+      memberId: 5,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '도토리',
@@ -254,6 +274,7 @@ export const board = {
     },
     {
       boardId: 11,
+      memberId: 1,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -268,6 +289,7 @@ export const board = {
     },
     {
       boardId: 12,
+      memberId: 1,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -282,6 +304,7 @@ export const board = {
     },
     {
       boardId: 13,
+      memberId: 2,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -296,6 +319,7 @@ export const board = {
     },
     {
       boardId: 14,
+      memberId: 2,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -310,6 +334,7 @@ export const board = {
     },
     {
       boardId: 15,
+      memberId: 3,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -324,6 +349,7 @@ export const board = {
     },
     {
       boardId: 16,
+      memberId: 3,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -338,6 +364,7 @@ export const board = {
     },
     {
       boardId: 17,
+      memberId: 4,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -352,6 +379,7 @@ export const board = {
     },
     {
       boardId: 18,
+      memberId: 4,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -366,6 +394,7 @@ export const board = {
     },
     {
       boardId: 19,
+      memberId: 5,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -380,6 +409,7 @@ export const board = {
     },
     {
       boardId: 20,
+      memberId: 5,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -394,6 +424,7 @@ export const board = {
     },
     {
       boardId: 21,
+      memberId: 1,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -408,6 +439,7 @@ export const board = {
     },
     {
       boardId: 22,
+      memberId: 2,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -422,6 +454,7 @@ export const board = {
     },
     {
       boardId: 23,
+      memberId: 3,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -436,6 +469,7 @@ export const board = {
     },
     {
       boardId: 24,
+      memberId: 4,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -450,6 +484,7 @@ export const board = {
     },
     {
       boardId: 25,
+      memberId: 5,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -464,6 +499,7 @@ export const board = {
     },
     {
       boardId: 26,
+      memberId: 1,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -478,6 +514,7 @@ export const board = {
     },
     {
       boardId: 27,
+      memberId: 2,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -492,6 +529,7 @@ export const board = {
     },
     {
       boardId: 28,
+      memberId: 3,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -506,6 +544,7 @@ export const board = {
     },
     {
       boardId: 29,
+      memberId: 4,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -520,6 +559,7 @@ export const board = {
     },
     {
       boardId: 30,
+      memberId: 5,
       profileImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       displayName: '더미',
@@ -539,6 +579,7 @@ export const reviews = {
   data: {
     contents: [
       {
+        memberId: 1,
         reviewId: 1,
         gymId: 1,
         displayName: '도토리',
@@ -548,6 +589,7 @@ export const reviews = {
         createdAt: '2023-01-01',
       },
       {
+        memberId: 1,
         reviewId: 2,
         gymId: 1,
         displayName: '양갱이',
@@ -556,6 +598,7 @@ export const reviews = {
         createdAt: '2023-01-01',
       },
       {
+        memberId: 2,
         reviewId: 3,
         gymId: 1,
         displayName: '김자반',
@@ -564,6 +607,7 @@ export const reviews = {
         createdAt: '2023-01-01',
       },
       {
+        memberId: 2,
         reviewId: 4,
         gymId: 1,
         displayName: '김코딩',
@@ -572,6 +616,7 @@ export const reviews = {
         createdAt: '2023-01-01',
       },
       {
+        memberId: 3,
         reviewId: 5,
         gymId: 1,
         displayName: '박해커',
@@ -580,6 +625,7 @@ export const reviews = {
         createdAt: '2023-01-01',
       },
       {
+        memberId: 3,
         reviewId: 6,
         gymId: 2,
         displayName: '간장공장공장장',
@@ -588,6 +634,7 @@ export const reviews = {
         createdAt: '2023-01-01',
       },
       {
+        memberId: 4,
         reviewId: 7,
         gymId: 2,
         displayName: '퇴사하고싶다',
@@ -596,6 +643,7 @@ export const reviews = {
         createdAt: '2023-01-01',
       },
       {
+        memberId: 4,
         reviewId: 8,
         gymId: 2,
         displayName: '잼민이',
@@ -604,6 +652,7 @@ export const reviews = {
         createdAt: '2023-01-01',
       },
       {
+        memberId: 5,
         reviewId: 9,
         gymId: 2,
         displayName: '학생1',
@@ -612,6 +661,7 @@ export const reviews = {
         createdAt: '2023-01-01',
       },
       {
+        memberId: 5,
         reviewId: 10,
         gymId: 3,
         displayName: '학생2',
@@ -620,6 +670,7 @@ export const reviews = {
         createdAt: '2023-01-01',
       },
       {
+        memberId: 1,
         reviewId: 11,
         gymId: 3,
         displayName: '학생2',
@@ -628,6 +679,7 @@ export const reviews = {
         createdAt: '2023-01-01',
       },
       {
+        memberId: 2,
         reviewId: 12,
         gymId: 3,
         displayName: '학생2',
@@ -636,6 +688,7 @@ export const reviews = {
         createdAt: '2023-01-01',
       },
       {
+        memberId: 3,
         reviewId: 13,
         gymId: 3,
         displayName: '학생2',
@@ -644,6 +697,7 @@ export const reviews = {
         createdAt: '2023-01-01',
       },
       {
+        memberId: 4,
         reviewId: 14,
         gymId: 3,
         displayName: '학생2',
@@ -652,6 +706,7 @@ export const reviews = {
         createdAt: '2023-01-01',
       },
       {
+        memberId: 5,
         reviewId: 15,
         gymId: 3,
         displayName: '학생2',
@@ -669,6 +724,7 @@ export const gyms = {
   data: {
     contents: [
       {
+        memberId: 1,
         gymId: 1,
         createdAt: '2022-1-17',
         gymName: '바디바디',
@@ -700,6 +756,7 @@ export const gyms = {
         ],
       },
       {
+        memberId: 1,
         gymId: 2,
         createdAt: '2022-2-17',
         gymName: '에이블짐',
@@ -731,6 +788,7 @@ export const gyms = {
         ],
       },
       {
+        memberId: 1,
         gymId: 3,
         createdAt: '2022-3-17',
         gymName: '버니짐',
@@ -754,6 +812,7 @@ export const gyms = {
         ],
       },
       {
+        memberId: 2,
         gymId: 4,
         createdAt: '2022-4-17',
         gymName: '당근짐',
@@ -777,6 +836,7 @@ export const gyms = {
         ],
       },
       {
+        memberId: 2,
         gymId: 5,
         createdAt: '2022-5-17',
         gymName: 'AB휘트니스',
@@ -805,6 +865,7 @@ export const gyms = {
         ],
       },
       {
+        memberId: 2,
         gymId: 6,
         createdAt: '2022-6-17',
         gymName: 'AK휘트니스',
@@ -836,6 +897,7 @@ export const gyms = {
         ],
       },
       {
+        memberId: 3,
         gymId: 7,
         createdAt: '2022-7-17',
         gymName: '일스퀘어 휘트니스',
@@ -867,6 +929,7 @@ export const gyms = {
         ],
       },
       {
+        memberId: 3,
         gymId: 8,
         createdAt: '2022-8-17',
         gymName: '오이휘트니스',
@@ -898,6 +961,7 @@ export const gyms = {
         ],
       },
       {
+        memberId: 4,
         gymId: 9,
         createdAt: '2022-9-17',
         gymName: '당근휘트니스',
@@ -929,6 +993,7 @@ export const gyms = {
         ],
       },
       {
+        memberId: 4,
         gymId: 10,
         createdAt: '2022-10-17',
         gymName: '방망이 휘트니스',
