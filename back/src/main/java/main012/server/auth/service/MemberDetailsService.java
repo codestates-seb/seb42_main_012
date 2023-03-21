@@ -2,6 +2,8 @@ package main012.server.auth.service;
 
 import lombok.RequiredArgsConstructor;
 import main012.server.auth.utils.CustomAuthorityUtils;
+import main012.server.exception.BusinessLoginException;
+import main012.server.exception.ExceptionCode;
 import main012.server.user.entity.Member;
 import main012.server.user.repository.MemberRepository;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,7 +25,7 @@ public class MemberDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Member> optionalMember = memberRepository.findByEmail(username);
-        Member findMember = optionalMember.orElseThrow(() -> new RuntimeException("유효하지 않은 회원입니다."));// -> 비즈니스 이셉션 처리
+        Member findMember = optionalMember.orElseThrow(() -> new BusinessLoginException(ExceptionCode.LOGIN_FAILED));
 
         return new MemberDetails(findMember);
     }
