@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import main012.server.community.entity.Community;
 import main012.server.community.repository.CommunityRepository;
 import main012.server.community.repository.TabRepository;
+import main012.server.exception.BusinessLoginException;
+import main012.server.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +27,7 @@ public class CommunityService {
     }
 
     // 커뮤니티 게시글 수정
-    public Community updateCommunity (Community community) {
+    public void updateCommunity (Community community) {
 
         // 게시글이 존재하는지 확인
         Community existCommunity = findExistCommunity(community.getCommunityId());
@@ -42,8 +44,6 @@ public class CommunityService {
 //        Optional.ofNullable(community.getTab().getTabId())
 //                        .ifPresent(tabId -> existCommunity.getTab().setTabId(tabId));
 
-        Community response = communityRepository.save(existCommunity);
-        return response;
     }
 
     // 커뮤니티 게시글 삭제
@@ -75,12 +75,10 @@ public class CommunityService {
     public Community findExistCommunity(Long communityId) {
         Optional<Community> optionalCommunity = communityRepository.findById(communityId);
         Community response = optionalCommunity.orElseThrow(
-                () -> new RuntimeException("존재하지 않는 게시글") // 수정필요
+                () -> new BusinessLoginException(ExceptionCode.COMMUNITY_NOT_FOUND)
         );
         return response;
     }
-
-
 
 
 }

@@ -46,8 +46,7 @@ public class CommunityController {
                                          @PathVariable("community_id") Long communityId) {
 
         patchRequest.setCommunityId(communityId);
-        Community response = communityService.updateCommunity(mapper.communityPatchDtoToCommunity(patchRequest));
-        mapper.communityToToResponse(response);
+        communityService.updateCommunity(mapper.communityPatchDtoToCommunity(patchRequest));
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
