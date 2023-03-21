@@ -2,7 +2,7 @@ import { TbCurrencyWon } from 'react-icons/tb';
 import GymDetailTitle from '../Detail/DetailTitle';
 import GymPriceTableContainer from './PriceTableContainer';
 
-function GymPrice() {
+function GymPrice({ detailPrices }) {
   return (
     <div>
       <GymDetailTitle titleText="상세가격">
@@ -10,7 +10,7 @@ function GymPrice() {
           <TbCurrencyWon />
         </div>
       </GymDetailTitle>
-      <GymPriceTableContainer />
+      <GymPriceTableContainer detailPrices={detailPrices} />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function GymPostTag({ text }) {
+function GymPostTag({ text, register, registerName, id }) {
   const [buttonOn, setButtonOn] = useState(false);
 
   const buttonHandler = () => {
@@ -8,25 +8,27 @@ function GymPostTag({ text }) {
   };
 
   return (
-    <li>
-      {buttonOn ? (
-        <div className="flex items-center justify-center px-3 py-4 mr-2 rounded-md h-7 bg-[var(--main)]">
-          <button onClick={buttonHandler} type="button" className="text-sm">
-            {text}
-          </button>
+    <>
+      <input
+        type="checkbox"
+        id={id}
+        {...register(registerName)}
+        value={text}
+        className="hidden"
+        onClick={buttonHandler}
+      />
+      <label htmlFor={id}>
+        <div
+          className={
+            buttonOn
+              ? 'flex items-center justify-center px-3 py-4 mr-2 rounded-md h-7 bg-[var(--main)] text-sm'
+              : 'flex items-center justify-center px-3 py-4 mr-2 rounded-md h-7 bg-[var(--second-bg)] text-sm text-[var(--second)]'
+          }
+        >
+          {text}
         </div>
-      ) : (
-        <div className="flex items-center justify-center px-3 py-4 mr-2 rounded-md h-7 bg-[var(--second-bg)]">
-          <button
-            onClick={buttonHandler}
-            type="button"
-            className="text-sm text-[var(--second)]"
-          >
-            {text}
-          </button>
-        </div>
-      )}
-    </li>
+      </label>
+    </>
   );
 }
 

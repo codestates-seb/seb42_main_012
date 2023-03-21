@@ -1,12 +1,32 @@
 import GymPostTag from '../../UI/Gym/GymPostTag';
 
-function GymPostFacilitiesTagList() {
+function GymPostFacilitiesTagList({ register }) {
   return (
     <ul className="flex items-center w-full">
-      <GymPostTag text="샤워실" />
-      <GymPostTag text="락커룸" />
-      <GymPostTag text="주차장" />
-      <GymPostTag text="운동복 대여" />
+      <GymPostTag
+        text="샤워실"
+        register={register}
+        registerName="shower"
+        id="check1"
+      />
+      <GymPostTag
+        text="락커룸"
+        register={register}
+        registerName="locker"
+        id="check2"
+      />
+      <GymPostTag
+        text="주차장"
+        register={register}
+        registerName="parking"
+        id="check3"
+      />
+      <GymPostTag
+        text="운동복 대여"
+        register={register}
+        registerName="sportsWear"
+        id="check4"
+      />
     </ul>
   );
 }

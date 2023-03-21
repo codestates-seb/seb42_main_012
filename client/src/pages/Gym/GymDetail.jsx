@@ -15,7 +15,7 @@ function GymDetailPage() {
         <div key={gym.gymId}>
           <GymDetailHeader
             gymName={gym.gymName}
-            gymBookmarkCnt={gym.gymBookmarkCnt}
+            BookmarkCnt={gym.gymBookmarkCnt}
           />
           <GymDetailMainImg gymImage={gym.gymImage} />
           <GymDetailList gym={gym} />

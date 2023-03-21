@@ -2,7 +2,7 @@ import { BiTimeFive } from 'react-icons/bi';
 import GymDetailTitle from '../Detail/DetailTitle';
 import GymHoursContainer from './HoursContainer';
 
-function GymHours() {
+function GymHours({ businessHours }) {
   return (
     <div className="flex flex-col mt-4">
       <GymDetailTitle titleText="운영시간">
@@ -10,7 +10,7 @@ function GymHours() {
           <BiTimeFive />
         </div>
       </GymDetailTitle>
-      <GymHoursContainer />
+      <GymHoursContainer businessHours={businessHours} />
     </div>
   );
 }

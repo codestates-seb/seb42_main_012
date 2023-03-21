@@ -9,10 +9,10 @@ function GymDetailList({ gym }) {
   return (
     <div className="mb-32">
       <GymFacilities facilities={gym.facilities} />
-      <GymPrice />
-      <GymHours />
+      <GymPrice detailPrices={gym.detailPrices} />
+      <GymHours businessHours={gym.businessHours} />
       <GymMap />
-      <GymPhoneNumber />
+      <GymPhoneNumber phoneNumber={gym.phoneNumber} />
       <GymReviews />
     </div>
   );
