@@ -4,6 +4,7 @@ import BackButton from '../../UI/Button/BackButton';
 import PostButton from '../../UI/Button/PostButton';
 import AlertButton from '../../UI/Button/AlertButton';
 import MoreButton from '../../UI/Button/MoreButton';
+import LogoutButton from '../../UI/Button/LogoutButton';
 
 function Header() {
   const param = useParams();
@@ -38,7 +39,7 @@ function Header() {
           <PostButton nav="/board/boardpost" />
         </header>
       );
-    case '/board/:id':
+    case `/board/${param.id}`:
       return (
         <header className={defaultClass}>
           <BackButton />
@@ -74,7 +75,10 @@ function Header() {
         <header className={defaultClass}>
           <BackButton />
           <HeaderTitle titleText="MY" />
-          <AlertButton />
+          <div>
+            <LogoutButton />
+            <AlertButton />
+          </div>
         </header>
       );
     case '/my/info/password':

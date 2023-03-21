@@ -1,15 +1,54 @@
+import { useRef, useState } from 'react';
+import { BiImageAdd } from 'react-icons/bi';
 import ProfileImg from '../UI/ProfileImg/ProfileImg';
-import EditButton from '../UI/Button/EditButton';
 import DisplayName from '../UI/DisplayName/DisplayName';
+import EditButton from '../UI/Button/EditButton';
 
 function Profile() {
-  const imageUrl =
-    'https://images.unsplash.com/photo-1497752531616-c3afd9760a11?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2370&q=80';
+  const [image, setImage] = useState(
+    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+  );
+  const fileInput = useRef(null);
+
+  const imageHandler = e => {
+    if (e.target.files[0]) {
+      setImage(e.target.files[0]);
+    } else {
+      setImage(
+        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+      );
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setImage(reader.result);
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
+    console.log(e.target.files[0]);
+  };
 
   return (
     <div className="flex items-center">
-      <ProfileImg page="my" src={imageUrl} alt="profile" />
-      <DisplayName />
+      <div className="relative">
+        <ProfileImg page="my" src={image} alt="profile" />
+        <BiImageAdd
+          className="absolute bottom-0 right-0 p-2 text-4xl bg-white rounded-full text-[var(--second)]"
+          onClick={() => fileInput.current.click()}
+        />
+        <input
+          className="hidden"
+          type="file"
+          name="profile"
+          accept="image/jpg,impge/png,image/jpeg"
+          ref={fileInput}
+          onChange={imageHandler}
+        />
+      </div>
+      <DisplayName displayNames="" />
+      <input type="text" name="displayName" />
       <EditButton />
     </div>
   );

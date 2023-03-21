@@ -8,11 +8,15 @@ function MyPageList() {
         <MyPageButton to="/my/comments" text="내가 쓴 댓글" count="40" />
         <MyPageButton to="/my/reviews" text="내가 쓴 리뷰" count="5" />
         <MyPageButton
-          to="/my/bookmarks/board"
+          to="/my/bookmarks/gyms"
           text="헬스장 찜 목록"
           count="10"
         />
-        <MyPageButton to="/my/bookmarks/gyms" text="게시글 찜 목록" count="0" />
+        <MyPageButton
+          to="/my/bookmarks/board"
+          text="게시글 찜 목록"
+          count="0"
+        />
       </ul>
     </>
   );

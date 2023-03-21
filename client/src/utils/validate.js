@@ -30,6 +30,14 @@ const validate = {
     },
   },
   tag: {
+    required: '태그를 선택해주세요',
+    pattern: {
+      value: /^[a-z\s\d-]{2,}$/i,
+      message:
+        "태그 이름은 영소문자 10자 이하여야 합니다. (특수문자는 '-'만 허용)",
+    },
+  },
+  title: {
     required: '태그를 입력해주세요',
     pattern: {
       value: /^[a-z\s\d-]{2,}$/i,
