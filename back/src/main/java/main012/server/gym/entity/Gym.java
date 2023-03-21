@@ -1,10 +1,7 @@
 package main012.server.gym.entity;
 
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import main012.server.common.Auditable;
 import main012.server.image.entity.GymImage;
 import main012.server.user.entity.Member;
@@ -17,25 +14,29 @@ import java.util.List;
 @Setter
 @Entity
 @NoArgsConstructor
-
-public class Gym extends Auditable{
-
+@AllArgsConstructor
+public class Gym extends Auditable {
     @Id
     @Column(name = "gym_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long gymId;
-    @Column(nullable = false, updatable = false,unique = true) // 헬스장 이름은 unique
+    @Column(length = 100, nullable = false, updatable = false,unique = true) // 헬스장 이름은 unique
     private String gymName;
+    @Column(length = 100, nullable = false)
     private String address;
+    @Column(length = 15,nullable = false)
     private String phoneNumber;
+
+    @Column(length = 100, nullable = false)
     private String businessHours;
+    @Column(length = 30, nullable = false)
     private double latitude;
+    @Column(length = 30, nullable = false)
     private double longitude;
 
     public Gym(String gymName) {
         this.gymName = gymName;
     }
-
 
 
     // N : 1

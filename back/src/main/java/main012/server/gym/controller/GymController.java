@@ -38,8 +38,9 @@ public class GymController {
     @PostMapping
     public ResponseEntity postGym(@Valid @RequestBody GymPostDto gymPostDto) {
         Gym gym = mapper.gymPostDtoToGym(gymPostDto);
-        gymService.createGym(gym);
-        return new ResponseEntity(HttpStatus.CREATED);
+        Gym createGym = gymService.createGym(gym);
+        GymResponseDto response = mapper.gymToGymResponseDto(createGym);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
 
@@ -92,3 +93,4 @@ public class GymController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
+
