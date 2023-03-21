@@ -3,6 +3,7 @@ package main012.server.auth.resolver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import main012.server.auth.jwt.JwtTokenizer;
+import main012.server.exception.BusinessLoginException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+
+import static main012.server.exception.ExceptionCode.NO_TOKEN_IN_HEADER;
 
 @Slf4j
 @Component
@@ -35,7 +38,7 @@ public class MemberArgumentResolver implements HandlerMethodArgumentResolver {
         log.info("## Authorization Header: {}", authorizationHeader);
 
         if (authorizationHeader == null) {
-            throw new RuntimeException("Access Token이 존재하지 않습니다."); // 비즈니스 이셉션 필요
+            throw new BusinessLoginException(NO_TOKEN_IN_HEADER);
         }
 
         String token = authorizationHeader.substring(7);

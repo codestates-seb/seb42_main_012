@@ -1,6 +1,8 @@
 package main012.server.user.service;
 
 import lombok.RequiredArgsConstructor;
+import main012.server.exception.BusinessLoginException;
+import main012.server.exception.ExceptionCode;
 import main012.server.user.dto.MemberRequestDto;
 import main012.server.user.entity.Member;
 import main012.server.user.entity.Role;
@@ -78,7 +80,7 @@ public class MemberServiceImpl implements MemberService {
     public void verifyExistsEmail(String email) {
         Optional<Member> optionalMember = memberRepository.findByEmail(email);
         if (optionalMember.isPresent()) {
-            throw new RuntimeException("이미 존재하는 이메일입니다."); //  businessLogicException 넣기
+            throw new BusinessLoginException(ExceptionCode.EMAIL_ALREADY_EXISTS);
         }
     }
 
@@ -88,7 +90,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member findVerifyMember(Long memberId) {
         return memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다.")); // businessLogicException 넣기
+                .orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
 
