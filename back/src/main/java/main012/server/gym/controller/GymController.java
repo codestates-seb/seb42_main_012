@@ -1,20 +1,17 @@
 package main012.server.gym.controller;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import main012.server.dto.MultiResponseDto;
+import main012.server.common.dto.MultiResponseDto;
 import main012.server.gym.dto.GymPatchDto;
 import main012.server.gym.dto.GymPostDto;
-import main012.server.gym.dto.GymResponseDto;
 import main012.server.gym.entity.Gym;
 import main012.server.gym.mapper.GymMapper;
 import main012.server.gym.service.GymService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
 import javax.validation.constraints.Positive;
@@ -22,7 +19,7 @@ import java.util.List;
 
 
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/gyms")
 public class GymController {
@@ -34,7 +31,7 @@ public class GymController {
         this.mapper = mapper;
     }
 
-
+//    @RolesAllowed("ROLE_OWNER")
     @PostMapping
     public ResponseEntity postGym(@Valid @RequestBody GymPostDto gymPostDto) {
         Gym gym = mapper.gymPostDtoToGym(gymPostDto);
@@ -45,7 +42,7 @@ public class GymController {
 
     //     헬스장 정보 수정
     @PatchMapping("/{gym_id}")
-    public ResponseEntity patchGym(@PathVariable("gym_id") @Positive long gymId,
+    public ResponseEntity patchGym(@PathVariable("gym_id") @Positive Long gymId,
                                    @Valid @RequestBody GymPatchDto gymPatchDto) {
         gymPatchDto.setGymId(gymId);
 
@@ -58,7 +55,7 @@ public class GymController {
 
     // 헬스장 상세조회
     @GetMapping("/{gym_id}")
-    public ResponseEntity getGym(@PathVariable("gym_id") @Positive long gymId) {
+    public ResponseEntity getGym(@PathVariable("gym_id") @Positive Long gymId) {
 
         Gym response = gymService.findGym(gymId);
         {
@@ -84,7 +81,7 @@ public class GymController {
 
     //
     @DeleteMapping("/{gym_id}")
-    public ResponseEntity deleteGym(@PathVariable("gym_id") @Positive long gymId) {
+    public ResponseEntity deleteGym(@PathVariable("gym_id") @Positive Long gymId) {
         System.out.println("# deleted gymId: " + gymId);
         // No need business logic
         gymService.deleteGym(gymId);

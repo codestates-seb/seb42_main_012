@@ -1,7 +1,7 @@
 package main012.server.user.entity;
 
 import lombok.*;
-import main012.server.common.Auditable;
+import main012.server.common.audit.Auditable;
 import main012.server.community.entity.Community;
 import main012.server.community.entity.CommunityBookmark;
 import main012.server.community.entity.CommunityComment;

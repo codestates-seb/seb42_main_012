@@ -54,7 +54,7 @@ public class GymService {
     }
 
     // 상세 헬스장 조회
-    public Gym findGym(long gymId) {
+    public Gym findGym(Long gymId) {
         return findVerifiedGym(gymId);
     }
 
@@ -64,13 +64,13 @@ public class GymService {
         return gymRepository.findAll(PageRequest.of(page,size, Sort.by("gymId").descending()));
     }
     // 특정 헬스장 삭제
-    public void deleteGym(long gymId){
+    public void deleteGym(Long gymId){
         Gym findGym = findVerifiedGym(gymId);
         gymRepository.delete(findGym);
 
     }
     // 이미 존재하는 헬스장인지 검증
-    public Gym findVerifiedGym(long gymId) {
+    public Gym findVerifiedGym(Long gymId) {
         Optional<Gym> optionalGym =
                 gymRepository.findById(gymId);
         Gym findGym =
