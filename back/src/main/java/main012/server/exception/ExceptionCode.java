@@ -15,6 +15,8 @@ public enum ExceptionCode {
     MEMBER_NOT_FOUND(5004,"유효하지 않은 회원입니다."),
     EMAIL_ALREADY_EXISTS(5005, "이미 존재하는 이메일 입니다."),
     WRONG_PASSWORD(5006, "잘못된 비밀번호 입니다."),
+    QUITED_MEMBER(5007, "탈퇴한 회원입니다."),
+    DISAGREE_QUITTING(5008, "탈퇴 동의를 하지 않았습니다."),
 
     COMMUNITY_NOT_FOUND(404, "존재하지 않는 게시글 입니다."),
     COMMENT_NOT_FOUND(404, "존재하지 않는 댓글입니다.")

@@ -9,6 +9,7 @@ import main012.server.user.dto.MemberRequestDto;
 import main012.server.user.dto.MemberResponseDto;
 import main012.server.user.entity.Member;
 import main012.server.user.entity.Role;
+import main012.server.user.enums.MemberStatus;
 import main012.server.user.mapper.MemberMapper;
 import main012.server.user.repository.MemberRepository;
 import main012.server.user.repository.RoleRepository;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -143,6 +145,45 @@ public class MemberServiceImpl implements MemberService {
     }
 
     /**
+     * 회원 탈퇴
+     */
+    @Override
+    public void quitMember(Long memberId, MemberRequestDto.Quit request ) {
+        Member findMember = findVerifyMember(memberId);
+        log.info("## deleteMember: {}", findMember.getEmail());
+
+        // 탈퇴 동의 확인
+        if (!request.getIsAgreed()){
+            throw new BusinessLoginException(ExceptionCode.DISAGREE_QUITTING);
+        }
+
+        // 비밀번호 확인
+        if (!passwordEncoder.matches(request.getPassword(), findMember.getPassword())) {
+            throw new BusinessLoginException(ExceptionCode.WRONG_PASSWORD);
+        }
+
+        // 탈퇴 상태로 변경
+        findMember.setMemberStatus(MemberStatus.MEMBER_DELETED);
+
+        // Community_Bookmark 의 Member null 로 set 해서 orphan = true 로 삭제
+        findMember.getCommunityBookmarks().stream()
+                .forEach(cb-> cb.setMember(null));
+
+        // Gym_Bookmark 의 Member null 로 set 해서 orphan = true 로 삭제
+        findMember.getGymBookmarks().stream()
+                .forEach(gb -> gb.setMember(null));
+
+        // Member가 Owner일 때, Gym 의 Member null 로 set 해서 orphan = true 로 삭제
+        Set<Role> roles = findMember.getRoles();
+        for (Role role : roles) {
+            if (role.getName().equals("OWNER")) {
+                findMember.getGyms().stream()
+                        .forEach(g -> g.setMember(null));
+            }
+        }
+    }
+
+    /**
      * 존재하는 이메일인지 확인
      */
     @Override
@@ -162,5 +203,13 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
-
+    /**
+     * 활동 회원인지 확인
+     */
+    @Override
+    public void isActiveMember(Member member) {
+        if (member.getMemberStatus().equals(MemberStatus.MEMBER_DELETED)) {
+            throw new BusinessLoginException(ExceptionCode.QUITED_MEMBER);
+        }
+    }
 }

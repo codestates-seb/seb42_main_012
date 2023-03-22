@@ -18,4 +18,8 @@ public interface MemberService {
 
     MemberResponseDto.Profile updateProfile(Long memberId, MemberRequestDto.ModifyProfile request, Image image);
 
+    void quitMember(Long memberId, MemberRequestDto.Quit request);
+
+    void isActiveMember(Member member);
+
 }

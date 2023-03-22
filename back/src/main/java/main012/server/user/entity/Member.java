@@ -42,7 +42,7 @@ public class Member extends Auditable {
     private String businessNumber;
 
     // N : N
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "member_role",
             joinColumns = @JoinColumn(name = "member_id"),
@@ -66,7 +66,7 @@ public class Member extends Auditable {
     private List<Community> communities = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommunityBookmark> communityBookmarks = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
@@ -74,11 +74,11 @@ public class Member extends Auditable {
     private List<CommunityComment> communityComments = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Gym> gyms = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GymBookmark> gymBookmarks = new ArrayList<>();
 
     @Setter(AccessLevel.NONE)
