@@ -156,7 +156,6 @@ public class MemberServiceImpl implements MemberService {
         if (!request.getIsAgreed()){
             throw new BusinessLoginException(ExceptionCode.DISAGREE_QUITTING);
         }
-
         // 비밀번호 확인
         if (!passwordEncoder.matches(request.getPassword(), findMember.getPassword())) {
             throw new BusinessLoginException(ExceptionCode.WRONG_PASSWORD);
@@ -165,20 +164,23 @@ public class MemberServiceImpl implements MemberService {
         // 탈퇴 상태로 변경
         findMember.setMemberStatus(MemberStatus.MEMBER_DELETED);
 
+        // image 삭제
+        findMember.setImage(null);
+
+        // member_role 삭제
+        findMember.getRoles().clear();
+
         // Community_Bookmark 의 Member null 로 set 해서 orphan = true 로 삭제
-        findMember.getCommunityBookmarks().stream()
-                .forEach(cb-> cb.setMember(null));
+        findMember.getCommunityBookmarks().clear();
 
         // Gym_Bookmark 의 Member null 로 set 해서 orphan = true 로 삭제
-        findMember.getGymBookmarks().stream()
-                .forEach(gb -> gb.setMember(null));
+        findMember.getGymBookmarks().clear();
 
         // Member가 Owner일 때, Gym 의 Member null 로 set 해서 orphan = true 로 삭제
         Set<Role> roles = findMember.getRoles();
         for (Role role : roles) {
             if (role.getName().equals("OWNER")) {
-                findMember.getGyms().stream()
-                        .forEach(g -> g.setMember(null));
+                findMember.getGyms().clear();
             }
         }
     }
@@ -203,13 +205,4 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
-    /**
-     * 활동 회원인지 확인
-     */
-    @Override
-    public void isActiveMember(Member member) {
-        if (member.getMemberStatus().equals(MemberStatus.MEMBER_DELETED)) {
-            throw new BusinessLoginException(ExceptionCode.QUITED_MEMBER);
-        }
-    }
 }

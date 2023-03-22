@@ -22,7 +22,11 @@ public class MemberAuthenticationFailureHandler implements AuthenticationFailure
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         log.error("# Authentication failed : {}", exception.getMessage());
 
-        ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED, ExceptionCode.LOGIN_FAILED);
+        if(exception.getMessage().equals(ExceptionCode.QUITED_MEMBER.getMessage())) {
+            ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED, ExceptionCode.QUITED_MEMBER);
+        } else{
+            ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED, ExceptionCode.LOGIN_FAILED);
+        }
     }
 
 

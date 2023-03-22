@@ -38,10 +38,10 @@ public class AuthController {
         return ResponseEntity.ok().headers(headers).build();
     }
 
-//    @PostMapping("/logout")
-//    public ResponseEntity logOut(@AuthMember Long memberId) {
-//        authService.logOutMember(memberId);
-//
-//        return new ResponseEntity(HttpStatus.OK);
-//    }
+    @PostMapping("/logout")
+    public ResponseEntity logOut(@AuthMember Long memberId) {
+        authService.logOutMember(memberId);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

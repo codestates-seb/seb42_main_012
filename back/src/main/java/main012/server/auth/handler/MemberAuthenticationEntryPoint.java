@@ -18,6 +18,7 @@ public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         Exception exception = (Exception) request.getAttribute("exception");
+
         if (exception == null) {
             ErrorResponder.sendErrorResponse(response,
                                             HttpStatus.UNAUTHORIZED,
@@ -25,10 +26,12 @@ public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint 
         }
 
         logExceptionMessage(authException, exception);
+
+        ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED, exception.getMessage());
     }
 
     private void logExceptionMessage(AuthenticationException authException, Exception exception) {
         String message = exception != null ? exception.getMessage() : authException.getMessage();
-        log.warn("Unauthorized error happend: {}", message);
+        log.warn("Unauthorized error happened: {}", message);
     }
 }
