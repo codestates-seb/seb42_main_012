@@ -80,5 +80,22 @@ public class CommunityService {
         return response;
     }
 
+    // 게시글 검색 기능
+    public List<Community> findByKeyword (String keyword) {
+        List<Community> foundCommunities = communityRepository.findByContentContaining(keyword);
+
+        return foundCommunities;
+    }
+
+    // 게시글 탭별 조회 기능
+    public List<Community> findTabCommunities (Long tabId) {
+
+        List<Community> response = communityRepository.findAllByTabTabId(tabId);
+
+        return response;
+    }
+
+
+
 
 }
