@@ -3,7 +3,7 @@ package main012.server.exception;
 import lombok.Getter;
 
 public enum ExceptionCode {
-    GYM_NOT_FOUND(404, "Gym Not Found"),
+    GYM_NOT_FOUND(404, "헬스장을 찾지 못했습니다."),
     GYM_EXISTS(409, "GYM exists"),
     GYMREVIEW_NOT_FOUND(404,"GymReview Not Found"),
 

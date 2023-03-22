@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class GymReview extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "gym_review_id")
     private Long id;
 
