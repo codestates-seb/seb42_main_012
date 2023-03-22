@@ -10,7 +10,10 @@ function BoardContentList({ to, classname, tabName, title, content }) {
         >
           <p>{title}</p>
           {content}
-          {tabName}
+          <br />
+          <div className="mt-4 p-1 w-24 text-[var(--main)] text-center border border-[var(--main)] rounded-lg">
+            {tabName}
+          </div>
         </li>
       </Link>
     </>

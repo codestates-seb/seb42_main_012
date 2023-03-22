@@ -1,14 +1,17 @@
 // import Comment from './Comment';
-// import CommentHeader from './CommentHeader';
-import CommentBody from './CommentBody';
+import CommentHeader from './CommentHeader';
+// import CommentBody from './CommentBody';
 // import { useParams } from 'react-router-dom';
 
-function CommentList({ comments }) {
+function CommentList({ comment }) {
   // import
   // const comments.filter((comment) => comment.commentId === )
 
   return (
     <ul className="mt-5">
+      <CommentHeader comment={comment} />
+      {comment.comment}
+      <div className="w-full border-[0.3px] border-[#d9d9d9] mt-3" />
       {/* {members.map(member => (
         <>
           <CommentHeader
@@ -17,7 +20,8 @@ function CommentList({ comments }) {
             displayName={member.displayName}
             profileImage={member.profileImage}
           /> */}
-      {comments.map(comment => (
+
+      {/* {comments.map(comment => (
         <>
           <CommentBody
             key={comment.commentId}
@@ -26,7 +30,7 @@ function CommentList({ comments }) {
           />
           <div className="w-full border-[0.3px] border-[#d9d9d9] mt-3" />
         </>
-      ))}
+      ))} */}
 
       {/* </> */}
       {/* ))} */}
