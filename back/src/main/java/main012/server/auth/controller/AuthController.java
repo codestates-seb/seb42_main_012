@@ -2,8 +2,10 @@ package main012.server.auth.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import main012.server.auth.resolver.AuthMember;
 import main012.server.auth.service.AuthService;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -35,4 +37,11 @@ public class AuthController {
 
         return ResponseEntity.ok().headers(headers).build();
     }
+
+//    @PostMapping("/logout")
+//    public ResponseEntity logOut(@AuthMember Long memberId) {
+//        authService.logOutMember(memberId);
+//
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
 }

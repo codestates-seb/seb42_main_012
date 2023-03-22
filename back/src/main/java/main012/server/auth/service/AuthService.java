@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -49,4 +50,14 @@ public class AuthService {
 
         return reIssuedAccessToken;
     }
+
+//    /**
+//     * 로그아웃
+//     */
+//    public void logOutMember(Long memberId) {
+//        Member findMember = memberRepository.findById(memberId)
+//                .orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
+//
+//        log.info("## LogOut Member: {}", findMember.getEmail());
+//    }
 }

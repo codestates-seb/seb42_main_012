@@ -97,15 +97,16 @@ public class MemberController {
         return new ResponseEntity(response, HttpStatus.OK);
     }
 
-    /**
-     * 회원 탈퇴
-     */
-    @DeleteMapping
-    public ResponseEntity deleteMember(@AuthMember Long memberId) {
-        memberService.removeMember(memberId);
-
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
-    }
+//    /**
+//     * 회원 탈퇴
+//     */
+//    @DeleteMapping
+//    public ResponseEntity deleteMember(@AuthMember Long memberId,
+//                                       @RequestBody MemberRequestDto.Quit request) {
+//        memberService.quitMember(memberId, request);
+//
+//        return new ResponseEntity(HttpStatus.NO_CONTENT);
+//    }
 
 
 //    @GetMapping("/test1")

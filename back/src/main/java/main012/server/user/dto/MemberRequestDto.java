@@ -55,6 +55,13 @@ public class MemberRequestDto {
         private String displayName;
     }
 
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Quit {
+        private Boolean isAgreed;
+        private String password;
+    }
 
 
 }

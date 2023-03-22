@@ -5,6 +5,7 @@ import main012.server.auth.utils.CustomAuthorityUtils;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
 import main012.server.user.entity.Member;
+import main012.server.user.enums.MemberStatus;
 import main012.server.user.repository.MemberRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,6 +28,10 @@ public class MemberDetailsService implements UserDetailsService {
         Optional<Member> optionalMember = memberRepository.findByEmail(username);
         Member findMember = optionalMember.orElseThrow(() -> new BusinessLoginException(ExceptionCode.LOGIN_FAILED));
 
+        if(findMember.getMemberStatus().equals(MemberStatus.MEMBER_DELETED)){
+            throw new BusinessLoginException(ExceptionCode.QUITED_MEMBER);
+        }
+
         return new MemberDetails(findMember);
     }
 
@@ -36,6 +41,7 @@ public class MemberDetailsService implements UserDetailsService {
             setEmail(member.getEmail());
             setPassword(member.getPassword());
             setRoles(member.getRoles());
+            setMemberStatus(member.getMemberStatus());
         }
 
         @Override
