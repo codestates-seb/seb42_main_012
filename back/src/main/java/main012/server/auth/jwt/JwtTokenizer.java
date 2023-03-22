@@ -100,7 +100,7 @@ public class JwtTokenizer {
     // int expirationMinutes -> Date 로 변환
     public Date getTokenExpirationDate(int expirationMinutes) {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MILLISECOND, expirationMinutes);
+        calendar.add(Calendar.SECOND, expirationMinutes);
         return calendar.getTime();
     }
 }

@@ -9,7 +9,6 @@ public class CommentDto {
     @Getter
     @Setter
     public static class Post {
-        private Long memberId;
         private Long communityId;
         private String comment;
     }

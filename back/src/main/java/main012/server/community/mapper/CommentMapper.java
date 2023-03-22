@@ -11,11 +11,11 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
 
-    default CommunityComment commentPostDtoToComment(CommentDto.Post post){
+    default CommunityComment commentPostDtoToComment(CommentDto.Post post, Long memberId){
         CommunityComment comment = new CommunityComment();
 
         Member member = new Member();
-        member.setId(post.getMemberId());
+        member.setId(memberId);
 
         Community community = new Community();
         community.setCommunityId(post.getCommunityId());

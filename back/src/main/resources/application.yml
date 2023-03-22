@@ -6,12 +6,12 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: ${AWS_RDS_URL}
-#    username: ${AWS_RDS_USERNAME}
-#    password: ${AWS_RDS_PASSWORD}
-    url: jdbc:mysql://localhost:3306/main012_test?serverTimezone=Asia/Seoul
-    username: ${MYSQL_USERNAME}
-    password: ${MYSQL_PASSWORD}
+    url: ${AWS_RDS_URL}
+    username: ${AWS_RDS_USERNAME}
+    password: ${AWS_RDS_PASSWORD}
+#    url: jdbc:mysql://localhost:3306/main012?serverTimezone=Asia/Seoul
+#    username: ${MYSQL_USERNAME}
+#    password: ${MYSQL_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
@@ -46,10 +46,10 @@ cloud:
 jwt:
   key: ${JWT_SECRET_KEY}
   access:
-    expiration: 7200000 # 1000(ms) * 60(s) * 60(minute) * 2(hour) = 7200000
+    expiration: 7200 # 60(s) * 60(minute) * 2(hour) = 7200
     header: Authorization
   refresh:
-    expiration: 43200000 # 1000(ms) * 60(s) * 60(minute) * 12(hour)
+    expiration: 1209600 # 60(s) * 60(minute) * 24(hour) * 14(day) = 1209600
     header: Authorization-Refresh
 
 mail:

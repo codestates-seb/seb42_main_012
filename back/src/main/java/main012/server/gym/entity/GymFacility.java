@@ -1,15 +1,15 @@
 package main012.server.gym.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class GymFacility {
 
     @Id
@@ -23,5 +23,6 @@ public class GymFacility {
 
     @ManyToOne
     @JoinColumn(name = "facility_id")
-    private Facility facility;
+    private Facilities facilities;
+
 }

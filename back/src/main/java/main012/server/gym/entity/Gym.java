@@ -19,7 +19,7 @@ public class Gym extends Auditable {
     @Id
     @Column(name = "gym_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long gymId;
+    private Long id;
     @Column(length = 100, nullable = false, updatable = false,unique = true) // 헬스장 이름은 unique
     private String gymName;
     @Column(length = 100, nullable = false)
@@ -29,10 +29,6 @@ public class Gym extends Auditable {
 
     @Column(length = 100, nullable = false)
     private String businessHours;
-    @Column(length = 30, nullable = false)
-    private double latitude;
-    @Column(length = 30, nullable = false)
-    private double longitude;
 
     public Gym(String gymName) {
         this.gymName = gymName;

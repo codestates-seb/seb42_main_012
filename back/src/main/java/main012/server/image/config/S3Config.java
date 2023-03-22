@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class S3Config {
+    // 경로문제 확인할것 s3추가
     @Value("${cloud.aws.credentials.access-key}")
     private String accessKey;
 

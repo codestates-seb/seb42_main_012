@@ -9,7 +9,6 @@ public class CommunityDto {
     public static class Post {
         private String title;
         private String Content;
-        private Long memberId;
         private Long tabId;
     }
 
@@ -33,7 +32,7 @@ public class CommunityDto {
         private String tabName;
         private String title;
         private String content;
-//        private Long bookmarkCnt;
+        private long bookmarkCnt;
     }
 
 
