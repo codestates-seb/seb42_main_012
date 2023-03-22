@@ -11,13 +11,12 @@ import java.util.List;
 public interface CommunityMapper {
 
     // postDto -> entity
-    default Community communityPostDtoToCommunity (CommunityDto.Post post) {
+    default Community communityPostDtoToCommunity (CommunityDto.Post post, Long memberId) {
 
         Community community = new Community();
 
-
         Member member = new Member();
-        member.setId(post.getMemberId());
+        member.setId(memberId);
 
         community.setTitle(post.getTitle());
         community.setContent(post.getContent());
@@ -41,6 +40,7 @@ public interface CommunityMapper {
         responseCommunity.setTitle(community.getTitle());
         responseCommunity.setContent(community.getContent());
         responseCommunity.setTabName(community.getTab().getTabName());
+        responseCommunity.setBookmarkCnt(community.getCommunityBookmarks().size());
 
         return responseCommunity;
     };
