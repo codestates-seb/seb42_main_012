@@ -58,6 +58,8 @@ public class GymService {
 
         return gymRepository.findAll(pageable);
     }
+
+
     // 특정 헬스장 삭제
     public void deleteGym(long gymId){
         Gym findGym = findVerifiedGym(gymId);

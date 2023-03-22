@@ -9,6 +9,7 @@ import main012.server.gym.dto.GymResponseDto;
 import main012.server.gym.entity.Gym;
 import main012.server.gym.mapper.GymMapper;
 import main012.server.gym.service.GymService;
+import main012.server.user.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -91,6 +92,7 @@ public class GymController {
         List<GymResponseDto> response = mapper.gymsToGymResponseDtos(gyms);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
+
 
     //
     @DeleteMapping("/{gym_id}")
