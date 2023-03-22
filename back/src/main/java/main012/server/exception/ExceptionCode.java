@@ -5,6 +5,7 @@ import lombok.Getter;
 public enum ExceptionCode {
     GYM_NOT_FOUND(404, "Gym Not Found"),
     GYM_EXISTS(409, "GYM exists"),
+    GYMREVIEW_NOT_FOUND(404,"GymReview Not Found"),
 
     PARAMETER_NOT_VALID(3001, "유효하지 않은 요청값입니다."),
     REQUEST_NOT_SUPPORT(3002, "잘못된 요청입니다."),
