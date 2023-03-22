@@ -15,9 +15,6 @@ public class GymPostDto {
     private String phoneNumber;
     private String businessHours;
 
-    private Double latitude;
-
-    private Double longitude;
 
     public String getGymName() {
         return gymName;
@@ -44,22 +41,6 @@ public class GymPostDto {
     public String getBusinessHours(){return businessHours;}
     public void setBusinessHours(String businessHours){
         this.businessHours = businessHours;
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
     }
 
 

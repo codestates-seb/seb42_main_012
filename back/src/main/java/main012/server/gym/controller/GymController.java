@@ -36,8 +36,10 @@ public class GymController {
 
 
     @PostMapping
-    public ResponseEntity postGym(@Valid @RequestBody GymPostDto gymPostDto) {
-        Gym gym = mapper.gymPostDtoToGym(gymPostDto);
+    @RolesAllowed({"ROLE_OWNER"})
+    public ResponseEntity postGym(@Valid @RequestBody GymPostDto gymPostDto,
+                                  @AuthMember Long memberId) {
+        Gym gym = mapper.gymPostDtoToGym(gymPostDto,memberId);
         Gym createGym = gymService.createGym(gym);
         GymResponseDto response = mapper.gymToGymResponseDto(createGym);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -46,6 +48,8 @@ public class GymController {
 
     //     헬스장 정보 수정
     @PatchMapping("/{gym_id}")
+    @RolesAllowed({"ROLE_OWNER"})
+
     public ResponseEntity patchGym(@PathVariable("gym_id") @Positive Long id,
                                    @Valid @RequestBody GymPatchDto gymPatchDto) {
         gymPatchDto.setId(id);
@@ -58,8 +62,9 @@ public class GymController {
 
 
     // 헬스장 상세조회
-    @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     @GetMapping("/{gym_id}")
+    @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
+
     public ResponseEntity getGym(@PathVariable("gym_id") @Positive long gymId) {
 
         Gym response = gymService.findGym(gymId);
@@ -76,6 +81,7 @@ public class GymController {
 //        return this.gymService.get(cursorId, PageRequest.of(0,size));
 //    }
     @GetMapping
+    @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity getGyms(@PageableDefault(size=10, direction = Sort.Direction.DESC) Pageable pageable) {
         // (7)
 //        List<Gym> response = gymService.findGyms();
@@ -88,6 +94,7 @@ public class GymController {
 
     //
     @DeleteMapping("/{gym_id}")
+    @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity deleteGym(@PathVariable("gym_id") @Positive long gymId) {
         System.out.println("# deleted gymId: " + gymId);
         // No need business logic

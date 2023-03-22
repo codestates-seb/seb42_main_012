@@ -2,6 +2,7 @@ package main012.server.gym.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import main012.server.auth.resolver.AuthMember;
 import main012.server.gym.dto.GymReviewPatchDto;
 import main012.server.gym.dto.GymReviewPostDto;
 import main012.server.gym.dto.GymReviewResponseDto;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -34,9 +36,12 @@ public class GymReviewController {
 
 //     gym_id 번 헬스장에 리뷰 등록
     @PostMapping("{gym_id}")
-    public ResponseEntity<?> postGymReview(@Valid @RequestBody GymReviewPostDto gymReviewPostDto)
+    @RolesAllowed({"ROLE_USER"})
+
+    public ResponseEntity<?> postGymReview(@Valid @RequestBody GymReviewPostDto gymReviewPostDto,
+                                           @AuthMember Long memberId)
     {
-        GymReview gymReview = mapper.gymReviewPostDtoToGymReview(gymReviewPostDto); //DTO -> Entity 변환
+        GymReview gymReview = mapper.gymReviewPostDtoToGymReview(gymReviewPostDto, memberId); //DTO -> Entity 변환
         GymReview createGymReview = gymReviewService.createGymReview(gymReview); //테이블 저장
         GymReviewResponseDto response = mapper.gymReviewResponseDtoToGymReview(createGymReview); //Entity -> ResponseDto
 
@@ -45,6 +50,8 @@ public class GymReviewController {
 
 
     @PatchMapping("/{review_id}")
+    @RolesAllowed({"ROLE_USER"})
+
     public ResponseEntity patchGymReview(@PathVariable("review_id") @Positive Long id,
                                          @Valid @RequestBody GymReviewPatchDto gymReviewPatchDto){
         gymReviewPatchDto.setId(id);
@@ -56,6 +63,8 @@ public class GymReviewController {
 
 
     @GetMapping("{gym_id}")
+    @RolesAllowed({"ROLE_USER"})
+
     public ResponseEntity getGymReviews(@PathVariable("gym_id") @Positive long Id,
                                         @PageableDefault(size=10, sort = "createdAt", direction = Sort.Direction.DESC)Pageable pageable) {
 
@@ -69,7 +78,9 @@ public class GymReviewController {
 
 
 
-    @DeleteMapping("{gymReview_id}")
+    @DeleteMapping("{review_id}")
+    @RolesAllowed({"ROLE_USER"})
+
     public ResponseEntity gymReviewDelete(@PathVariable("gymReview_id") @Positive long gymReviewId){
         gymReviewService.gymReviewDelete(gymReviewId);
 

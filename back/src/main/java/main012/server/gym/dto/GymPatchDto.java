@@ -18,9 +18,6 @@ public class GymPatchDto {
     private String phoneNumber;
     private String businessHours;
 
-    private Double latitude;
-
-    private Double longitude;
     public long getId() {
         return id;
     }

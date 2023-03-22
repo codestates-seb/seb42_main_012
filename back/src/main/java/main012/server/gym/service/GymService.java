@@ -44,10 +44,7 @@ public class GymService {
                 .ifPresent(phoneNumber -> findGym.setPhoneNumber(phoneNumber));
         Optional.ofNullable(gym.getBusinessHours())
                 .ifPresent(businessHours -> findGym.setBusinessHours(businessHours));
-        Optional.ofNullable(gym.getLatitude())
-                .ifPresent(latitude -> findGym.setLatitude(latitude));
-        Optional.ofNullable(gym.getLongitude())
-                .ifPresent(longitude -> findGym.setLongitude(longitude));
+
         return gymRepository.save(findGym);
     }
 
