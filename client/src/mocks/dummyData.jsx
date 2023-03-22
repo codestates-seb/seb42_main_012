@@ -126,7 +126,7 @@ export const board = {
       boardId: 1,
       memberId: 1,
       profileImage:
-        'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
+        'https://mblogthumb-phinf.pstatic.net/MjAyMTAxMTJfMTI2/MDAxNjEwNDE3OTAxNTU4.b5gdWuqbuXOJv8fnKIoLc7yiuLxMlM254Qtme9ErMR0g.SVCWBa5pZgbitLqy89qd03SZcUK7bpTvNp71wmphYn8g.JPEG.sosohan_n/IMG_0594.JPG?type=w800',
       displayName: 'dotori',
       tabName: '자유게시판',
       title: '운동 잘하는 법 공유',
@@ -160,7 +160,7 @@ export const board = {
       displayName: '갱얼즤2',
       tabName: '자유게시판',
       title: '운동 루틴 추천해주세요',
-      content: 'content',
+      content: 'ㅊㅊㅊㅊ부탁',
       contentImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       createdAt: '2023-12-04',
@@ -175,7 +175,7 @@ export const board = {
       displayName: '도토리',
       tabName: '자세피드백',
       title: '자세 이거 맞나요?',
-      content: 'content',
+      content: '자세가 너너너무 어려워요 어떡해',
       contentImage:
         'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
       createdAt: '2023-12-04',

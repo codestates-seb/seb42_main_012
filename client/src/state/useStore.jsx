@@ -6,8 +6,8 @@ const useStore = create(
     set => ({
       gyms: [],
       reviews: [],
-      comments: [],
       boards: [],
+      comments: [],
       members: [],
 
       setGyms: data => {
@@ -16,12 +16,14 @@ const useStore = create(
       setReviews: data => {
         set(() => ({ reviews: data }));
       },
-      setComments: data => {
-        set(() => ({ comments: data }));
-      },
+
       setBoards: data => {
         set(() => ({ boards: data }));
       },
+      setComments: data => {
+        set(() => ({ comments: data }));
+      },
+
       setMembers: data => {
         set(() => ({ members: data }));
       },
