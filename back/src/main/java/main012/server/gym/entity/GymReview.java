@@ -15,13 +15,13 @@ import javax.persistence.*;
 public class GymReview extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "gym_review_id")
     private Long id;
 
-    private long grade;
+    private long gymGrade;
 
-    private String comment;
+    private String gymComment;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -30,4 +30,7 @@ public class GymReview extends Auditable {
     @ManyToOne
     @JoinColumn(name = "gym_id")
     private Gym gym;
+
+
+
 }
