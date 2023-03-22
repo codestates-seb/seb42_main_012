@@ -10,6 +10,9 @@ import main012.server.gym.entity.Gym;
 import main012.server.gym.mapper.GymMapper;
 import main012.server.gym.service.GymService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,19 +24,19 @@ import javax.validation.constraints.Positive;
 import java.util.List;
 
 
-@RequiredArgsConstructor
-@RequestMapping("/gyms")
 @RestController
-
+@RequestMapping("/gyms")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RequiredArgsConstructor
 public class GymController {
     private final GymService gymService;
     private final GymMapper mapper;
+    private static final int DEFAULT_SIZE = 10;
 
-//    @RolesAllowed("ROLE_OWNER")
+
+
     @PostMapping
-    @RolesAllowed("ROLE_OWNER")
-    public ResponseEntity postGym(@Valid @RequestBody GymPostDto gymPostDto,
-                                  @AuthMember Long memberId) {
+    public ResponseEntity postGym(@Valid @RequestBody GymPostDto gymPostDto) {
         Gym gym = mapper.gymPostDtoToGym(gymPostDto);
         Gym createGym = gymService.createGym(gym);
         GymResponseDto response = mapper.gymToGymResponseDto(createGym);
@@ -43,11 +46,9 @@ public class GymController {
 
     //     헬스장 정보 수정
     @PatchMapping("/{gym_id}")
-    @RolesAllowed("ROLE_OWNER")
-    public ResponseEntity patchGym(@PathVariable("gym_id") @Positive Long gymId,
-                                   @AuthMember Long memberId,
+    public ResponseEntity patchGym(@PathVariable("gym_id") @Positive Long id,
                                    @Valid @RequestBody GymPatchDto gymPatchDto) {
-        gymPatchDto.setGymId(gymId);
+        gymPatchDto.setId(id);
 
         Gym response =
                 gymService.updateGym(mapper.gymPatchDtoToGym(gymPatchDto));
@@ -58,7 +59,7 @@ public class GymController {
 
     // 헬스장 상세조회
     @GetMapping("/{gym_id}")
-    public ResponseEntity getGym(@PathVariable("gym_id") @Positive Long gymId) {
+    public ResponseEntity getGym(@PathVariable("gym_id") @Positive long gymId) {
 
         Gym response = gymService.findGym(gymId);
         {
@@ -67,25 +68,26 @@ public class GymController {
 
     }
 
-    //헬스장 목록 조회
+    //    //헬스장 목록 조회
+//    @GetMapping
+//    public CursorResult<Gym> getGyms(Long cursorId, Integer size) {
+//        if (size == null) size = DEFAULT_SIZE;
+//        return this.gymService.get(cursorId, PageRequest.of(0,size));
+//    }
     @GetMapping
-    public ResponseEntity getGyms(@Positive @RequestParam int page,
-                                  @Positive @RequestParam int size) {
+    public ResponseEntity getGyms(@PageableDefault(size=10, direction = Sort.Direction.DESC) Pageable pageable) {
         // (7)
 //        List<Gym> response = gymService.findGyms();
 //        return new ResponseEntity<>(response, HttpStatus.OK);
-        Page<Gym> pageGyms = gymService.findGyms(page-1,size);
-        List<Gym> gyms = pageGyms.getContent();
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.gymsToGymResponseDtos(gyms),
-                        pageGyms),
-                HttpStatus.OK);
+        Page<Gym> gymPage = gymService.gymsPage(pageable);
+        List<Gym> gyms = gymPage.getContent();
+        List<GymResponseDto> response = mapper.gymsToGymResponseDtos(gyms);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
     //
     @DeleteMapping("/{gym_id}")
-    @RolesAllowed("ROLE_OWNER")
-    public ResponseEntity deleteGym(@PathVariable("gym_id") @Positive Long gymId) {
+    public ResponseEntity deleteGym(@PathVariable("gym_id") @Positive long gymId) {
         System.out.println("# deleted gymId: " + gymId);
         // No need business logic
         gymService.deleteGym(gymId);
@@ -93,4 +95,3 @@ public class GymController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
-

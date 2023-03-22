@@ -14,6 +14,7 @@ public interface GymMapper {
 
 
     Gym gymPostDtoToGym(GymPostDto gymPostDto);
+
     Gym gymPatchDtoToGym(GymPatchDto gymPatchDto);
     GymResponseDto gymToGymResponseDto(Gym gym);
     List<GymResponseDto> gymsToGymResponseDtos(List<Gym> gyms);

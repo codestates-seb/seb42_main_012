@@ -1,5 +1,6 @@
 package main012.server.gym.service;
 
+import lombok.RequiredArgsConstructor;
 import main012.server.gym.entity.Gym;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
@@ -7,6 +8,7 @@ import main012.server.gym.repository.GymRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -17,31 +19,22 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 
 public class GymService {
     @Autowired
     private final GymRepository gymRepository;
 
-    @Autowired
-    public GymService(GymRepository gymRepository) {
-        this.gymRepository = gymRepository;
-    }
 
     public Gym createGym(Gym gym) {
         // 등록된 헬스장인지 검증
-        verifyExistsGymName(gym.getGymName());
         return gymRepository.save(gym);
     }
-
-//    public List<Gym> bookmarks(long memberId) {
-//        gymRepository.findByMemberMemberId(memberId);
-//
-//    }
 
 
     public Gym updateGym(Gym gym) {
         // 존재하는 헬스장인지 검증
-        Gym findGym = findVerifiedGym(gym.getGymId());
+        Gym findGym = findVerifiedGym(gym.getId());
 
         Optional.ofNullable(gym.getGymName())
                 .ifPresent(gymName -> findGym.setGymName(gymName));
@@ -59,23 +52,23 @@ public class GymService {
     }
 
     // 상세 헬스장 조회
-    public Gym findGym(Long gymId) {
+    public Gym findGym(long gymId) {
         return findVerifiedGym(gymId);
     }
 
     // 모든 헬스장 정보 조회
-    public Page<Gym> findGyms(int page, int size) {
+    public Page<Gym> gymsPage(Pageable pageable) {
 
-        return gymRepository.findAll(PageRequest.of(page,size, Sort.by("gymId").descending()));
+        return gymRepository.findAll(pageable);
     }
     // 특정 헬스장 삭제
-    public void deleteGym(Long gymId){
+    public void deleteGym(long gymId){
         Gym findGym = findVerifiedGym(gymId);
         gymRepository.delete(findGym);
 
     }
     // 이미 존재하는 헬스장인지 검증
-    public Gym findVerifiedGym(Long gymId) {
+    public Gym findVerifiedGym(long gymId) {
         Optional<Gym> optionalGym =
                 gymRepository.findById(gymId);
         Gym findGym =
@@ -90,4 +83,5 @@ public class GymService {
         if (gym.isPresent())
             throw new BusinessLoginException(ExceptionCode.GYM_EXISTS);
     }
+
 }

@@ -7,7 +7,7 @@ import javax.validation.constraints.Pattern;
 
 @Getter
 public class GymPatchDto {
-    private long gymId;
+    private Long id;
     @NotBlank(message = "헬스장 이름을 입력해 주세요")
     private String gymName;
     @NotBlank(message = "주소를 입력해 주세요")
@@ -21,10 +21,10 @@ public class GymPatchDto {
     private Double latitude;
 
     private Double longitude;
-    public long getGymId() {
-        return gymId;
+    public long getId() {
+        return id;
     }
-    public void setGymId(long gymId) {
-        this.gymId = gymId;
+    public void setId(Long id) {
+        this.id = id;
     }
 }
