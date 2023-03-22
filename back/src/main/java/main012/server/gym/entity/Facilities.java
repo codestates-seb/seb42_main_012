@@ -10,12 +10,13 @@ import javax.persistence.*;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Facility {
+public class Facilities {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "facility_id")
     private Long id;
 
+    @Column(nullable = false, length = 50)
     private String facilityName;
 }

@@ -2,8 +2,10 @@ package main012.server.gym.service;
 
 
 import lombok.AllArgsConstructor;
+import main012.server.cursor.CursorResult;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
+import main012.server.gym.entity.Gym;
 import main012.server.gym.entity.GymReview;
 import main012.server.gym.repository.GymReviewRepository;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,19 +49,39 @@ public class GymReviewService {
         return findGymReview;
     }
 
-//    // 리뷰 조회
+    //    // 리뷰 조회
 //    public Page<GymReview> findGymReviews(int page, int size) {
 //        return gymReviewRepository.findAll(PageRequest.of(page,size, Sort.by("id").descending()));
 //    }
     /*헬스장 리뷰 조회*/
-    public Page<GymReview> gymReviewPage(Pageable pageable){
+    public Page<GymReview> gymReviewPage(Pageable pageable) {
         // .findAll - 해당 페이지 형식에 맞춰서 모든 리뷰 가져오기
         return gymReviewRepository.findAll(pageable);
     }
 
     // 헬스장 리뷰 삭제
-    public void  gymReviewDelete(long gymReviewId) {
+    public void gymReviewDelete(long gymReviewId) {
         GymReview findGymReview = findVerifiedGymReview(gymReviewId);
         gymReviewRepository.delete(findGymReview);
+    }
+
+    public CursorResult<GymReview> get(Long cursorId, Pageable page) {
+        final List<GymReview> gymReviews = getGymReviews(cursorId, page);
+        final Long lastIdOfList = gymReviews.isEmpty() ?
+                null : gymReviews.get(gymReviews.size() - 1).getId();
+
+        return new CursorResult<>(gymReviews, hasNext(lastIdOfList));
+    }
+
+    private List<GymReview> getGymReviews(Long id, Pageable page) {
+        return id == null ?
+                this.gymReviewRepository.findAllByOrderByIdDesc(page) :
+                this.gymReviewRepository.findByIdLessThanOrderByIdDesc(id, page);
+    }
+
+    private Boolean hasNext(Long id) {
+        if (id == null) return false;
+        return this.gymReviewRepository.existsByIdLessThan(id);
+
     }
 }

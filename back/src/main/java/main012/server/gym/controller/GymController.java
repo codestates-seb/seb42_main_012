@@ -11,6 +11,7 @@ import main012.server.gym.mapper.GymMapper;
 import main012.server.gym.service.GymService;
 import main012.server.user.entity.Member;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -24,6 +25,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
+import static javax.swing.GroupLayout.DEFAULT_SIZE;
+
 
 @RestController
 @RequestMapping("/gyms")
@@ -32,7 +35,7 @@ import java.util.List;
 public class GymController {
     private final GymService gymService;
     private final GymMapper mapper;
-    private static final int DEFAULT_SIZE = 10;
+    private static final int DEFAULT_SIZE = 10;// 커서 페이지네이션
 
 
 
@@ -93,6 +96,14 @@ public class GymController {
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
+//    // 커서기반
+//    @GetMapping
+//    @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
+//    public CursorResult<Gym> getGyms(Long cursorId, Integer size) {
+//        if (size == null) size = DEFAULT_SIZE;
+//        return this.gymService.get(cursorId, PageRequest.of(0, size));
+//    }
+//
 
     //
     @DeleteMapping("/{gym_id}")

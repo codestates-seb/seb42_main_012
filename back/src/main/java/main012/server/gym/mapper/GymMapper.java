@@ -4,6 +4,7 @@ import main012.server.gym.dto.GymPatchDto;
 import main012.server.gym.dto.GymPostDto;
 import main012.server.gym.dto.GymResponseDto;
 import main012.server.gym.entity.Gym;
+import main012.server.gym.entity.GymFacility;
 import main012.server.user.entity.Member;
 import org.mapstruct.Mapper;
 import org.springframework.data.repository.query.Param;
@@ -24,6 +25,7 @@ public interface GymMapper {
         gym.setAddress(gymPostDto.getAddress());
         gym.setPhoneNumber(gymPostDto.getPhoneNumber());
         gym.setBusinessHours(gymPostDto.getBusinessHours());
+//        gym.setGymFacility(GymFacility.builder().facility(gymPostDto.getFacility()).build());
 
         gym.setMember(member);
         return gym;

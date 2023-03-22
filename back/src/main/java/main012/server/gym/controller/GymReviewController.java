@@ -31,13 +31,13 @@ import java.util.List;
 public class GymReviewController {
     private final GymReviewService gymReviewService;
     private final GymReviewMapper mapper;
+    private static final int DEFAULT_SIZE = 10;// 커서 페이지네이션
 
 
 
 //     gym_id 번 헬스장에 리뷰 등록
     @PostMapping("{gym_id}")
     @RolesAllowed({"ROLE_USER"})
-
     public ResponseEntity<?> postGymReview(@Valid @RequestBody GymReviewPostDto gymReviewPostDto,
                                            @AuthMember Long memberId)
     {
@@ -51,7 +51,6 @@ public class GymReviewController {
 
     @PatchMapping("/{review_id}")
     @RolesAllowed({"ROLE_USER"})
-
     public ResponseEntity patchGymReview(@PathVariable("review_id") @Positive Long id,
                                          @Valid @RequestBody GymReviewPatchDto gymReviewPatchDto){
         gymReviewPatchDto.setId(id);
@@ -64,7 +63,6 @@ public class GymReviewController {
 
     @GetMapping("{gym_id}")
     @RolesAllowed({"ROLE_USER"})
-
     public ResponseEntity getGymReviews(@PathVariable("gym_id") @Positive long Id,
                                         @PageableDefault(size=10, sort = "createdAt", direction = Sort.Direction.DESC)Pageable pageable) {
 
@@ -80,7 +78,6 @@ public class GymReviewController {
 
     @DeleteMapping("{review_id}")
     @RolesAllowed({"ROLE_USER"})
-
     public ResponseEntity gymReviewDelete(@PathVariable("gymReview_id") @Positive long gymReviewId){
         gymReviewService.gymReviewDelete(gymReviewId);
 

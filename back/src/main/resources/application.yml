@@ -5,13 +5,13 @@ server:
       force-response: true
 spring:
   datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/main012?serverTimezone=Asia/Seoul
-    username: root
-    password: 9211
-#    url: jdbc:mysql://localhost:3306/main012?serverTimezone=Asia/Seoul
-#    username: ${MYSQL_USERNAME}
-#    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${AWS_RDS_URL}
+    username: ${AWS_RDS_USERNAME}
+    password: ${AWS_RDS_PASSWORD}
+  #    url: jdbc:mysql://localhost:3306/main012?serverTimezone=Asia/Seoul
+  #    username: ${MYSQL_USERNAME}
+  #    password: ${MYSQL_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
@@ -27,32 +27,24 @@ logging:
   level:
     org:
       springframework:
-#      web: debug
       orm:
         jpa: DEBUG
   file:
     path: /home/ubuntu/log
 cloud:
-  aws: # cloud.aws.credentials.secret-key
-#    credentials:
-#      access-key: ${S3_ACCESS_KEY}
-#      secret-key: ${S3_SECRET_KEY}
+  aws:
+    credentials:
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
     s3:
-      credentials:
-        access-key: ENC(OGJVfi3M4u6Q+xfIWw8rSI6NAavUn4liM9+BswjbkTo=) # 암호화키
-        secret-key: ENC(u/Vps5EL3eeIHTyilpDORFt7dQT8I0I6+k3tDa9LtxwFUZyPTnRPpuTc6ftR76FI/UskuVJWSx0=) # 암호화키
-      bucket: seb42main012
+      bucket: ${S3_IMAGE_BUCKET_NAME}
     region:
       static: ap-northeast-2
     stack:
       auto: false
-#jasypt:
-#  encryptor:
-#    password: ${{secrets.SECRET_KEY}}
-
 
 jwt:
-  key: ljrelqwrblqernlkqwenrlkqwenrlnqwelrnlqwernlqwenrlnqwelrnqwelrn13131
+  key: ${JWT_SECRET_KEY}
   access:
     expiration: 7200000 # 1000(ms) * 60(s) * 60(minute) * 2(hour) = 7200000
     header: Authorization

@@ -1,6 +1,7 @@
 package main012.server.gym.service;
 
 import lombok.RequiredArgsConstructor;
+import main012.server.cursor.CursorResult;
 import main012.server.gym.entity.Gym;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
@@ -17,6 +18,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -27,6 +29,7 @@ public class GymService {
 
 
     public Gym createGym(Gym gym) {
+
         // 등록된 헬스장인지 검증
         return gymRepository.save(gym);
     }
@@ -59,6 +62,25 @@ public class GymService {
         return gymRepository.findAll(pageable);
     }
 
+    // cursor 방식 조회
+    public CursorResult<Gym> get(Long cursorId, Pageable page) {
+        final List<Gym> gyms = getGyms(cursorId,page);
+        final Long lastIdOfList = gyms.isEmpty() ?
+                null : gyms.get(gyms.size() - 1).getId();
+
+        return new CursorResult<>(gyms,hasNext(lastIdOfList));
+    }
+
+    private List<Gym> getGyms(Long id, Pageable page) {
+        return id == null ?
+                this.gymRepository.findAllByOrderByIdDesc(page) :
+                this.gymRepository.findByIdLessThanOrderByIdDesc(id,page);
+    }
+
+    private Boolean hasNext(Long id) {
+        if (id == null) return false;
+        return this.gymRepository.existsByIdLessThan(id);
+    }
 
     // 특정 헬스장 삭제
     public void deleteGym(long gymId){

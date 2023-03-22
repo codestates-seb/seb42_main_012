@@ -1,8 +1,14 @@
 package main012.server.gym.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+import main012.server.gym.entity.Facilities;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+@Getter
+@Setter
 public class GymPostDto {
 
     @NotBlank(message = "헬스장 이름을 입력해 주세요")
@@ -14,34 +20,6 @@ public class GymPostDto {
             message = "휴대폰 번호는 010으로 시작하는 11자리 숫자와 '-'로 구성되어야 합니다.")
     private String phoneNumber;
     private String businessHours;
-
-
-    public String getGymName() {
-        return gymName;
-    }
-
-    public void setGymName(String gymName) {
-        this.gymName = gymName;
-    }
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-    public String getBusinessHours(){return businessHours;}
-    public void setBusinessHours(String businessHours){
-        this.businessHours = businessHours;
-    }
-
+    private Facilities facilities;
 
 }
