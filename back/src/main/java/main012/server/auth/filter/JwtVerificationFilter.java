@@ -6,6 +6,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import main012.server.auth.jwt.JwtTokenizer;
 import main012.server.auth.utils.CustomAuthorityUtils;
+import main012.server.exception.BusinessLoginException;
+import main012.server.exception.ExceptionCode;
+import main012.server.user.entity.Member;
+import main012.server.user.enums.MemberStatus;
+import main012.server.user.repository.MemberRepository;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,6 +30,7 @@ import java.util.Map;
 public class JwtVerificationFilter extends OncePerRequestFilter {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
+    private final MemberRepository memberRepository;
 
 
     @Override
@@ -54,6 +60,15 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     private Map<String, Object> verifyJws(HttpServletRequest request) {
         String jws = request.getHeader("Authorization").replace("Bearer ", "");
         Map<String, Object> claims = jwtTokenizer.getClaims(jws);
+
+        Long memberId = Long.parseLong(String.valueOf(claims.get("memberId")));
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        // 탈퇴한 회원인지 검증
+        if (findMember.getMemberStatus().equals(MemberStatus.MEMBER_DELETED)) {
+            throw new BusinessLoginException(ExceptionCode.QUITED_MEMBER);
+        }
 
         return claims;
     }

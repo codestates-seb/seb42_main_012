@@ -51,13 +51,13 @@ public class AuthService {
         return reIssuedAccessToken;
     }
 
-//    /**
-//     * 로그아웃
-//     */
-//    public void logOutMember(Long memberId) {
-//        Member findMember = memberRepository.findById(memberId)
-//                .orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
-//
-//        log.info("## LogOut Member: {}", findMember.getEmail());
-//    }
+    /**
+     * 로그아웃
+     */
+    public void logOutMember(Long memberId) {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        log.info("## LogOut Member: {}", findMember.getEmail());
+    }
 }

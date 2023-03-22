@@ -7,14 +7,12 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import main012.server.user.entity.Member;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 /*
@@ -34,7 +32,7 @@ public class JwtTokenizer {
     private int refreshTokenExpiration;
 
     // 초기값 설정
-    public JwtTokenizer( @Value("${jwt.key}") String secretKey) {
+    public JwtTokenizer(@Value("${jwt.key}") String secretKey) {
         key = getKeyFromBase64EncodedKey(secretKey);
     }
 
@@ -86,7 +84,7 @@ public class JwtTokenizer {
     }
 
     // refreshToken에서 sub(email) 찾기
-    public String getEmailFromRefreshToken (String refreshToken) {
+    public String getEmailFromRefreshToken(String refreshToken) {
         Jws<Claims> claimsJws = verifySignature(refreshToken);
         String email = claimsJws.getBody().getSubject();
 
