@@ -15,7 +15,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-import static main012.server.exception.ExceptionCode.NO_TOKEN_IN_HEADER;
+import static main012.server.exception.ExceptionCode.BAD_TOKEN_REQUEST;
 
 @Slf4j
 @Component
@@ -37,8 +37,8 @@ public class MemberArgumentResolver implements HandlerMethodArgumentResolver {
         String authorizationHeader = httpServletRequest.getHeader("Authorization");
         log.info("## Authorization Header: {}", authorizationHeader);
 
-        if (authorizationHeader == null) {
-            throw new BusinessLoginException(NO_TOKEN_IN_HEADER);
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer") || authorizationHeader.length() < 195) {
+            throw new BusinessLoginException(BAD_TOKEN_REQUEST);
         }
 
         String token = authorizationHeader.substring(7);
