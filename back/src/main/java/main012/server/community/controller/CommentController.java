@@ -2,6 +2,7 @@ package main012.server.community.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import main012.server.auth.resolver.AuthMember;
 import main012.server.community.dto.CommentDto;
 import main012.server.community.entity.CommunityComment;
 import main012.server.community.mapper.CommentMapper;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @Slf4j
@@ -32,13 +34,13 @@ public class CommentController {
 
     // 커뮤니티 댓글 등록
     @PostMapping("/{community_id}")
+    @RolesAllowed("ROLE_USER")
     public ResponseEntity postComment(@PathVariable("community_id") Long communityId,
-                                      @RequestBody CommentDto.Post post) {
+                                      @RequestBody CommentDto.Post post,
+                                      @AuthMember Long memberId) {
 
         post.setCommunityId(communityId);
-        CommunityComment response = commentService.createComment(mapper.commentPostDtoToComment(post));
-        Member member = memberService.findVerifyMember(response.getMember().getId());
-        response.getMember().setDisplayName(member.getDisplayName());
+        CommunityComment response = commentService.createComment(mapper.commentPostDtoToComment(post, memberId));
 
         return new ResponseEntity<>(HttpStatus.CREATED);
 
@@ -46,8 +48,10 @@ public class CommentController {
 
     // 커뮤니티 댓글 수정
     @PatchMapping("/{comment_id}")
+    @RolesAllowed("ROLE_USER")
     public ResponseEntity patchComment(@PathVariable("comment_id") Long commentId,
-                                       @RequestBody CommentDto.Patch patch) {
+                                       @RequestBody CommentDto.Patch patch,
+                                       @AuthMember Long memberId) {
 
         patch.setCommentId(commentId);
 
@@ -59,7 +63,9 @@ public class CommentController {
 
     // 커뮤니티 댓글 조회
     @GetMapping("/{community_id}")
-    public ResponseEntity getComment(@PathVariable("community_id") Long communityId) {
+    @RolesAllowed("ROLE_USER")
+    public ResponseEntity getComment(@PathVariable("community_id") Long communityId,
+                                     @AuthMember Long memberId) {
 
         communityService.findExistCommunity(communityId);
 
@@ -72,7 +78,9 @@ public class CommentController {
 
     // 커뮤니티 댓글 삭제
     @DeleteMapping("/{comment_id}")
-    public ResponseEntity deleteComment(@PathVariable("comment_id") Long commentId) {
+    @RolesAllowed("ROLE_USER")
+    public ResponseEntity deleteComment(@PathVariable("comment_id") Long commentId,
+                                        @AuthMember Long memberId) {
 
         commentService.deleteComment(commentId);
 

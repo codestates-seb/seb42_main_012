@@ -27,4 +27,8 @@ public class CommunityBookmark {
     @JoinColumn(name = "community_id")
     private Community community;
 
+    public CommunityBookmark(Member member, Community community) {
+        this.member = member;
+        this.community = community;
+    }
 }
