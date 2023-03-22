@@ -1,6 +1,7 @@
 package main012.server.user.mapper;
 
 import main012.server.community.entity.Community;
+import main012.server.community.entity.CommunityBookmark;
 import main012.server.community.entity.CommunityComment;
 import main012.server.user.dto.MemberInfoDto;
 import main012.server.user.dto.MemberResponseDto;
@@ -27,10 +28,6 @@ public interface MemberMapper {
         return response;
     };
 
-//    default MemberResponseDto.MyCommunity memberToMyCommunityDto() {
-//
-//    }
-
     default MemberResponseDto.Profile memberToProfileDto(Member member) {
         MemberResponseDto.Profile response = MemberResponseDto.Profile.builder()
                 .displayName(member.getDisplayName())
@@ -46,22 +43,36 @@ public interface MemberMapper {
                 .boardTitle(community.getTitle())
                 .boardCreatedAt(community.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .build();
-
         return response;
     }
 
     List<MemberInfoDto.Community> communityToCommunityInfos(List<Community> communities);
 
 
-    default MemberInfoDto.Comment commentToCommentInfo(CommunityComment communityComment) {
+    default MemberInfoDto.Comment commentToCommentInfo(CommunityComment cc) {
         MemberInfoDto.Comment response = new MemberInfoDto.Comment(
-                communityComment.getCommunity().getTab().getTabName(),
-                communityComment.getComment(),
-                communityComment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                cc.getCommunity().getTab().getTabName(),
+                cc.getComment(),
+                cc.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
         );
-
         return response;
     }
 
     List<MemberInfoDto.Comment> commentsToCommentInfos(List<CommunityComment> comments);
+
+
+    default MemberInfoDto.CommunityBookmark communityBookmarkToCommunityBookmarkInfo(CommunityBookmark cb) {
+        Community c = cb.getCommunity();
+        MemberInfoDto.CommunityBookmark response = new MemberInfoDto.CommunityBookmark(
+                c.getCommunityId(),
+                c.getTab().getTabName(),
+                c.getTitle(),
+                c.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        );
+        return response;
+    }
+
+    List<MemberInfoDto.CommunityBookmark> commentsToCommunityBookmarkInfos (List<CommunityBookmark> communityBookmarks);
+
+
 }

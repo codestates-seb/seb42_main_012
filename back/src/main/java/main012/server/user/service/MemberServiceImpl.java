@@ -3,8 +3,10 @@ package main012.server.user.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import main012.server.community.entity.Community;
+import main012.server.community.entity.CommunityBookmark;
 import main012.server.community.entity.CommunityComment;
 import main012.server.community.repository.CommentRepository;
+import main012.server.community.repository.CommunityBookmarkRepository;
 import main012.server.community.repository.CommunityRepository;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
@@ -40,7 +42,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final CommunityRepository communityRepository;
     private final CommentRepository commentRepository;
-    private final GymRepository gymRepository;
+    private final CommunityBookmarkRepository communityBookmarkRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final MemberMapper memberMapper;
@@ -95,85 +97,6 @@ public class MemberServiceImpl implements MemberService {
     private void assignRole(String roleName, Member member) {
         Role role = roleRepository.findByName(roleName);
         member.addRole(role);
-    }
-
-    /**
-     * 마이페이지 메인 조회
-     */
-    @Override
-    public MemberResponseDto.MainPage findMainInfo(Long memberId) {
-        Member findMember = findVerifyMember(memberId);
-
-        String profileImageUrl;
-        if (findMember.getImage() != null) {
-            profileImageUrl = findMember.getImage().getImagePath();
-        } else {
-            profileImageUrl = null;
-        }
-
-        MemberResponseDto.MainPage response = memberMapper.memberToMainPageDto(findMember, profileImageUrl);
-
-        return response;
-    }
-
-    /**
-     * 마이페이지 내가 쓴 글 조회
-     */
-    @Override
-    public MemberResponseDto.SearchMemberPage searchMemberCommunity(Long memberId, Long lastFeedId) {
-        Member member = findVerifyMember(memberId);
-
-        if (lastFeedId == null) {
-            lastFeedId = 9223372036854775807L;
-        }
-
-        Page<Community> pages = communityRepository.findByMemberAndCommunityIdLessThanOrderByCommunityIdDesc(member, lastFeedId, pageable);
-        List<Community> communities = pages.getContent();
-
-        int totalElements = communities.size();
-        int totalCnt = member.getBoardPostCnt();
-
-        Long nextCursor;
-        if (totalElements < size) {
-            nextCursor = -1L;
-        } else {
-            nextCursor = communities.get(size - 1).getCommunityId();
-        }
-
-        List<MemberInfoDto.Community> responses = memberMapper.communityToCommunityInfos(communities);
-
-        return new MemberResponseDto.SearchMemberPage<MemberInfoDto.Community>
-                (memberId,totalCnt, responses, totalElements, nextCursor);
-    }
-
-    /**
-     * 마이페이지 내가 쓴 댓글 조회
-     */
-    @Override
-    public MemberResponseDto.SearchMemberPage searchMemberComment(Long memberId, Long lastFeedId) {
-        Member member = findVerifyMember(memberId);
-
-        if (lastFeedId == null) {
-            lastFeedId = 9223372036854775807L;
-        }
-
-        Page<CommunityComment> pages = commentRepository.findByMemberAndCommentIdLessThanOrderByCommentIdDesc(member, lastFeedId, pageable);
-        List<CommunityComment> comments = pages.getContent();
-
-        int totalElements = comments.size();
-        int totalCnt = member.getBoardCommentCnt();
-
-        Long nextCursor;
-        if (totalElements < size) {
-            nextCursor = -1L;
-        } else {
-            nextCursor = comments.get(size -1).getCommentId();
-        }
-
-        List<MemberInfoDto.Comment> responses = memberMapper.commentsToCommentInfos(comments);
-
-        return new MemberResponseDto.SearchMemberPage(
-                memberId, totalCnt, responses, totalElements, nextCursor);
     }
 
     /**
@@ -275,6 +198,117 @@ public class MemberServiceImpl implements MemberService {
     public Member findVerifyMember(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
+    }
+
+    /**
+     * 마이페이지 메인 조회
+     */
+    @Override
+    public MemberResponseDto.MainPage findMainInfo(Long memberId) {
+        Member findMember = findVerifyMember(memberId);
+
+        String profileImageUrl;
+        if (findMember.getImage() != null) {
+            profileImageUrl = findMember.getImage().getImagePath();
+        } else {
+            profileImageUrl = null;
+        }
+
+        MemberResponseDto.MainPage response = memberMapper.memberToMainPageDto(findMember, profileImageUrl);
+
+        return response;
+    }
+
+    /**
+     * 마이페이지 내가 쓴 글 조회
+     */
+    @Override
+    public MemberResponseDto.SearchMemberPage searchMemberCommunity(Long memberId, String lastFeedId) {
+        Member member = findVerifyMember(memberId);
+        Long feedId = getFeedId(lastFeedId);
+
+        Page<Community> pages = communityRepository.findByMemberAndCommunityIdLessThanOrderByCommunityIdDesc(member, feedId, pageable);
+        List<Community> communities = pages.getContent();
+
+        int totalElements = communities.size();
+        int totalCnt = member.getBoardPostCnt();
+
+        Long nextCursor;
+        if (totalElements < size) {
+            nextCursor = -1L;
+        } else {
+            nextCursor = communities.get(size - 1).getCommunityId();
+        }
+
+        List<MemberInfoDto.Community> responses = memberMapper.communityToCommunityInfos(communities);
+
+        return new MemberResponseDto.SearchMemberPage
+                (memberId,totalCnt, responses, totalElements, nextCursor);
+    }
+
+    /**
+     * 마이페이지 내가 쓴 댓글 조회
+     */
+    @Override
+    public MemberResponseDto.SearchMemberPage searchMemberComment(Long memberId, String lastFeedId) {
+        Member member = findVerifyMember(memberId);
+        Long feedId = getFeedId(lastFeedId);
+
+        Page<CommunityComment> pages = commentRepository.findByMemberAndCommentIdLessThanOrderByCommentIdDesc(member, feedId, pageable);
+        List<CommunityComment> comments = pages.getContent();
+
+        int totalElements = comments.size();
+        int totalCnt = member.getBoardCommentCnt();
+
+        Long nextCursor;
+        if (totalElements < size) {
+            nextCursor = -1L;
+        } else {
+            nextCursor = comments.get(size -1).getCommentId();
+        }
+
+        List<MemberInfoDto.Comment> responses = memberMapper.commentsToCommentInfos(comments);
+
+        return new MemberResponseDto.SearchMemberPage(
+                memberId, totalCnt, responses, totalElements, nextCursor);
+    }
+
+    /**
+     * 마이페이지 게사글 찜 조회
+     */
+    @Override
+    public MemberResponseDto.SearchMemberPage searchMemberCommunityBookmark(Long memberId, String lastFeedId) {
+        Member member = findVerifyMember(memberId);
+        Long feedId = getFeedId(lastFeedId);
+
+        Page<CommunityBookmark> pages = communityBookmarkRepository.findByMemberAndIdLessThanOrderByIdDesc(member, feedId, pageable);
+        List<CommunityBookmark> communityBookmarks = pages.getContent();
+
+        int totalElements = communityBookmarks.size();
+        int totalCnt = member.getBoardBookmarkCnt();
+
+        Long nextCursor;
+        if (totalElements < size) {
+            nextCursor = -1L;
+        } else {
+            nextCursor = communityBookmarks.get(size -1).getId();
+        }
+
+        List<MemberInfoDto.CommunityBookmark> responses = memberMapper.commentsToCommunityBookmarkInfos(communityBookmarks);
+
+        return new MemberResponseDto.SearchMemberPage(
+                memberId, totalCnt, responses, totalElements, nextCursor);
+    }
+
+
+    private static Long getFeedId(String lastFeedId) {
+        Long feedId;
+        if (lastFeedId.isEmpty()) {
+            feedId = 9223372036854775807L;
+        } else {
+            feedId = Long.valueOf(lastFeedId);
+        }
+        return feedId;
     }
 
 }

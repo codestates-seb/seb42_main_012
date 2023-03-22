@@ -22,4 +22,14 @@ public class MemberInfoDto {
         private String boardCommentContent;
         private String boardCommentCreatedAt;
     }
+
+    @Getter
+    @AllArgsConstructor
+    public static class CommunityBookmark {
+        private Long boardId;
+        private String boardTab;
+        private String boardTitle;
+        private String boardCreatedAt;
+    }
+
 }

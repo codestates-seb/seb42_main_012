@@ -22,8 +22,9 @@ public interface MemberService {
 
     void quitMember(Long memberId, MemberRequestDto.Quit request);
 
-    MemberResponseDto.SearchMemberPage searchMemberCommunity(Long memberId, Long lastFeedId);
+    MemberResponseDto.SearchMemberPage searchMemberCommunity(Long memberId, String lastFeedId);
 
-    MemberResponseDto.SearchMemberPage searchMemberComment(Long memberId, Long lastFeedId);
+    MemberResponseDto.SearchMemberPage searchMemberComment(Long memberId, String lastFeedId);
 
+    MemberResponseDto.SearchMemberPage searchMemberCommunityBookmark(Long memberId, String lastFeedId);
 }

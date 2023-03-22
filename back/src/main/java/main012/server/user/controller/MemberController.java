@@ -52,34 +52,7 @@ public class MemberController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    /**
-     * 마이페이지 메인 조회
-     */
-    @GetMapping("/my")
-    @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
-    public ResponseEntity getMyMain(@AuthMember Long memberId) {
-        MemberResponseDto.MainPage mainInfo = memberService.findMainInfo(memberId);
 
-        return new ResponseEntity(mainInfo, HttpStatus.OK);
-    }
-
-    /**
-     * 마이페이지 내가 쓴 글 조회
-     */
-    @RolesAllowed("ROLE_USER")
-    @GetMapping("/my/communities")
-    public ResponseEntity getMemberCommunity(@AuthMember Long memberId,
-                                             @RequestParam String lastFeedId) {
-
-        if (lastFeedId.isEmpty()) {
-            lastFeedId = "9223372036854775807";
-        }
-
-        SearchMemberPage<MemberInfoDto.Community> response
-                = memberService.searchMemberCommunity(memberId, Long.valueOf(lastFeedId));
-
-        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
-    }
 
     /**
      * 비밀번호 수정
@@ -124,6 +97,31 @@ public class MemberController {
     }
 
     /**
+     * 마이페이지 메인 조회
+     */
+    @GetMapping("/my")
+    @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
+    public ResponseEntity getMyMain(@AuthMember Long memberId) {
+        MemberResponseDto.MainPage mainInfo = memberService.findMainInfo(memberId);
+
+        return new ResponseEntity(mainInfo, HttpStatus.OK);
+    }
+
+    /**
+     * 마이페이지 내가 쓴 글 조회
+     */
+    @RolesAllowed("ROLE_USER")
+    @GetMapping("/my/communities")
+    public ResponseEntity getMemberCommunity(@AuthMember Long memberId,
+                                             @RequestParam String lastFeedId) {
+
+       SearchMemberPage<MemberInfoDto.Community> response
+                = memberService.searchMemberCommunity(memberId, lastFeedId);
+
+        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
+    /**
      * 마이페이지 내가 쓴 댓글 조회
      */
     @RolesAllowed("ROLE_USER")
@@ -131,15 +129,24 @@ public class MemberController {
     public ResponseEntity getMemberComment(@AuthMember Long memberId,
                                              @RequestParam String lastFeedId) {
 
-        if (lastFeedId.isEmpty()) {
-            lastFeedId = "9223372036854775807";
-        }
-
-        SearchMemberPage<MemberInfoDto.Community> response
-                = memberService.searchMemberComment(memberId, Long.valueOf(lastFeedId));
+        SearchMemberPage<MemberInfoDto.Comment> response
+                = memberService.searchMemberComment(memberId, lastFeedId);
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
+    /**
+     * 마이페이지 게시글 찜 조회
+     */
+    @RolesAllowed("ROLE_USER")
+    @GetMapping("/my/bookmarks/communities")
+    public ResponseEntity getMemberCommunityBookmark(@AuthMember Long memberId,
+                                                     @RequestParam String lastFeedId) {
+
+        SearchMemberPage<MemberInfoDto.CommunityBookmark> response
+                = memberService.searchMemberCommunityBookmark(memberId, lastFeedId);
+
+        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
 
 }
