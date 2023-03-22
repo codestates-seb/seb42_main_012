@@ -1,8 +1,9 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import StarIcon from '../../UI/Icon/StarIcon';
 import useStore from '../../../state/useStore';
 
 function ReviewScore({ gymId }) {
+  const location = useLocation();
   const { id } = useParams();
   const { reviews } = useStore();
 
@@ -10,7 +11,12 @@ function ReviewScore({ gymId }) {
     review => review.gymId === (gymId === undefined ? Number(id) : gymId),
   );
 
-  const grade = reviewFilter.map(review => review.grade);
+  const grade =
+    location.pathname.slice(0, 5) === '/gyms'
+      ? reviewFilter.map(review => review.grade)
+      : reviews
+          .filter(review => review.memberId === 1)
+          .map(review => review.grade);
 
   return (
     <div className="flex items-center mr-auto">

@@ -1,9 +1,7 @@
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 
 function Postcode({ address, setAddress }) {
-  const open = useDaumPostcodePopup(
-    't1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js',
-  );
+  const open = useDaumPostcodePopup();
 
   const handleComplete = data => {
     let fullAddress = data.address;

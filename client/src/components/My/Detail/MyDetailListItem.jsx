@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom';
 import ReviewScore from '../../Gym/Review/ReviewScore';
 import TabButton from '../../UI/Button/TabButton';
 
-function MyDetailListItem({ tabName, title, created, grade, gymImage }) {
+function MyDetailListItem({ tabName, title, created, grades, gymImage }) {
   const location = useLocation();
 
   return (
@@ -12,7 +12,7 @@ function MyDetailListItem({ tabName, title, created, grade, gymImage }) {
         location.pathname === '/my/bookmarks/board' ? (
           <TabButton tabName={tabName} />
         ) : location.pathname === '/my/reviews' ? (
-          <ReviewScore grade={grade} />
+          <ReviewScore grades={grades} />
         ) : location.pathname === '/my/bookmarks/gyms' ? (
           <img className="w-40" src={gymImage} alt="헬스장이미지" />
         ) : location.pathname === '/my/bookmarks/board' ? (
