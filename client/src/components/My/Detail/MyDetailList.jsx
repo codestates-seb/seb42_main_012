@@ -68,7 +68,7 @@ function MyDetailList() {
             <MyDetailListItem
               key={review.id}
               review={review}
-              grade={review.grade}
+              grades={review.grade}
               title={review.comment}
               created={review.createdAt}
             />
