@@ -2,9 +2,15 @@ package main012.server.user.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import main012.server.community.entity.Community;
+import main012.server.community.entity.CommunityComment;
+import main012.server.community.repository.CommentRepository;
+import main012.server.community.repository.CommunityRepository;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
+import main012.server.gym.repository.GymRepository;
 import main012.server.image.entity.Image;
+import main012.server.user.dto.MemberInfoDto;
 import main012.server.user.dto.MemberRequestDto;
 import main012.server.user.dto.MemberResponseDto;
 import main012.server.user.entity.Member;
@@ -14,12 +20,16 @@ import main012.server.user.mapper.MemberMapper;
 import main012.server.user.repository.MemberRepository;
 import main012.server.user.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -28,12 +38,19 @@ import java.util.Set;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final CommunityRepository communityRepository;
+    private final CommentRepository commentRepository;
+    private final GymRepository gymRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final MemberMapper memberMapper;
 
     @Value("${mail.address.admin}")
     private String adminMailAddress;
+
+    private final int size = 15;    // 한번에 조회할 데이터의개수
+    private final PageRequest pageable = PageRequest.of(0, size); // 무한 스크롤은 page 0으로 고정.
+
 
     /**
      * 일반 회원 가입
@@ -102,7 +119,62 @@ public class MemberServiceImpl implements MemberService {
     /**
      * 마이페이지 내가 쓴 글 조회
      */
+    @Override
+    public MemberResponseDto.SearchMemberPage searchMemberCommunity(Long memberId, Long lastFeedId) {
+        Member member = findVerifyMember(memberId);
 
+        if (lastFeedId == null) {
+            lastFeedId = 9223372036854775807L;
+        }
+
+        Page<Community> pages = communityRepository.findByMemberAndCommunityIdLessThanOrderByCommunityIdDesc(member, lastFeedId, pageable);
+        List<Community> communities = pages.getContent();
+
+        int totalElements = communities.size();
+        int totalCnt = member.getBoardPostCnt();
+
+        Long nextCursor;
+        if (totalElements < size) {
+            nextCursor = -1L;
+        } else {
+            nextCursor = communities.get(size - 1).getCommunityId();
+        }
+
+        List<MemberInfoDto.Community> responses = memberMapper.communityToCommunityInfos(communities);
+
+        return new MemberResponseDto.SearchMemberPage<MemberInfoDto.Community>
+                (memberId,totalCnt, responses, totalElements, nextCursor);
+    }
+
+    /**
+     * 마이페이지 내가 쓴 댓글 조회
+     */
+    @Override
+    public MemberResponseDto.SearchMemberPage searchMemberComment(Long memberId, Long lastFeedId) {
+        Member member = findVerifyMember(memberId);
+
+        if (lastFeedId == null) {
+            lastFeedId = 9223372036854775807L;
+        }
+
+        Page<CommunityComment> pages = commentRepository.findByMemberAndCommentIdLessThanOrderByCommentIdDesc(member, lastFeedId, pageable);
+        List<CommunityComment> comments = pages.getContent();
+
+        int totalElements = comments.size();
+        int totalCnt = member.getBoardCommentCnt();
+
+        Long nextCursor;
+        if (totalElements < size) {
+            nextCursor = -1L;
+        } else {
+            nextCursor = comments.get(size -1).getCommentId();
+        }
+
+        List<MemberInfoDto.Comment> responses = memberMapper.commentsToCommentInfos(comments);
+
+        return new MemberResponseDto.SearchMemberPage(
+                memberId, totalCnt, responses, totalElements, nextCursor);
+    }
 
     /**
      * 비밀번호 수정
@@ -148,12 +220,12 @@ public class MemberServiceImpl implements MemberService {
      * 회원 탈퇴
      */
     @Override
-    public void quitMember(Long memberId, MemberRequestDto.Quit request ) {
+    public void quitMember(Long memberId, MemberRequestDto.Quit request) {
         Member findMember = findVerifyMember(memberId);
         log.info("## deleteMember: {}", findMember.getEmail());
 
         // 탈퇴 동의 확인
-        if (!request.getIsAgreed()){
+        if (!request.getIsAgreed()) {
             throw new BusinessLoginException(ExceptionCode.DISAGREE_QUITTING);
         }
         // 비밀번호 확인

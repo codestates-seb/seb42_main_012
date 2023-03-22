@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 public class MemberResponseDto {
 
     @Getter
@@ -33,6 +35,16 @@ public class MemberResponseDto {
     public static class Profile {
         private String displayName;
         private String profileImage;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class SearchMemberPage<T> {
+        private Long memberId;
+        private int totalCnt;
+        private List<T> contents;
+        private int totalElements;
+        private Long nextCursor;
     }
 
 }

@@ -1,8 +1,14 @@
 package main012.server.user.mapper;
 
+import main012.server.community.entity.Community;
+import main012.server.community.entity.CommunityComment;
+import main012.server.user.dto.MemberInfoDto;
 import main012.server.user.dto.MemberResponseDto;
 import main012.server.user.entity.Member;
 import org.mapstruct.Mapper;
+
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
@@ -34,4 +40,28 @@ public interface MemberMapper {
         return response;
     }
 
+    default MemberInfoDto.Community communityToCommunityInfo(Community community) {
+        MemberInfoDto.Community response = MemberInfoDto.Community.builder()
+                .boardTab(community.getTab().getTabName())
+                .boardTitle(community.getTitle())
+                .boardCreatedAt(community.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .build();
+
+        return response;
+    }
+
+    List<MemberInfoDto.Community> communityToCommunityInfos(List<Community> communities);
+
+
+    default MemberInfoDto.Comment commentToCommentInfo(CommunityComment communityComment) {
+        MemberInfoDto.Comment response = new MemberInfoDto.Comment(
+                communityComment.getCommunity().getTab().getTabName(),
+                communityComment.getComment(),
+                communityComment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        );
+
+        return response;
+    }
+
+    List<MemberInfoDto.Comment> commentsToCommentInfos(List<CommunityComment> comments);
 }

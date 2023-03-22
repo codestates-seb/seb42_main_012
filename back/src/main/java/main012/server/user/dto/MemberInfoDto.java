@@ -10,9 +10,16 @@ public class MemberInfoDto {
     @AllArgsConstructor
     @Builder
     public static class Community {
-        private Long memberId;
         private String boardTab;
         private String boardTitle;
         private String boardCreatedAt;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class Comment {
+        private String boardTab;
+        private String boardCommentContent;
+        private String boardCommentCreatedAt;
     }
 }

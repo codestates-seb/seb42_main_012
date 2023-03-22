@@ -2,10 +2,13 @@ package main012.server.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import main012.server.auth.resolver.AuthMember;
+import main012.server.common.dto.SingleResponseDto;
 import main012.server.image.entity.Image;
 import main012.server.image.service.ImageService;
+import main012.server.user.dto.MemberInfoDto;
 import main012.server.user.dto.MemberRequestDto;
 import main012.server.user.dto.MemberResponseDto;
+import main012.server.user.dto.MemberResponseDto.SearchMemberPage;
 import main012.server.user.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -63,13 +66,20 @@ public class MemberController {
     /**
      * 마이페이지 내가 쓴 글 조회
      */
-//    @GetMapping("/my/communities")
-//    public ResponseEntity getMyCommunity(@AuthMember Long memberId,
-//                                         @RequestParam int lastFeedId) {
-//
-//        memberService.findCommunities(memberId, lastFeedId);
-//
-//    }
+    @RolesAllowed("ROLE_USER")
+    @GetMapping("/my/communities")
+    public ResponseEntity getMemberCommunity(@AuthMember Long memberId,
+                                             @RequestParam String lastFeedId) {
+
+        if (lastFeedId.isEmpty()) {
+            lastFeedId = "9223372036854775807";
+        }
+
+        SearchMemberPage<MemberInfoDto.Community> response
+                = memberService.searchMemberCommunity(memberId, Long.valueOf(lastFeedId));
+
+        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
 
     /**
      * 비밀번호 수정
@@ -93,7 +103,7 @@ public class MemberController {
                                        @RequestPart MultipartFile file) throws IOException {
         Image uploadedImage = null;
 
-        if(!file.isEmpty()){
+        if (!file.isEmpty()) {
             uploadedImage = imageService.upload(file, "upload");
         }
         MemberResponseDto.Profile response = memberService.updateProfile(memberId, request, uploadedImage);
@@ -111,6 +121,24 @@ public class MemberController {
         memberService.quitMember(memberId, request);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    /**
+     * 마이페이지 내가 쓴 댓글 조회
+     */
+    @RolesAllowed("ROLE_USER")
+    @GetMapping("/my/comments")
+    public ResponseEntity getMemberComment(@AuthMember Long memberId,
+                                             @RequestParam String lastFeedId) {
+
+        if (lastFeedId.isEmpty()) {
+            lastFeedId = "9223372036854775807";
+        }
+
+        SearchMemberPage<MemberInfoDto.Community> response
+                = memberService.searchMemberComment(memberId, Long.valueOf(lastFeedId));
+
+        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
 
