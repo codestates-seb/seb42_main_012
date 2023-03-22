@@ -17,7 +17,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.io.IOException;
 
-//@CrossOrigin
+@CrossOrigin
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/members")
@@ -53,7 +53,7 @@ public class MemberController {
      * 마이페이지 메인 조회
      */
     @GetMapping("/my")
-    @RolesAllowed("ROLE_USER")
+    @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity getMyMain(@AuthMember Long memberId) {
         MemberResponseDto.MainPage mainInfo = memberService.findMainInfo(memberId);
 
@@ -75,6 +75,7 @@ public class MemberController {
      * 비밀번호 수정
      */
     @PatchMapping("/password")
+    @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity patchPassword(@AuthMember Long memberId,
                                         @RequestBody MemberRequestDto.ModifyPassword request) {
         memberService.updatePassword(memberId, request);
@@ -86,6 +87,7 @@ public class MemberController {
      * 프로필 수정
      */
     @PatchMapping("/info")
+    @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity patchProfile(@AuthMember Long memberId,
                                        @RequestPart MemberRequestDto.ModifyProfile request,
                                        @RequestPart MultipartFile file) throws IOException {
@@ -103,6 +105,7 @@ public class MemberController {
      * 회원 탈퇴
      */
     @DeleteMapping
+    @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity deleteMember(@AuthMember Long memberId,
                                        @RequestBody MemberRequestDto.Quit request) {
         memberService.quitMember(memberId, request);

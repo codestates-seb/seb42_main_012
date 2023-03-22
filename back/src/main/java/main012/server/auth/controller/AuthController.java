@@ -7,17 +7,16 @@ import main012.server.auth.service.AuthService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin
 public class AuthController {
 
     private final AuthService authService;
@@ -39,6 +38,7 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
+    @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity logOut(@AuthMember Long memberId) {
         authService.logOutMember(memberId);
 
