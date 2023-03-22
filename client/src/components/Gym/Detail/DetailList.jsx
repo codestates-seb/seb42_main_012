@@ -4,7 +4,6 @@ import GymPrice from '../Price/Price';
 import GymReviews from '../Review/Reviews';
 import GymHours from '../Hours/Hours';
 import GymPhoneNumber from '../Phone/PhoneNumber';
-import Location from './Location';
 
 function GymDetailList({ gym }) {
   return (
@@ -13,7 +12,6 @@ function GymDetailList({ gym }) {
       <GymPrice detailPrices={gym.detailPrices} />
       <GymHours businessHours={gym.businessHours} />
       <GymMap gymAddress={gym.address} />
-      <Location />
       <GymPhoneNumber phoneNumber={gym.phoneNumber} />
       <GymReviews />
     </div>

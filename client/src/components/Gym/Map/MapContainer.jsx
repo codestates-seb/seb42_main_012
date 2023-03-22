@@ -3,7 +3,7 @@ import { Map, MapMarker } from 'react-kakao-maps-sdk';
 
 function GymMapContainer({ gymAddress }) {
   const { kakao } = window;
-  const [map, setMap] = useState({ Ma: 126.570667, La: 33.450701 });
+  const [map, setMap] = useState({ Ma: 0, La: 0 });
 
   useEffect(() => {
     // 주소-좌표 변환 객체를 생성합니다

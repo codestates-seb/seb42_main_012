@@ -1,6 +1,5 @@
 import AWS from 'aws-sdk';
 import { useState } from 'react';
-// import useStore from '../../../state/useStore';
 
 function GymPostImage({ imageUrl, setImageUrl }) {
   const [selectedFile, setSelectedFile] = useState(null);
