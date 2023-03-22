@@ -20,6 +20,7 @@ import java.util.List;
 @RequestMapping("/communities")
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin
 public class CommunityController {
 
     private final CommunityService communityService;

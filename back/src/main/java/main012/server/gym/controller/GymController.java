@@ -24,7 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/gyms")
 @RestController
-
+@CrossOrigin
 public class GymController {
     private final GymService gymService;
     private final GymMapper mapper;
