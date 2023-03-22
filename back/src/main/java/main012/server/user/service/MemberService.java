@@ -20,6 +20,4 @@ public interface MemberService {
 
     void quitMember(Long memberId, MemberRequestDto.Quit request);
 
-    void isActiveMember(Member member);
-
 }

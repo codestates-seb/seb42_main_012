@@ -57,6 +57,7 @@ public class GymController {
 
 
     // 헬스장 상세조회
+    @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     @GetMapping("/{gym_id}")
     public ResponseEntity getGym(@PathVariable("gym_id") @Positive Long gymId) {
 
