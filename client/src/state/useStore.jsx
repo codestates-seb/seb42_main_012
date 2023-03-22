@@ -9,6 +9,7 @@ const useStore = create(
       boards: [],
       comments: [],
       members: [],
+      myLocation: { Ma: 0, La: 0 },
 
       setGyms: data => {
         set(() => ({ gyms: data }));
@@ -26,6 +27,10 @@ const useStore = create(
 
       setMembers: data => {
         set(() => ({ members: data }));
+      },
+
+      setMyLocation: data => {
+        set(() => ({ myLocation: data }));
       },
     }),
     { name: 'store' },
