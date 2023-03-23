@@ -7,12 +7,10 @@ import MyAccount from '../../components/My/MyAccount';
 import Profile from '../../components/My/Profile';
 
 function MyPage() {
-  const { setMyElements, myElements } = useStore();
+  const { setMyElements } = useStore();
   useEffect(() => {
     api.get('/members/my').then(res => setMyElements(res.data));
   }, []);
-
-  console.log(myElements);
 
   return (
     <>

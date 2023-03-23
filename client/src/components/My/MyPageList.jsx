@@ -5,13 +5,14 @@ import useStore from '../../state/useStore';
 import api from '../../utils/api';
 
 function MyPageList() {
-  const { setMyBoards, myBoards, setMyComments, myComments } = useStore();
-  useEffect(() => {
-    api
-      .get('/members/my/communities?lastFeedId=56')
-      .then(res => setMyBoards(res.data.data));
-  }, []);
-  console.log(myBoards);
+  const { setMyComments, myComments } = useStore();
+  // useEffect(() => {
+  //   api
+  //     .get('/members/my/communities?lastFeedId=56')
+  //     .then(res => setMyBoards(res.data.data));
+  // }, []);
+  // console.log(myBoards);
+
   useEffect(() => {
     api
       .get('/members/my/comments?lastFeedId=15')
