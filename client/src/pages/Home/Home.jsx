@@ -14,6 +14,8 @@ function HomePage() {
     }
   }, [geolocation]);
 
+  console.log(localStorage.getItem('accessToken'));
+
   return (
     <div className="flex flex-col items-center justify-center h-screen">
       <img className="mb-8 w-60" src={logo} alt="헬스타트업 로고" />
