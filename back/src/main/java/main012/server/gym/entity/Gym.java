@@ -8,7 +8,9 @@ import main012.server.user.entity.Member;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -33,6 +35,12 @@ public class Gym extends Auditable {
     @Column(nullable = false)
     private int gymBookmarkCnt;
 
+    @ManyToOne
+    @JoinColumn(name = "facility_id")
+    private Facility facility;
+
+
+
 
 
     public Gym(String gymName) {
@@ -45,9 +53,19 @@ public class Gym extends Auditable {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne
-    @JoinColumn(name = "facility_id")
-    private Facilities facilities;
+    // N : N
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "gym_facility",
+            joinColumns = @JoinColumn(name = "gym_id"),
+            inverseJoinColumns = @JoinColumn(name = "facilityId")
+    )
+
+    private Set<Facility> facilities = new HashSet<>();
+
+    public void addFacility(Facility facility) {
+        this.facilities.add(facility);
+    }
 
 
 
@@ -68,9 +86,7 @@ public class Gym extends Auditable {
     private List<GymReview> gymReviews = new ArrayList<>();
 
     // 1 : N
-    @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "gym", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<GymFacility> gymFacilities = new ArrayList<>();
+
 
     // 1 : N
     // orphanRemoval => GymImage List 에서 remove(gymImage) 하면 해당 gymImage 객체의 로우값이 GymImage 테이블에서 자동 삭제됨
@@ -103,12 +119,8 @@ public class Gym extends Auditable {
         }
     }
 
-    public void setGymFacility(GymFacility gymFacility){
-        this.gymFacilities.add(gymFacility);
-        if (gymFacility.getGym() != this) {
-            gymFacility.setGym(this);
-        }
-    }
+
+
 
     public void setGymImage(GymImage gymImage) {
         this.gymImages.add(gymImage);

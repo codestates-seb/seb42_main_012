@@ -2,9 +2,11 @@ package main012.server.gym.service;
 
 import lombok.RequiredArgsConstructor;
 import main012.server.cursor.CursorResult;
+import main012.server.gym.dto.GymDto;
 import main012.server.gym.entity.Gym;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
+import main012.server.gym.repository.FacilityRepository;
 import main012.server.gym.repository.GymRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,13 +28,21 @@ import java.util.Optional;
 public class GymService {
     @Autowired
     private final GymRepository gymRepository;
+    private final FacilityRepository facilityRepository;
 
 
     public Gym createGym(Gym gym) {
 
-        // 등록된 헬스장인지 검증
         return gymRepository.save(gym);
     }
+
+    // 헬스장 시설 별 조회 기능
+    public List<Gym> findFacilityGyms(Long facilityId) {
+        List<Gym> response = gymRepository.findAllByFacilityId(facilityId);
+        return response;
+    }
+
+
 
 
     public Gym updateGym(Gym gym) {
@@ -47,6 +57,8 @@ public class GymService {
                 .ifPresent(phoneNumber -> findGym.setPhoneNumber(phoneNumber));
         Optional.ofNullable(gym.getBusinessHours())
                 .ifPresent(businessHours -> findGym.setBusinessHours(businessHours));
+        Optional.ofNullable(gym.getFacility().getFacilityName())
+                .ifPresent(facilityId -> findGym.getFacility().setFacilityName(facilityId));
 
         return gymRepository.save(findGym);
     }
@@ -105,15 +117,7 @@ public class GymService {
             throw new BusinessLoginException(ExceptionCode.GYM_EXISTS);
     }
 
-//    public Gym findGym(Long id) {
-//        return findGymById(id);
-//    }
 
-//    // 헬스장 id 찾기
-//    public Gym findGymById(Long id) {
-//        Optional<Gym> optionalQuestion = gymRepository.findById(id);
-//        return optionalQuestion.orElseThrow(() ->
-//                new BusinessLoginException(ExceptionCode.GYM_NOT_FOUND));
-//    }
+
 
 }

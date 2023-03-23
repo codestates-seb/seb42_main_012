@@ -23,8 +23,6 @@ public interface GymMapper {
         gym.setAddress(gymPostDto.getAddress());
         gym.setPhoneNumber(gymPostDto.getPhoneNumber());
         gym.setBusinessHours(gymPostDto.getBusinessHours());
-//        gym.setGymFacility(GymFacility.builder().facility(gymPostDto.getFacility()).build());
-
         gym.setMember(member);
         return gym;
     }
@@ -38,7 +36,7 @@ public interface GymMapper {
         responseGym.setAddress(gym.getAddress());
         responseGym.setPhoneNumber(gym.getPhoneNumber());
         responseGym.setBusinessHours(gym.getBusinessHours());
-
+        responseGym.setFacilityName(gym.getFacility().getFacilityName());
         responseGym.setGymBookmarkCnt(gym.getGymBookmarks().size());
 
         return responseGym;

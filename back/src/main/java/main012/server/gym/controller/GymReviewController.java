@@ -3,9 +3,7 @@ package main012.server.gym.controller;
 
 import lombok.RequiredArgsConstructor;
 import main012.server.auth.resolver.AuthMember;
-import main012.server.gym.dto.GymReviewPatchDto;
-import main012.server.gym.dto.GymReviewPostDto;
-import main012.server.gym.dto.GymReviewResponseDto;
+import main012.server.gym.dto.GymReviewDto;
 import main012.server.gym.entity.GymReview;
 import main012.server.gym.mapper.GymReviewMapper;
 import main012.server.gym.service.GymReviewService;
@@ -38,12 +36,12 @@ public class GymReviewController {
 //     gym_id 번 헬스장에 리뷰 등록
     @PostMapping("{gym_id}")
     @RolesAllowed({"ROLE_USER"})
-    public ResponseEntity<?> postGymReview(@Valid @RequestBody GymReviewPostDto gymReviewPostDto,
+    public ResponseEntity<?> postGymReview(@Valid @RequestBody GymReviewDto.Post gymReviewPostDto,
                                            @AuthMember Long memberId)
     {
         GymReview gymReview = mapper.gymReviewPostDtoToGymReview(gymReviewPostDto, memberId); //DTO -> Entity 변환
         GymReview createGymReview = gymReviewService.createGymReview(gymReview); //테이블 저장
-        GymReviewResponseDto response = mapper.gymReviewResponseDtoToGymReview(createGymReview); //Entity -> ResponseDto
+        GymReviewDto.Response response = mapper.gymReviewResponseDtoToGymReview(createGymReview); //Entity -> ResponseDto
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -52,7 +50,7 @@ public class GymReviewController {
     @PatchMapping("/{review_id}")
     @RolesAllowed({"ROLE_USER"})
     public ResponseEntity patchGymReview(@PathVariable("review_id") @Positive Long id,
-                                         @Valid @RequestBody GymReviewPatchDto gymReviewPatchDto){
+                                         @Valid @RequestBody GymReviewDto.Patch gymReviewPatchDto){
         gymReviewPatchDto.setId(id);
 
         GymReview response =
@@ -68,7 +66,7 @@ public class GymReviewController {
 
         Page<GymReview> gymReviewPage = gymReviewService.gymReviewPage(pageable); //페이지형식으로 모든 리뷰를 받아온다
         List<GymReview> gymReviews = gymReviewPage.getContent(); // 받아온 리뷰를 리스트형식으로 바꾼다.
-        List<GymReviewResponseDto> response = mapper.gymReviewsToGymResponseDtos(gymReviews);
+        List<GymReviewDto.Response> response = mapper.gymReviewsToGymResponseDtos(gymReviews);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
 

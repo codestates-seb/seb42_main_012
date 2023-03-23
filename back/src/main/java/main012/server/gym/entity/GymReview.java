@@ -18,7 +18,6 @@ public class GymReview extends Auditable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "gym_review_id")
     private Long id;
-    private boolean gymLikeStatus; // 찜 한 상태
 
     private long gymGrade;
 

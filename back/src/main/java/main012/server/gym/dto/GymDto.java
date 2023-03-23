@@ -25,7 +25,7 @@ public class GymDto {
         @NotBlank(message = "운영 시간을 입력해 주세요")
         private String businessHours;
 
-        private Long facilitiesId;
+        private Long facilityId;
     }
 
     @Getter
@@ -43,6 +43,7 @@ public class GymDto {
         private String phoneNumber;
         @NotBlank(message = "운영 시간을 입력해 주세요")
         private String businessHours;
+        private Long facilityId;
 
         public void setId(Long id) {
         }
@@ -56,8 +57,10 @@ public class GymDto {
         private String gymName;
         private String address;
         private String phoneNumber;
+        private String FacilityName;
         private String businessHours;
         private long gymBookmarkCnt;
+
     }
 
 
