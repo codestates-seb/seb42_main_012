@@ -9,5 +9,5 @@ import javax.validation.constraints.Positive;
 public class GymBookmarkDto {
     @Positive
     @NotNull
-    private Long id;
+    private Long gymId;
 }

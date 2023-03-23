@@ -89,9 +89,9 @@ public class GymService {
 
     }
     // 이미 존재하는 헬스장인지 검증
-    public Gym findVerifiedGym(long gymId) {
+    public Gym findVerifiedGym(long id) {
         Optional<Gym> optionalGym =
-                gymRepository.findById(gymId);
+                gymRepository.findById(id);
         Gym findGym =
                 optionalGym.orElseThrow(() ->
                         new BusinessLoginException(ExceptionCode.GYM_NOT_FOUND));
@@ -104,5 +104,16 @@ public class GymService {
         if (gym.isPresent())
             throw new BusinessLoginException(ExceptionCode.GYM_EXISTS);
     }
+
+//    public Gym findGym(Long id) {
+//        return findGymById(id);
+//    }
+
+//    // 헬스장 id 찾기
+//    public Gym findGymById(Long id) {
+//        Optional<Gym> optionalQuestion = gymRepository.findById(id);
+//        return optionalQuestion.orElseThrow(() ->
+//                new BusinessLoginException(ExceptionCode.GYM_NOT_FOUND));
+//    }
 
 }

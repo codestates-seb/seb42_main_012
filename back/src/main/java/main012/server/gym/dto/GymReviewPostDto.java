@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @Getter @Setter
 @NoArgsConstructor
 public class GymReviewPostDto {
-    @NotBlank(message = "평점을 입력해주세요")
+
     @Min(1) @Max(5)
     private long gymGrade;
 

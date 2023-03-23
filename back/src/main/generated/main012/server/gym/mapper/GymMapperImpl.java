@@ -3,21 +3,21 @@ package main012.server.gym.mapper;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
-import main012.server.gym.dto.GymPatchDto;
-import main012.server.gym.dto.GymResponseDto;
+import main012.server.gym.dto.GymDto.Patch;
+import main012.server.gym.dto.GymDto.Response;
 import main012.server.gym.entity.Gym;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-03-23T15:46:04+0900",
+    date = "2023-03-23T18:35:35+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.18 (Azul Systems, Inc.)"
 )
 @Component
 public class GymMapperImpl implements GymMapper {
 
     @Override
-    public Gym gymPatchDtoToGym(GymPatchDto gymPatchDto) {
+    public Gym gymPatchDtoToGym(Patch gymPatchDto) {
         if ( gymPatchDto == null ) {
             return null;
         }
@@ -34,37 +34,12 @@ public class GymMapperImpl implements GymMapper {
     }
 
     @Override
-    public GymResponseDto gymToGymResponseDto(Gym gym) {
-        if ( gym == null ) {
-            return null;
-        }
-
-        Long id = null;
-        String gymName = null;
-        String address = null;
-        String phoneNumber = null;
-        String businessHours = null;
-
-        id = gym.getId();
-        gymName = gym.getGymName();
-        address = gym.getAddress();
-        phoneNumber = gym.getPhoneNumber();
-        businessHours = gym.getBusinessHours();
-
-        long gBookmarkCnt = 0L;
-
-        GymResponseDto gymResponseDto = new GymResponseDto( id, gymName, address, phoneNumber, businessHours, gBookmarkCnt );
-
-        return gymResponseDto;
-    }
-
-    @Override
-    public List<GymResponseDto> gymsToGymResponseDtos(List<Gym> gyms) {
+    public List<Response> gymsToGymResponseDtos(List<Gym> gyms) {
         if ( gyms == null ) {
             return null;
         }
 
-        List<GymResponseDto> list = new ArrayList<GymResponseDto>( gyms.size() );
+        List<Response> list = new ArrayList<Response>( gyms.size() );
         for ( Gym gym : gyms ) {
             list.add( gymToGymResponseDto( gym ) );
         }

@@ -1,7 +1,6 @@
 package main012.server.gym.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import main012.server.gym.entity.Gym;
 import main012.server.gym.entity.GymBookmark;
 import main012.server.gym.repository.GymBookmarkRepository;
@@ -21,20 +20,26 @@ public class GymBookmarkService {
     private final GymBookmarkRepository gymBookmarkRepository;
     private final GymRepository gymRepository;
     private final MemberRepository memberRepository;
+    private final MemberServiceImpl memberServiceImpl;
+    private final GymService gymService;
 
-    public void addGymBookmark(Long memberId, Long gymId){
+    public Gym addGymBookmark(Long memberId, Long gymId) {
 
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("존재하지 않는 회원"));
-        Gym gym = gymRepository.findById(gymId).orElseThrow(() -> new RuntimeException("존재하지 않는 회원"));
-        Optional<GymBookmark> foundGymBookmark = gymBookmarkRepository.findByMemberAndGym(member, gym);
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("존재하지않는 회원"));
+        Gym gym = gymRepository.findById(gymId).orElseThrow(() -> new RuntimeException("존재하지 않는 헬스장"));
+        Optional<GymBookmark> foundBookmark = gymBookmarkRepository.findByMemberAndGym(member, gym);
 
-        if (foundGymBookmark.isPresent()) {
-            gymBookmarkRepository.delete(foundGymBookmark.orElseThrow(() -> new RuntimeException("존재하지 않는 찜")));
+        if (foundBookmark.isPresent()) {
+            gymBookmarkRepository.delete(foundBookmark.orElseThrow(() -> new RuntimeException("존재하지 않는 찜")));
         } else {
-            GymBookmark bookmark = new GymBookmark(member, gym);
-            gymBookmarkRepository.save(bookmark);
+            GymBookmark gymBookmark = new GymBookmark(member, gym);
+            gymBookmarkRepository.save(gymBookmark);
         }
-
+        return gym;
     }
-
 }
+
+
+
+
+

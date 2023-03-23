@@ -30,6 +30,9 @@ public class Gym extends Auditable {
     @Column(length = 100, nullable = false)
     private String businessHours;
 
+    @Column(nullable = false)
+    private int gymBookmarkCnt;
+
 
 
     public Gym(String gymName) {
@@ -41,6 +44,10 @@ public class Gym extends Auditable {
     @ManyToOne(fetch = FetchType.LAZY) // 유저는 여러개의 헬스장 등록을 할 수 있다.
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @ManyToOne
+    @JoinColumn(name = "facility_id")
+    private Facilities facilities;
 
 
 

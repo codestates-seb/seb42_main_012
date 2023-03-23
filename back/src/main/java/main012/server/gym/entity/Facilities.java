@@ -18,15 +18,21 @@ public class Facilities {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "facility_id")
-    private Long id;
+    private Long facilitiesId;
 
-    @Column(nullable = false, length = 50)
     private String facilityName;
 
     // 1:N
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "facilities",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<GymFacility> facilityGyms = new ArrayList<>();
+
+    public void setGymFacilities(GymFacility gymFacility) {
+        this.facilityGyms.add(gymFacility);
+        if(gymFacility.getFacilities() != this) {
+            gymFacility.setFacilities(this);
+        }
+    }
 
 
 }

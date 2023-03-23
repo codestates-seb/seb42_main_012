@@ -18,9 +18,6 @@ public class GymBookmark {
     @Column(name = "gym_bookmark_id")
     private Long id;
 
-
-    private boolean bookmarkStatus;
-
     @ManyToOne
     @JoinColumn(name = "gym_id")
     private Gym gym;
@@ -34,7 +31,4 @@ public class GymBookmark {
         this.gym = gym;
     }
 
-    public boolean getBookmarkStatus(){
-        return bookmarkStatus;
-    }
 }
