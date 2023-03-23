@@ -43,6 +43,8 @@ public class Gym extends Auditable {
     private Member member;
 
 
+
+
     // 1 : N
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "gym", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)

@@ -2,7 +2,7 @@ package main012.server.gym.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import main012.server.gym.entity.Facilities;
+
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;

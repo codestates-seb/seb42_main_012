@@ -34,6 +34,7 @@ public class GymBookmarkService {
             GymBookmark bookmark = new GymBookmark(member, gym);
             gymBookmarkRepository.save(bookmark);
         }
+
     }
 
 }

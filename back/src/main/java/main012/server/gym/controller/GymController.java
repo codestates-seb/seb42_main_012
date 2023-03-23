@@ -38,7 +38,7 @@ public class GymController {
     private final GymBookmarkService gymBookmarkService;
     private final GymService gymService;
     private final GymMapper mapper;
-    private static final int DEFAULT_SIZE = 10;// 커서 페이지네이션
+    private static final int DEFAULT_SIZE = 15;// 커서 페이지네이션
 
 
 
@@ -89,7 +89,7 @@ public class GymController {
 //    }
     @GetMapping
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
-    public ResponseEntity getGyms(@PageableDefault(size=10, direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity getGyms(@PageableDefault(size=15, direction = Sort.Direction.DESC) Pageable pageable) {
         // (7)
 //        List<Gym> response = gymService.findGyms();
 //        return new ResponseEntity<>(response, HttpStatus.OK);

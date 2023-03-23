@@ -31,7 +31,7 @@ import java.util.List;
 public class GymReviewController {
     private final GymReviewService gymReviewService;
     private final GymReviewMapper mapper;
-    private static final int DEFAULT_SIZE = 10;// 커서 페이지네이션
+    private static final int DEFAULT_SIZE = 15;// 커서 페이지네이션
 
 
 
@@ -64,7 +64,7 @@ public class GymReviewController {
     @GetMapping("{gym_id}")
     @RolesAllowed({"ROLE_USER"})
     public ResponseEntity getGymReviews(@PathVariable("gym_id") @Positive long Id,
-                                        @PageableDefault(size=10, sort = "createdAt", direction = Sort.Direction.DESC)Pageable pageable) {
+                                        @PageableDefault(size=15, sort = "createdAt", direction = Sort.Direction.DESC)Pageable pageable) {
 
         Page<GymReview> gymReviewPage = gymReviewService.gymReviewPage(pageable); //페이지형식으로 모든 리뷰를 받아온다
         List<GymReview> gymReviews = gymReviewPage.getContent(); // 받아온 리뷰를 리스트형식으로 바꾼다.
