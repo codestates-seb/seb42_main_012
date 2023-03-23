@@ -3,6 +3,7 @@ package main012.server.user.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import main012.server.community.entity.Community;
+import main012.server.community.entity.CommunityBookmark;
 import main012.server.community.entity.CommunityComment;
 import main012.server.community.repository.CommentRepository;
 import main012.server.community.repository.CommunityBookmarkRepository;
@@ -10,6 +11,7 @@ import main012.server.community.repository.CommunityRepository;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
 import main012.server.gym.entity.Gym;
+import main012.server.gym.entity.GymBookmark;
 import main012.server.gym.entity.GymReview;
 import main012.server.gym.repository.GymBookmarkRepository;
 import main012.server.gym.repository.GymRepository;
@@ -34,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -292,20 +295,21 @@ public class MemberServiceImpl implements MemberService {
     public MemberResponseDto.SearchMemberPage searchMemberCommunityBookmark(Long memberId, String lastFeedId) {
         Long feedId = getFeedId(lastFeedId);
 
-        Page<Community> pages = communityRepository.findByCommunityBookmarksMemberIdAndCommunityIdLessThanOrderByCommunityIdDesc(memberId, feedId, pageable);
-        List<Community> contents = pages.getContent();
+        Page<CommunityBookmark> pages = communityBookmarkRepository.findByMemberIdAndIdLessThanOrderByIdDesc(memberId, feedId, pageable);
+        List<CommunityBookmark> contents = pages.getContent();
 
         Long totalCnt = communityBookmarkRepository.countByMemberId(memberId);
         int totalElements = contents.size();
+
 
         Long nextCursor;
         if (totalElements < size) {
             nextCursor = -1L;
         } else {
-            nextCursor = contents.get(size - 1).getCommunityId();
+            nextCursor = contents.get(size - 1).getId();
         }
 
-        List<MemberInfoDto.Communities> responses = memberMapper.communityToCommunityInfos(contents);
+        List<MemberInfoDto.Communities> responses = memberMapper.communityBookmarksToCommunityInfos(contents);
 
         return new MemberResponseDto.SearchMemberPage(
                 memberId, totalCnt, responses, totalElements, nextCursor);
@@ -318,8 +322,8 @@ public class MemberServiceImpl implements MemberService {
     public MemberResponseDto.SearchMemberPage searchMemberGymBookmark(Long memberId, String lastFeedId) {
         Long feedId = getFeedId(lastFeedId);
 
-        Page<Gym> pages = gymRepository.findByGymBookmarksMemberIdAndIdLessThanOrderByIdDesc(memberId, feedId, pageable);
-        List<Gym> contents = pages.getContent();
+        Page<GymBookmark> pages = gymBookmarkRepository.findByMemberIdAndIdLessThanOrderByIdDesc(memberId, feedId, pageable);
+        List<GymBookmark> contents = pages.getContent();
 
         Long totalCnt = gymBookmarkRepository.countByMemberId(memberId);
         int totalElements = contents.size();
@@ -342,15 +346,12 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public MemberResponseDto.SearchMemberPage searchMemberGymReview(Long memberId, String lastFeedId) {
-//        Member member = findVerifyMember(memberId);
-        log.info("##### 리뷰 조회 시작");
-        Long totalCnt = gymReviewRepository.countByMemberId(memberId);
-
         Long feedId = getFeedId(lastFeedId);
 
         Page<GymReview> pages = gymReviewRepository.findByMemberIdAndIdLessThanOrderByIdDesc(memberId, feedId, pageable);
         List<GymReview> contents = pages.getContent();
 
+        Long totalCnt = gymReviewRepository.countByMemberId(memberId);
         int totalElements = contents.size();
 
         Long nextCursor;

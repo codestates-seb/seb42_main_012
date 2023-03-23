@@ -1,6 +1,7 @@
 package main012.server.user.mapper;
 
 import main012.server.community.entity.Community;
+import main012.server.community.entity.CommunityBookmark;
 import main012.server.community.entity.CommunityComment;
 import main012.server.gym.entity.Gym;
 import main012.server.gym.entity.GymBookmark;
@@ -38,6 +39,20 @@ public interface MemberMapper {
     List<MemberInfoDto.Communities> communityToCommunityInfos(List<Community> communities);
 
 
+    default MemberInfoDto.Communities communityBookmarkToCommunityInfo(CommunityBookmark cb) {
+        Community c = cb.getCommunity();
+
+        MemberInfoDto.Communities response = MemberInfoDto.Communities.builder()
+                .boardId(c.getCommunityId())
+                .boardTab(c.getTab().getTabName())
+                .boardTitle(c.getTitle())
+                .boardCreatedAt(c.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .build();
+        return response;
+    }
+
+    List<MemberInfoDto.Communities> communityBookmarksToCommunityInfos(List<CommunityBookmark> communities);
+
     default MemberInfoDto.Comments commentToCommentInfo(CommunityComment cc) {
         MemberInfoDto.Comments response = new MemberInfoDto.Comments(
                 cc.getCommunity().getTab().getTabName(),
@@ -50,7 +65,8 @@ public interface MemberMapper {
     List<MemberInfoDto.Comments> commentsToCommentInfos(List<CommunityComment> comments);
 
 
-    default MemberInfoDto.Gyms gymBookmarkToGymBookmarkInfo(Gym g) {
+    default MemberInfoDto.Gyms gymBookmarkToGymBookmarkInfo(GymBookmark gb) {
+        Gym g = gb.getGym();
         MemberInfoDto.Gyms response = new MemberInfoDto.Gyms(
                 g.getId(),
                 g.getGymName()
@@ -58,7 +74,7 @@ public interface MemberMapper {
         return response;
     }
 
-    List<MemberInfoDto.Gyms> gymsToGymInfos(List<Gym> gymBookmarks);
+    List<MemberInfoDto.Gyms> gymsToGymInfos(List<GymBookmark> gymBookmarks);
 
     default MemberInfoDto.GymReviews gymReviewToGymReviewInfo(GymReview gr) {
         MemberInfoDto.GymReviews response = new MemberInfoDto.GymReviews(
