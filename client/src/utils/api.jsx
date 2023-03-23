@@ -1,8 +1,16 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://ec2-13-124-61-156.ap-northeast-2.compute.amazonaws.com:8080',
-  retryCount: 3,
+  baseURL: process.env.REACT_APP_API_URL,
+  timeout: 10000,
+});
+
+const refreshApi = axios.create({
+  baseURL: process.env.REACT_APP_API_URL,
+  headers: {
+    'authorization-refresh': localStorage.getItem('refreshToken'),
+  },
+  timeout: 10000,
 });
 
 api.interceptors.response.use(
@@ -21,18 +29,13 @@ api.interceptors.response.use(
   async error => {
     const originalRequest = error.config;
     if (error.response.status === 401) {
-      console.log('토큰 만료');
-      const data = await api.post('/auth/refresh', {
-        headers: {
-          authorization: localStorage.getItem('refreshToken'),
-        },
+      await refreshApi.post('/auth/refresh').then(res => {
+        localStorage.setItem('accessToken', res.headers.authorization);
+        localStorage.setItem(
+          'refreshToken',
+          res.headers['authorization-refresh'],
+        );
       });
-
-      localStorage.setItem('accessToken', data.headers.authorization);
-      localStorage.setItem(
-        'refreshToken',
-        data.headers['authorization-refresh'],
-      );
 
       return api(originalRequest);
     }
