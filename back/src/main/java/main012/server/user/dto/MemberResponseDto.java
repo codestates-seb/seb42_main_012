@@ -26,7 +26,7 @@ public class MemberResponseDto {
     @Builder
     public static class MyCommunity {
         private int boardPostCnt;
-        private MemberInfoDto.Community contents;
+        private MemberInfoDto.Communities contents;
     }
 
     @Getter

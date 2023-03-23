@@ -27,4 +27,8 @@ public interface MemberService {
     MemberResponseDto.SearchMemberPage searchMemberComment(Long memberId, String lastFeedId);
 
     MemberResponseDto.SearchMemberPage searchMemberCommunityBookmark(Long memberId, String lastFeedId);
+
+    MemberResponseDto.SearchMemberPage searchMemberGymBookmark(Long memberId, String lastFeedId);
+
+    MemberResponseDto.SearchMemberPage searchMemberGymReview (Long memberId, String lastFeedId);
 }

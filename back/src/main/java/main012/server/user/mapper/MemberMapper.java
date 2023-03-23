@@ -3,6 +3,9 @@ package main012.server.user.mapper;
 import main012.server.community.entity.Community;
 import main012.server.community.entity.CommunityBookmark;
 import main012.server.community.entity.CommunityComment;
+import main012.server.gym.entity.Gym;
+import main012.server.gym.entity.GymBookmark;
+import main012.server.gym.entity.GymReview;
 import main012.server.user.dto.MemberInfoDto;
 import main012.server.user.dto.MemberResponseDto;
 import main012.server.user.entity.Member;
@@ -14,7 +17,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
 
-    default MemberResponseDto.MainPage memberToMainPageDto(Member member, String profileImageUrl){
+    default MemberResponseDto.MainPage memberToMainPageDto(Member member, String profileImageUrl) {
         MemberResponseDto.MainPage response = MemberResponseDto.MainPage.builder()
                 .profileImage(profileImageUrl)
                 .displayName(member.getDisplayName())
@@ -26,7 +29,9 @@ public interface MemberMapper {
                 .build();
 
         return response;
-    };
+    }
+
+    ;
 
     default MemberResponseDto.Profile memberToProfileDto(Member member) {
         MemberResponseDto.Profile response = MemberResponseDto.Profile.builder()
@@ -37,8 +42,8 @@ public interface MemberMapper {
         return response;
     }
 
-    default MemberInfoDto.Community communityToCommunityInfo(Community community) {
-        MemberInfoDto.Community response = MemberInfoDto.Community.builder()
+    default MemberInfoDto.Communities communityToCommunityInfo(Community community) {
+        MemberInfoDto.Communities response = MemberInfoDto.Communities.builder()
                 .boardTab(community.getTab().getTabName())
                 .boardTitle(community.getTitle())
                 .boardCreatedAt(community.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
@@ -46,11 +51,11 @@ public interface MemberMapper {
         return response;
     }
 
-    List<MemberInfoDto.Community> communityToCommunityInfos(List<Community> communities);
+    List<MemberInfoDto.Communities> communityToCommunityInfos(List<Community> communities);
 
 
-    default MemberInfoDto.Comment commentToCommentInfo(CommunityComment cc) {
-        MemberInfoDto.Comment response = new MemberInfoDto.Comment(
+    default MemberInfoDto.Comments commentToCommentInfo(CommunityComment cc) {
+        MemberInfoDto.Comments response = new MemberInfoDto.Comments(
                 cc.getCommunity().getTab().getTabName(),
                 cc.getComment(),
                 cc.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
@@ -58,12 +63,12 @@ public interface MemberMapper {
         return response;
     }
 
-    List<MemberInfoDto.Comment> commentsToCommentInfos(List<CommunityComment> comments);
+    List<MemberInfoDto.Comments> commentsToCommentInfos(List<CommunityComment> comments);
 
 
-    default MemberInfoDto.CommunityBookmark communityBookmarkToCommunityBookmarkInfo(CommunityBookmark cb) {
+    default MemberInfoDto.CommunityBookmarks communityBookmarkToCommunityBookmarkInfo(CommunityBookmark cb) {
         Community c = cb.getCommunity();
-        MemberInfoDto.CommunityBookmark response = new MemberInfoDto.CommunityBookmark(
+        MemberInfoDto.CommunityBookmarks response = new MemberInfoDto.CommunityBookmarks(
                 c.getCommunityId(),
                 c.getTab().getTabName(),
                 c.getTitle(),
@@ -72,7 +77,33 @@ public interface MemberMapper {
         return response;
     }
 
-    List<MemberInfoDto.CommunityBookmark> commentsToCommunityBookmarkInfos (List<CommunityBookmark> communityBookmarks);
+    List<MemberInfoDto.CommunityBookmarks> commentsToCommunityBookmarkInfos(List<CommunityBookmark> communityBookmarks);
+
+
+    default MemberInfoDto.GymBookmarks gymBookmarkToGymBookmarkInfo(GymBookmark gb) {
+        Gym g = gb.getGym();
+        MemberInfoDto.GymBookmarks response = new MemberInfoDto.GymBookmarks(
+                g.getId(),
+                g.getGymName(),
+                g.getAddress(),
+                g.getPhoneNumber(),
+                g.getBusinessHours()
+        );
+        return response;
+    }
+
+    List<MemberInfoDto.GymBookmarks> gymBookmarksToGymBookmarkInfos(List<GymBookmark> gymBookmarks);
+
+    default MemberInfoDto.GymReviews gymReviewToGymReviewInfo(GymReview gr) {
+        MemberInfoDto.GymReviews response = new MemberInfoDto.GymReviews(
+                gr.getGym().getId(),
+                gr.getGymComment(),
+                gr.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        );
+        return response;
+    }
+
+    List<MemberInfoDto.GymReviews> gymReviewsToGymReviewInfos(List<GymReview> gymReviews);
 
 
 }

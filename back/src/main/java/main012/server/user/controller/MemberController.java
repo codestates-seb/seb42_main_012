@@ -115,7 +115,7 @@ public class MemberController {
     public ResponseEntity getMemberCommunity(@AuthMember Long memberId,
                                              @RequestParam String lastFeedId) {
 
-       SearchMemberPage<MemberInfoDto.Community> response
+       SearchMemberPage<MemberInfoDto.Communities> response
                 = memberService.searchMemberCommunity(memberId, lastFeedId);
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
@@ -127,9 +127,9 @@ public class MemberController {
     @RolesAllowed("ROLE_USER")
     @GetMapping("/my/comments")
     public ResponseEntity getMemberComment(@AuthMember Long memberId,
-                                             @RequestParam String lastFeedId) {
+                                           @RequestParam String lastFeedId) {
 
-        SearchMemberPage<MemberInfoDto.Comment> response
+        SearchMemberPage<MemberInfoDto.Comments> response
                 = memberService.searchMemberComment(memberId, lastFeedId);
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
@@ -143,10 +143,37 @@ public class MemberController {
     public ResponseEntity getMemberCommunityBookmark(@AuthMember Long memberId,
                                                      @RequestParam String lastFeedId) {
 
-        SearchMemberPage<MemberInfoDto.CommunityBookmark> response
+        SearchMemberPage<MemberInfoDto.CommunityBookmarks> response
                 = memberService.searchMemberCommunityBookmark(memberId, lastFeedId);
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
+    /**
+     * 마이페이지 헬스장 찜 조회
+     */
+    @RolesAllowed("ROLE_USER")
+    @GetMapping("/my/bookmarks/gyms")
+    public ResponseEntity getMemberGymBookmark(@AuthMember Long memberId,
+                                               @RequestParam String lastFeedId) {
+
+        SearchMemberPage<MemberInfoDto.GymBookmarks> response
+                = memberService.searchMemberGymBookmark(memberId, lastFeedId);
+
+        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
+    /**
+     * 마이페이지 내가 쓴 리뷰 조회
+     */
+    @RolesAllowed("ROLE_USER")
+    @GetMapping("/my/reviews")
+    public ResponseEntity getMemberGymReview(@AuthMember Long memberId,
+                                             @RequestParam String lastFeedId) {
+
+        SearchMemberPage<MemberInfoDto.GymReviews> response
+                = memberService.searchMemberGymReview(memberId, lastFeedId);
+
+        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
 }
