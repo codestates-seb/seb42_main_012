@@ -6,10 +6,10 @@ import GymTabList from '../../components/Gym/List/GymTabList';
 import useStore from '../../state/useStore';
 
 function GymPage() {
-  const { gyms } = useStore();
+  const { gyms, setGyms } = useStore();
 
   useEffect(() => {
-    api.get('/gyms?lastFeedId=10');
+    api.get('/gyms?lastFeedId=10').then(res => setGyms(res.data));
   }, []);
 
   return (

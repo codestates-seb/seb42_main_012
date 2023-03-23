@@ -6,17 +6,10 @@ const api = axios.create({
 
 api.interceptors.request.use(
   res => {
-    if (res.headers.authorization && !localStorage.getItem('accessToken')) {
-      localStorage.setItem('accessToken', res.headers.authorization);
-      localStorage.setItem(
-        'refreshToken',
-        res.headers['authorization-refresh'],
-      );
-      return res;
-    }
     res.headers.authorization = localStorage.getItem('accessToken');
     return res;
   },
+
   async error => {
     if (error.response.status === 401) {
       const data = await api.post('/auth/refresh', {
