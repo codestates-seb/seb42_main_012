@@ -16,10 +16,18 @@ function HomePage() {
   }, [geolocation]);
 
   useEffect(() => {
-    api.post('/auth/login', {
-      email: 'testOwner@email.com',
-      password: 'secret',
-    });
+    api
+      .post('/auth/login', {
+        email: 'testOwner@email.com',
+        password: 'secret',
+      })
+      .then(res => {
+        localStorage.setItem('accessToken', res.headers.authorization);
+        localStorage.setItem(
+          'refreshToken',
+          res.headers['authorization-refresh'],
+        );
+      });
   }, []);
 
   return (
