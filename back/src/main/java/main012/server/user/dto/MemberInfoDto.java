@@ -37,9 +37,6 @@ public class MemberInfoDto {
     public static class GymBookmarks {
         private Long gymId;
         private String gymName;
-        private String address;
-        private String phoneNumber;
-        private String businessHours;
     }
 
     @Getter
