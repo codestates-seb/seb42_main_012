@@ -1,13 +1,12 @@
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import GymDetailHeader from '../../components/Gym/Detail/DetailHeader';
 import GymDetailMainImg from '../../components/Gym/Detail/DetailMainImg';
 import GymDetailList from '../../components/Gym/Detail/DetailList';
 import useStore from '../../state/useStore';
 
 function GymDetailPage() {
-  const { gyms } = useStore();
-  const { id } = useParams();
-  const gymDetail = gyms.filter(gym => gym.gymId === Number(id));
+  const { gymDetail } = useStore();
+  // const { id } = useParams();
 
   return (
     <>

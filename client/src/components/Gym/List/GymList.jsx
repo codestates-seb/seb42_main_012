@@ -5,8 +5,8 @@ function GymList({ gyms }) {
     <ul>
       {gyms.map(gym => (
         <Gym
-          key={gym.gymId}
-          gymId={gym.gymId}
+          key={gym.id}
+          gymId={gym.id}
           gymName={gym.gymName}
           gymImage={gym.gymImage}
           address={gym.address}

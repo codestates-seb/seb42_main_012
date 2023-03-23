@@ -7,8 +7,8 @@ function GymNewestList({ gyms }) {
       <ul className="flex overflow-x-scroll scrollbar-hide">
         {gyms.map(gym => (
           <GymNewest
-            key={gym.gymId}
-            gymId={gym.gymId}
+            key={gym.id}
+            gymId={gym.id}
             gymName={gym.gymName}
             gymImage={gym.gymImage}
           />
