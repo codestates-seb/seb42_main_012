@@ -130,16 +130,16 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberResponseDto.Profile updateProfile(Long memberId, MemberRequestDto.ModifyProfile request, Image image) {
         Member findMember = findVerifyMember(memberId);
-        if (request.getDisplayName() != null) {
-            findMember.setDisplayName(request.getDisplayName());
-        }
-        if (image != null) {
-            findMember.setImage(image);
-        }
 
-        log.info("## profileImageUrl : {}", findMember.getImage().getImagePath());
+        Optional.ofNullable(request.getDisplayName())
+                .ifPresent(displayName -> findMember.setDisplayName(displayName));
 
-        MemberResponseDto.Profile response = memberMapper.memberToProfileDto(findMember);
+        Optional.ofNullable(image)
+                .ifPresent(img -> findMember.setImage(img));
+
+        String profileImageUrl = getProfileImageUrl(findMember);
+
+        MemberResponseDto.Profile response = memberMapper.memberToProfileDto(findMember, profileImageUrl);
 
         return response;
     }
@@ -212,12 +212,7 @@ public class MemberServiceImpl implements MemberService {
     public MemberResponseDto.MainPage findMainInfo(Long memberId) {
         Member findMember = findVerifyMember(memberId);
 
-        String profileImageUrl;
-        if (findMember.getImage() != null) {
-            profileImageUrl = findMember.getImage().getImagePath();
-        } else {
-            profileImageUrl = null;
-        }
+        String profileImageUrl = getProfileImageUrl(findMember);
 
         MemberResponseDto.MainPage response = memberMapper.memberToMainPageDto(findMember, profileImageUrl);
 
@@ -370,6 +365,15 @@ public class MemberServiceImpl implements MemberService {
             feedId = Long.valueOf(lastFeedId);
         }
         return feedId;
+    }
+
+    // member의 profileImageUrl 찾아오기
+    private String getProfileImageUrl(Member member) {
+        String imagePath = null;
+        if (member.getImage() != null) {
+            imagePath = member.getImage().getImagePath();
+        }
+        return imagePath;
     }
 
 }
