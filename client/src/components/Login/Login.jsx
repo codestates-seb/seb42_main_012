@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form';
+
 import { useNavigate } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
 
@@ -41,6 +42,7 @@ function Login() {
           <input
             placeholder="비밀번호"
             className="border border-[var(--second-border)] outline-[var(--main)] rounded-sm w-full p-2"
+            type="password"
             {...register('password', {
               required: '내용을 입력해주세요',
             })}
