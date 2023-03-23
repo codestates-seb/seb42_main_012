@@ -16,19 +16,13 @@ function HomePage() {
   }, [geolocation]);
 
   useEffect(() => {
-    api
-      .post('/auth/login', {
-        email: 'testOwner@email.com',
-        password: 'secret',
-      })
-      .then(res => {
-        localStorage.setItem('accessToken', res.headers.authorization);
-        localStorage.setItem(
-          'refreshToken',
-          res.headers['authorization-refresh'],
-        );
-      });
+    api.post('/auth/login', {
+      email: 'testOwner@email.com',
+      password: 'secret',
+    });
   }, []);
+
+  console.log(localStorage.getItem('accessToken'));
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
