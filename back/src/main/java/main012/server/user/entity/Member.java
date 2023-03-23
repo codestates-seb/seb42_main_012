@@ -144,18 +144,18 @@ public class Member extends Auditable {
     }
 
     // member formula
-    @Formula("(SELECT count(1) FROM community c WHERE c.member_id = member_id)")
-    private int boardPostCnt;
-
-    @Formula("(SELECT count(1) FROM community_comment cm WHERE cm.member_id = member_id)")
-    private int boardCommentCnt;
-
-    @Formula("(SELECT count(1) FROM gym_review gr WHERE gr.member_id = member_id)")
-    private int gymReviewCnt;
-
-    @Formula("(SELECT count(1) FROM community_bookmark cb WHERE cb.member_id = member_id)")
-    private int boardBookmarkCnt;
-
-    @Formula("(SELECT count(1) FROM gym_bookmark gb WHERE gb.member_id = member_id)")
-    private int gymBookmarkCnt;
+//    @Formula("(SELECT count(1) FROM community c WHERE c.member_id = member_id)")
+//    private int boardPostCnt;
+//
+//    @Formula("(SELECT count(1) FROM community_comment cm WHERE cm.member_id = member_id)")
+//    private int boardCommentCnt;
+//
+//    @Formula("(SELECT count(1) FROM gym_review gr WHERE gr.member_id = member_id)")
+//    private int gymReviewCnt;
+//
+//    @Formula("(SELECT count(1) FROM community_bookmark cb WHERE cb.member_id = member_id)")
+//    private int boardBookmarkCnt;
+//
+//    @Formula("(SELECT count(1) FROM gym_bookmark gb WHERE gb.member_id = member_id)")
+//    private int gymBookmarkCnt;
 }

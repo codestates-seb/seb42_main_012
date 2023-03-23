@@ -23,7 +23,7 @@ import java.util.List;
 @RequestMapping("/communities/comments")
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin
+//@CrossOrigin
 public class CommentController {
 
     private final CommentMapper mapper;
