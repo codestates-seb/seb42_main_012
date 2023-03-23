@@ -11,7 +11,6 @@ function GymPage() {
   useEffect(() => {
     api.get('/gyms?lastFeedId=10').then(res => setGyms(res.data));
   }, []);
-  console.log(gyms);
 
   return (
     <div className="mb-20">
