@@ -8,10 +8,11 @@ function MyDetailList() {
   const location = useLocation();
 
   const {
-    setGyms,
-    setReviews,
-    setComments,
-    setBoards,
+    setMyBoards,
+    setMyComments,
+    setMyReviews,
+    setMyGymsBookmarks,
+    setBoardsBookmarks,
     boards,
     comments,
     reviews,
@@ -21,26 +22,29 @@ function MyDetailList() {
   useEffect(() => {
     axios
       .all([
-        axios.get('/gyms'),
-        axios.get('/gyms/reviews'),
-        axios.get('/communities/comments'),
-        axios.get('/communities'),
+        axios.get('/my/board'),
+        axios.get('/my/comments'),
+        axios.get('/my/reviews'),
+        axios.get('/my/bookmarks/gyms'),
+        axios.get('/my/bookmarks/gyms'),
       ])
       .then(
         axios.spread((...res) => {
-          setGyms(res[0].data.data.contents);
-          setReviews(res[1].data.data.contents);
-          setComments(res[2].data.data);
-          setBoards(res[3].data.data);
+          setMyBoards(res[0].data.data.contents);
+          setMyComments(res[1].data.data.contents);
+          setMyReviews(res[2].data.data);
+          setMyGymsBookmarks(res[3].data.data);
+          setBoardsBookmarks(res[4].data.data);
+          console.log(res);
         }),
       );
   }, []);
 
-  const boardLikesFilter = boards.filter(board => board.memberId === 2);
-  const gymLikesFilter = gyms.filter(gym => gym.memberId === 1);
-  const reviewsFilter = reviews.filter(review => review.memberId === 1);
-  const commentsFilter = comments.filter(comment => comment.memberId === 1);
   const boardsFilter = boards.filter(board => board.memberId === 1);
+  const commentsFilter = comments.filter(comment => comment.memberId === 1);
+  const reviewsFilter = reviews.filter(review => review.memberId === 1);
+  const gymBookmarkFilter = gyms.filter(gym => gym.memberId === 1);
+  const boardBookmarkFilter = boards.filter(board => board.memberId === 2);
 
   return (
     <ul>
@@ -68,13 +72,13 @@ function MyDetailList() {
             <MyDetailListItem
               key={review.id}
               review={review}
-              grades={review.grade}
+              grade={review.grade}
               title={review.comment}
               created={review.createdAt}
             />
           ))
         : location.pathname === '/my/bookmarks/gyms'
-        ? gymLikesFilter.map(gym => (
+        ? gymBookmarkFilter.map(gym => (
             <MyDetailListItem
               key={gym.id}
               gym={gym}
@@ -84,7 +88,7 @@ function MyDetailList() {
             />
           ))
         : location.pathname === '/my/bookmarks/board'
-        ? boardLikesFilter.map(board => (
+        ? boardBookmarkFilter.map(board => (
             <MyDetailListItem
               key={board.id}
               board={board}
@@ -93,7 +97,7 @@ function MyDetailList() {
               created={board.createdAt}
             />
           ))
-        : null}
+        : '내용이 없습니다'}
     </ul>
   );
 }

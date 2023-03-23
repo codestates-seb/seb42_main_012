@@ -1,45 +1,86 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, devtools } from 'zustand/middleware';
 
 const useStore = create(
-  persist(
-    set => ({
-      gyms: [],
-      gymDetail: [],
-      reviews: [],
-      boards: [],
-      comments: [],
-      members: [],
-      myLocation: { Ma: 0, La: 0 },
+  devtools(
+    persist(
+      set => ({
+        // Gym
+        gyms: [],
+        gymsDetail: [],
+        reviews: [],
 
-      setGyms: data => {
-        set(() => ({ gyms: data }));
-      },
+        setGyms: data => {
+          set(() => ({ gyms: data }));
+        },
 
-      setGymsDetail: data => {
-        set(() => ({ gymDetail: data }));
-      },
+        setGymsDetail: data => {
+          set(() => ({ gymDetail: data }));
+        },
 
-      setReviews: data => {
-        set(() => ({ reviews: data }));
-      },
+        setReviews: data => {
+          set(() => ({ reviews: data }));
+        },
 
-      setBoards: data => {
-        set(() => ({ boards: data }));
-      },
-      setComments: data => {
-        set(() => ({ comments: data }));
-      },
+        // Board
+        boards: [],
+        comments: [],
 
-      setMembers: data => {
-        set(() => ({ members: data }));
-      },
+        setBoards: data => {
+          set(() => ({ boards: data }));
+        },
+        setComments: data => {
+          set(() => ({ comments: data }));
+        },
 
-      setMyLocation: data => {
-        set(() => ({ myLocation: data }));
-      },
-    }),
-    { name: 'store' },
+        // Member
+        members: [],
+
+        setMembers: data => {
+          set(() => ({ members: data }));
+        },
+
+        // Member Location
+        myLocation: { Ma: 0, La: 0 },
+
+        setMyLocation: data => {
+          set(() => ({ myLocation: data }));
+        },
+
+        // My
+        myElements: [],
+        myBoards: [],
+        myComments: [],
+        myReviews: [],
+        myGymsBookmarks: [],
+        myBoardsBookmarks: [],
+
+        setMyElements: data => {
+          set(() => ({ myElements: data }));
+        },
+
+        setMyBoards: data => {
+          set(() => ({ myBoards: data }));
+        },
+
+        setMyComments: data => {
+          set(() => ({ myComments: data }));
+        },
+
+        setMyReviews: data => {
+          set(() => ({ myReviews: data }));
+        },
+
+        setMyGymsBookmarks: data => {
+          set(() => ({ myGymsBookmarks: data }));
+        },
+
+        setBoardsBookmarks: data => {
+          set(() => ({ myBoardsBookmarks: data }));
+        },
+      }),
+      { name: 'store' },
+    ),
   ),
 );
 

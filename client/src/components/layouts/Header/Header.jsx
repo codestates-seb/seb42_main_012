@@ -2,7 +2,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import HeaderTitle from '../../UI/Title/HeaderTitle';
 import BackButton from '../../UI/Button/BackButton';
 import PostButton from '../../UI/Button/PostButton';
-import AlertButton from '../../UI/Button/AlertButton';
+// import AlertButton from '../../UI/Button/AlertButton';
 import MoreButton from '../../UI/Button/MoreButton';
 import LogoutButton from '../../UI/Button/LogoutButton';
 
@@ -77,7 +77,7 @@ function Header() {
           <HeaderTitle titleText="MY" />
           <div>
             <LogoutButton />
-            <AlertButton />
+            {/* <AlertButton /> */}
           </div>
         </header>
       );

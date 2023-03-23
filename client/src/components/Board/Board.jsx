@@ -6,7 +6,7 @@ function Board({ boards }) {
     <ul>
       {boards.map(board => (
         <BoardContentList
-          to={`${board.boardId}`}
+          to={`${board.id}`}
           classname="border-t"
           key={board.boardId}
           id={board.boardId}

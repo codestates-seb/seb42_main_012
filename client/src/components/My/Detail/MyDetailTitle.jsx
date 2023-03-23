@@ -1,8 +1,54 @@
-function MyDetailTitle({ text, countFilter }) {
+import { useLocation } from 'react-router-dom';
+import useStore from '../../../state/useStore';
+
+function MyDetailTitle() {
+  const {
+    myBoards,
+    myComments,
+    myReviews,
+    myGymsBookmarks,
+    myBoardsBookmarks,
+  } = useStore();
+  const location = useLocation();
+  const path = location.pathname;
+  const pathArr = [
+    '/my/board',
+    '/my/comments',
+    '/my/reviews',
+    '/my/bookmarks/gyms',
+    '/my/bookmarks/board',
+  ];
+
   return (
     <div className="flex items-center justify-between px-4 mb-8 font-bold">
-      <h2>{text}</h2>
-      <span className="text-[var(--main)]">{`(${countFilter})`}</span>
+      {path === pathArr[0] ? (
+        <>
+          <h2>내가 쓴 글</h2>
+          <span className="text-[var(--main)]">{`(${myBoards.totalCnt})`}</span>
+        </>
+      ) : path === pathArr[1] ? (
+        <>
+          <h2>내가 쓴 댓글</h2>
+          <span className="text-[var(--main)]">{`(${myComments.totalCnt})`}</span>
+        </>
+      ) : path === pathArr[2] ? (
+        <>
+          <h2>내가 쓴 리뷰</h2>
+          <span className="text-[var(--main)]">{`(${myReviews.totalCnt})`}</span>
+        </>
+      ) : path === pathArr[3] ? (
+        <>
+          <h2>헬스장 찜 목록</h2>
+          <span className="text-[var(--main)]">{`(${myGymsBookmarks.totalCnt})`}</span>
+        </>
+      ) : path === pathArr[4] ? (
+        <>
+          <h2>게시글 찜 목록</h2>
+          <span className="text-[var(--main)]">
+            {`(${myBoardsBookmarks.totalCnt})`}
+          </span>
+        </>
+      ) : null}
     </div>
   );
 }

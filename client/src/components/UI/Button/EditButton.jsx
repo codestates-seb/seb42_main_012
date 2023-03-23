@@ -1,11 +1,8 @@
-import { useNavigate } from 'react-router-dom';
 import { AiFillEdit } from 'react-icons/ai';
 
-function EditButton({ nav }) {
-  const navigate = useNavigate();
-
+function EditButton() {
   const handlerClickEdit = () => {
-    navigate(nav);
+    console.log('click edit');
   };
   return (
     <button type="button" className="pr-2 text-xl">
