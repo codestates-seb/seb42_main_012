@@ -1,8 +1,9 @@
 package main012.server.gym.repository;
 
 
-import main012.server.gym.entity.Gym;
 import main012.server.gym.entity.GymReview;
+import main012.server.user.entity.Member;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -20,5 +21,7 @@ public interface GymReviewRepository extends JpaRepository<GymReview, Long> {
     List<GymReview> findByIdLessThanOrderByIdDesc(Long id, Pageable page);
 
     Boolean existsByIdLessThan(Long id);
+
+    Page<GymReview> findByMemberAndIdLessThanOrderByIdDesc(Member member, Long id, Pageable pageable);
 
 }

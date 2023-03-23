@@ -7,9 +7,11 @@ import main012.server.user.entity.Member;
 
 public interface MemberService {
     void signUpMember(MemberRequestDto.SignUpMember request);
+
     void signUpOwner(MemberRequestDto.SignUpOwner request);
 
     void verifyExistsEmail(String email);
+
     Member findVerifyMember(Long memberId);
 
     MemberResponseDto.MainPage findMainInfo(Long memberId);
@@ -20,4 +22,13 @@ public interface MemberService {
 
     void quitMember(Long memberId, MemberRequestDto.Quit request);
 
+    MemberResponseDto.SearchMemberPage searchMemberCommunity(Long memberId, String lastFeedId);
+
+    MemberResponseDto.SearchMemberPage searchMemberComment(Long memberId, String lastFeedId);
+
+    MemberResponseDto.SearchMemberPage searchMemberCommunityBookmark(Long memberId, String lastFeedId);
+
+    MemberResponseDto.SearchMemberPage searchMemberGymBookmark(Long memberId, String lastFeedId);
+
+    MemberResponseDto.SearchMemberPage searchMemberGymReview (Long memberId, String lastFeedId);
 }

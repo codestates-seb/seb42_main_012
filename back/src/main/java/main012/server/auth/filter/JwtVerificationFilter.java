@@ -45,6 +45,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         } catch (ExpiredJwtException ee) {
             request.setAttribute("exception", ee);
         } catch (Exception e) {
+            log.info("doFilterInternal Exception");
             request.setAttribute("exception", e);
         }
 
@@ -54,6 +55,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String authorization = request.getHeader("Authorization");
+        log.info("shouldNotFilter");
         return authorization == null || !authorization.startsWith("Bearer");
     }
 

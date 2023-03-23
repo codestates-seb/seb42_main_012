@@ -2,6 +2,7 @@ package main012.server.advice;
 
 
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ErrorResponseDto;
@@ -65,6 +66,16 @@ public class GlobalExceptionAdvice {
 
         ErrorResponseDto response = ErrorResponseDto.of(ExceptionCode.JWT_TOKEN_EXPIRED);
 
-        return new ResponseEntity(response,HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity handleSignatureException(SignatureException e) {
+        log.info("## JWT Token Signature Exception : {}", e.getMessage());
+
+        ErrorResponseDto response = ErrorResponseDto.of(ExceptionCode.BAD_TOKEN_REQUEST);
+
+        return new ResponseEntity(response, HttpStatus.UNAUTHORIZED);
     }
 }

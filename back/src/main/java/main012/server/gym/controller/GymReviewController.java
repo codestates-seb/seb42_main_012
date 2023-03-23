@@ -27,7 +27,7 @@ import java.util.List;
 @RequestMapping("/gyms/reviews") // 공통적인 URL
 @RequiredArgsConstructor // final 이나 @NotNull 이 붙은 필드의 생성자를 자동 생성
 @Validated // 유효성 검증 대신 뒤에 메소드의 파라미터에 @Valid 를 붙여줘야 유효성 검증된다.
-
+@CrossOrigin
 public class GymReviewController {
     private final GymReviewService gymReviewService;
     private final GymReviewMapper mapper;

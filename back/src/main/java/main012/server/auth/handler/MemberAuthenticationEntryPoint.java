@@ -26,7 +26,7 @@ public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint 
         }
 
         logExceptionMessage(authException, exception);
-
+        log.info("EntryPoint");
         ErrorResponder.sendErrorResponse(response, HttpStatus.UNAUTHORIZED, exception.getMessage());
     }
 
