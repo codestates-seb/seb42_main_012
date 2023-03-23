@@ -364,7 +364,7 @@ public class MemberServiceImpl implements MemberService {
         Long feedId;
         if (lastFeedId.isEmpty()) {
             feedId = 9223372036854775807L; // lastFeedId 처음엔 빈 값으로 들어옴
-        } else if (!lastFeedId.matches("[+-]?\\d*(\\.\\d+)?")) { // lastFeedId가 숫자 형식이 아닐 경우
+        } else if (!lastFeedId.matches("[+-]?\\d+")) { // lastFeedId가 숫자 형식이 아닐 경우 (마이너스 가능)
             throw new BusinessLoginException(ExceptionCode.REQUEST_NOT_SUPPORT);
         } else {
             feedId = Long.valueOf(lastFeedId);

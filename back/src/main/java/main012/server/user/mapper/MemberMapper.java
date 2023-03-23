@@ -84,10 +84,7 @@ public interface MemberMapper {
         Gym g = gb.getGym();
         MemberInfoDto.GymBookmarks response = new MemberInfoDto.GymBookmarks(
                 g.getId(),
-                g.getGymName(),
-                g.getAddress(),
-                g.getPhoneNumber(),
-                g.getBusinessHours()
+                g.getGymName()
         );
         return response;
     }
