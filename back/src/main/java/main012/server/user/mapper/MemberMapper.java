@@ -33,10 +33,10 @@ public interface MemberMapper {
 
     ;
 
-    default MemberResponseDto.Profile memberToProfileDto(Member member) {
+    default MemberResponseDto.Profile memberToProfileDto(Member member, String imagePath) {
         MemberResponseDto.Profile response = MemberResponseDto.Profile.builder()
                 .displayName(member.getDisplayName())
-                .profileImage(member.getImage().getImagePath())
+                .profileImage(imagePath)
                 .build();
 
         return response;
