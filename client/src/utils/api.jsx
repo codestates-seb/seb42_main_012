@@ -6,8 +6,14 @@ const api = axios.create({
 
 api.interceptors.response.use(
   res => {
-    localStorage.setItem('accessToken', res.headers.authorization);
-    localStorage.setItem('refreshToken', res.headers['authorization-refresh']);
+    if (res.headers.authorization) {
+      localStorage.setItem('accessToken', res.headers.authorization);
+      localStorage.setItem(
+        'refreshToken',
+        res.headers['authorization-refresh'],
+      );
+      return res;
+    }
     return res;
   },
 

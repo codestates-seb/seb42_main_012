@@ -23,7 +23,8 @@ function Login() {
         if (res.status === 200) {
           navigate('/');
         }
-      });
+      })
+      .catch(err => console.log(err));
   };
 
   return (
