@@ -1,13 +1,12 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: 'http://ec2-13-124-61-156.ap-northeast-2.compute.amazonaws.com:8080',
 });
 
 api.interceptors.response.use(
   res => {
-    localStorage.setItem('accessToken', res.headers.authorization);
-    localStorage.setItem('refreshToken', res.headers['authorization-refresh']);
+    res.headers.authorization = localStorage.getItem('accessToken');
     return res;
   },
 

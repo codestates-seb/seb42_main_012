@@ -1,9 +1,9 @@
-import SignUpStep1 from '../../components/SignUp/SignUpStep1';
+import SignUp from '../../components/SignUp/SignUp';
 
 function SignUpPage() {
   return (
     <>
-      <SignUpStep1 />
+      <SignUp />
     </>
   );
 }

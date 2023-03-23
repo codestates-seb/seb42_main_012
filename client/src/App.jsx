@@ -16,7 +16,6 @@ import MyPage from './pages/My/MyPage';
 import AccountDeletePage from './pages/My/AccountDelete';
 import GymPostPage from './pages/Gym/GymPost';
 import SignUpPage from './pages/SignUp/SignUpPage';
-import SignUpStep2 from './components/SignUp/SignUpStep2';
 import LoginPage from './pages/Login/Login';
 import BoardEditPage from './pages/Board/BoardEdit';
 import MainLayout from './components/layouts/MainLayout';
@@ -34,8 +33,7 @@ function App() {
       </Route>
 
       <Route element={<MainLayout hasHeader hasNav />}>
-        <Route path="/signup/step1" element={<SignUpPage />} />
-        <Route path="/signup/step2" element={<SignUpStep2 />} />
+        <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/gyms/:id" element={<GymDetailPage />} />
         <Route path="/gyms/gympost" element={<GymPostPage />} />
