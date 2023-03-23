@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 
-import { members, board, comments, gyms, reviews } from './dummyData';
+import { members, board, comments, gyms, reviews, my } from './dummyData';
 
 const handlers = [
   // ** 조회 요청 **
@@ -26,6 +26,11 @@ const handlers = [
   // 헬스장 리뷰 조회
   rest.get(`/gyms/reviews`, (req, res, ctx) =>
     res(ctx.status(200), ctx.json(reviews)),
+  ),
+
+  // 마이페이지 조회
+  rest.get('/members/my', (req, res, ctx) =>
+    res(ctx.status(200), ctx.json(my)),
   ),
 
   // ** 등록 요청 **

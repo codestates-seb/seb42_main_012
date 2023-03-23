@@ -1,5 +1,7 @@
 import './theme.css';
 import './quillCustom.css';
+// import { useEffect } from 'react';
+// import axios from 'axios';
 import { Route, Routes } from 'react-router-dom';
 import PasswordEditPage from './pages/My/PasswordEdit';
 import BoardDetailPage from './pages/Board/BoardDetail';

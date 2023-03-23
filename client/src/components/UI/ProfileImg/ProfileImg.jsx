@@ -1,6 +1,4 @@
-function ProfileImg(props) {
-  const { page, src, alt } = props;
-
+function ProfileImg({ page, profileImage }) {
   let classes = 'bg-[var(--second)] rounded-full ';
 
   if (page === 'my') {
@@ -9,7 +7,19 @@ function ProfileImg(props) {
     classes += 'w-10 h-10';
   }
 
-  return <img className={classes} src={src} alt={alt} />;
+  return (
+    <>
+      <img
+        className={classes}
+        src={`${
+          profileImage === undefined || profileImage === null
+            ? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+            : profileImage
+        }`}
+        alt="profile"
+      />
+    </>
+  );
 }
 
 export default ProfileImg;

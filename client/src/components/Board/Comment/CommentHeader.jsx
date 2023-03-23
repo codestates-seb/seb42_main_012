@@ -9,7 +9,6 @@ function CommentHeader({ comment }) {
   const memberDetailId = members.filter(
     member => comment.memberId === member.memberId,
   );
-  console.log(memberDetailId);
 
   return (
     <li className="flex items-center justify-between">

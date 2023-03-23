@@ -2,42 +2,55 @@ export const members = [
   {
     memberId: 1,
     email: 'aa@gmail.com',
-    displayName: 'aa',
+    displayName: '김코딩',
     password: 123,
     profileImage:
-      'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
+      'https://images.unsplash.com/photo-1639628735078-ed2f038a193e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2148&q=80',
   },
   {
     memberId: 2,
     email: 'bb@gmail.com',
-    displayName: 'bb',
+    displayName: '박해커',
     password: 123,
     profileImage:
-      'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
+      'https://images.unsplash.com/photo-1628260412297-a3377e45006f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2874&q=80',
   },
   {
     memberId: 3,
     email: 'cc@gmail.com',
-    displayName: 'cc',
+    displayName: '용히',
     password: 123,
     profileImage:
-      'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
+      'https://images.unsplash.com/photo-1638803040283-7a5ffd48dad5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2148&q=80',
   },
   {
     memberId: 4,
     email: 'dd@gmail.com',
-    displayName: 'dd',
+    displayName: '떠연',
     password: 123,
     profileImage:
-      'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
+      'https://images.unsplash.com/photo-1638643391904-9b551ba91eaa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2148&q=80',
   },
   {
     memberId: 5,
     email: 'ee@gmail.com',
-    displayName: 'ee',
+    displayName: '뜽미',
     password: 123,
     profileImage:
+      'https://images.unsplash.com/photo-1640379878948-72b9db349e17?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1335&q=80',
+  },
+];
+
+export const my = [
+  {
+    profileImage:
       'https://image.shutterstock.com/image-vector/modern-flat-character-woman-dream-260nw-1520037971.jpg',
+    displayName: 'test',
+    boardPostCnt: 1,
+    boardCommentCnt: 2,
+    gymReviewCnt: 3,
+    boardBookmarkCnt: 4,
+    gymBookmarkCnt: 5,
   },
 ];
 
