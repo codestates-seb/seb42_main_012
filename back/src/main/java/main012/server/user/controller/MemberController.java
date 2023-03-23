@@ -102,7 +102,7 @@ public class MemberController {
     @GetMapping("/my")
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity getMyMain(@AuthMember Long memberId) {
-        MemberResponseDto.MainPage mainInfo = memberService.findMainInfo(memberId);
+        MemberResponseDto.Profile mainInfo = memberService.findMainInfo(memberId);
 
         return new ResponseEntity(mainInfo, HttpStatus.OK);
     }

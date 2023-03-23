@@ -17,9 +17,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
 
-    default MemberResponseDto.Profile memberToProfileDto(Member member, String imagePath) {
+    default MemberResponseDto.Profile memberToProfileDto(String displayName, String imagePath) {
         MemberResponseDto.Profile response = MemberResponseDto.Profile.builder()
-                .displayName(member.getDisplayName())
+                .displayName(displayName)
                 .profileImage(imagePath)
                 .build();
 

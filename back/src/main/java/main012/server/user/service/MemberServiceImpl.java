@@ -143,7 +143,7 @@ public class MemberServiceImpl implements MemberService {
 
         String profileImageUrl = getProfileImageUrl(findMember);
 
-        MemberResponseDto.Profile response = memberMapper.memberToProfileDto(findMember, profileImageUrl);
+        MemberResponseDto.Profile response = memberMapper.memberToProfileDto(findMember.getDisplayName(), profileImageUrl);
 
         return response;
     }
@@ -213,25 +213,11 @@ public class MemberServiceImpl implements MemberService {
      * 마이페이지 메인 조회
      */
     @Override
-    public MemberResponseDto.MainPage findMainInfo(Long memberId) {
+    public MemberResponseDto.Profile findMainInfo(Long memberId) {
         Member findMember = findVerifyMember(memberId);
         String profileImageUrl = getProfileImageUrl(findMember);
 
-        Long boardPostCnt = communityRepository.countByMemberId(memberId);
-        Long boardCommentCnt = commentRepository.countByMemberId(memberId);
-        Long gymReviewCnt = gymReviewRepository.countByMemberId(memberId);
-        Long boardBookmarkCnt = communityBookmarkRepository.countByMemberId(memberId);
-        Long gymBookmarkCnt = gymBookmarkRepository.countByMemberId(memberId);
-
-        MemberResponseDto.MainPage response = MemberResponseDto.MainPage.builder()
-                .displayName(findMember.getDisplayName())
-                .profileImage(profileImageUrl)
-                .boardPostCnt(boardPostCnt)
-                .boardCommentCnt(boardCommentCnt)
-                .boardBookmarkCnt(boardBookmarkCnt)
-                .gymBookmarkCnt(gymBookmarkCnt)
-                .gymReviewCnt(gymReviewCnt)
-                .build();
+        MemberResponseDto.Profile response = memberMapper.memberToProfileDto(findMember.getDisplayName(), profileImageUrl);
 
         return response;
     }
