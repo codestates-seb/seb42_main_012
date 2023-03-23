@@ -19,9 +19,8 @@ function GymPostPage() {
   const { register, handleSubmit } = useForm();
   const [imageUrl, setImageUrl] = useState('');
   const [address, setAddress] = useState('');
-  const { gyms, myLocation } = useStore();
+  const { gyms } = useStore();
   const navigate = useNavigate();
-  console.log(myLocation);
 
   const onSubmit = async data => {
     const facility = [
