@@ -11,7 +11,7 @@ public enum ExceptionCode {
     REQUEST_NOT_SUPPORT(3002, "잘못된 요청입니다."),
 
     JWT_TOKEN_EXPIRED(5001,"만료된 Token 입니다."),
-    BAD_TOKEN_REQUEST(5002, "Token이 유효하지 않습니다."),
+    BAD_TOKEN_REQUEST(5002, "유효하지 않은 Token 입니다."),
     LOGIN_FAILED(5003, "로그인 인증에 실패했습니다."),
     MEMBER_NOT_FOUND(5004,"유효하지 않은 회원입니다."),
     EMAIL_ALREADY_EXISTS(5005, "이미 존재하는 이메일 입니다."),

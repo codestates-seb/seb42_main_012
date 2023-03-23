@@ -62,26 +62,6 @@ public class GlobalExceptionAdvice {
     }
 
     @ExceptionHandler
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ResponseEntity handleExpiredJwtException(ExpiredJwtException e) {
-        log.info("## JWT Token expired : {}", e.getMessage());
-
-        ErrorResponseDto response = ErrorResponseDto.of(ExceptionCode.JWT_TOKEN_EXPIRED);
-
-        return new ResponseEntity(response, HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity handleSignatureException(SignatureException e) {
-        log.info("## JWT Token Signature Exception : {}", e.getLocalizedMessage());
-
-        ErrorResponseDto response = ErrorResponseDto.of(ExceptionCode.BAD_TOKEN_REQUEST);
-
-        return new ResponseEntity(response, HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
         log.info("## MissingServletRequestParameterException : {}", e.getLocalizedMessage());
