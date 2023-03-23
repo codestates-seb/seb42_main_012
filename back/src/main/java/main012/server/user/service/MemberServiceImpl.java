@@ -230,13 +230,12 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberResponseDto.SearchMemberPage searchMemberCommunity(Long memberId, String lastFeedId) {
         Member member = findVerifyMember(memberId);
-        Long feedId = searchInit(lastFeedId);
+        Long feedId = getFeedId(lastFeedId);
 
         Page<Community> pages = communityRepository.findByMemberAndCommunityIdLessThanOrderByCommunityIdDesc(member, feedId, pageable);
         List<Community> contents = pages.getContent();
 
         int totalCnt = member.getBoardPostCnt();
-
         int totalElements = contents.size();
 
         Long nextCursor;
@@ -258,13 +257,12 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberResponseDto.SearchMemberPage searchMemberComment(Long memberId, String lastFeedId) {
         Member member = findVerifyMember(memberId);
-        Long feedId = searchInit(lastFeedId);
+        Long feedId = getFeedId(lastFeedId);
 
         Page<CommunityComment> pages = commentRepository.findByMemberAndCommentIdLessThanOrderByCommentIdDesc(member, feedId, pageable);
         List<CommunityComment> contents = pages.getContent();
 
         int totalCnt = member.getBoardCommentCnt();
-
         int totalElements = contents.size();
 
         Long nextCursor;
@@ -286,14 +284,13 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberResponseDto.SearchMemberPage searchMemberCommunityBookmark(Long memberId, String lastFeedId) {
         Member member = findVerifyMember(memberId);
-        Long feedId = searchInit(lastFeedId);
+        Long feedId = getFeedId(lastFeedId);
 
         Page<CommunityBookmark> pages = communityBookmarkRepository.findByMemberAndIdLessThanOrderByIdDesc(member, feedId, pageable);
         List<CommunityBookmark> contents = pages.getContent();
-        int totalCnt = member.getBoardBookmarkCnt();
 
-        int totalElements = (int) pages.getTotalElements();
-        log.info("###total Element 확인하기###");
+        int totalCnt = member.getBoardBookmarkCnt();
+        int totalElements = contents.size();
 
         Long nextCursor;
         if (totalElements < size) {
@@ -314,7 +311,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberResponseDto.SearchMemberPage searchMemberGymBookmark(Long memberId, String lastFeedId) {
         Member member = findVerifyMember(memberId);
-        Long feedId = searchInit(lastFeedId);
+        Long feedId = getFeedId(lastFeedId);
 
         Page<GymBookmark> pages = gymBookmarkRepository.findByMemberAndIdLessThanOrderByIdDesc(member, feedId, pageable);
         List<GymBookmark> contents = pages.getContent();
@@ -341,7 +338,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public MemberResponseDto.SearchMemberPage searchMemberGymReview(Long memberId, String lastFeedId) {
         Member member = findVerifyMember(memberId);
-        Long feedId = searchInit(lastFeedId);
+        Long feedId = getFeedId(lastFeedId);
 
         Page<GymReview> pages = gymReviewRepository.findByMemberAndIdLessThanOrderByIdDesc(member, feedId, pageable);
         List<GymReview> contents = pages.getContent();
@@ -362,11 +359,13 @@ public class MemberServiceImpl implements MemberService {
                 memberId, totalCnt, responses, totalElements, nextCursor);
     }
 
-    // lastFeedId 처음엔 빈 값으로 들어옴
-    private Long searchInit (String lastFeedId) {
+
+    private Long getFeedId (String lastFeedId) {
         Long feedId;
         if (lastFeedId.isEmpty()) {
-            feedId = 9223372036854775807L;
+            feedId = 9223372036854775807L; // lastFeedId 처음엔 빈 값으로 들어옴
+        } else if (!lastFeedId.matches("[+-]?\\d*(\\.\\d+)?")) { // lastFeedId가 숫자 형식이 아닐 경우
+            throw new BusinessLoginException(ExceptionCode.REQUEST_NOT_SUPPORT);
         } else {
             feedId = Long.valueOf(lastFeedId);
         }
