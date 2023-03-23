@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-03-23T12:46:20+0900",
+    date = "2023-03-23T14:05:15+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.18 (Azul Systems, Inc.)"
 )
 @Component
@@ -51,7 +51,9 @@ public class GymMapperImpl implements GymMapper {
         phoneNumber = gym.getPhoneNumber();
         businessHours = gym.getBusinessHours();
 
-        GymResponseDto gymResponseDto = new GymResponseDto( id, gymName, address, phoneNumber, businessHours );
+        long gBookmarkCnt = 0L;
+
+        GymResponseDto gymResponseDto = new GymResponseDto( id, gymName, address, phoneNumber, businessHours, gBookmarkCnt );
 
         return gymResponseDto;
     }

@@ -21,9 +21,9 @@ public class GymPostDto {
     private String phoneNumber;
     @NotBlank(message = "운영 시간을 입력해 주세요")
     private String businessHours;
-    @NotBlank(message = "헬스장 가격을 입력해 주세요")
-    private String gymPrices;
-    @NotBlank(message = "헬스장 시설을 입력해 주세요")
-    private String gymFacility;
+//    @NotBlank(message = "헬스장 가격을 입력해 주세요")
+//    private String gymPrices;
+//    @NotBlank(message = "헬스장 시설을 입력해 주세요")
+//    private String gymFacility;
 
 }

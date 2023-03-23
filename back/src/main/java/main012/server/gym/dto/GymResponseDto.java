@@ -11,6 +11,7 @@ public class GymResponseDto {
     private String address;
     private String phoneNumber;
     private String businessHours;
+    private long gBookmarkCnt;
 //    private String gymPrices;
 //    private String gymFacility;
 }

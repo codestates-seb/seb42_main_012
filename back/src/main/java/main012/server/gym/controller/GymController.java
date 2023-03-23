@@ -35,7 +35,7 @@ import static javax.swing.GroupLayout.DEFAULT_SIZE;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 public class GymController {
-//    private final GymBookmarkService gymBookmarkService;
+    private final GymBookmarkService gymBookmarkService;
     private final GymService gymService;
     private final GymMapper mapper;
     private static final int DEFAULT_SIZE = 10;// 커서 페이지네이션
@@ -118,11 +118,13 @@ public class GymController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    @PostMapping("/bookmarks/{gym_id}")
+    @RolesAllowed("ROLE_USER")
+    public ResponseEntity addGymBookmark(@AuthMember Long memberId,
+                                         @PathVariable("gym_id") Long gymId){
+        gymBookmarkService.addGymBookmark(memberId, gymId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
-//    @PostMapping("/bookmarks/{gym_id}")
-//    public ResponseEntity<?> upGymBookmark (@Positive @PathVariable("gym_id") Long gymId,
-//                                            @Valid @RequestBody GymBookmarkDto requestBody) {
-//        Gym bookmarkGym = gymBookmarkService.GymBookmarkUP(requestBody.getId(),gymId);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
+
 }

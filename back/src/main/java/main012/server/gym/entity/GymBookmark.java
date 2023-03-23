@@ -17,7 +17,6 @@ public class GymBookmark {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "gym_bookmark_id")
     private Long id;
-    private boolean gymLikeStatus;
 
     @ManyToOne
     @JoinColumn(name = "gym_id")
@@ -27,8 +26,9 @@ public class GymBookmark {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    public boolean getGymLikeStatus() {
-        return gymLikeStatus;
+    public GymBookmark(Member member, Gym gym) {
+        this.member = member;
+        this.gym = gym;
     }
 
 }
