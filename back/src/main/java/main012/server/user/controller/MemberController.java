@@ -20,7 +20,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.io.IOException;
 
-@CrossOrigin
+//@CrossOrigin
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/members")
@@ -143,7 +143,7 @@ public class MemberController {
     public ResponseEntity getMemberCommunityBookmark(@AuthMember Long memberId,
                                                      @RequestParam String lastFeedId) {
 
-        SearchMemberPage<MemberInfoDto.CommunityBookmarks> response
+        SearchMemberPage<MemberInfoDto.Communities> response
                 = memberService.searchMemberCommunityBookmark(memberId, lastFeedId);
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
@@ -157,7 +157,7 @@ public class MemberController {
     public ResponseEntity getMemberGymBookmark(@AuthMember Long memberId,
                                                @RequestParam String lastFeedId) {
 
-        SearchMemberPage<MemberInfoDto.GymBookmarks> response
+        SearchMemberPage<MemberInfoDto.Gyms> response
                 = memberService.searchMemberGymBookmark(memberId, lastFeedId);
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);

@@ -14,11 +14,11 @@ public class MemberResponseDto {
     public static class MainPage {
         private String profileImage;
         private String displayName;
-        private int boardPostCnt;
-        private int boardCommentCnt;
-        private int gymReviewCnt;
-        private int boardBookmarkCnt;
-        private int gymBookmarkCnt;
+        private Long boardPostCnt;
+        private Long boardCommentCnt;
+        private Long gymReviewCnt;
+        private Long boardBookmarkCnt;
+        private Long gymBookmarkCnt;
     }
 
     @Getter
@@ -41,7 +41,7 @@ public class MemberResponseDto {
     @AllArgsConstructor
     public static class SearchMemberPage<T> {
         private Long memberId;
-        private int totalCnt;
+        private Long totalCnt;
         private List<T> contents;
         private int totalElements;
         private Long nextCursor;

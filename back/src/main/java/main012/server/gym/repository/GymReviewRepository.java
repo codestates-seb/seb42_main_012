@@ -22,6 +22,8 @@ public interface GymReviewRepository extends JpaRepository<GymReview, Long> {
 
     Boolean existsByIdLessThan(Long id);
 
-    Page<GymReview> findByMemberAndIdLessThanOrderByIdDesc(Member member, Long id, Pageable pageable);
+    Page<GymReview> findByMemberIdAndIdLessThanOrderByIdDesc(Long memberId, Long id, Pageable pageable);
+
+    Long countByMemberId(Long memberId);
 
 }

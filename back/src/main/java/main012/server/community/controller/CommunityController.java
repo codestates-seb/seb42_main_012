@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping("/communities")
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin
+//@CrossOrigin
 public class CommunityController {
 
     private final CommunityService communityService;

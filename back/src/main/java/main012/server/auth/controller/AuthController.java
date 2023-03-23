@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin
+//@CrossOrigin
 public class AuthController {
 
     private final AuthService authService;
