@@ -18,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +32,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         ObjectMapper objectMapper = new ObjectMapper();
-        AuthDto.Login loginDto = objectMapper.readValue(request.getInputStream(), AuthDto.Login.class);
+        String text = new String(request.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        log.info("## input : {}", text);
+        AuthDto.Login loginDto = objectMapper.readValue(text, AuthDto.Login.class);
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
 

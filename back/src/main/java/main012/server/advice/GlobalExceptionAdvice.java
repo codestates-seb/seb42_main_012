@@ -9,11 +9,13 @@ import main012.server.exception.ErrorResponseDto;
 import main012.server.exception.ExceptionCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import javax.validation.ConstraintViolationException;
 
@@ -62,8 +64,7 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseEntity handleExpiredJwtException(ExpiredJwtException e) {
-        log.info("## JWT Token expired : {}",
-                e.getMessage());
+        log.info("## JWT Token expired : {}", e.getMessage());
 
         ErrorResponseDto response = ErrorResponseDto.of(ExceptionCode.JWT_TOKEN_EXPIRED);
 
@@ -73,7 +74,7 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity handleSignatureException(SignatureException e) {
-        log.info("## JWT Token Signature Exception : {}", e.getMessage());
+        log.info("## JWT Token Signature Exception : {}", e.getLocalizedMessage());
 
         ErrorResponseDto response = ErrorResponseDto.of(ExceptionCode.BAD_TOKEN_REQUEST);
 
@@ -83,10 +84,32 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
-        log.info("## MissingServletRequestParameterException : {}", e.getMessage());
+        log.info("## MissingServletRequestParameterException : {}", e.getLocalizedMessage());
 
         ErrorResponseDto response = ErrorResponseDto.of(ExceptionCode.REQUEST_NOT_SUPPORT);
 
         return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        log.info("## HttpMessageNotReadableException : {}", e.getLocalizedMessage());
+
+        ErrorResponseDto response = ErrorResponseDto.of(ExceptionCode.REQUEST_NOT_SUPPORT);
+
+        return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
+    }
+
+    // @RequestPart 요청이 안 온 경우
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity handleMissingServletRequestPartException(MissingServletRequestPartException e) {
+        log.info("## MissingServletRequestPartException : {}", e.getLocalizedMessage());
+
+        ErrorResponseDto response = ErrorResponseDto.of(ExceptionCode.REQUEST_NOT_SUPPORT);
+
+        return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
+    }
+
 }

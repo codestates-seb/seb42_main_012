@@ -72,7 +72,7 @@ public class MemberController {
     @PatchMapping("/info")
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity patchProfile(@AuthMember Long memberId,
-                                       @RequestPart MemberRequestDto.ModifyProfile request,
+                                       @RequestPart @Valid MemberRequestDto.ModifyProfile request,
                                        @RequestPart MultipartFile file) throws IOException {
         Image uploadedImage = null;
 
