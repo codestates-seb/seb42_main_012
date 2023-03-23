@@ -32,7 +32,7 @@ import static javax.swing.GroupLayout.DEFAULT_SIZE;
 
 @RestController
 @RequestMapping("/gyms")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 public class GymController {
     private final GymBookmarkService gymBookmarkService;

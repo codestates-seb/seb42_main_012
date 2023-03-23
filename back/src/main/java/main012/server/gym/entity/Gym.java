@@ -38,7 +38,7 @@ public class Gym extends Auditable {
 
 
     // N : 1
-    @ManyToOne // 유저는 여러개의 헬스장 등록을 할 수 있다.
+    @ManyToOne(fetch = FetchType.LAZY) // 유저는 여러개의 헬스장 등록을 할 수 있다.
     @JoinColumn(name = "member_id")
     private Member member;
 

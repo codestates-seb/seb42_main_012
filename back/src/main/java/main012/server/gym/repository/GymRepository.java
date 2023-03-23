@@ -1,6 +1,7 @@
 package main012.server.gym.repository;
 
 import main012.server.gym.entity.Gym;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -21,6 +22,7 @@ public interface GymRepository extends JpaRepository<Gym, Long> {
 
     Boolean existsByIdLessThan(Long id);
 
-
+    // 마이페이지 헬스장 찜 조회
+    Page<Gym> findByGymBookmarksMemberIdAndIdLessThanOrderByIdDesc(Long memberId, Long id, Pageable pageable);
 
 }
