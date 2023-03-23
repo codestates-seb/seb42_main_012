@@ -5,6 +5,7 @@ const useStore = create(
   persist(
     set => ({
       gyms: [],
+      gymDetail: [],
       reviews: [],
       boards: [],
       comments: [],
@@ -14,6 +15,11 @@ const useStore = create(
       setGyms: data => {
         set(() => ({ gyms: data }));
       },
+
+      setGymsDetail: data => {
+        set(() => ({ gymDetail: data }));
+      },
+
       setReviews: data => {
         set(() => ({ reviews: data }));
       },
