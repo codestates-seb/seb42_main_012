@@ -120,10 +120,10 @@ public class CommunityController {
     }
 
     // 게시글 북마크
-    @PostMapping("/bookmarks/{community_id}")
+    @PostMapping("/bookmarks/{gym_id}")
     @RolesAllowed("ROLE_USER")
     public ResponseEntity addBookmark(@AuthMember Long memberId,
-                                      @PathVariable("community_id") Long communityId) {
+                                      @PathVariable("gym_id") Long communityId) {
 
         bookmarkService.addBookmark(memberId, communityId);
 

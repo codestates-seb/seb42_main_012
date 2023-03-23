@@ -11,17 +11,20 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor // extends Auditable 해야함
+@NoArgsConstructor// extends Auditable 해야함
 public class GymReview extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "gym_review_id")
     private Long id;
+    private boolean gymLikeStatus; // 찜 한 상태
 
     private long gymGrade;
 
     private String gymComment;
+
+
 
     @ManyToOne
     @JoinColumn(name = "member_id")

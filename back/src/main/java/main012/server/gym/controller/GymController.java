@@ -3,11 +3,13 @@ package main012.server.gym.controller;
 import lombok.RequiredArgsConstructor;
 import main012.server.auth.resolver.AuthMember;
 import main012.server.common.dto.MultiResponseDto;
+import main012.server.gym.dto.GymBookmarkDto;
 import main012.server.gym.dto.GymPatchDto;
 import main012.server.gym.dto.GymPostDto;
 import main012.server.gym.dto.GymResponseDto;
 import main012.server.gym.entity.Gym;
 import main012.server.gym.mapper.GymMapper;
+import main012.server.gym.service.GymBookmarkService;
 import main012.server.gym.service.GymService;
 import main012.server.user.entity.Member;
 import org.springframework.data.domain.Page;
@@ -33,6 +35,7 @@ import static javax.swing.GroupLayout.DEFAULT_SIZE;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 public class GymController {
+//    private final GymBookmarkService gymBookmarkService;
     private final GymService gymService;
     private final GymMapper mapper;
     private static final int DEFAULT_SIZE = 10;// 커서 페이지네이션
@@ -115,4 +118,11 @@ public class GymController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+//    @PostMapping("/bookmarks/{gym_id}")
+//    public ResponseEntity<?> upGymBookmark (@Positive @PathVariable("gym_id") Long gymId,
+//                                            @Valid @RequestBody GymBookmarkDto requestBody) {
+//        Gym bookmarkGym = gymBookmarkService.GymBookmarkUP(requestBody.getId(),gymId);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 }

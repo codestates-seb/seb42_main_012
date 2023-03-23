@@ -30,6 +30,8 @@ public class Gym extends Auditable {
     @Column(length = 100, nullable = false)
     private String businessHours;
 
+
+
     public Gym(String gymName) {
         this.gymName = gymName;
     }
