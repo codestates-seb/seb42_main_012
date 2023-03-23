@@ -5,12 +5,12 @@ import GymDetailList from '../../components/Gym/Detail/DetailList';
 import useStore from '../../state/useStore';
 
 function GymDetailPage() {
-  const { gymDetail } = useStore();
+  const { gymsDetail } = useStore();
   // const { id } = useParams();
 
   return (
     <>
-      {gymDetail.map(gym => (
+      {gymsDetail.map(gym => (
         <div key={gym.gymId}>
           <GymDetailHeader
             gymName={gym.gymName}
