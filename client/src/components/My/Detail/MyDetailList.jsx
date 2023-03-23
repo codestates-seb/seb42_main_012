@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
 import { useEffect } from 'react';
+import api from '../../../utils/api';
 import useStore from '../../../state/useStore';
 import MyDetailListItem from './MyDetailListItem';
 
@@ -20,24 +21,29 @@ function MyDetailList() {
   } = useStore();
 
   useEffect(() => {
-    axios
-      .all([
-        axios.get('/my/board'),
-        axios.get('/my/comments'),
-        axios.get('/my/reviews'),
-        axios.get('/my/bookmarks/gyms'),
-        axios.get('/my/bookmarks/gyms'),
-      ])
-      .then(
-        axios.spread((...res) => {
-          setMyBoards(res[0].data.data.contents);
-          setMyComments(res[1].data.data.contents);
-          setMyReviews(res[2].data.data);
-          setMyGymsBookmarks(res[3].data.data);
-          setBoardsBookmarks(res[4].data.data);
-          console.log(res);
-        }),
-      );
+    api
+      .get('/members/my/communities?lastFeedId=56')
+      .then(res => setMyBoards(res.data.data));
+  }, []);
+  useEffect(() => {
+    api
+      .get('/members/my/comments?lastFeedId=15')
+      .then(res => setMyComments(res.data.data));
+  }, []);
+  useEffect(() => {
+    api
+      .get('/members/my/reviews?lastFeedId=15')
+      .then(res => setMyReviews(res.data.data));
+  }, []);
+  useEffect(() => {
+    api
+      .get('/members/my/bookmarks/gyms?lastFeedId=15')
+      .then(res => setMyGymsBookmarks(res.data.data));
+  }, []);
+  useEffect(() => {
+    api
+      .get('/members/my/bookmarks/communities?lastFeedId=15')
+      .then(res => setBoardsBookmarks(res.data.data));
   }, []);
 
   const boardsFilter = boards.filter(board => board.memberId === 1);

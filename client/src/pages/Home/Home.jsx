@@ -2,6 +2,7 @@ import useGeolocation from 'react-hook-geolocation';
 import { useEffect } from 'react';
 import logo from '../../assets/images/logo.svg';
 import useStore from '../../state/useStore';
+import api from '../../utils/api';
 
 function HomePage() {
   const { setMyLocation } = useStore();
@@ -14,7 +15,14 @@ function HomePage() {
     }
   }, [geolocation]);
 
-  console.log(localStorage.getItem('accessToken'));
+  useEffect(() => {
+    api.post('/auth/login', {
+      email: 'testOwner@email.com',
+      password: 'secret',
+    });
+  }, []);
+
+  // console.log(localStorage.getItem('accessToken'));
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
