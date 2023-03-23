@@ -4,9 +4,10 @@ const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
 });
 
-api.interceptors.request.use(
+api.interceptors.response.use(
   res => {
-    res.headers.authorization = localStorage.getItem('accessToken');
+    localStorage.setItem('accessToken', res.headers.authorization);
+    localStorage.setItem('refreshToken', res.headers['authorization-refresh']);
     return res;
   },
 
@@ -29,4 +30,13 @@ api.interceptors.request.use(
     return Promise.reject(error);
   },
 );
+
+api.interceptors.request.use(
+  req => {
+    req.headers.authorization = localStorage.getItem('accessToken');
+    return req;
+  },
+  error => Promise.reject(error),
+);
+
 export default api;
