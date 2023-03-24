@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 public class MemberRequestDto {
@@ -18,9 +19,11 @@ public class MemberRequestDto {
         @Email(message = "이메일 형식에 맞지 않습니다.")
         private String email;
 
-        @NotBlank(message = "닉네임을 입력해주세요")
+        @NotBlank(message = "닉네임을 입력해주세요. 공백은 허용되지 않습니다.")
         private String displayName;
 
+        @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#^*_])[A-Za-z\\d!@#^*_]{8,}$",
+                message = "비밀번호는 영문(대소문자), 숫자 및 특수문자(!@#^*_) 포함 최소 8자 이상으로 입력해주세요.")
         private String password;
     }
 
@@ -32,12 +35,14 @@ public class MemberRequestDto {
         @Email(message = "이메일 형식에 맞지 않습니다.")
         private String email;
 
-        @NotBlank(message = "닉네임은 입력해주세요.")
+        @NotBlank(message = "닉네임을 입력해주세요. 공백은 허용되지 않습니다.")
         private String displayName;
 
+        @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#^*_])[A-Za-z\\d!@#^*_]{8,}$",
+                message = "비밀번호는 영문(대소문자), 숫자 및 특수문자(!@#^*_)를 포함 최소 8자 이상으로 입력해주세요.")
         private String password;
 
-        @NotBlank(message = "사업자등록번호는 필수 입력값입니다.")
+        @NotBlank(message = "사업자등록번호를 입력해주세요.")
         private String businessNumber;
     }
 
@@ -48,6 +53,8 @@ public class MemberRequestDto {
         @NotBlank(message = "기존 비밀번호를 입력해주세요.")
         private String originPassword;
 
+        @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#^*_])[A-Za-z\\d!@#^*_]{8,}$",
+                message = "비밀번호는 영문(대소문자), 숫자 및 특수문자(!@#^*_)를 포함 최소 8자 이상으로 입력해주세요.")
         private String newPassword;
     }
 
@@ -55,7 +62,7 @@ public class MemberRequestDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class ModifyProfile {
-        @NotBlank(message = "닉네임은 필수 입력값입니다.")
+        @NotBlank(message = "닉네임을 입력해주세요. 공백은 허용되지 않습니다.")
         private String displayName;
     }
 
@@ -63,7 +70,7 @@ public class MemberRequestDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Quit {
-        @NotBlank(message = "탈퇴 동의를 해주세요.")
+        @NotNull(message = "탈퇴 동의를 하지 않았습니다.")
         private Boolean isAgreed;
         @NotBlank(message = "비밀번호를 입력해주세요.")
         private String password;
