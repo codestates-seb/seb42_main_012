@@ -1,28 +1,26 @@
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import useStore from '../../../state/useStore';
+import useGymStore from '../../../state/useStore';
 import StarIcon from '../../UI/Icon/StarIcon';
 import Today from '../../UI/Today';
 
 function GymReviewPost() {
   const { register, handleSubmit } = useForm();
-  const { reviews, setReviews } = useStore();
+  const { reviews } = useGymStore();
   const { id } = useParams();
 
   const onSubmit = async data => {
     await axios
-      .post('/gyms/reviews', {
-        reviewId: reviews.length + 1,
+      .post(`/gyms/reviews${id}`, {
+        id: reviews.length + 1,
         gymId: Number(id),
-        displayName: 'test',
+        displayName: '******',
         grade: Number(data.grade),
         comment: data.review,
         createdAt: Today(),
       })
       .then((document.getElementById('textArea').value = null));
-
-    axios.get('/gyms/reviews').then(res => setReviews(res.data.data.contents));
   };
 
   return (

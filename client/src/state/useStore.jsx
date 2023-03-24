@@ -5,25 +5,6 @@ const useStore = create(
   devtools(
     persist(
       set => ({
-        // Gym
-        gyms: [],
-        gymsDetail: [],
-        reviews: [],
-
-        setGyms: data => {
-          set(() => ({ gyms: data }));
-        },
-
-        // setGyms: data => set({gyms: data}),
-
-        setGymsDetail: data => {
-          set(() => ({ gymsDetail: data }));
-        },
-
-        setReviews: data => {
-          set(() => ({ reviews: data }));
-        },
-
         // Board
         boards: [],
         comments: [],
