@@ -19,6 +19,7 @@ public class MemberInfoDto {
     @Getter
     @AllArgsConstructor
     public static class Comments {
+        private Long boardId;
         private String boardTab;
         private String boardCommentContent;
         private String boardCommentCreatedAt;
@@ -26,8 +27,9 @@ public class MemberInfoDto {
 
     @Getter
     @AllArgsConstructor
-    public static class Gyms {
+    public static class GymBookmarks {
         private Long gymId;
+        private String gymImage;
         private String gymName;
     }
 
@@ -35,6 +37,7 @@ public class MemberInfoDto {
     @AllArgsConstructor
     public static class GymReviews {
         private Long gymId;
+        private long gymGrade;
         private String gymReviewContent;
         private String gymReviewCreatedAt;
     }

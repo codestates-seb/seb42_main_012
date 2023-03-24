@@ -22,9 +22,6 @@ public interface CommunityRepository extends JpaRepository<Community, Long> {
     // 마이페이지 내가 쓴 글 조회
     Page<Community> findByMemberIdAndCommunityIdLessThanOrderByCommunityIdDesc(Long memberId, Long id, Pageable pageable);
 
-    // 마이페이지 게시글 찜 조회
-    Page<Community> findByCommunityBookmarksMemberIdAndCommunityIdLessThanOrderByCommunityIdDesc(Long memberId, Long Id, Pageable pageable);
-
     Long countByMemberId(Long memberId);
 
 }

@@ -41,12 +41,14 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             Map<String, Object> claims = verifyJws(request);
             setAuthenticationToContext(claims);
         } catch (SignatureException se) {
-            request.setAttribute("exception", se);
+            log.warn("## JwtVerification SignatureException : {}", se.getLocalizedMessage());
+            request.setAttribute("exception", ExceptionCode.BAD_TOKEN_REQUEST);
         } catch (ExpiredJwtException ee) {
-            request.setAttribute("exception", ee);
+            log.warn("## JwtVerification SignatureException : {}", ee.getLocalizedMessage());
+            request.setAttribute("exception", ExceptionCode.JWT_TOKEN_EXPIRED);
         } catch (Exception e) {
-            log.info("doFilterInternal Exception");
-            request.setAttribute("exception", e);
+            log.warn("## JwtVerification Exception : {}", e.getLocalizedMessage());
+            request.setAttribute("exception", ExceptionCode.BAD_TOKEN_REQUEST);
         }
 
         filterChain.doFilter(request, response);
@@ -55,14 +57,17 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String authorization = request.getHeader("Authorization");
-        log.info("shouldNotFilter");
+
         return authorization == null || !authorization.startsWith("Bearer");
     }
 
     private Map<String, Object> verifyJws(HttpServletRequest request) {
-        String jws = request.getHeader("Authorization").replace("Bearer ", "");
+        String jws = request.getHeader("Authorization")
+                .replace("Bearer ", "");
+
         Map<String, Object> claims = jwtTokenizer.getClaims(jws);
 
+        // 유효한 회원인지 검증
         Long memberId = Long.parseLong(String.valueOf(claims.get("memberId")));
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
@@ -79,7 +84,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         String memberId = String.valueOf(claims.get("memberId"));
         List<GrantedAuthority> authorities = authorityUtils.createAuthorities((String) claims.get("roles"));
 
-        log.info("## authorities: {}", authorities);  // @@@@ 확인용이니까 나중엔 지워
+        log.info("## authorities: {}", authorities);  // 권한 출력 ex. ROLE_USER 출력
         Authentication authentication = new UsernamePasswordAuthenticationToken(memberId, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
