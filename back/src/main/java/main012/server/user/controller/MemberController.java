@@ -60,7 +60,7 @@ public class MemberController {
     @PatchMapping("/password")
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity patchPassword(@AuthMember Long memberId,
-                                        @RequestBody MemberRequestDto.ModifyPassword request) {
+                                        @RequestBody @Valid MemberRequestDto.ModifyPassword request) {
         memberService.updatePassword(memberId, request);
 
         return new ResponseEntity(HttpStatus.OK);
@@ -90,7 +90,7 @@ public class MemberController {
     @DeleteMapping
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity deleteMember(@AuthMember Long memberId,
-                                       @RequestBody MemberRequestDto.Quit request) {
+                                       @RequestBody @Valid MemberRequestDto.Quit request) {
         memberService.quitMember(memberId, request);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
