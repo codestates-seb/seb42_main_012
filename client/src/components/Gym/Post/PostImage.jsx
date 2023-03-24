@@ -1,8 +1,7 @@
 import AWS from 'aws-sdk';
 import { useState } from 'react';
-import { ErrorMessage } from '@hookform/error-message';
 
-function GymPostImage({ imageUrl, setImageUrl, register, errors }) {
+function GymPostImage({ imageUrl, setImageUrl }) {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const S3_BUCKET_NAME = process.env.REACT_APP_AWS_BUCKET;
@@ -52,9 +51,6 @@ function GymPostImage({ imageUrl, setImageUrl, register, errors }) {
               type="file"
               onChange={handleFileInput}
               className="hidden"
-              {...register('gymsImage', {
-                required: '사진을 첨부해주세요',
-              })}
             />
             <label
               htmlFor="image"
@@ -70,13 +66,6 @@ function GymPostImage({ imageUrl, setImageUrl, register, errors }) {
               사진 확인
             </button>
           </div>
-          <ErrorMessage
-            errors={errors}
-            name="gymsImage"
-            render={({ message }) => (
-              <p className="ml-1 text-sm text-red">{message}</p>
-            )}
-          />
         </div>
       </div>
     </>

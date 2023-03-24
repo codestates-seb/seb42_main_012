@@ -1,22 +1,17 @@
-import { useParams, useLocation } from 'react-router-dom';
 import StarIcon from '../../UI/Icon/StarIcon';
-import useStore from '../../../state/useStore';
+import useGymStore from '../../../state/useGymStore';
 
-function ReviewScore({ gymId }) {
-  const location = useLocation();
-  const { id } = useParams();
-  const { reviews } = useStore();
+function ReviewScore() {
+  // const location = useLocation();
+  const { reviews } = useGymStore();
 
-  const reviewFilter = reviews.filter(
-    review => review.gymId === (gymId === undefined ? Number(id) : gymId),
-  );
-
-  const grade =
-    location.pathname.slice(0, 5) === '/gyms'
-      ? reviewFilter.map(review => review.grade)
-      : reviews
-          .filter(review => review.memberId === 1)
-          .map(review => review.grade);
+  const grade = reviews.map(review => review.grade);
+  // const grade =
+  //   location.pathname.slice(0, 5) === '/gyms'
+  //     ? reviews.map(review => review.grade)
+  //     : reviews
+  //         .filter(review => review.memberId === 1)
+  //         .map(review => review.grade);
 
   return (
     <div className="flex items-center mr-auto">
