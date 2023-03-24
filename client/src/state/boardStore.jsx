@@ -6,10 +6,14 @@ const boardStore = create(
     persist(
       set => ({
         boards: [],
+        boardDetail: [],
         comments: [],
 
         setBoards: data => {
           set(() => ({ boards: data }));
+        },
+        setBoardDetail: data => {
+          set(() => ({ boardDetail: data }));
         },
         setComments: data => {
           set(() => ({ comments: data }));
