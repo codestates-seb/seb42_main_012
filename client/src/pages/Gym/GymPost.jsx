@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 // import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 import { useState } from 'react';
 import GymPostName from '../../components/Gym/Post/PostName';
@@ -12,9 +12,8 @@ import GymPostDetailPrice from '../../components/Gym/Post/PostDetailPrice';
 import GymPostHours from '../../components/Gym/Post/PostHours';
 import GymPostPrice from '../../components/Gym/Post/PostPrice';
 import BasicButton from '../../components/UI/Button/BasicButton';
-import useGymStore from '../../state/useGymStore';
+import useStore from '../../state/useStore';
 import Today from '../../components/UI/Today';
-import gymAxios from './gymAxios';
 
 function GymPostPage() {
   const {
@@ -23,9 +22,8 @@ function GymPostPage() {
     formState: { errors },
   } = useForm();
   const [imageUrl, setImageUrl] = useState('');
-  const [address, setAddress] = useState([]);
-  const { gyms } = useGymStore();
-  const navigate = useNavigate();
+  const { gyms } = useStore();
+  // const navigate = useNavigate();
 
   const onSubmit = async data => {
     const facility = [
@@ -60,21 +58,22 @@ function GymPostPage() {
     }
 
     const gymsData = {
-      id: gyms.length + 1,
+      gymId: gyms.length + 1,
       createdAt: Today(),
       gymName: data.gymName,
       gymImage: imageUrl,
-      address: `${address} ${data.detailAddress}`,
+      address: `${data.address1} ${data.address2}`,
       phoneNumber: data.phoneNumber,
       prices: data.price,
       detailPrices: data.detailPrice,
       businessHours: data.businessHours,
-      gymBookmark_Cnt: 0,
+      gymBookmarkCnt: 0,
       facilities: facility,
     };
 
-    await gymAxios.post('/gyms', gymsData);
-    navigate('/gyms');
+    console.log(gymsData);
+    // await axios.post('/gyms', gymsData);
+    // navigate('/gyms');
   };
 
   return (
@@ -90,11 +89,7 @@ function GymPostPage() {
       <GymPostPrice register={register} errors={errors} />
       <GymPostDetailPrice register={register} errors={errors} />
       <GymPostHours register={register} errors={errors} />
-      <GymPostAddress
-        address={address}
-        setAddress={setAddress}
-        register={register}
-      />
+      <GymPostAddress register={register} errors={errors} />
       <GymPostPhoneNumber register={register} errors={errors} />
       <BasicButton page="board" text="Post" />
     </form>

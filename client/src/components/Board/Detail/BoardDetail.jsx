@@ -24,9 +24,9 @@ function BoardDetail() {
           <BoardDetailTap tabName={board.tabName} />
           <BoardDetailTitle title={board.title} />
           <BoardDetailBody content={board.content} />
+          <BoardDetailComment />
         </div>
       ))}
-      <BoardDetailComment />
     </>
   );
 }
