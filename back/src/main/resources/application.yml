@@ -9,12 +9,12 @@ spring:
     url: ${AWS_RDS_URL}
     username: ${AWS_RDS_USERNAME}
     password: ${AWS_RDS_PASSWORD}
-#    url: jdbc:mysql://localhost:3306/main012?serverTimezone=Asia/Seoul
-#    username: ${MYSQL_USERNAME}
-#    password: ${MYSQL_PASSWORD}
+  #    url: jdbc:mysql://localhost:3306/main012?serverTimezone=Asia/Seoul
+  #    username: ${MYSQL_USERNAME}
+  #    password: ${MYSQL_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
