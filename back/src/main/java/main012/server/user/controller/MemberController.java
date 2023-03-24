@@ -157,7 +157,7 @@ public class MemberController {
     public ResponseEntity getMemberGymBookmark(@AuthMember Long memberId,
                                                @RequestParam String lastFeedId) {
 
-        SearchMemberPage<MemberInfoDto.Gyms> response
+        SearchMemberPage<MemberInfoDto.GymBookmarks> response
                 = memberService.searchMemberGymBookmark(memberId, lastFeedId);
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);

@@ -10,7 +10,6 @@ import main012.server.community.repository.CommunityBookmarkRepository;
 import main012.server.community.repository.CommunityRepository;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
-import main012.server.gym.entity.Gym;
 import main012.server.gym.entity.GymBookmark;
 import main012.server.gym.entity.GymReview;
 import main012.server.gym.repository.GymBookmarkRepository;
@@ -36,7 +35,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -321,7 +319,7 @@ public class MemberServiceImpl implements MemberService {
             nextCursor = contents.get(size - 1).getId();
         }
 
-        List<MemberInfoDto.Gyms> responses = memberMapper.gymsToGymInfos(contents);
+        List<MemberInfoDto.GymBookmarks> responses = memberMapper.gymsToGymInfos(contents);
 
         return new MemberResponseDto.SearchMemberPage(
                 memberId, totalCnt, responses, totalElements, nextCursor);

@@ -8,7 +8,6 @@ import main012.server.gym.entity.GymBookmark;
 import main012.server.gym.entity.GymReview;
 import main012.server.user.dto.MemberInfoDto;
 import main012.server.user.dto.MemberResponseDto;
-import main012.server.user.entity.Member;
 import org.mapstruct.Mapper;
 
 import java.time.format.DateTimeFormatter;
@@ -55,6 +54,7 @@ public interface MemberMapper {
 
     default MemberInfoDto.Comments commentToCommentInfo(CommunityComment cc) {
         MemberInfoDto.Comments response = new MemberInfoDto.Comments(
+                cc.getCommunity().getCommunityId(),
                 cc.getCommunity().getTab().getTabName(),
                 cc.getComment(),
                 cc.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
@@ -65,20 +65,28 @@ public interface MemberMapper {
     List<MemberInfoDto.Comments> commentsToCommentInfos(List<CommunityComment> comments);
 
 
-    default MemberInfoDto.Gyms gymBookmarkToGymBookmarkInfo(GymBookmark gb) {
+    default MemberInfoDto.GymBookmarks gymBookmarkToGymBookmarkInfo(GymBookmark gb) {
         Gym g = gb.getGym();
-        MemberInfoDto.Gyms response = new MemberInfoDto.Gyms(
+
+        String gymImage = null;
+        if (!g.getGymImages().isEmpty()) {
+            gymImage = g.getGymImages().get(0).getImage().getImageName();
+        }
+
+        MemberInfoDto.GymBookmarks response = new MemberInfoDto.GymBookmarks(
                 g.getId(),
+                gymImage,
                 g.getGymName()
         );
         return response;
     }
 
-    List<MemberInfoDto.Gyms> gymsToGymInfos(List<GymBookmark> gymBookmarks);
+    List<MemberInfoDto.GymBookmarks> gymsToGymInfos(List<GymBookmark> gymBookmarks);
 
     default MemberInfoDto.GymReviews gymReviewToGymReviewInfo(GymReview gr) {
         MemberInfoDto.GymReviews response = new MemberInfoDto.GymReviews(
                 gr.getGym().getId(),
+                gr.getGymGrade(),
                 gr.getGymComment(),
                 gr.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
         );
