@@ -39,9 +39,10 @@ public class GymReviewController {
     @PostMapping("{gym_id}")
     @RolesAllowed({"ROLE_USER"})
     public ResponseEntity<?> postGymReview(@Valid @RequestBody GymReviewPostDto gymReviewPostDto,
+                                           @PathVariable("gym_id") Long gymId,
                                            @AuthMember Long memberId)
     {
-        GymReview gymReview = mapper.gymReviewPostDtoToGymReview(gymReviewPostDto, memberId); //DTO -> Entity 변환
+        GymReview gymReview = mapper.gymReviewPostDtoToGymReview(gymReviewPostDto, memberId, gymId); //DTO -> Entity 변환
         GymReview createGymReview = gymReviewService.createGymReview(gymReview); //테이블 저장
         GymReviewResponseDto response = mapper.gymReviewResponseDtoToGymReview(createGymReview); //Entity -> ResponseDto
 
