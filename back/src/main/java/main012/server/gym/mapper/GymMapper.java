@@ -42,5 +42,6 @@ public interface GymMapper {
         return responseGym;
     }
     List<GymDto.Response> gymsToGymResponseDtos(List<Gym> gyms);
+//    List<GymDto.RankResponse> gymToGymRankListResponse(List<Gym> gym); // 추천 게시글용 매핑
 
 }

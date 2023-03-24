@@ -59,8 +59,17 @@ public class GymDto {
         private String phoneNumber;
         private String FacilityName;
         private String businessHours;
-        private long gymBookmarkCnt;
+        @JsonProperty("gymBookmark_Cnt")
+        private int gymBookmarkCnt;
 
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class RankResponse {
+        @JsonProperty("gymBookmark_Cnt")
+        private int gymBookmarkCnt;
     }
 
 

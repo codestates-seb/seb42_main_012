@@ -83,11 +83,20 @@ public class GymController {
         }
 
     }
-//    // 헬스장 탭별 조회
-//    @GetMapping("facility/{facility_id}")
+    // 헬스장 시설별 조회
+    @GetMapping("facility/{facility_id}")
+    @RolesAllowed("ROLE_USER")
+    public ResponseEntity facilityGyms(@PathVariable("facility_id") Long facilityId,
+                                       @AuthMember Long gymId){
+        List<Gym> facilityGyms = gymService.findFacilityGyms(facilityId);
+        List<GymDto.Response> response = mapper.gymsToGymResponseDtos(facilityGyms);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
+    }
 
 
 
+    // 헬스장 전체조회
     @GetMapping
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity getGyms(@PageableDefault(size=15, direction = Sort.Direction.DESC) Pageable pageable) {
@@ -111,6 +120,7 @@ public class GymController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    // 헳스장 찜 생성
     @PostMapping("/bookmarks/{gym_id}")
     @RolesAllowed("ROLE_USER")
     public ResponseEntity addGymBookmark(@AuthMember Long memberId,
@@ -118,6 +128,8 @@ public class GymController {
         gymBookmarkService.addGymBookmark(memberId, gymId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
 
 
 

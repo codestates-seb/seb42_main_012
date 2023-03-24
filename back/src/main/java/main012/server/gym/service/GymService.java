@@ -31,6 +31,7 @@ public class GymService {
     private final FacilityRepository facilityRepository;
 
 
+    // 헬스장 생성
     public Gym createGym(Gym gym) {
 
         return gymRepository.save(gym);
@@ -45,6 +46,7 @@ public class GymService {
 
 
 
+    // 헬스장 수정
     public Gym updateGym(Gym gym) {
         // 존재하는 헬스장인지 검증
         Gym findGym = findVerifiedGym(gym.getId());
@@ -116,6 +118,15 @@ public class GymService {
         if (gym.isPresent())
             throw new BusinessLoginException(ExceptionCode.GYM_EXISTS);
     }
+
+//    // 헬스장 찜 페이지
+//    @Transactional
+//    public Page<Gym> gymBookmarkCnt(Gym.KindOfGym kindOfGym, Pageable pageable) {
+//        Page<Gym> gymPage = gymRepository.findAllByKindOfGymName(kindOfGym, pageable);
+//        return gymPage;
+//    }
+
+
 
 
 

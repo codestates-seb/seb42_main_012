@@ -24,7 +24,7 @@ public class GymReviewDto {
     public static class Patch {
         private Long id;
 
-        @NotBlank(message = "평점을 입력해주세요")
+
         @Min(1) @Max(5)
         private long gymGrade;
 

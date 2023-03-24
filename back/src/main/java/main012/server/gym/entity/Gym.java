@@ -43,6 +43,7 @@ public class Gym extends Auditable {
 
 
 
+
     public Gym(String gymName) {
         this.gymName = gymName;
     }
@@ -128,5 +129,8 @@ public class Gym extends Auditable {
             gymImage.setGym(this);
         }
     }
+
+
+
 
 }

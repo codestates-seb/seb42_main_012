@@ -8,10 +8,11 @@ import main012.server.user.entity.Member;
 
 import javax.persistence.*;
 
+
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor// extends Auditable 해야함
+@NoArgsConstructor // extends Auditable 해야함
 public class GymReview extends Auditable {
 
     @Id
@@ -22,8 +23,6 @@ public class GymReview extends Auditable {
     private long gymGrade;
 
     private String gymComment;
-
-
 
     @ManyToOne
     @JoinColumn(name = "member_id")

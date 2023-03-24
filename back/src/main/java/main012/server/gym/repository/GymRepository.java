@@ -17,6 +17,8 @@ import java.util.Optional;
 public interface GymRepository extends JpaRepository<Gym, Long> {
     Optional<Gym> findByGymName(String gymName);
     List<Gym> findAllByOrderByIdDesc(Pageable page);
+    // 목록별 전체검색
+//    Page<Gym> findAllByKindOfGymName(Gym.KindOfGym kindOfGym, Pageable pageable);
 
     List<Gym> findByIdLessThanOrderByIdDesc(Long id, Pageable page);
 
