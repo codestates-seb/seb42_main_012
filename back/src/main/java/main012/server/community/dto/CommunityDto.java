@@ -12,6 +12,7 @@ public class CommunityDto {
         private String title;
         private String Content;
         private Long tabId;
+        private List<String> communityImageUrl;
     }
 
 
@@ -21,7 +22,8 @@ public class CommunityDto {
         private Long communityId;
         private String title;
         private String content;
-//        private Long tabId;
+        private Long tabId;
+        private List<String> communityImageUrl;
     }
 
 
@@ -30,11 +32,50 @@ public class CommunityDto {
     @AllArgsConstructor
     public static class Response {
         private Long communityId;
+        private String profileImageUrl;
         private String displayName;
         private String tabName;
         private String title;
         private String content;
+        private List<String> communityImageUrl;
+        private String createdAt;
         private long bookmarkCnt;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class AllCommunityResponse{
+
+        private Long communityId;
+        private String title;
+        private String tabName;
+        private String createdAt;
+        private int viewCnt;
+
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class TabListResponse{
+        private Long communityId;
+        private Long tabId;
+        private String tabName;
+        private String title;
+        private String createdAt;
+        private int viewCnt;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class WorkoutTabResponse{
+        private Long tabId;
+        private List<String> contentImageUrl;
     }
 
     @Getter
@@ -46,6 +87,5 @@ public class CommunityDto {
         private int totalElements;
         private Long nextCursor;
     }
-
 
 }

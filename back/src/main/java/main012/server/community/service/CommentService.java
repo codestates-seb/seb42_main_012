@@ -1,10 +1,15 @@
 package main012.server.community.service;
 
 import lombok.RequiredArgsConstructor;
+import main012.server.community.dto.CommentDto;
+import main012.server.community.dto.CommunityDto;
 import main012.server.community.entity.CommunityComment;
+import main012.server.community.mapper.CommentMapper;
 import main012.server.community.repository.CommentRepository;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +23,7 @@ public class CommentService {
 
     private final CommunityService communityService;
     private final CommentRepository commentRepository;
+    private final CommentMapper commentMapper;
 
 
     // 커뮤니티 댓글 등록
@@ -45,12 +51,45 @@ public class CommentService {
 
 
     // 커뮤니티 댓글 조회
-    public List<CommunityComment> findComments (Long communityId) {
+    public CommunityDto.listResponse findComments (Long communityId, String lastFeedId) {
+
+        int size = 15;
+        Long feedId = getFeedId(lastFeedId);
 
         //커뮤니티 아이디로 댓글 조회
-        List<CommunityComment> comments = commentRepository.findAllByCommunityCommunityId(communityId);
+        Page<CommunityComment> comments =
+                commentRepository.findByCommunityCommunityIdAndCommentIdLessThanOrderByCommentIdDesc(communityId, feedId, PageRequest.of(0, size));
+        List<CommunityComment> contents = comments.getContent();
 
-        return comments;
+        int totalElements = contents.size();
+
+        Long nextCursor;
+        if (totalElements < size) {
+            nextCursor = -1L;
+        } else {
+            nextCursor = contents.get(size - 1).getCommentId();
+        }
+
+        List<CommentDto.Response> responseList = commentMapper.commentsToCommentResponseDtos(contents);
+
+        CommunityDto.listResponse response = new CommunityDto.listResponse();
+        response.setContents(responseList);
+        response.setTotalElements(totalElements);
+        response.setNextCursor(nextCursor);
+
+
+        return response;
+    }
+    private Long getFeedId(String lastFeedId) {
+        Long feedId;
+        if (lastFeedId.isEmpty()) {
+            feedId = 9223372036854775807L;
+        } else if (!lastFeedId.matches("[+-]?\\d+")) {
+            throw new BusinessLoginException(ExceptionCode.REQUEST_NOT_SUPPORT);
+        } else {
+            feedId = Long.valueOf(lastFeedId);
+        }
+        return feedId;
     }
 
 

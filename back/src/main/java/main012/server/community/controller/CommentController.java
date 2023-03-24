@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import main012.server.auth.resolver.AuthMember;
 import main012.server.community.dto.CommentDto;
+import main012.server.community.dto.CommunityDto;
 import main012.server.community.entity.CommunityComment;
 import main012.server.community.mapper.CommentMapper;
 import main012.server.community.service.CommentService;
@@ -65,13 +66,12 @@ public class CommentController {
     @GetMapping("/{community_id}")
     @RolesAllowed("ROLE_USER")
     public ResponseEntity getComment(@PathVariable("community_id") Long communityId,
+                                     @RequestParam String lastFeedId,
                                      @AuthMember Long memberId) {
 
         communityService.findExistCommunity(communityId);
 
-        List<CommunityComment> comments = commentService.findComments(communityId);
-
-        List<CommentDto.Response> responses = mapper.commentsToCommentResponseDtos(comments);
+        CommunityDto.listResponse responses = commentService.findComments(communityId, lastFeedId);
 
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }

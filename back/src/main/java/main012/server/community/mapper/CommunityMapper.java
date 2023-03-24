@@ -41,9 +41,64 @@ public interface CommunityMapper {
         responseCommunity.setContent(community.getContent());
         responseCommunity.setTabName(community.getTab().getTabName());
         responseCommunity.setBookmarkCnt(community.getCommunityBookmarks().size());
+        responseCommunity.setCreatedAt(community.getCreatedAt().toString());
 
         return responseCommunity;
     };
 
     List<CommunityDto.Response> communitiesToCommunityResponseDtos(List<Community> communities);
+
+    // 커뮤니티 전체조회 응답
+    default CommunityDto.AllCommunityResponse communityToAllCommunityResponse(Community community){
+
+        CommunityDto.AllCommunityResponse allCommunityResponse = new CommunityDto.AllCommunityResponse();
+
+        allCommunityResponse.setCommunityId(community.getCommunityId());
+        allCommunityResponse.setTitle(community.getTitle());
+        allCommunityResponse.setTabName(community.getTab().getTabName());
+        allCommunityResponse.setCreatedAt(community.getCreatedAt().toString());
+        allCommunityResponse.setViewCnt(community.getViewCnt());
+
+        return allCommunityResponse;
+    };
+
+    List<CommunityDto.AllCommunityResponse> communitiesToAllCommunityResponses(List<Community> community);
+
+
+    // 커뮤니티 탭별 조회 응답
+    default CommunityDto.TabListResponse communityToTabListResponse(Community community){
+
+        CommunityDto.TabListResponse tabListResponse = new CommunityDto.TabListResponse();
+
+        tabListResponse.setCommunityId(community.getCommunityId());
+        tabListResponse.setTabId(community.getTab().getTabId());
+        tabListResponse.setTabName(community.getTab().getTabName());
+        tabListResponse.setTitle(community.getTitle());
+        tabListResponse.setCreatedAt(community.getCreatedAt().toString());
+        tabListResponse.setViewCnt(community.getViewCnt());
+
+        return tabListResponse;
+    };
+
+    List<CommunityDto.TabListResponse> communitiesToTabListResponses(List<Community> community);
+
+
+    // 커뮤니티 오운완 탭 조회 응답
+    default CommunityDto.WorkoutTabResponse communityToWorkoutTabResponse(Community community){
+
+        CommunityDto.WorkoutTabResponse workoutTabResponse = new CommunityDto.WorkoutTabResponse();
+
+        workoutTabResponse.setTabId(community.getTab().getTabId());
+//        workoutTabResponse.setContentImageUrl(community.getCommunityImages());
+
+        return workoutTabResponse;
+    };
+
+    List<CommunityDto.WorkoutTabResponse> communitiesToWorkoutTabResponses(List<Community> community);
+
+
+
+
+
+
 }

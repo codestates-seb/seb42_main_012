@@ -70,7 +70,7 @@ public class CommunityController {
                                          @AuthMember Long memberId) {
 
         patchRequest.setCommunityId(communityId);
-        communityService.updateCommunity(mapper.communityPatchDtoToCommunity(patchRequest));
+        communityService.updateCommunity(patchRequest);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

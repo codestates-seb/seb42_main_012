@@ -26,6 +26,7 @@ public class CommunityService {
 
     private final CommunityRepository communityRepository;
     private final CommunityMapper communityMapper;
+    private final TabRepository tabRepository;
 
     private final int size = 15;
 
@@ -37,22 +38,22 @@ public class CommunityService {
     }
 
     // 커뮤니티 게시글 수정
-    public Community updateCommunity (Community community) {
+    public Community updateCommunity (CommunityDto.Patch patchRequest) {
 
         // 게시글이 존재하는지 확인
-        Community existCommunity = findExistCommunity(community.getCommunityId());
+        Community existCommunity = findExistCommunity(patchRequest.getCommunityId());
 
         //제목수정
-        Optional.ofNullable(community.getTitle())
+        Optional.ofNullable(patchRequest.getTitle())
                 .ifPresent(title -> existCommunity.setTitle(title));
 
         //내용수정
-        Optional.ofNullable(community.getContent())
+        Optional.ofNullable(patchRequest.getContent())
                 .ifPresent(content -> existCommunity.setContent(content));
 
 //        탭수정
-//        Optional.ofNullable(community.getTab().getTabId())
-//                        .ifPresent(tabId -> tabRepository.findById(tabId));
+        Optional.ofNullable(patchRequest.getTabId())
+                        .ifPresent(tabId -> existCommunity.setTab(tabRepository.findById(tabId).orElseThrow(()->new BusinessLoginException(ExceptionCode.TAB_NOT_FOUND))));
 
         return existCommunity;
 
@@ -92,7 +93,7 @@ public class CommunityService {
             nextCursor = contents.get(size - 1).getCommunityId();
         }
 
-        List<CommunityDto.Response> responseList = communityMapper.communitiesToCommunityResponseDtos(contents);
+        List<CommunityDto.AllCommunityResponse> responseList = communityMapper.communitiesToAllCommunityResponses(contents);
 
 
         CommunityDto.listResponse response = new CommunityDto.listResponse();
@@ -122,7 +123,7 @@ public class CommunityService {
             nextCursor = contents.get(size - 1).getCommunityId();
         }
 
-        List<CommunityDto.Response> responseList = communityMapper.communitiesToCommunityResponseDtos(contents);
+        List<CommunityDto.AllCommunityResponse> responseList = communityMapper.communitiesToAllCommunityResponses(contents);
 
 
         CommunityDto.listResponse response = new CommunityDto.listResponse();
@@ -138,12 +139,23 @@ public class CommunityService {
 
         Long feedId = getFeedId(lastFeedId);
 
+        int totalElements;
 
-        Page<Community> communities =
-                communityRepository.findAllByTabTabIdAndCommunityIdLessThanOrderByCommunityIdDesc(tabId, feedId, PageRequest.of(0, size));
-        List<Community> contents = communities.getContent();
+        List<Community> contents;
 
-        int totalElements = contents.size();
+        if(tabId ==3){
+            // 오운완 탭 조회
+            Page<Community> workoutTabCommunities = communityRepository.findAllByTabTabIdAndCommunityIdLessThanOrderByCommunityIdDesc(3L, feedId, PageRequest.of(0, size));
+            contents = workoutTabCommunities.getContent();
+        } else {
+            // 일반 탭별 조회
+            Page<Community> communities =
+                    communityRepository.findAllByTabTabIdAndCommunityIdLessThanOrderByCommunityIdDesc(tabId, feedId, PageRequest.of(0, size));
+            contents = communities.getContent();
+        }
+
+        totalElements = contents.size();
+
 
         Long nextCursor;
         if (totalElements < size) {
@@ -152,7 +164,17 @@ public class CommunityService {
             nextCursor = contents.get(size - 1).getCommunityId();
         }
 
-        List<CommunityDto.Response> responseList = communityMapper.communitiesToCommunityResponseDtos(contents);
+
+        if(tabId == 3){
+            List<CommunityDto.WorkoutTabResponse> responseList = communityMapper.communitiesToWorkoutTabResponses(contents);
+            CommunityDto.listResponse response = new CommunityDto.listResponse();
+            response.setContents(responseList);
+            response.setTotalElements(totalElements);
+            response.setNextCursor(nextCursor);
+
+            return response;
+        } else {
+        List<CommunityDto.TabListResponse> responseList = communityMapper.communitiesToTabListResponses(contents);
 
         CommunityDto.listResponse response = new CommunityDto.listResponse();
         response.setContents(responseList);
@@ -160,6 +182,7 @@ public class CommunityService {
         response.setNextCursor(nextCursor);
 
         return response;
+    }
     }
 
     // 페이지네이션 feedId 검증
