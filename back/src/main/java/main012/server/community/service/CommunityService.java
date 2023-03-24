@@ -26,6 +26,7 @@ public class CommunityService {
 
     private final CommunityRepository communityRepository;
     private final CommunityMapper communityMapper;
+    private final TabRepository tabRepository;
 
     private final int size = 15;
 
@@ -37,22 +38,22 @@ public class CommunityService {
     }
 
     // 커뮤니티 게시글 수정
-    public Community updateCommunity (Community community) {
+    public Community updateCommunity (CommunityDto.Patch patchRequest) {
 
         // 게시글이 존재하는지 확인
-        Community existCommunity = findExistCommunity(community.getCommunityId());
+        Community existCommunity = findExistCommunity(patchRequest.getCommunityId());
 
         //제목수정
-        Optional.ofNullable(community.getTitle())
+        Optional.ofNullable(patchRequest.getTitle())
                 .ifPresent(title -> existCommunity.setTitle(title));
 
         //내용수정
-        Optional.ofNullable(community.getContent())
+        Optional.ofNullable(patchRequest.getContent())
                 .ifPresent(content -> existCommunity.setContent(content));
 
 //        탭수정
-//        Optional.ofNullable(community.getTab().getTabId())
-//                        .ifPresent(tabId -> tabRepository.findById(tabId));
+        Optional.ofNullable(patchRequest.getTabId())
+                        .ifPresent(tabId -> existCommunity.setTab(tabRepository.findById(tabId).orElseThrow(()->new BusinessLoginException(ExceptionCode.TAB_NOT_FOUND))));
 
         return existCommunity;
 

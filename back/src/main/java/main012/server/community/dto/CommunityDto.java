@@ -22,7 +22,7 @@ public class CommunityDto {
         private Long communityId;
         private String title;
         private String content;
-//        private Long tabId;
+        private Long tabId;
         private List<String> communityImageUrl;
     }
 

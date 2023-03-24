@@ -32,12 +32,14 @@ public interface CommentMapper {
     CommunityComment commentPatchDtoToComment(CommentDto.Patch patch);
 
     default CommentDto.Response commentToResponseDto(CommunityComment comment){
-        CommentDto.Response commentResponseDto = new CommentDto.Response(
-                comment.getComment(),
-                comment.getMember().getDisplayName(),
-                comment.getCommentId(),
-                comment.getCommunity().getCommunityId()
-        );
+
+        CommentDto.Response commentResponseDto = new CommentDto.Response();
+        commentResponseDto.setCommentId(comment.getCommentId());
+        commentResponseDto.setComment(comment.getComment());
+        commentResponseDto.setMemberId(comment.getMember().getId());
+        commentResponseDto.setDisplayName(comment.getMember().getDisplayName());
+        commentResponseDto.setUserImageUrl(comment.getMember().getImage().getImagePath());
+
         return commentResponseDto;
     };
 

@@ -2,6 +2,7 @@ package main012.server.community.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 public class CommentDto {
@@ -24,11 +25,13 @@ public class CommentDto {
     @Getter
     @Setter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Response {
+        private Long commentId;
+        private Long memberId;
         private String comment;
         private String displayName;
-        private Long commentId;
-        private Long communityId;
+        private String userImageUrl;
     }
 
 }
