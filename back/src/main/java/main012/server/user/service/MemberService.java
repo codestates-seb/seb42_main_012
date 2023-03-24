@@ -14,7 +14,7 @@ public interface MemberService {
 
     Member findVerifyMember(Long memberId);
 
-    MemberResponseDto.MainPage findMainInfo(Long memberId);
+    MemberResponseDto.Profile findMainInfo(Long memberId);
 
     void updatePassword(Long memberId, MemberRequestDto.ModifyPassword request);
 

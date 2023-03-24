@@ -5,6 +5,8 @@ import main012.server.community.entity.Community;
 import main012.server.community.entity.CommunityBookmark;
 import main012.server.community.repository.CommunityBookmarkRepository;
 import main012.server.community.repository.CommunityRepository;
+import main012.server.exception.BusinessLoginException;
+import main012.server.exception.ExceptionCode;
 import main012.server.user.entity.Member;
 import main012.server.user.repository.MemberRepository;
 import org.springframework.stereotype.Service;
@@ -20,16 +22,18 @@ public class CommunityBookmarkService {
     private final CommunityRepository communityRepository;
 
     private final MemberRepository memberRepository;
+
+    // 게시글 찜 등록 & 취소
     public void addBookmark(Long memberId, Long communityId) {
 
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("존재하지 않는 멤버"));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        Community community = communityRepository.findById(communityId).orElseThrow(() -> new RuntimeException("존재하지 않는 게시글"));
+        Community community = communityRepository.findById(communityId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.COMMUNITY_NOT_FOUND));
 
         Optional<CommunityBookmark> foundBookmark = bookmarkRepository.findByMemberAndCommunity(member, community);
 
         if (foundBookmark.isPresent()) {
-            bookmarkRepository.delete(foundBookmark.orElseThrow(() -> new RuntimeException("존재하지 않는 북마크")));
+            bookmarkRepository.delete(foundBookmark.orElseThrow(() -> new BusinessLoginException(ExceptionCode.COMMUNITY_BOOKMARK_NOT_FOUND)));
         } else {
             CommunityBookmark bookmark = new CommunityBookmark(member, community);
             bookmarkRepository.save(bookmark);

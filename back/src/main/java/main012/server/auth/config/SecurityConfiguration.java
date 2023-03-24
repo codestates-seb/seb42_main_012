@@ -12,6 +12,7 @@ import main012.server.auth.utils.CustomAuthorityUtils;
 import main012.server.user.repository.MemberRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -29,8 +30,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @RequiredArgsConstructor
 //@EnableWebSecurity(debug = true) // filter 출력
-@EnableGlobalMethodSecurity(prePostEnabled = false, securedEnabled = false, jsr250Enabled = true)
-// rolesAllowed 애너테이션 사용
+@EnableGlobalMethodSecurity(prePostEnabled = false, securedEnabled = false, jsr250Enabled = true)// rolesAllowed 애너테이션 사용
 public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
@@ -51,7 +51,13 @@ public class SecurityConfiguration {
                 .authenticationEntryPoint(new MemberAuthenticationEntryPoint())
                 .accessDeniedHandler(new MemberAccessDeniedHandler())
                 .and()
-                .apply(new CustomFilterConfigurer());
+                .apply(new CustomFilterConfigurer())
+                .and()
+                .authorizeHttpRequests(authorize -> authorize
+                        .antMatchers(HttpMethod.POST, "/members/common").permitAll()
+                        .antMatchers(HttpMethod.POST, "/members/owners").permitAll()
+                        .antMatchers(HttpMethod.POST, "/auth/refresh").permitAll()
+                        .anyRequest().authenticated());
 
         return http.build();
     }

@@ -11,27 +11,6 @@ public class MemberResponseDto {
     @Getter
     @AllArgsConstructor
     @Builder
-    public static class MainPage {
-        private String profileImage;
-        private String displayName;
-        private Long boardPostCnt;
-        private Long boardCommentCnt;
-        private Long gymReviewCnt;
-        private Long boardBookmarkCnt;
-        private Long gymBookmarkCnt;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    @Builder
-    public static class MyCommunity {
-        private int boardPostCnt;
-        private MemberInfoDto.Communities contents;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    @Builder
     public static class Profile {
         private String displayName;
         private String profileImage;
