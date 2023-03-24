@@ -25,9 +25,9 @@ function MyDetailList() {
           />
         ))
       ) : location.pathname === '/my/comments' ? (
-        myComments.contents.map(comment => (
+        myComments.contents.map((comment, index) => (
           <MyDetailListItem
-            key={comment.boardId}
+            key={index}
             tabName={comment.boardTab}
             title={comment.boardCommentContent}
             created={comment.boardCommentCreatedAt}

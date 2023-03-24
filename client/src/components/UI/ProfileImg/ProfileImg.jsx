@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react';
 import axios from 'axios';
-import { AiOutlineCheckCircle } from 'react-icons/ai';
 import { BiImageAdd } from 'react-icons/bi';
 
 function ProfileImg({ page }) {
@@ -64,22 +63,13 @@ function ProfileImg({ page }) {
           ref={fileInput}
           onChange={uploadToClient}
         />
-        {image ? (
-          <>
-            <button
-              type="submit"
-              onClick={uploadToFs}
-              className="absolute bottom-0 right-0 p-2 text-xl bg-white rounded-full text-[var(--second)]"
-            >
-              <AiOutlineCheckCircle />
-            </button>
-          </>
-        ) : (
-          <BiImageAdd
-            className="absolute bottom-0 right-0 p-2 text-4xl bg-white rounded-full text-[var(--second)]"
-            onClick={() => fileInput.current.click()}
-          />
-        )}
+        <button
+          type="submit"
+          onClick={uploadToFs}
+          className="absolute bottom-0 right-0 p-2 text-xl bg-white rounded-full text-[var(--second)]"
+        >
+          <BiImageAdd onClick={() => fileInput.current.click()} />
+        </button>
       </div>
     </>
   );
