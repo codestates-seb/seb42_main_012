@@ -1,87 +1,52 @@
 import { rest } from 'msw';
 
-import { members, board, comments, gyms, reviews } from './dummyData';
+import { members, board, comments, my } from './dummyData';
+import { gyms, reviews } from './GymDummyData';
 
 const handlers = [
   // ** 조회 요청 **
 
-  // Member
-  //! 마이페이지 메인 조회
-  rest.get('/members/my', (req, res, ctx) =>
+  // 멤버 조회
+  rest.get('/members/common', (req, res, ctx) =>
     res(ctx.status(200), ctx.json(members)),
   ),
 
-  //! 마이페이지 내가 쓴 글 조회
-  rest.get('/members/my/communities?lastFeedId=56', (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(members)),
-  ),
-
-  //! 마이페이지 내가 쓴 댓글 조회
-  rest.get('/members/my/comments?lastFeedId=15', (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(members)),
-  ),
-
-  //! 마이페이지 내가 쓴 리뷰 조회
-  rest.get('/members/my/reviews?lastFeedId=15', (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(members)),
-  ),
-
-  //! 마이페이지 내가 찜한 게시글 조회
-  rest.get('/members/my/bookmarks/communities?lastFeedId=15', (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(members)),
-  ),
-
-  //! 마이페이지 내가 찜한 헬스장 조회
-  rest.get('/members/my/bookmarks/gyms?lastFeedId=15', (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(members)),
-  ),
-
-  // Gym
-  //! 헬스장 전체 조회
-  rest.get('/gyms?lastFeedId=10', (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(members)),
-  ),
-
-  //! 헬스장 상세 조회
-  rest.get(`/gyms/${gym_id}`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(members)),
-  ),
-
-  //! 헬스장 리뷰 조회
-  rest.get(`/gyms/reviews/${gym_id}?lastFeedId=10`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(members)),
-  ),
-
-  //! 헬스장 목록 필터링 조회
-  rest.get('/gyms?filter=distance', (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(members)),
-  ),
-
-  // Community
-  //! 커뮤니티 게시글 전체 조회
-  rest.get('/communities?lastFeedId=56', (req, res, ctx) =>
+  // 커뮤니티 게시글 조회
+  rest.get('/communities', (req, res, ctx) =>
     res(ctx.status(200), ctx.json(board)),
   ),
 
-  //! 커뮤니티 게시글 상세 조회
-  rest.get(`/communities/${community_id}`, (req, res, ctx) =>
+  // 커뮤니티 게시글 상세조회
+  rest.get(`/communities/:id`, (req, res, ctx) => {
+    const { id } = req.params;
+    return res(ctx.status(200), ctx.json(board.find(g => g.id === id)));
+  }),
+
+  // 커뮤니티 댓글 조회
+  rest.get(`/communities/comments`, (req, res, ctx) =>
     res(ctx.status(200), ctx.json(comments)),
   ),
 
-  //! 커뮤니티 탭별 조회
-  rest.get(`/communities/tab/${tab_id}?lastFeedId=55`, (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(board)),
+  // 헬스장 조회
+  rest.get(`/gyms?lastFeedId=10`, (req, res, ctx) =>
+    res(ctx.status(200), ctx.json(gyms)),
   ),
 
-  //! 커뮤니티 게시글 검색
-  rest.get('/communities/search?keyword=키워드', (req, res, ctx) =>
-    res(ctx.status(200), ctx.json(board)),
-  ),
+  // 헬스장 상세조회
+  rest.get(`/gyms/:id`, (req, res, ctx) => {
+    const { id } = req.params;
+    return res(ctx.status(200), ctx.json(gyms.find(g => g.id === id)));
+  }),
 
-  //! 커뮤니티 댓글 조회
-  rest.get(
-    `/communities/comments/${community_id}?lastFeedId=20`,
-    (req, res, ctx) => res(ctx.status(200), ctx.json(board)),
+  // 헬스장 리뷰 조회
+  rest.get(`/gyms/reviews/:id?lastFeedId=10`, (req, res, ctx) => {
+    const { id } = req.params;
+    return res(ctx.status(200), ctx.json(gyms.find(g => g.gymId === id)));
+  }),
+
+  // 마이페이지 조회
+  rest.get('/members/my', (req, res, ctx) =>
+    res(ctx.status(200), ctx.json(my)),
   ),
 
   // ** 등록 요청 **
@@ -106,13 +71,16 @@ const handlers = [
 
   // 헬스장 등록
   rest.post('/gyms', (req, res, ctx) => {
-    gyms.data.contents.push(req.body);
+    gyms.data.push(req.body);
     return res(ctx.status(201));
   }),
 
   // 헬스장 리뷰 등록
-  rest.post('/gyms/reviews', (req, res, ctx) => {
-    reviews.data.contents.push(req.body);
+  rest.post('/gyms/reviews/:id', (req, res, ctx) => {
+    const { id } = req.params;
+    const review = req.body;
+    review.gymId = id;
+    reviews.data.push(req.body);
     return res(ctx.status(201));
   }),
 ];

@@ -14,6 +14,8 @@ const useStore = create(
           set(() => ({ gyms: data }));
         },
 
+        // setGyms: data => set({gyms: data}),
+
         setGymsDetail: data => {
           set(() => ({ gymsDetail: data }));
         },
