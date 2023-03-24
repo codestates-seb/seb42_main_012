@@ -69,6 +69,7 @@ public class CommunityService {
 
     // 게시글 상세 조회
     public Community findCommunity (Long communityId) {
+        communityRepository.updateView(communityId);    //조회수 업데이트
         Community response = findExistCommunity(communityId);
         return response;
     }
