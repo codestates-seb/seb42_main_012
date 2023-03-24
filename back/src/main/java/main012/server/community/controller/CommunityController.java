@@ -11,12 +11,23 @@ import main012.server.community.mapper.CommunityMapper;
 import main012.server.community.repository.TabRepository;
 import main012.server.community.service.CommunityBookmarkService;
 import main012.server.community.service.CommunityService;
+import main012.server.image.entity.CommunityImage;
+import main012.server.image.entity.Image;
+import main012.server.image.service.ImageService;
+import main012.server.user.dto.MemberRequestDto;
+import main012.server.user.dto.MemberResponseDto;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.security.RolesAllowed;
+import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -30,6 +41,7 @@ public class CommunityController {
     private final CommunityService communityService;
     private final CommunityMapper mapper;
     private final TabRepository tabRepository;
+    private final ImageService imageService;
 
     private final CommunityBookmarkService bookmarkService;
 
@@ -48,6 +60,7 @@ public class CommunityController {
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+    
 
     // 커뮤니티 게시글 수정
     @PatchMapping("/{community_id}")
@@ -88,22 +101,23 @@ public class CommunityController {
     // 게시글 전체 조회 /communities ?lastFeedId=56
     @GetMapping
     @RolesAllowed("ROLE_USER")
-    public ResponseEntity getAllCommunity(@AuthMember Long memberId) {
+    public ResponseEntity getAllCommunity(@AuthMember Long memberId,
+                                          @RequestParam String lastFeedId) {
 
-        List<Community> allCommunity = communityService.findAllCommunity();
-        List<CommunityDto.Response> responses = mapper.communitiesToCommunityResponseDtos(allCommunity);
+        CommunityDto.listResponse response = communityService.findAllCommunity(lastFeedId);
 
-        return new ResponseEntity<>(responses, HttpStatus.OK);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 커뮤니티 탭별 조회 /communities/{tab_id}?lastFeedId=55
     @GetMapping("/tab/{tab_id}")
     @RolesAllowed("ROLE_USER")
     public ResponseEntity tabCommunities(@PathVariable("tab_id") Long tabId,
+                                         @RequestParam String lastFeedId,
                                          @AuthMember Long memberId) {
 
-        List<Community> tabCommunities = communityService.findTabCommunities(tabId);
-        List<CommunityDto.Response> response = mapper.communitiesToCommunityResponseDtos(tabCommunities);
+        CommunityDto.listResponse response = communityService.findTabCommunities(tabId, lastFeedId);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -111,12 +125,12 @@ public class CommunityController {
     // 커뮤니티 게시글 검색(내용으로 검색)
     @GetMapping("/search")
     @RolesAllowed("ROLE_USER")
-    public ResponseEntity serchByKeyword(@RequestParam("keyword") String keyword) {
+    public ResponseEntity serchByKeyword(@RequestParam("keyword") String keyword,
+                                         @RequestParam String lastFeedId) {
 
-        List<Community> response = communityService.findByKeyword(keyword);
-        List<CommunityDto.Response> responses = mapper.communitiesToCommunityResponseDtos(response);
+        CommunityDto.listResponse response = communityService.findByKeyword(keyword, lastFeedId);
 
-        return new ResponseEntity<>(responses, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 게시글 북마크
