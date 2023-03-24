@@ -20,7 +20,10 @@ public enum ExceptionCode {
     DISAGREE_QUITTING(5008, "탈퇴 동의를 하지 않았습니다."),
 
     COMMUNITY_NOT_FOUND(404, "존재하지 않는 게시글 입니다."),
-    COMMENT_NOT_FOUND(404, "존재하지 않는 댓글입니다.")
+    COMMENT_NOT_FOUND(404, "존재하지 않는 댓글입니다."),
+
+    COMMUNITY_BOOKMARK_NOT_FOUND(404, "존재하지 않는 찜 입니다."),
+    TAB_NOT_FOUND(404, "존재하지 않는 탭 입니다.")
 
     ;
 

@@ -2,6 +2,8 @@ package main012.server.community.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 public class CommunityDto {
 
     @Getter
@@ -33,6 +35,16 @@ public class CommunityDto {
         private String title;
         private String content;
         private long bookmarkCnt;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class listResponse<T> {
+        private List<T> contents;
+        private int totalElements;
+        private Long nextCursor;
     }
 
 
