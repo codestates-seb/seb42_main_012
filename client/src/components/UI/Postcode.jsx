@@ -1,10 +1,6 @@
-import { ErrorMessage } from '@hookform/error-message';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
-import { useState } from 'react';
 
-function Postcode({ register, errors }) {
-  const [address, setAddress] = useState('');
-
+function Postcode({ address, setAddress, register }) {
   const open = useDaumPostcodePopup();
 
   const handleComplete = data => {
@@ -38,25 +34,13 @@ function Postcode({ register, errors }) {
       >
         주소검색
       </button>
+      <p className="border border-[var(--second-border)] outline-[var(--main)] mt-2 rounded-sm w-full p-2 h-10 text-sm line-clamp-1">
+        {address}
+      </p>
       <input
-        value={address}
-        placeholder="주소를 입력해주세요."
-        {...register('address1', {
-          required: '내용을 입력해주세요',
-        })}
-        className="w-full py-2 pl-2 mt-2 text-xs border rounded-lg border-grey line-clamp-1"
-      />
-      <input
+        className="border border-[var(--second-border)] outline-[var(--main)] mt-2 rounded-sm w-full p-2"
+        {...register('detailAddress')}
         placeholder="상세주소를 입력해주세요."
-        {...register('address2')}
-        className="w-full py-2 pl-2 mt-2 text-xs border rounded-lg border-grey line-clamp-1"
-      />
-      <ErrorMessage
-        errors={errors}
-        name="address1"
-        render={({ message }) => (
-          <p className="ml-1 text-sm text-red">{message}</p>
-        )}
       />
     </div>
   );

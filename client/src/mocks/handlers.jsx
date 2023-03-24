@@ -35,13 +35,19 @@ const handlers = [
   // 헬스장 상세조회
   rest.get(`/gyms/:id`, (req, res, ctx) => {
     const { id } = req.params;
-    return res(ctx.status(200), ctx.json(gyms.find(g => g.id === id)));
+    return res(
+      ctx.status(200),
+      ctx.json(gyms.filter(gym => gym.id === Number(id))),
+    );
   }),
 
   // 헬스장 리뷰 조회
   rest.get(`/gyms/reviews/:id?lastFeedId=10`, (req, res, ctx) => {
     const { id } = req.params;
-    return res(ctx.status(200), ctx.json(gyms.find(g => g.gymId === id)));
+    return res(
+      ctx.status(200),
+      ctx.json(reviews.filter(review => review.gymId === Number(id))),
+    );
   }),
 
   // 마이페이지 조회
@@ -71,7 +77,7 @@ const handlers = [
 
   // 헬스장 등록
   rest.post('/gyms', (req, res, ctx) => {
-    gyms.data.push(req.body);
+    gyms.push(req.body);
     return res(ctx.status(201));
   }),
 

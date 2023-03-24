@@ -4,6 +4,7 @@ import GymPrice from '../Price/Price';
 import GymReviews from '../Review/Reviews';
 import GymHours from '../Hours/Hours';
 import GymPhoneNumber from '../Phone/PhoneNumber';
+// import GymFacilities from '../GymFacilities';
 
 function GymDetailList({ gym }) {
   return (
