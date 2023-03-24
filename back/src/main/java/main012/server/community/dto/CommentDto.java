@@ -31,7 +31,7 @@ public class CommentDto {
         private Long memberId;
         private String comment;
         private String displayName;
-        private String userImageUrl;
+//        private String userImageUrl;
     }
 
 }

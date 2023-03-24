@@ -38,7 +38,7 @@ public interface CommentMapper {
         commentResponseDto.setComment(comment.getComment());
         commentResponseDto.setMemberId(comment.getMember().getId());
         commentResponseDto.setDisplayName(comment.getMember().getDisplayName());
-        commentResponseDto.setUserImageUrl(comment.getMember().getImage().getImagePath());
+//        commentResponseDto.setUserImageUrl(comment.getMember().getImage().getImagePath());
 
         return commentResponseDto;
     };
