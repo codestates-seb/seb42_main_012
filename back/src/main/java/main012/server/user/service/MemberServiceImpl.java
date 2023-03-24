@@ -304,9 +304,10 @@ public class MemberServiceImpl implements MemberService {
      */
     @Override
     public MemberResponseDto.SearchMemberPage searchMemberGymBookmark(Long memberId, String lastFeedId) {
+        Member member = findVerifyMember(memberId);
         Long feedId = getFeedId(lastFeedId);
 
-        Page<GymBookmark> pages = gymBookmarkRepository.findByMemberIdAndIdLessThanOrderByIdDesc(memberId, feedId, pageable);
+        Page<GymBookmark> pages = gymBookmarkRepository.findByMemberAndIdLessThanOrderByIdDesc(member, feedId, pageable);
         List<GymBookmark> contents = pages.getContent();
 
         Long totalCnt = gymBookmarkRepository.countByMemberId(memberId);

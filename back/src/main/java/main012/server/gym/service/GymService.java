@@ -2,9 +2,11 @@ package main012.server.gym.service;
 
 import lombok.RequiredArgsConstructor;
 import main012.server.cursor.CursorResult;
+import main012.server.gym.dto.GymDto;
 import main012.server.gym.entity.Gym;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
+import main012.server.gym.repository.FacilityRepository;
 import main012.server.gym.repository.GymRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,15 +28,25 @@ import java.util.Optional;
 public class GymService {
     @Autowired
     private final GymRepository gymRepository;
+    private final FacilityRepository facilityRepository;
 
 
+    // 헬스장 생성
     public Gym createGym(Gym gym) {
 
-        // 등록된 헬스장인지 검증
         return gymRepository.save(gym);
     }
 
+    // 헬스장 시설 별 조회 기능
+    public List<Gym> findFacilityGyms(Long facilityId) {
+        List<Gym> response = gymRepository.findAllByFacilityId(facilityId);
+        return response;
+    }
 
+
+
+
+    // 헬스장 수정
     public Gym updateGym(Gym gym) {
         // 존재하는 헬스장인지 검증
         Gym findGym = findVerifiedGym(gym.getId());
@@ -47,6 +59,8 @@ public class GymService {
                 .ifPresent(phoneNumber -> findGym.setPhoneNumber(phoneNumber));
         Optional.ofNullable(gym.getBusinessHours())
                 .ifPresent(businessHours -> findGym.setBusinessHours(businessHours));
+        Optional.ofNullable(gym.getFacility().getFacilityName())
+                .ifPresent(facilityId -> findGym.getFacility().setFacilityName(facilityId));
 
         return gymRepository.save(findGym);
     }
@@ -89,9 +103,9 @@ public class GymService {
 
     }
     // 이미 존재하는 헬스장인지 검증
-    public Gym findVerifiedGym(long gymId) {
+    public Gym findVerifiedGym(long id) {
         Optional<Gym> optionalGym =
-                gymRepository.findById(gymId);
+                gymRepository.findById(id);
         Gym findGym =
                 optionalGym.orElseThrow(() ->
                         new BusinessLoginException(ExceptionCode.GYM_NOT_FOUND));
@@ -104,5 +118,17 @@ public class GymService {
         if (gym.isPresent())
             throw new BusinessLoginException(ExceptionCode.GYM_EXISTS);
     }
+
+//    // 헬스장 찜 페이지
+//    @Transactional
+//    public Page<Gym> gymBookmarkCnt(Gym.KindOfGym kindOfGym, Pageable pageable) {
+//        Page<Gym> gymPage = gymRepository.findAllByKindOfGymName(kindOfGym, pageable);
+//        return gymPage;
+//    }
+
+
+
+
+
 
 }

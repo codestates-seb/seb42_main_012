@@ -1,14 +1,12 @@
 package main012.server.gym.mapper;
 
-import main012.server.gym.dto.GymPatchDto;
-import main012.server.gym.dto.GymPostDto;
-import main012.server.gym.dto.GymResponseDto;
+import main012.server.gym.dto.GymDto;
+
 import main012.server.gym.entity.Gym;
-import main012.server.gym.entity.GymFacility;
 import main012.server.user.entity.Member;
 import org.mapstruct.Mapper;
-import org.springframework.data.repository.query.Param;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -16,7 +14,7 @@ import java.util.List;
 public interface GymMapper {
 
 
-    default Gym gymPostDtoToGym(GymPostDto gymPostDto, Long memberId) {
+    default Gym gymPostDtoToGym(GymDto.@Valid Post gymPostDto, Long memberId) {
         Gym gym = new Gym();
         Member member = new Member();
         member.setId(memberId);
@@ -25,16 +23,25 @@ public interface GymMapper {
         gym.setAddress(gymPostDto.getAddress());
         gym.setPhoneNumber(gymPostDto.getPhoneNumber());
         gym.setBusinessHours(gymPostDto.getBusinessHours());
-//        gym.setGymFacility(GymFacility.builder().facility(gymPostDto.getFacility()).build());
-
         gym.setMember(member);
         return gym;
     }
 
-    Gym gymPatchDtoToGym(GymPatchDto gymPatchDto);
-    GymResponseDto gymToGymResponseDto(Gym gym);
-    List<GymResponseDto> gymsToGymResponseDtos(List<Gym> gyms);
+    Gym gymPatchDtoToGym(GymDto.Patch gymPatchDto);
+    default GymDto.Response gymToGymResponseDto(Gym gym) {
+        GymDto.Response responseGym = new GymDto.Response();
 
-//    List<Gym> getGymsByScoreDesCode(@Param("bookmarkId") int bookmarkId, @)
+        responseGym.setId(gym.getId());
+        responseGym.setGymName(gym.getGymName());
+        responseGym.setAddress(gym.getAddress());
+        responseGym.setPhoneNumber(gym.getPhoneNumber());
+        responseGym.setBusinessHours(gym.getBusinessHours());
+        responseGym.setFacilityName(gym.getFacility().getFacilityName());
+        responseGym.setGymBookmarkCnt(gym.getGymBookmarks().size());
+
+        return responseGym;
+    }
+    List<GymDto.Response> gymsToGymResponseDtos(List<Gym> gyms);
+//    List<GymDto.RankResponse> gymToGymRankListResponse(List<Gym> gym); // 추천 게시글용 매핑
 
 }

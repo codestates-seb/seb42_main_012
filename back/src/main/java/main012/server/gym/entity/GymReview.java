@@ -8,6 +8,7 @@ import main012.server.user.entity.Member;
 
 import javax.persistence.*;
 
+
 @Getter
 @Setter
 @Entity
