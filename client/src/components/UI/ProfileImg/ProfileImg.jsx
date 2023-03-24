@@ -1,20 +1,20 @@
 import { useState, useRef } from 'react';
 import axios from 'axios';
+import { AiOutlineCheckCircle } from 'react-icons/ai';
 import { BiImageAdd } from 'react-icons/bi';
 
 function ProfileImg({ page }) {
   const [image, setImage] = useState(null);
   const [createObjectURL, setCreateObjectURL] = useState(null);
 
-  // { page, profileImage }
   const fileInput = useRef(null);
 
   let classes = 'bg-[var(--second)] rounded-full ';
 
   if (page === 'my') {
-    classes += 'w-20 h-20';
+    classes += 'w-20 h-20 object-cover';
   } else if (page === 'board') {
-    classes += 'w-10 h-10';
+    classes += 'w-10 h-10 object-cover';
   }
 
   const uploadToClient = e => {
@@ -36,8 +36,10 @@ function ProfileImg({ page }) {
     try {
       const res = await axios.patch('/members/info');
       const data = await res.json();
+      alert('이미지 변경완료!');
       console.log(data);
     } catch (err) {
+      alert('요청에 실패했어요😭');
       console.log(err);
     }
   };
@@ -45,10 +47,14 @@ function ProfileImg({ page }) {
   return (
     <>
       <div>
-        <img src={createObjectURL} alt="" className={classes} />
-        <BiImageAdd
-          className="absolute bottom-0 right-0 p-2 text-4xl bg-white rounded-full text-[var(--second)]"
-          onClick={() => fileInput.current.click()}
+        <img
+          src={`${
+            createObjectURL === undefined || createObjectURL === null
+              ? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+              : createObjectURL
+          }`}
+          alt=""
+          className={classes}
         />
         <input
           name="myImage"
@@ -58,36 +64,23 @@ function ProfileImg({ page }) {
           ref={fileInput}
           onChange={uploadToClient}
         />
-        {image && (
+        {image ? (
           <>
-            <button type="submit" onClick={uploadToFs}>
-              Click to upload
+            <button
+              type="submit"
+              onClick={uploadToFs}
+              className="absolute bottom-0 right-0 p-2 text-xl bg-white rounded-full text-[var(--second)]"
+            >
+              <AiOutlineCheckCircle />
             </button>
           </>
+        ) : (
+          <BiImageAdd
+            className="absolute bottom-0 right-0 p-2 text-4xl bg-white rounded-full text-[var(--second)]"
+            onClick={() => fileInput.current.click()}
+          />
         )}
       </div>
-
-      {/* <img
-        className={classes}
-        src={`${
-          createObjectURL === undefined || createObjectURL === null
-            ? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-            : createObjectURL
-        }`}
-        alt="profile"
-      />
-      <BiImageAdd
-        className="absolute bottom-0 right-0 p-2 text-4xl bg-white rounded-full text-[var(--second)]"
-        onClick={() => fileInput.current.click()}
-      />
-      <input
-        className="hidden"
-        type="file"
-        name="profile"
-        accept="image/jpg,impge/png,image/jpeg"
-        ref={fileInput}
-        // onChange={imageHandler}
-      /> */}
     </>
   );
 }
