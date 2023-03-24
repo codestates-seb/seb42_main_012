@@ -54,6 +54,7 @@ public class SecurityConfiguration {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeHttpRequests(authorize -> authorize
+                        .antMatchers("/h2/*").permitAll() // h2로 테스트할 때 필요
                         .antMatchers(HttpMethod.POST, "/members/common").permitAll()
                         .antMatchers(HttpMethod.POST, "/members/owners").permitAll()
                         .antMatchers(HttpMethod.POST, "/auth/refresh").permitAll()
