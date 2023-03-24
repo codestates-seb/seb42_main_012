@@ -17,7 +17,7 @@ function BasicButton(props) {
   } else if (page === 'signup') {
     classes += 'w-full bg-[#fff] text-[#000] border border-[#151414]';
   } else if (page === 'board') {
-    classes += 'w-full bg-[#000] text-[#fff] my-10';
+    classes += 'w-full bg-[#000] text-[#fff] my-3';
   } else if (page === 'my_password') {
     classes += 'w-full bg-[var(--main)] text-[#fff] mt-6';
   } else if (page === 'gymReview') {

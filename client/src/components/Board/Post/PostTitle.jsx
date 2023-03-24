@@ -1,14 +1,16 @@
-import TextInput from '../../UI/Input/TextInput';
+// import TextInput from '../../UI/Input/TextInput';
 
-function BoardPostTitle() {
+function BoardPostTitle({ register }) {
   return (
     <div className="mt-10">
       <span className="text-2xl font-bold">Title</span>
-      <TextInput
+      <input
         id="title"
         placeholder="제목을 입력해주세요."
-        text="제목을 입력해야합니다."
-        classname="w-full p-2 mt-2 mb-4 border-2 rounded-xl focus:outline-[var(--main)]"
+        className="w-full p-2 mt-2  border-2 rounded-xl focus:outline-[var(--main)]"
+        {...register('title', {
+          required: '제목을 입력해주세요',
+        })}
       />
     </div>
   );
