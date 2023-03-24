@@ -1,15 +1,26 @@
+import { useEffect } from 'react';
+import api from '../../utils/api';
 import BoardContentList from './BoardContentList';
+import boardStore from '../../state/boardStore';
 // import BoardCard from './BoardCard';
 
-function Board({ boards }) {
+function Board() {
+  const { boards, setBoards } = boardStore();
+
+  useEffect(() => {
+    api
+      .get('/communities?lastFeedId=56')
+      .then(res => setBoards(res.data.contents));
+  }, []);
+
   return (
     <ul>
       {boards.map(board => (
         <BoardContentList
+          key={board.communityId}
+          id={board.communityId}
           to={`${board.id}`}
           classname="border-t"
-          key={board.boardId}
-          id={board.boardId}
           tabName={board.tabName}
           title={board.title}
           content={board.content}

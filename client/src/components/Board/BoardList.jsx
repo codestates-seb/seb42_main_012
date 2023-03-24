@@ -1,9 +1,9 @@
 import Board from './Board';
 
-function BoardList({ boards }) {
+function BoardList() {
   return (
     <div className="w-full">
-      <Board boards={boards} />
+      <Board />
     </div>
   );
 }

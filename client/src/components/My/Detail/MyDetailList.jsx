@@ -8,14 +8,13 @@ function MyDetailList() {
   const {
     myBoards,
     myComments,
-    // myReviews,
-    // myGymsBookmarks,
-    // myBoardsBookmarks,
+    myReviews,
+    myGymsBookmarks,
+    myBoardsBookmarks,
   } = useStore();
 
   return (
     <ul>
-<<<<<<< Updated upstream
       {location.pathname === '/my/board' ? (
         myBoards.contents.map(board => (
           <MyDetailListItem
@@ -63,18 +62,6 @@ function MyDetailList() {
       ) : (
         <div className="px-4 py-8 text-center">내용이 없습니다.</div>
       )}
-=======
-      {location.pathname === '/my/board'
-        ? myBoards.contents.map(board => (
-            <MyDetailListItem
-              key={board.boardId}
-              tabName={board.boardTab}
-              title={board.boardTitle}
-              created={board.boardCreatedAt}
-            />
-          ))
-        : console.log(myComments.contents)}
->>>>>>> Stashed changes
     </ul>
   );
 }
