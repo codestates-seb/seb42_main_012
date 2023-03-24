@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 public class MemberRequestDto {
@@ -42,7 +41,8 @@ public class MemberRequestDto {
                 message = "비밀번호는 영문(대소문자), 숫자 및 특수문자(!@#^*_)를 포함 최소 8자 이상으로 입력해주세요.")
         private String password;
 
-        @NotBlank(message = "사업자등록번호를 입력해주세요.")
+        @Pattern(regexp = "^\\d{3}-\\d{2}-\\d{5}$",
+                message = "사업자등록번호를 형식(000-00-00000)에 맞게 입력해주세요.")
         private String businessNumber;
     }
 
@@ -70,11 +70,8 @@ public class MemberRequestDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Quit {
-        @NotNull(message = "탈퇴 동의를 하지 않았습니다.")
         private Boolean isAgreed;
         @NotBlank(message = "비밀번호를 입력해주세요.")
         private String password;
     }
-
-
 }

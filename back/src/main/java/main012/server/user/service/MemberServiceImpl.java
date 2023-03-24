@@ -155,7 +155,7 @@ public class MemberServiceImpl implements MemberService {
         log.info("## deleteMember: {}", findMember.getEmail());
 
         // 탈퇴 동의 확인
-        if (!request.getIsAgreed()) {
+        if (request.getIsAgreed() == null ||  !request.getIsAgreed()) {
             throw new BusinessLoginException(ExceptionCode.DISAGREE_QUITTING);
         }
         // 비밀번호 확인
