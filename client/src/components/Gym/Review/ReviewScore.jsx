@@ -2,9 +2,9 @@ import StarIcon from '../../UI/Icon/StarIcon';
 import useGymStore from '../../../state/useGymStore';
 
 function ReviewScore() {
-  // const location = useLocation();
   const { reviews } = useGymStore();
 
+  // const location = useLocation();
   const grade = reviews.map(review => review.grade);
   // const grade =
   //   location.pathname.slice(0, 5) === '/gyms'

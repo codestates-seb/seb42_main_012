@@ -37,16 +37,19 @@ function Profile() {
 
   const updateHandler = async e => {
     e.preventDefault();
-    const body = new FormData();
-    body.append('file', image);
-    body.append('request', { displayName });
+    const formData = new FormData();
+    formData.append('file', image);
+
+    const blob = new Blob([JSON.stringify({ displayName })], {
+      type: 'application/json',
+    });
+    formData.append('request', blob);
 
     try {
-      const res = await api.patch('/members/info', body, {
+      await api.patch('/members/info', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       alert('회원정보 변경완료!');
-      console.log(res);
     } catch (err) {
       alert('요청에 실패했어요😭');
       console.log(err);
@@ -55,7 +58,6 @@ function Profile() {
 
   return (
     <div className="flex items-center">
-      {console.log(myElements)}
       <div className="relative">
         <img
           src={`${

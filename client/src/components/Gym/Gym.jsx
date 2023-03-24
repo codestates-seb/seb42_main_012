@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-
 import GymTagList from './List/GymTagList';
 import ReviewScore from './Review/ReviewScore';
 import HeartButton from '../UI/Button/HeartButton';

@@ -86,7 +86,7 @@ const handlers = [
     const { id } = req.params;
     const review = req.body;
     review.gymId = id;
-    reviews.data.push(req.body);
+    reviews.data.push(review);
     return res(ctx.status(201));
   }),
 ];
