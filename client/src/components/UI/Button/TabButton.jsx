@@ -6,13 +6,15 @@ function TabButton({ tabName, nav }) {
     navigate(nav);
   };
   return (
-    <button
-      type="button"
-      className="border border-[var(--second)] w-24 rounded-full flex justify-center mr-2 text-[var(--second)]"
-      onClick={buttonHandler}
-    >
-      {tabName}
-    </button>
+    <>
+      <button
+        type="button"
+        className="border border-[var(--second)] w-24 rounded-full flex justify-center mr-2 text-[var(--second)]"
+        onClick={buttonHandler}
+      >
+        {tabName}
+      </button>
+    </>
   );
 }
 

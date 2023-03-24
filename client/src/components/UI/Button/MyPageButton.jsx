@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+
 import useStore from '../../../state/useStore';
 import api from '../../../utils/api';
 
@@ -16,14 +17,6 @@ function MyPageButton({ to, text }) {
     myGymsBookmarks,
     myBoardsBookmarks,
   } = useStore();
-
-  console.log(
-    myBoards,
-    myComments,
-    myReviews,
-    myGymsBookmarks,
-    myBoardsBookmarks,
-  );
 
   useEffect(() => {
     api

@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-// import axios from 'axios';
 import api from '../../utils/api';
 import useStore from '../../state/useStore';
 import MyPageList from '../../components/My/MyPageList';
@@ -8,6 +7,7 @@ import Profile from '../../components/My/Profile';
 
 function MyPage() {
   const { setMyElements } = useStore();
+
   useEffect(() => {
     api.get('/members/my').then(res => setMyElements(res.data));
   }, []);
