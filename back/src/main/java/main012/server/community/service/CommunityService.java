@@ -92,7 +92,7 @@ public class CommunityService {
             nextCursor = contents.get(size - 1).getCommunityId();
         }
 
-        List<CommunityDto.Response> responseList = communityMapper.communitiesToCommunityResponseDtos(contents);
+        List<CommunityDto.AllCommunityResponse> responseList = communityMapper.communitiesToAllCommunityResponses(contents);
 
 
         CommunityDto.listResponse response = new CommunityDto.listResponse();
@@ -122,7 +122,7 @@ public class CommunityService {
             nextCursor = contents.get(size - 1).getCommunityId();
         }
 
-        List<CommunityDto.Response> responseList = communityMapper.communitiesToCommunityResponseDtos(contents);
+        List<CommunityDto.AllCommunityResponse> responseList = communityMapper.communitiesToAllCommunityResponses(contents);
 
 
         CommunityDto.listResponse response = new CommunityDto.listResponse();
@@ -138,12 +138,23 @@ public class CommunityService {
 
         Long feedId = getFeedId(lastFeedId);
 
+        int totalElements;
 
-        Page<Community> communities =
-                communityRepository.findAllByTabTabIdAndCommunityIdLessThanOrderByCommunityIdDesc(tabId, feedId, PageRequest.of(0, size));
-        List<Community> contents = communities.getContent();
+        List<Community> contents;
 
-        int totalElements = contents.size();
+        if(tabId ==3){
+            // 오운완 탭 조회
+            Page<Community> workoutTabCommunities = communityRepository.findAllByTabTabIdAndCommunityIdLessThanOrderByCommunityIdDesc(3L, feedId, PageRequest.of(0, size));
+            contents = workoutTabCommunities.getContent();
+        } else {
+            // 일반 탭별 조회
+            Page<Community> communities =
+                    communityRepository.findAllByTabTabIdAndCommunityIdLessThanOrderByCommunityIdDesc(tabId, feedId, PageRequest.of(0, size));
+            contents = communities.getContent();
+        }
+
+        totalElements = contents.size();
+
 
         Long nextCursor;
         if (totalElements < size) {
@@ -152,7 +163,17 @@ public class CommunityService {
             nextCursor = contents.get(size - 1).getCommunityId();
         }
 
-        List<CommunityDto.Response> responseList = communityMapper.communitiesToCommunityResponseDtos(contents);
+
+        if(tabId == 3){
+            List<CommunityDto.WorkoutTabResponse> responseList = communityMapper.communitiesToWorkoutTabResponses(contents);
+            CommunityDto.listResponse response = new CommunityDto.listResponse();
+            response.setContents(responseList);
+            response.setTotalElements(totalElements);
+            response.setNextCursor(nextCursor);
+
+            return response;
+        } else {
+        List<CommunityDto.TabListResponse> responseList = communityMapper.communitiesToTabListResponses(contents);
 
         CommunityDto.listResponse response = new CommunityDto.listResponse();
         response.setContents(responseList);
@@ -160,6 +181,7 @@ public class CommunityService {
         response.setNextCursor(nextCursor);
 
         return response;
+    }
     }
 
     // 페이지네이션 feedId 검증
