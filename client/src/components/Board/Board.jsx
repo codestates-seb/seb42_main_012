@@ -12,14 +12,14 @@ function Board() {
       .get('/communities?lastFeedId=56')
       .then(res => setBoards(res.data.contents));
   }, []);
-
+  console.log(boards);
   return (
     <ul>
       {boards.map(board => (
         <BoardContentList
           key={board.communityId}
           id={board.communityId}
-          to={`${board.id}`}
+          to={`${board.communityId}`}
           classname="border-t"
           tabName={board.tabName}
           title={board.title}
