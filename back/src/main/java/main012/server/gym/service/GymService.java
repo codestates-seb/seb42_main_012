@@ -1,13 +1,22 @@
 package main012.server.gym.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import main012.server.cursor.CursorResult;
 import main012.server.gym.dto.GymDto;
+import main012.server.gym.entity.Facility;
 import main012.server.gym.entity.Gym;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
+import main012.server.gym.mapper.GymMapper;
 import main012.server.gym.repository.FacilityRepository;
+import main012.server.gym.repository.GymBookmarkRepository;
 import main012.server.gym.repository.GymRepository;
+import main012.server.image.entity.GymImage;
+import main012.server.image.entity.Image;
+import main012.server.image.service.ImageService;
+import main012.server.user.entity.Member;
+import main012.server.user.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,39 +24,72 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.plaf.BorderUIResource;
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-
+@Slf4j
 public class GymService {
     @Autowired
     private final GymRepository gymRepository;
+    private final GymMapper gymMapper;
     private final FacilityRepository facilityRepository;
+    private final ImageService imageService;
+    private final GymBookmarkRepository gymBookmarkRepository;
 
 
     // 헬스장 생성
-    public Gym createGym(Gym gym) {
+    public Gym createGym(GymDto.Post request, List<MultipartFile> files) throws IOException {
+
+        Gym gym = gymMapper.gymPostDtoToGym(request);
+        log.info("## 짐 생성 완료 / gymId : {}", gym.getId());
+
+        List<Facility> facilities = request.getFacilityIdList().stream()
+                .map(id -> findFacility(id))
+                .collect(Collectors.toList());
+
+        gym.setFacilities(facilities);
+        log.info("## 짐 시설 등록 완료");
+
+
+        List<Image> uploadedImages = null;
+        if (!files.isEmpty()) {
+            uploadedImages = imageService.upload(files, "upload");
+        }
+
+        createGymImage(gym, uploadedImages);
+        log.info("## 짐 이미지 등록 완료");
 
         return gymRepository.save(gym);
     }
 
-    // 헬스장 시설 별 조회 기능
-    public List<Gym> findFacilityGyms(Long facilityId) {
-        List<Gym> response = gymRepository.findAllByFacilityId(facilityId);
-        return response;
+    // 짐 이미지 등록 기능
+    private void createGymImage(Gym gym, List<Image> imageList) {
+        for (Image image : imageList) {
+            GymImage gymImage = new GymImage(gym, image);
+            gym.setGymImage(gymImage);
+        }
     }
 
-
-
+    // 헬스장 시설 조회
+    private Facility findFacility(Long facilityId) {
+        return facilityRepository.findById(facilityId)
+                .orElseThrow(() -> new BusinessLoginException(ExceptionCode.FACILITY_NOT_FOUND));
+    }
 
     // 헬스장 수정
-    public Gym updateGym(Gym gym) {
+    public GymDto.Response updateGym(Gym gym) {
         // 존재하는 헬스장인지 검증
         Gym findGym = findVerifiedGym(gym.getId());
 
@@ -59,15 +101,23 @@ public class GymService {
                 .ifPresent(phoneNumber -> findGym.setPhoneNumber(phoneNumber));
         Optional.ofNullable(gym.getBusinessHours())
                 .ifPresent(businessHours -> findGym.setBusinessHours(businessHours));
-        Optional.ofNullable(gym.getFacility().getFacilityName())
-                .ifPresent(facilityId -> findGym.getFacility().setFacilityName(facilityId));
 
-        return gymRepository.save(findGym);
+        Long gymBookmarkCnt = gymBookmarkRepository.countByGymId(findGym.getId());
+
+        GymDto.Response response = gymMapper.gymToGymResponseDto(gym, gymBookmarkCnt);
+
+        return response;
     }
 
     // 상세 헬스장 조회
-    public Gym findGym(long gymId) {
-        return findVerifiedGym(gymId);
+    public GymDto.Response findGym(Long gymId) {
+        Gym findGym = findVerifiedGym(gymId);
+
+        Long gymBookmarkCnt = gymBookmarkRepository.countByGymId(findGym.getId());
+
+        GymDto.Response response = gymMapper.gymToGymResponseDto(findGym, gymBookmarkCnt);
+
+        return response;
     }
 
     // 모든 헬스장 정보 조회
@@ -97,15 +147,15 @@ public class GymService {
     }
 
     // 특정 헬스장 삭제
-    public void deleteGym(long gymId){
+    public void deleteGym(Long gymId){
         Gym findGym = findVerifiedGym(gymId);
         gymRepository.delete(findGym);
 
     }
     // 이미 존재하는 헬스장인지 검증
-    public Gym findVerifiedGym(long id) {
+    public Gym findVerifiedGym(Long gymId) {
         Optional<Gym> optionalGym =
-                gymRepository.findById(id);
+                gymRepository.findById(gymId);
         Gym findGym =
                 optionalGym.orElseThrow(() ->
                         new BusinessLoginException(ExceptionCode.GYM_NOT_FOUND));

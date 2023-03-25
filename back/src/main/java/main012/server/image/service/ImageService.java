@@ -16,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,6 +37,17 @@ public class ImageService {
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File convert fail"));
 
         return upload(file, dirName);
+    }
+
+    public List<Image> upload(List<MultipartFile> multipartFiles, String dirName) throws IOException {
+        List<Image> uploadedImages = new ArrayList<>();
+
+        for (MultipartFile file : multipartFiles) {
+            Image uploaded = upload(file, dirName);
+            uploadedImages.add(uploaded);
+        }
+
+        return uploadedImages;
     }
 
     private Image upload(File file, String dirName) {

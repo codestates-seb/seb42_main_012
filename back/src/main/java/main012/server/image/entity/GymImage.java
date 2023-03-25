@@ -24,4 +24,9 @@ public class GymImage {
     @OneToOne(cascade = CascadeType.ALL)  // gymImage 삭제되면 해당 image 로우값이 images 테이블에서 삭제됨
     @JoinColumn(name = "image_id")
     private Image image;
+
+    public GymImage(Gym gym, Image image) {
+        this.gym = gym;
+        this.image = image;
+    }
 }

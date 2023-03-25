@@ -23,6 +23,5 @@ public interface GymRepository extends JpaRepository<Gym, Long> {
     List<Gym> findByIdLessThanOrderByIdDesc(Long id, Pageable page);
 
     Boolean existsByIdLessThan(Long id);
-    List<Gym> findAllByFacilityId(Long FacilityId);
 
 }
