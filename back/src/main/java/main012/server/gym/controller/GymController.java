@@ -12,6 +12,9 @@ import main012.server.gym.mapper.GymMapper;
 import main012.server.gym.repository.FacilityRepository;
 import main012.server.gym.service.GymBookmarkService;
 import main012.server.gym.service.GymService;
+import main012.server.image.entity.Image;
+import main012.server.image.service.ImageService;
+import main012.server.user.service.MemberService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,11 +22,13 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
 import javax.validation.constraints.Positive;
+import java.io.IOException;
 import java.util.List;
 
 
@@ -35,7 +40,7 @@ public class GymController {
     private final GymBookmarkService gymBookmarkService;
     private final GymService gymService;
     private final GymMapper mapper;
-    private final FacilityRepository facilityRepository;
+
     private static final int DEFAULT_SIZE = 15;// 커서 페이지네이션
 
 
@@ -44,12 +49,12 @@ public class GymController {
     // 헬스장 등록
     @PostMapping
     @RolesAllowed("ROLE_OWNER")
-    public ResponseEntity postGym(@RequestBody GymDto.Post gymPostDto,
-                                        @AuthMember Long memberId) {
-        Gym gym = mapper.gymPostDtoToGym(gymPostDto, memberId);
-        Facility facility = facilityRepository.findById(gymPostDto.getFacilityId()).orElseThrow(() -> new RuntimeException("존재하지 않는 시설"));
-        gym.setFacility(facility);
-        gymService.createGym(gym);
+    public ResponseEntity postGym(@AuthMember Long memberId,
+                                  @RequestPart("request") GymDto.Post request,
+                                  @RequestPart("files")List<MultipartFile> files) throws IOException {
+
+        request.setMemberId(memberId);
+        Gym gym = gymService.createGym(request, files);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -59,40 +64,36 @@ public class GymController {
     //     헬스장 정보 수정
     @PatchMapping("/{gym_id}")
     @RolesAllowed({"ROLE_OWNER"})
-
-    public ResponseEntity patchGym(@PathVariable("gym_id") @Positive Long id,
+    public ResponseEntity patchGym(@PathVariable("gym_id") @Positive Long gymId,
                                    @Valid @RequestBody GymDto.Patch gymPatchDto) {
-        gymPatchDto.setId(id);
+        gymPatchDto.setId(gymId);
 
-        Gym response =
-                gymService.updateGym(mapper.gymPatchDtoToGym(gymPatchDto));
+        GymDto.Response response = gymService.updateGym(mapper.gymPatchDtoToGym(gymPatchDto));
 
-        return new ResponseEntity<>(mapper.gymToGymResponseDto(response), HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
     // 헬스장 상세조회
     @GetMapping("/{gym_id}")
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
+    public ResponseEntity getGym(@PathVariable("gym_id") @Positive Long gymId) {
 
-    public ResponseEntity getGym(@PathVariable("gym_id") @Positive long gymId) {
+        GymDto.Response response = gymService.findGym(gymId);
 
-        Gym response = gymService.findGym(gymId);
-        {
-            return new ResponseEntity<>(mapper.gymToGymResponseDto(response), HttpStatus.OK);
-        }
-
-    }
-    // 헬스장 시설별 조회
-    @GetMapping("facility/{facility_id}")
-    @RolesAllowed("ROLE_USER")
-    public ResponseEntity facilityGyms(@PathVariable("facility_id") Long facilityId,
-                                       @AuthMember Long gymId){
-        List<Gym> facilityGyms = gymService.findFacilityGyms(facilityId);
-        List<GymDto.Response> response = mapper.gymsToGymResponseDtos(facilityGyms);
         return new ResponseEntity<>(response, HttpStatus.OK);
 
     }
+    // 헬스장 시설별 조회
+//    @GetMapping("facility/{facility_id}")
+//    @RolesAllowed("ROLE_USER")
+//    public ResponseEntity facilityGyms(@PathVariable("facility_id") Long facilityId,
+//                                       @AuthMember Long gymId){
+//        List<Gym> facilityGyms = gymService.findFacilityGyms(facilityId);
+//        List<GymDto.Response> response = mapper.gymsToGymResponseDtos(facilityGyms);
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//
+//    }
 
 
 
@@ -113,7 +114,7 @@ public class GymController {
     //
     @DeleteMapping("/{gym_id}")
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
-    public ResponseEntity deleteGym(@PathVariable("gym_id") @Positive long gymId) {
+    public ResponseEntity deleteGym(@PathVariable("gym_id") @Positive Long gymId) {
         System.out.println("# deleted gymId: " + gymId);
         // No need business logic
         gymService.deleteGym(gymId);

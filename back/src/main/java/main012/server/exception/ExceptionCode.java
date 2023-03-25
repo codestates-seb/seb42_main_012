@@ -6,6 +6,7 @@ public enum ExceptionCode {
     GYM_NOT_FOUND(404, "헬스장을 찾지 못했습니다."),
     GYM_EXISTS(409, "GYM exists"),
     GYMREVIEW_NOT_FOUND(404,"GymReview Not Found"),
+    FACILITY_NOT_FOUND(404,"존재하지 않는 헬스장 시설입니다."),
 
     PARAMETER_NOT_VALID(3001, "유효하지 않은 요청값입니다."),
     REQUEST_NOT_SUPPORT(3002, "잘못된 요청입니다."),

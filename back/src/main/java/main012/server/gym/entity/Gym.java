@@ -22,32 +22,30 @@ public class Gym extends Auditable {
     @Column(name = "gym_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(length = 100, nullable = false, updatable = false,unique = true) // 헬스장 이름은 unique
     private String gymName;
+
     @Column(length = 100, nullable = false)
     private String address;
+
     @Column(length = 15,nullable = false)
     private String phoneNumber;
 
     @Column(length = 100, nullable = false)
     private String businessHours;
 
-    @Column(nullable = false)
-    private int gymBookmarkCnt;
+    @Column(length = 100, nullable = false)
+    private String price; // 대표 가격
 
-    @ManyToOne
-    @JoinColumn(name = "facility_id")
-    private Facility facility;
+    @Column(length = 100, nullable = false)
+    private String detailPrices; // 상세 가격
 
+    @Column(length = 100, nullable = false)
+    private String latitude; // 위도
 
-
-
-
-
-    public Gym(String gymName) {
-        this.gymName = gymName;
-    }
-
+    @Column(length = 100, nullable = false)
+    private String longitude; // 경도
 
     // N : 1
     @ManyToOne(fetch = FetchType.LAZY) // 유저는 여러개의 헬스장 등록을 할 수 있다.
@@ -59,17 +57,13 @@ public class Gym extends Auditable {
     @JoinTable(
             name = "gym_facility",
             joinColumns = @JoinColumn(name = "gym_id"),
-            inverseJoinColumns = @JoinColumn(name = "facilityId")
+            inverseJoinColumns = @JoinColumn(name = "facility_id")
     )
-
-    private Set<Facility> facilities = new HashSet<>();
+    private List<Facility> facilities = new ArrayList<>();
 
     public void addFacility(Facility facility) {
         this.facilities.add(facility);
     }
-
-
-
 
     // 1 : N
     @Setter(AccessLevel.NONE)
@@ -85,8 +79,6 @@ public class Gym extends Auditable {
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "gym", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<GymReview> gymReviews = new ArrayList<>();
-
-    // 1 : N
 
 
     // 1 : N
@@ -120,9 +112,6 @@ public class Gym extends Auditable {
         }
     }
 
-
-
-
     public void setGymImage(GymImage gymImage) {
         this.gymImages.add(gymImage);
         if (gymImage.getGym() != this) {
@@ -130,7 +119,19 @@ public class Gym extends Auditable {
         }
     }
 
+    // 생성자
+    public Gym(String gymName) {
+        this.gymName = gymName;
+    }
 
-
-
+    public Gym(String gymName, String address, String phoneNumber, String businessHours, String price, String detailPrices, String latitude, String longitude) {
+        this.gymName = gymName;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.businessHours = businessHours;
+        this.price = price;
+        this.detailPrices = detailPrices;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 }
