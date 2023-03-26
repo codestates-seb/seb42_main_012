@@ -1,6 +1,10 @@
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 
-function Postcode({ address, setAddress, register }) {
+function Postcode({ register, address, setAddress, setMap }) {
+  const { kakao } = window;
+
+  const geocoder = new kakao.maps.services.Geocoder();
+
   const open = useDaumPostcodePopup();
 
   const handleComplete = data => {
@@ -19,6 +23,14 @@ function Postcode({ address, setAddress, register }) {
     }
 
     setAddress(fullAddress);
+
+    geocoder.addressSearch(fullAddress, (result, status) => {
+      // 정상적으로 검색이 완료됐으면
+      if (status === kakao.maps.services.Status.OK) {
+        const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+        setMap(coords);
+      }
+    });
   };
 
   const handleClick = () => {
@@ -34,13 +46,13 @@ function Postcode({ address, setAddress, register }) {
       >
         주소검색
       </button>
-      <p className="border border-[var(--second-border)] outline-[var(--main)] mt-2 rounded-sm w-full p-2 h-10 text-sm line-clamp-1">
+      <p className="w-full h-8 pt-2 pl-2 mt-2 text-xs border rounded-lg border-grey line-clamp-1">
         {address}
       </p>
       <input
-        className="border border-[var(--second-border)] outline-[var(--main)] mt-2 rounded-sm w-full p-2"
-        {...register('detailAddress')}
         placeholder="상세주소를 입력해주세요."
+        {...register('detailAddress')}
+        className="w-full py-2 pl-2 mt-2 text-xs border rounded-lg border-grey line-clamp-1"
       />
     </div>
   );

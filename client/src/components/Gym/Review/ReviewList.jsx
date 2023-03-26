@@ -5,7 +5,6 @@ import GymReview from './Review';
 function GymReviewList() {
   const location = useLocation();
   const { reviews } = useGymStore();
-  console.log(reviews);
 
   return (
     <div>
