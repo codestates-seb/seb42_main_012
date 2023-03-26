@@ -11,7 +11,6 @@ function GymPage() {
   useEffect(() => {
     gymAxios.get('/gyms').then(res => setGyms(res.data));
   }, []);
-  console.log(gyms);
 
   return (
     <div className="mb-24">
