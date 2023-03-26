@@ -52,8 +52,11 @@ public class CommunityService {
         Community community = communityMapper.communityPostDtoToCommunity(post, memberId);
         community.setTab(tabRepository.findById(post.getTabId()).get());
 
+        // 첨부파일이 비었는지 체크
+        boolean checkFiles = checkEmptyFile(files);
+
         List<Image> uploadedImages = null;
-        if(!files.isEmpty()){
+        if(checkFiles != true ){
             uploadedImages = imageService.upload(files, "upload");
             createCommunityImage(community, uploadedImages);
         }
@@ -72,6 +75,14 @@ public class CommunityService {
 
 
         return imageResponses;
+    }
+
+    // 게시글 등록시 파일이 비었는지 확인
+    private boolean checkEmptyFile(List<MultipartFile> files) {
+        for(MultipartFile multipartFile : files){
+            if(multipartFile.isEmpty()) return true;
+        }
+        return false;
     }
 
     private void createCommunityImage(Community community, List<Image> images) {
