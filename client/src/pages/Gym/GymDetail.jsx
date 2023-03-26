@@ -29,9 +29,14 @@ function GymDetailPage() {
             gymName={gym.gymName}
             gymBookmarkCnt={gym.gymBookmarkCnt}
           />
-          {gym.gymImages.length === 0 ? null : (
-            <GymDetailMainImg gymImage={gym.gymImages[0].gymImageUrl} />
-          )}
+          <div className="flex w-full overflow-x-scroll">
+            {gym.gymImages.map(gymImage => (
+              <GymDetailMainImg
+                key={gymImage.gymImageId}
+                gymImage={gymImage.gymImageUrl}
+              />
+            ))}
+          </div>
           <GymDetailList gym={gym} />
         </div>
       ))}

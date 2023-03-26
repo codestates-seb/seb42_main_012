@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import GymTagList from './List/GymTagList';
 import HeartButton from '../UI/Button/HeartButton';
 import ReviewScoreList from './Review/ReviewScoreList';
-import pikachu from '../../assets/images/pikachu.JPG';
 
 // price
 function Gym({
@@ -18,11 +17,15 @@ function Gym({
     <li className="flex pb-3 mb-3 border-b border-[var(--second-border)]">
       <div className="w-40 h-32 rounded-md basis-5/12 bg-var(--second-bg)">
         <Link to={`/gyms/${gymId}`}>
-          <img
-            src={gymImages.length === 0 ? pikachu : gymImages[0].gymImageUrl}
-            alt="헬스장 사진"
-            className="object-cover w-full h-full "
-          />
+          {gymImages.length === 0 ? (
+            <div className="w-full h-full bg-grey" />
+          ) : (
+            <img
+              src={gymImages[0].gymImageUrl}
+              alt="헬스장 사진"
+              className="object-cover w-full h-full "
+            />
+          )}
         </Link>
       </div>
       <div className="flex flex-col w-48 ml-2 basis-7/12">
