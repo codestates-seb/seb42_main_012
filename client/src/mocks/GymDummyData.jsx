@@ -10,7 +10,7 @@ export const gyms = [
     prices: '1개월 60,000원',
     detailPrices: `[헬스장이용권]\n 1개월 : 60,000원\n 3개월 : 150,000원\n 6개월 : 250,000원\n\n[PT]\n 10회 : 540,000원\n 20회 : 960,000원\n 30회 : 1,050,000원`,
     businessHours: `월요일 : 정기휴무\n화요일 : 07:00 ~ 23:30\n수요일 : 07:00 ~ 23:30\n목요일 : 07:00 ~ 23:30\n금요일 : 07:00 ~ 23:30\n토요일 : 07:00 ~ 23:30\n일요일 : 10:00 ~ 19:00`,
-    gymBookmark_Cnt: 129,
+    gymBookmarkCnt: 129,
     facilities: [
       {
         facilityId: 1,
@@ -41,7 +41,7 @@ export const gyms = [
     prices: '3개월 150,000원',
     detailPrices: `[헬스장이용권]\n 1개월 : 60,000원\n 3개월 : 150,000원\n 6개월 : 250,000원\n\n[PT]\n 10회 : 540,000원\n 20회 : 960,000원\n 30회 : 1,050,000원`,
     businessHours: `월요일 : 정기휴무\n화요일 : 07:00 ~ 23:30\n수요일 : 07:00 ~ 23:30\n목요일 : 07:00 ~ 23:30\n금요일 : 07:00 ~ 23:30\n토요일 : 07:00 ~ 23:30\n일요일 : 10:00 ~ 19:00`,
-    gymBookmark_Cnt: 30,
+    gymBookmarkCnt: 30,
     facilities: [
       {
         facilityId: 1,
@@ -72,7 +72,7 @@ export const gyms = [
     prices: '6개월 200,000원',
     detailPrices: `[헬스장이용권]\n 1개월 : 60,000원\n 3개월 : 150,000원\n 6개월 : 250,000원\n\n[PT]\n 10회 : 540,000원\n 20회 : 960,000원\n 30회 : 1,050,000원`,
     businessHours: `월요일 : 정기휴무\n화요일 : 07:00 ~ 23:30\n수요일 : 07:00 ~ 23:30\n목요일 : 07:00 ~ 23:30\n금요일 : 07:00 ~ 23:30\n토요일 : 07:00 ~ 23:30\n일요일 : 10:00 ~ 19:00`,
-    gymBookmark_Cnt: 26,
+    gymBookmarkCnt: 26,
     facilities: [
       {
         facilityId: 1,
@@ -95,7 +95,7 @@ export const gyms = [
     prices: '12개월 300,000원',
     detailPrices: `[헬스장이용권]\n 1개월 : 60,000원\n 3개월 : 150,000원\n 6개월 : 250,000원\n\n[PT]\n 10회 : 540,000원\n 20회 : 960,000원\n 30회 : 1,050,000원`,
     businessHours: `월요일 : 정기휴무\n화요일 : 07:00 ~ 23:30\n수요일 : 07:00 ~ 23:30\n목요일 : 07:00 ~ 23:30\n금요일 : 07:00 ~ 23:30\n토요일 : 07:00 ~ 23:30\n일요일 : 10:00 ~ 19:00`,
-    gymBookmark_Cnt: 2,
+    gymBookmarkCnt: 2,
     facilities: [
       {
         facilityId: 3,
@@ -119,7 +119,7 @@ export const gyms = [
     prices: '2개월 20,000원',
     detailPrices: `[헬스장이용권]\n 1개월 : 60,000원\n 3개월 : 150,000원\n 6개월 : 250,000원\n\n[PT]\n 10회 : 540,000원\n 20회 : 960,000원\n 30회 : 1,050,000원`,
     businessHours: `월요일 : 정기휴무\n화요일 : 07:00 ~ 23:30\n수요일 : 07:00 ~ 23:30\n목요일 : 07:00 ~ 23:30\n금요일 : 07:00 ~ 23:30\n토요일 : 07:00 ~ 23:30\n일요일 : 10:00 ~ 19:00`,
-    gymBookmark_Cnt: 24,
+    gymBookmarkCnt: 24,
     facilities: [
       {
         facilityId: 1,
@@ -146,7 +146,7 @@ export const gyms = [
     prices: '8개월 150,000원',
     detailPrices: `[헬스장이용권]\n 1개월 : 60,000원\n 3개월 : 150,000원\n 6개월 : 250,000원\n\n[PT]\n 10회 : 540,000원\n 20회 : 960,000원\n 30회 : 1,050,000원`,
     businessHours: `월요일 : 정기휴무\n화요일 : 07:00 ~ 23:30\n수요일 : 07:00 ~ 23:30\n목요일 : 07:00 ~ 23:30\n금요일 : 07:00 ~ 23:30\n토요일 : 07:00 ~ 23:30\n일요일 : 10:00 ~ 19:00`,
-    gymBookmark_Cnt: 212,
+    gymBookmarkCnt: 212,
     facilities: [
       {
         facilityId: 1,
@@ -177,7 +177,7 @@ export const gyms = [
     prices: '1개월 160,000원',
     detailPrices: `[헬스장이용권]\n 1개월 : 60,000원\n 3개월 : 150,000원\n 6개월 : 250,000원\n\n[PT]\n 10회 : 540,000원\n 20회 : 960,000원\n 30회 : 1,050,000원`,
     businessHours: `월요일 : 정기휴무\n화요일 : 07:00 ~ 23:30\n수요일 : 07:00 ~ 23:30\n목요일 : 07:00 ~ 23:30\n금요일 : 07:00 ~ 23:30\n토요일 : 07:00 ~ 23:30\n일요일 : 10:00 ~ 19:00`,
-    gymBookmark_Cnt: 16,
+    gymBookmarkCnt: 16,
     facilities: [
       {
         facilityId: 1,
@@ -208,7 +208,7 @@ export const gyms = [
     prices: '7개월 70,000원',
     detailPrices: `[헬스장이용권]\n 1개월 : 60,000원\n 3개월 : 150,000원\n 6개월 : 250,000원\n\n[PT]\n 10회 : 540,000원\n 20회 : 960,000원\n 30회 : 1,050,000원`,
     businessHours: `월요일 : 정기휴무\n화요일 : 07:00 ~ 23:30\n수요일 : 07:00 ~ 23:30\n목요일 : 07:00 ~ 23:30\n금요일 : 07:00 ~ 23:30\n토요일 : 07:00 ~ 23:30\n일요일 : 10:00 ~ 19:00`,
-    gymBookmark_Cnt: 8,
+    gymBookmarkCnt: 8,
     facilities: [
       {
         facilityId: 1,
@@ -239,7 +239,7 @@ export const gyms = [
     prices: '18개월 600,000원',
     detailPrices: `[헬스장이용권]\n 1개월 : 60,000원\n 3개월 : 150,000원\n 6개월 : 250,000원\n\n[PT]\n 10회 : 540,000원\n 20회 : 960,000원\n 30회 : 1,050,000원`,
     businessHours: `월요일 : 정기휴무\n화요일 : 07:00 ~ 23:30\n수요일 : 07:00 ~ 23:30\n목요일 : 07:00 ~ 23:30\n금요일 : 07:00 ~ 23:30\n토요일 : 07:00 ~ 23:30\n일요일 : 10:00 ~ 19:00`,
-    gymBookmark_Cnt: 9,
+    gymBookmarkCnt: 9,
     facilities: [
       {
         facilityId: 1,
@@ -270,7 +270,7 @@ export const gyms = [
     prices: '9개월 900,000원',
     detailPrices: `[헬스장이용권]\n 1개월 : 60,000원\n 3개월 : 150,000원\n 6개월 : 250,000원\n\n[PT]\n 10회 : 540,000원\n 20회 : 960,000원\n 30회 : 1,050,000원`,
     businessHours: `월요일 : 정기휴무\n화요일 : 07:00 ~ 23:30\n수요일 : 07:00 ~ 23:30\n목요일 : 07:00 ~ 23:30\n금요일 : 07:00 ~ 23:30\n토요일 : 07:00 ~ 23:30\n일요일 : 10:00 ~ 19:00`,
-    gymBookmark_Cnt: 88,
+    gymBookmarkCnt: 88,
     facilities: [
       {
         facilityId: 1,

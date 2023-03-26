@@ -17,20 +17,21 @@ function GymDetailPage() {
   }, []);
 
   useEffect(() => {
-    gymAxios
-      .get(`/gyms/reviews/${id}?lastFeedId=10`)
-      .then(res => setReviews(res.data));
+    gymAxios.get(`/gyms/reviews/${id}`).then(res => setReviews(res.data));
   }, []);
+  console.log(gymsDetail);
 
   return (
     <>
-      {gymsDetail.map(gym => (
+      {[gymsDetail].map(gym => (
         <div key={gym.id}>
           <GymDetailHeader
             gymName={gym.gymName}
-            BookmarkCnt={gym.gymBookmark_Cnt}
+            gymBookmarkCnt={gym.gymBookmarkCnt}
           />
-          <GymDetailMainImg gymImage={gym.gymImage} />
+          {gym.gymImages.length === 0 ? null : (
+            <GymDetailMainImg gymImage={gym.gymImages[0].gymImageUrl} />
+          )}
           <GymDetailList gym={gym} />
         </div>
       ))}

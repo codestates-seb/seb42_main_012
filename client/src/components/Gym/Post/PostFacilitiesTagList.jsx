@@ -10,21 +10,21 @@ function GymPostFacilitiesTagList({ register }) {
         id="check1"
       />
       <GymPostTag
-        text="락커룸"
+        text="주차장"
         register={register}
         registerName="locker"
         id="check2"
       />
       <GymPostTag
-        text="주차장"
+        text="운동복"
         register={register}
-        registerName="parking"
+        registerName="sportsWear"
         id="check3"
       />
       <GymPostTag
-        text="운동복 대여"
+        text="락커"
         register={register}
-        registerName="sportsWear"
+        registerName="parking"
         id="check4"
       />
     </ul>

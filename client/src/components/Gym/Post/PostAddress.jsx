@@ -1,10 +1,15 @@
 import Postcode from '../../UI/Postcode';
 
-function GymPostAddress({ address, setAddress, register }) {
+function GymPostAddress({ register, address, setAddress, setMap }) {
   return (
     <div className="mb-8">
       <p className="text-sm text-[var(--main)] mb-2">주소</p>
-      <Postcode address={address} setAddress={setAddress} register={register} />
+      <Postcode
+        register={register}
+        address={address}
+        setAddress={setAddress}
+        setMap={setMap}
+      />
     </div>
   );
 }

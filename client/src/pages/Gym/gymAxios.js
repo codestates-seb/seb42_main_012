@@ -1,6 +1,6 @@
-import axios from 'axios';
-// import api from '../../utils/api'
+// import axios from 'axios';
+import api from '../../utils/api';
 
-const gymAxios = axios;
+const gymAxios = api;
 
 export default gymAxios;

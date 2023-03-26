@@ -7,12 +7,15 @@ const useGymStore = create(
       gyms: [],
       gymsDetail: [],
       reviews: [],
+      reviewsList: [],
 
       setGyms: data => set({ gyms: data }),
 
       setGymsDetail: data => set({ gymsDetail: data }),
 
       setReviews: data => set({ reviews: data }),
+
+      setReviewsList: data => set({ reviewsList: data }),
     }),
     { name: 'store' },
   ),

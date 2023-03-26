@@ -8,10 +8,11 @@ function GymList({ gyms }) {
           key={gym.id}
           gymId={gym.id}
           gymName={gym.gymName}
-          gymImage={gym.gymImage}
+          gymImages={gym.gymImages}
           address={gym.address}
-          prices={gym.prices}
-          facilities={gym.facilities}
+          price={gym.price}
+          facilityNames={gym.facilityNames}
+          businessHours={gym.businessHours}
         />
       ))}
     </ul>

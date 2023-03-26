@@ -44,13 +44,15 @@ function Profile() {
     body.append('file', image);
     body.append('request', blob);
 
+    console.log(body);
+
     try {
       await api
         .patch('/members/info', body, {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
         .then(res => {
-          window.location.reload();
+          // window.location.reload();
           alert('회원정보 변경완료!');
           console.log(res.status);
         });

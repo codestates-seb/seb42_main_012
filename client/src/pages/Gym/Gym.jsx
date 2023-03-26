@@ -9,8 +9,9 @@ function GymPage() {
   const { gyms, setGyms } = useGymStore();
 
   useEffect(() => {
-    gymAxios.get('/gyms?lastFeedId=10').then(res => setGyms(res.data));
+    gymAxios.get('/gyms').then(res => setGyms(res.data));
   }, []);
+  console.log(gyms);
 
   return (
     <div className="mb-24">
