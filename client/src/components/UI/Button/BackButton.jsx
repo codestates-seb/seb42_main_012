@@ -16,9 +16,9 @@ function BackButton() {
       location.pathname === '/login'
     )
   ) {
-    classes += 'text-4xl';
+    classes += 'text-4xl cursor-pointer';
   } else {
-    classes += 'w-0 h-0 ml-[36px]';
+    classes += 'w-0 h-0 ml-[36px] cursor-pointer';
   }
 
   if (location.pathname === '/gyms/gympost') {

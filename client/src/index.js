@@ -7,12 +7,12 @@ import Loading from './components/Loading';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import worker from './mocks/worker';
+// import worker from './mocks/worker';
 import ScrollToTop from './components/ScrollToTop';
 
-if (process.env.NODE_ENV === 'development') {
-  worker.start();
-}
+// if (process.env.NODE_ENV === 'development') {
+//   worker.start();
+// }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
