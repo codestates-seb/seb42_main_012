@@ -7,7 +7,7 @@ import api from '../../utils/api';
 
 function Profile() {
   const { myElements } = useStore();
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState(myElements.profileImage);
   const [createObjectURL, setCreateObjectURL] = useState(
     myElements.profileImage,
   );
@@ -17,13 +17,10 @@ function Profile() {
   const editHandler = () => {
     setEdit(!edit);
   };
-  const onChangeHandler = e => {
-    setDisplayName(e.target.value);
-  };
 
   const fileInput = useRef(null);
 
-  const uploadToClient = e => {
+  const uploadToClient = async e => {
     if (createObjectURL) {
       URL.revokeObjectURL(createObjectURL);
     }
@@ -35,21 +32,28 @@ function Profile() {
     }
   };
 
-  const updateHandler = async e => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append('file', image);
+  const onChangeHandler = e => {
+    setDisplayName(e.target.value);
+  };
 
-    const blob = new Blob([JSON.stringify({ displayName })], {
+  const updateHandler = async () => {
+    const body = new FormData();
+    const blob = new Blob([JSON.stringify(displayName)], {
       type: 'application/json',
     });
-    formData.append('request', blob);
+    body.append('file', image);
+    body.append('request', blob);
 
     try {
-      await api.patch('/members/info', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      alert('회원정보 변경완료!');
+      await api
+        .patch('/members/info', body, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        })
+        .then(res => {
+          window.location.reload();
+          alert('회원정보 변경완료!');
+          console.log(res.status);
+        });
     } catch (err) {
       alert('요청에 실패했어요😭');
       console.log(err);
