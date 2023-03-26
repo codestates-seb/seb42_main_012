@@ -224,7 +224,14 @@ public class CommunityService {
         }
 
         List<CommunityDto.AllCommunityResponse> responseList = communityMapper.communitiesToAllCommunityResponses(contents);
-
+        for(CommunityDto.AllCommunityResponse value : responseList) {
+            Long communityId = value.getCommunityId();
+            Long memberId = value.getMemberId();
+            Optional<CommunityBookmark> isBookmarked = communityBookmarkRepository.findByMemberIdAndCommunityCommunityId(memberId, communityId);
+            if (isBookmarked.isPresent()) {
+                value.setBookmarked(true);
+            }
+        }
 
         CommunityDto.ListResponse response = new CommunityDto.ListResponse();
         response.setContents(responseList);
