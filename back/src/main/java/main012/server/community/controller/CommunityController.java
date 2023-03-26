@@ -21,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,9 +54,9 @@ public class CommunityController {
                                         @RequestPart("files") List<MultipartFile> files,
                                         @AuthMember Long memberId) throws IOException {
 
-        communityService.createCommunity(postRequest, files, memberId);
+        List<CommunityDto.ImageResponse> response = communityService.createCommunity(postRequest, files, memberId);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
     
 
@@ -100,7 +101,7 @@ public class CommunityController {
     public ResponseEntity getAllCommunity(@AuthMember Long memberId,
                                           @RequestParam String lastFeedId) {
 
-        CommunityDto.listResponse response = communityService.findAllCommunity(lastFeedId);
+        CommunityDto.ListResponse response = communityService.findAllCommunity(lastFeedId);
 
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -113,7 +114,7 @@ public class CommunityController {
                                          @RequestParam String lastFeedId,
                                          @AuthMember Long memberId) {
 
-        CommunityDto.listResponse response = communityService.findTabCommunities(tabId, lastFeedId);
+        CommunityDto.ListResponse response = communityService.findTabCommunities(tabId, lastFeedId);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -124,7 +125,7 @@ public class CommunityController {
     public ResponseEntity serchByKeyword(@RequestParam("keyword") String keyword,
                                          @RequestParam String lastFeedId) {
 
-        CommunityDto.listResponse response = communityService.findByKeyword(keyword, lastFeedId);
+        CommunityDto.ListResponse response = communityService.findByKeyword(keyword, lastFeedId);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

@@ -3,7 +3,9 @@ package main012.server.community.service;
 import lombok.RequiredArgsConstructor;
 import main012.server.community.dto.CommunityDto;
 import main012.server.community.entity.Community;
+import main012.server.community.entity.CommunityBookmark;
 import main012.server.community.mapper.CommunityMapper;
+import main012.server.community.repository.CommunityBookmarkRepository;
 import main012.server.community.repository.CommunityRepository;
 import main012.server.community.repository.TabRepository;
 import main012.server.exception.BusinessLoginException;
@@ -16,6 +18,7 @@ import main012.server.user.entity.Member;
 import main012.server.user.repository.MemberRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.repository.query.SpelQueryContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,10 +42,12 @@ public class CommunityService {
 
     private final CommunityImageRepo communityImageRepo;
 
+    private final CommunityBookmarkRepository communityBookmarkRepository;
+
     private final int size = 15;
 
     // 커뮤니티 게시글 등록
-    public Community createCommunity (CommunityDto.Post post, List<MultipartFile> files, Long memberId) throws IOException {
+    public List<CommunityDto.ImageResponse> createCommunity (CommunityDto.Post post, List<MultipartFile> files, Long memberId) throws IOException {
 
         Community community = communityMapper.communityPostDtoToCommunity(post, memberId);
         community.setTab(tabRepository.findById(post.getTabId()).get());
@@ -50,13 +55,23 @@ public class CommunityService {
         List<Image> uploadedImages = null;
         if(!files.isEmpty()){
             uploadedImages = imageService.upload(files, "upload");
+            createCommunityImage(community, uploadedImages);
         }
 
-        Community response = communityRepository.save(community);
-        createCommunityImage(community, uploadedImages);
+        communityRepository.save(community);
+
+        // 커뮤니티 등록시 돌려줄 이미지 정보 생성
+        List<CommunityDto.ImageResponse> imageResponses = new ArrayList<>();
+
+        for (CommunityImage value : community.getCommunityImages()){
+            CommunityDto.ImageResponse imageResponse = new CommunityDto.ImageResponse();
+            imageResponse.setContentImageId(value.getImage().getId());
+            imageResponse.setContentImageUrl(value.getImage().getImagePath());
+            imageResponses.add(imageResponse);
+        }
 
 
-        return response;
+        return imageResponses;
     }
 
     private void createCommunityImage(Community community, List<Image> images) {
@@ -124,33 +139,42 @@ public class CommunityService {
         // 커뮤니티 게시글 번호로 저장된 이미지 찾기
         List<CommunityImage> communityImageList = communityImageRepo.findByCommunityCommunityId(communityId);
 
-        // 찾은 이미지들의 url 얻어서 저장
-        List<String> communityImagesUrl = new ArrayList<>();
 
-        for(CommunityImage value : communityImageList){
-            String imagePath = value.getImage().getImagePath();
-            communityImagesUrl.add(imagePath);
+        // 컨텐츠에 저장된 이미지 id, url 응답데이터 추출
+        List<CommunityDto.ImageResponse> imageInfo = new ArrayList<>();
+        for(CommunityImage image : communityImageList){
+            CommunityDto.ImageResponse response = new CommunityDto.ImageResponse();
+            response.setContentImageId(image.getImage().getId());
+            response.setContentImageUrl(image.getImage().getImagePath());
+            imageInfo.add(response);
         }
 
-
+//        // 찾은 이미지들의 url 얻어서 저장
+//        List<String> communityImagesUrl = new ArrayList<>();
+//
+//        for(CommunityImage value : communityImageList){
+//            String imagePath = value.getImage().getImagePath();
+//            communityImagesUrl.add(imagePath);
+//        }
 
         // 멤버 프로필 이미지 얻기 위한 멤버 조회
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
 
         CommunityDto.Response response = communityMapper.communityToResponse(foundCommunity);
 //        response.setProfileImageUrl(member.getImage().getImagePath());
-        response.setCommunityImageUrl(communityImagesUrl);
+        response.setContentImages(imageInfo);
 
         return response;
     }
 
     // 게시글 전체 조회
-    public CommunityDto.listResponse findAllCommunity (String lastFeedId) {
+    public CommunityDto.ListResponse findAllCommunity (String lastFeedId) {
 
         Long feedId = getFeedId(lastFeedId);
 
         Page<Community> list = communityRepository.findByCommunityIdLessThanOrderByCommunityIdDesc(feedId, PageRequest.of(0, size));
         List<Community> contents = list.getContent();
+
 
         int totalElements = contents.size();
 
@@ -161,10 +185,18 @@ public class CommunityService {
             nextCursor = contents.get(size - 1).getCommunityId();
         }
 
+        // 북마크 되어 있는지 체크
         List<CommunityDto.AllCommunityResponse> responseList = communityMapper.communitiesToAllCommunityResponses(contents);
+        for(CommunityDto.AllCommunityResponse value : responseList){
+            Long communityId = value.getCommunityId();
+            Long memberId = value.getMemberId();
+            Optional<CommunityBookmark> isBookmarked = communityBookmarkRepository.findByMemberIdAndCommunityCommunityId(memberId, communityId);
+            if(isBookmarked.isPresent()){
+                value.setBookmarked(true);
+            }
+        }
 
-
-        CommunityDto.listResponse response = new CommunityDto.listResponse();
+        CommunityDto.ListResponse response = new CommunityDto.ListResponse();
         response.setContents(responseList);
         response.setTotalElements(totalElements);
         response.setNextCursor(nextCursor);
@@ -174,7 +206,7 @@ public class CommunityService {
 
 
     // 게시글 검색 기능
-    public CommunityDto.listResponse findByKeyword (String keyword, String lastFeedId) {
+    public CommunityDto.ListResponse findByKeyword (String keyword, String lastFeedId) {
 
         Long feedId = getFeedId(lastFeedId);
 
@@ -194,7 +226,7 @@ public class CommunityService {
         List<CommunityDto.AllCommunityResponse> responseList = communityMapper.communitiesToAllCommunityResponses(contents);
 
 
-        CommunityDto.listResponse response = new CommunityDto.listResponse();
+        CommunityDto.ListResponse response = new CommunityDto.ListResponse();
         response.setContents(responseList);
         response.setTotalElements(totalElements);
         response.setNextCursor(nextCursor);
@@ -203,7 +235,7 @@ public class CommunityService {
     }
 
     // 게시글 탭별 조회 기능
-    public CommunityDto.listResponse findTabCommunities (Long tabId, String lastFeedId) {
+    public CommunityDto.ListResponse findTabCommunities (Long tabId, String lastFeedId) {
 
         Long feedId = getFeedId(lastFeedId);
 
@@ -211,10 +243,13 @@ public class CommunityService {
 
         List<Community> contents;
 
+        String imagePath = null;
+
         if(tabId ==3){
             // 오운완 탭 조회
             Page<Community> workoutTabCommunities = communityRepository.findAllByTabTabIdAndCommunityIdLessThanOrderByCommunityIdDesc(3L, feedId, PageRequest.of(0, size));
             contents = workoutTabCommunities.getContent();
+
         } else {
             // 일반 탭별 조회
             Page<Community> communities =
@@ -223,6 +258,8 @@ public class CommunityService {
         }
 
         totalElements = contents.size();
+
+
 
 
         Long nextCursor;
@@ -235,7 +272,13 @@ public class CommunityService {
 
         if(tabId == 3){
             List<CommunityDto.WorkoutTabResponse> responseList = communityMapper.communitiesToWorkoutTabResponses(contents);
-            CommunityDto.listResponse response = new CommunityDto.listResponse();
+            // 오운완 탭 조회시 대표 사진 설정
+            for(CommunityDto.WorkoutTabResponse value : responseList){
+                CommunityImage communityImage = communityImageRepo.findByCommunityCommunityId(value.getCommunityId()).get(0);
+                String firstImagePath = communityImage.getImage().getImagePath();
+                value.setContentImageUrl(firstImagePath);
+            }
+            CommunityDto.ListResponse response = new CommunityDto.ListResponse();
             response.setContents(responseList);
             response.setTotalElements(totalElements);
             response.setNextCursor(nextCursor);
@@ -243,8 +286,16 @@ public class CommunityService {
             return response;
         } else {
         List<CommunityDto.TabListResponse> responseList = communityMapper.communitiesToTabListResponses(contents);
+            for(CommunityDto.TabListResponse value : responseList){
+                Long communityId = value.getCommunityId();
+                Long memberId = value.getMemberId();
+                Optional<CommunityBookmark> isBookmarked = communityBookmarkRepository.findByMemberIdAndCommunityCommunityId(memberId, communityId);
+                if(isBookmarked.isPresent()){
+                    value.setBookmarked(true);
+                }
+            }
 
-        CommunityDto.listResponse response = new CommunityDto.listResponse();
+        CommunityDto.ListResponse response = new CommunityDto.ListResponse();
         response.setContents(responseList);
         response.setTotalElements(totalElements);
         response.setNextCursor(nextCursor);

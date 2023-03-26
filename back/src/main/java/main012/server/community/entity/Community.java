@@ -31,6 +31,7 @@ public class Community extends Auditable {
     @Column(columnDefinition = "integer default 0", nullable = false) // 조회수 기본값 0으로 설정.
     private int viewCnt;
 
+
     // N : 1
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

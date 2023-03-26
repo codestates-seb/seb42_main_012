@@ -18,4 +18,5 @@ public interface CommunityBookmarkRepository extends JpaRepository<CommunityBook
     // 마이페이지 게시글 찜 조회
     Page<CommunityBookmark> findByMemberIdAndIdLessThanOrderByIdDesc(Long memberId, Long Id, Pageable pageable);
 
+    Optional<CommunityBookmark> findByMemberIdAndCommunityCommunityId(Long memberId, Long communityId);
 }
