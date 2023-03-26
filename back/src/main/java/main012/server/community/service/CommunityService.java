@@ -99,8 +99,16 @@ public class CommunityService {
         //존재하는 게시글인지 확인
         Community existCommunity = findExistCommunity(communityId);
 
-        // 사진 삭제 로직 필요!!!!!!
+        // 사진 삭제
+        // 커뮤니티 게시글 번호로 저장된 이미지 찾기
+        List<CommunityImage> communityImageList = communityImageRepo.findByCommunityCommunityId(communityId);
 
+        for(CommunityImage value : communityImageList){
+            imageService.remove(value.getImage());
+            communityImageRepo.delete(value);
+        }
+
+        // 게시글 삭제
         communityRepository.delete(existCommunity);
     }
 

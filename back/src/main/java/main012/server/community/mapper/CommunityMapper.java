@@ -3,9 +3,11 @@ package main012.server.community.mapper;
 import lombok.RequiredArgsConstructor;
 import main012.server.community.dto.CommunityDto;
 import main012.server.community.entity.Community;
+import main012.server.image.entity.CommunityImage;
 import main012.server.user.entity.Member;
 import org.mapstruct.Mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
@@ -86,6 +88,7 @@ public interface CommunityMapper {
 
     // 커뮤니티 오운완 탭 조회 응답
     default CommunityDto.WorkoutTabResponse communityToWorkoutTabResponse(Community community){
+
 
         CommunityDto.WorkoutTabResponse workoutTabResponse = new CommunityDto.WorkoutTabResponse();
 
