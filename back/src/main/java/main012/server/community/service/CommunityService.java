@@ -10,12 +10,18 @@ import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
 import main012.server.image.entity.CommunityImage;
 import main012.server.image.entity.Image;
+import main012.server.image.repository.CommunityImageRepo;
+import main012.server.image.service.ImageService;
+import main012.server.user.entity.Member;
 import main012.server.user.repository.MemberRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,13 +34,36 @@ public class CommunityService {
     private final CommunityMapper communityMapper;
     private final TabRepository tabRepository;
 
+    private final MemberRepository memberRepository;
+    private final ImageService imageService;
+
+    private final CommunityImageRepo communityImageRepo;
+
     private final int size = 15;
 
     // 커뮤니티 게시글 등록
-    public Community createCommunity (Community community) {
+    public Community createCommunity (CommunityDto.Post post, List<MultipartFile> files, Long memberId) throws IOException {
+
+        Community community = communityMapper.communityPostDtoToCommunity(post, memberId);
+        community.setTab(tabRepository.findById(post.getTabId()).get());
+
+        List<Image> uploadedImages = null;
+        if(!files.isEmpty()){
+            uploadedImages = imageService.upload(files, "upload");
+        }
 
         Community response = communityRepository.save(community);
+        createCommunityImage(community, uploadedImages);
+
+
         return response;
+    }
+
+    private void createCommunityImage(Community community, List<Image> images) {
+        for(Image image :images) {
+            CommunityImage communityImage = new CommunityImage(image, community);
+            community.setCommunityImage(communityImage);
+        }
     }
 
     // 커뮤니티 게시글 수정
@@ -51,9 +80,14 @@ public class CommunityService {
         Optional.ofNullable(patchRequest.getContent())
                 .ifPresent(content -> existCommunity.setContent(content));
 
-//        탭수정
+        // 탭수정
         Optional.ofNullable(patchRequest.getTabId())
                         .ifPresent(tabId -> existCommunity.setTab(tabRepository.findById(tabId).orElseThrow(()->new BusinessLoginException(ExceptionCode.TAB_NOT_FOUND))));
+
+        /* 사진 수정 로직 구현해야함
+        * 현재 저장된 사진을 db, s3에서 지우고 -> 다시 등록하는 방식?
+        * */
+
 
         return existCommunity;
 
@@ -65,16 +99,42 @@ public class CommunityService {
         //존재하는 게시글인지 확인
         Community existCommunity = findExistCommunity(communityId);
 
+        // 사진 삭제 로직 필요!!!!!!
+
         communityRepository.delete(existCommunity);
     }
 
     // 게시글 상세 조회
-    public Community findCommunity (Long communityId) {
-        communityRepository.updateView(communityId);    //조회수 업데이트
-        Community response = findExistCommunity(communityId);
+    public CommunityDto.Response findCommunity (Long communityId, Long memberId) {
+
+        //조회수 업데이트
+        communityRepository.updateView(communityId);
+
+        // 존재하는 게시글인지 확인
+        Community foundCommunity = findExistCommunity(communityId);
+
+        // 커뮤니티 게시글 번호로 저장된 이미지 찾기
+        List<CommunityImage> communityImageList = communityImageRepo.findByCommunityCommunityId(communityId);
+
+        // 찾은 이미지들의 url 얻어서 저장
+        List<String> communityImagesUrl = new ArrayList<>();
+
+        for(CommunityImage value : communityImageList){
+            String imagePath = value.getImage().getImagePath();
+            communityImagesUrl.add(imagePath);
+        }
+
+
+
+        // 멤버 프로필 이미지 얻기 위한 멤버 조회
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        CommunityDto.Response response = communityMapper.communityToResponse(foundCommunity);
+//        response.setProfileImageUrl(member.getImage().getImagePath());
+        response.setCommunityImageUrl(communityImagesUrl);
+
         return response;
     }
-
 
     // 게시글 전체 조회
     public CommunityDto.listResponse findAllCommunity (String lastFeedId) {
@@ -206,8 +266,5 @@ public class CommunityService {
         );
         return response;
     }
-
-
-
 
 }

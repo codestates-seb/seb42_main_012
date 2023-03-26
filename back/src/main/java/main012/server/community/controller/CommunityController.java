@@ -49,14 +49,11 @@ public class CommunityController {
     // 커뮤니티 게시글 등록
     @PostMapping
     @RolesAllowed("ROLE_USER")
-    public ResponseEntity postCommunity(@RequestBody CommunityDto.Post postRequest,
-                                        @AuthMember Long memberId) {
+    public ResponseEntity postCommunity(@RequestPart("request") CommunityDto.Post postRequest,
+                                        @RequestPart("files") List<MultipartFile> files,
+                                        @AuthMember Long memberId) throws IOException {
 
-
-        Community community = mapper.communityPostDtoToCommunity(postRequest, memberId);
-        Tab tab = tabRepository.findById(postRequest.getTabId()).orElseThrow(() -> new RuntimeException("존재하지 않는 탭"));
-        community.setTab(tab);
-        communityService.createCommunity(community);
+        communityService.createCommunity(postRequest, files, memberId);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -92,8 +89,7 @@ public class CommunityController {
     public ResponseEntity getCommunity(@PathVariable("community_id") Long communityId,
                                        @AuthMember Long memberId) {
 
-        Community community = communityService.findCommunity(communityId);
-        CommunityDto.Response response = mapper.communityToToResponse(community);
+        CommunityDto.Response response = communityService.findCommunity(communityId, memberId);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

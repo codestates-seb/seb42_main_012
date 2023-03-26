@@ -1,5 +1,6 @@
 package main012.server.community.mapper;
 
+import lombok.RequiredArgsConstructor;
 import main012.server.community.dto.CommunityDto;
 import main012.server.community.entity.Community;
 import main012.server.user.entity.Member;
@@ -29,8 +30,8 @@ public interface CommunityMapper {
     // patchDto -> entity
     Community communityPatchDtoToCommunity(CommunityDto.Patch patch);
 
-    // entity -> responseDto
-    default CommunityDto.Response communityToToResponse (Community community){
+    // 커뮤니티 상세 조회 응답
+    default CommunityDto.Response communityToResponse (Community community){
 
         CommunityDto.Response responseCommunity = new CommunityDto.Response();
 
