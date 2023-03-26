@@ -1,32 +1,45 @@
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 import BoardTapList from '../Tab/TabList';
 import BoardPostTitle from './PostTitle';
 import BoardPostBody from './PostBody';
 import BasicButton from '../../UI/Button/BasicButton';
-import boardStore from '../../../state/boardStore';
-// import api from '../../../utils/api';
-import boardAxios from './boardAxios';
+// import boardStore from '../../../state/boardStore';
+// import boardAxios from './boardAxios';
+import api from '../../../utils/api';
 
 function BoardPost() {
   const { register, handleSubmit } = useForm();
 
-  const { boards } = boardStore();
-  const navigate = useNavigate();
+  // const { boards } = boardStore();
+  // const navigate = useNavigate();
 
   const onSubmit = async data => {
     const boardsData = {
-      communityId: boards.length + 1,
       title: data.title,
       content: data.content,
-      tabName: '꿀팁',
+      tabId: 1,
     };
 
-    console.log(boardsData);
-    await boardAxios.post('/board', boardsData);
-    navigate('/board');
+    const formData = new FormData();
+    const blob = new Blob([JSON.stringify(boardsData)], {
+      type: 'application/json',
+    });
+
+    formData.append('request', blob);
+
+    await api
+      .post('/communities', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(() => alert('요청실패'));
+    // navigate('/board');
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="border-t border-[var(--second-border)]">

@@ -20,7 +20,10 @@ function BoardDetail() {
     <>
       {[boardDetail].map(board => (
         <div key={board.communityId}>
-          <BoardDetailHeader profileImage={board.profileImage} />
+          <BoardDetailHeader
+            profileImage={board.profileImage}
+            displayName={board.displayName}
+          />
           <BoardDetailTap tabName={board.tabName} />
           <BoardDetailTitle title={board.title} />
           <BoardDetailBody content={board.content} />

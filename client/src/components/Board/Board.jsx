@@ -12,7 +12,7 @@ function Board() {
       .get('/communities?lastFeedId=56')
       .then(res => setBoards(res.data.contents));
   }, []);
-  console.log(boards);
+  // console.log(boards);
   return (
     <ul>
       {boards.map(board => (
