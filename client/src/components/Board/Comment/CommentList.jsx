@@ -16,7 +16,6 @@ function CommentList() {
       .get(`/communities/comments/${id}?lastFeedId=20`)
       .then(res => setComments(res.data.contents));
   }, []);
-  console.log(comments);
 
   return (
     <ul className="mt-5">
@@ -27,7 +26,7 @@ function CommentList() {
             imageUrl={comment.imageUrl}
           />
           <CommentBody comment={comment.comment} />
-          <div className="w-full border-[0.3px] border-[#d9d9d9] mt-3" />
+          <div className="w-full border-[0.3px] border-[#d9d9d9] mt-3 mb-3" />
         </div>
       ))}
     </ul>

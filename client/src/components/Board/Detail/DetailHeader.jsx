@@ -1,10 +1,14 @@
 import HeartContainer from '../../UI/HeartContainer';
 import BoardHeaderContainer from '../Container/Header';
 
-function BoardDetailHeader({ profileImage }) {
+function BoardDetailHeader({ profileImage, displayName }) {
   return (
     <div className="flex items-center justify-between">
-      <BoardHeaderContainer profileImage={profileImage} />
+      <BoardHeaderContainer
+        profileImage={profileImage}
+        displayName={displayName}
+      />
+
       <div className="mt-2">
         <HeartContainer />
       </div>
