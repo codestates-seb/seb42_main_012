@@ -5,7 +5,7 @@ import useStore from '../../state/useStore';
 import api from '../../utils/api';
 
 function HomePage() {
-  const { setMyLocation, setMyElements, myElements } = useStore();
+  const { setMyLocation, setMyElements } = useStore();
 
   const geolocation = useGeolocation();
 
@@ -18,10 +18,6 @@ function HomePage() {
   useEffect(() => {
     api.get('/members/my').then(res => setMyElements(res.data));
   }, []);
-
-  console.log(myElements);
-
-  // console.log(localStorage.getItem('accessToken'));
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
