@@ -19,27 +19,31 @@ function GymDetailPage() {
   useEffect(() => {
     gymAxios.get(`/gyms/reviews/${id}`).then(res => setReviews(res.data));
   }, []);
-  console.log(gymsDetail);
 
   return (
     <>
-      {[gymsDetail].map(gym => (
-        <div key={gym.id}>
-          <GymDetailHeader
-            gymName={gym.gymName}
-            gymBookmarkCnt={gym.gymBookmarkCnt}
-          />
-          <div className="flex w-full overflow-x-scroll">
-            {gym.gymImages.map(gymImage => (
-              <GymDetailMainImg
-                key={gymImage.gymImageId}
-                gymImage={gymImage.gymImageUrl}
-              />
-            ))}
+      {[gymsDetail] &&
+        [gymsDetail].map(gym => (
+          <div key={gym.id}>
+            <GymDetailHeader
+              gymName={gym.gymName}
+              gymBookmarkCnt={gym.gymBookmarkCnt}
+            />
+            <div className="flex w-full overflow-x-scroll">
+              {gym.gymImages === undefined ? (
+                <div className="h-48 bg-orange w-90" />
+              ) : (
+                gym.gymImages.map(gymImage => (
+                  <GymDetailMainImg
+                    key={gymImage.gymImageId}
+                    gymImage={gymImage.gymImageUrl}
+                  />
+                ))
+              )}
+            </div>
+            <GymDetailList gym={gym} />
           </div>
-          <GymDetailList gym={gym} />
-        </div>
-      ))}
+        ))}
     </>
   );
 }

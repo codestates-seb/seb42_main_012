@@ -1,9 +1,10 @@
 import { BrowserRouter } from 'react-router-dom';
-import React, { Suspense } from 'react';
+// import React, { Suspense } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { ErrorBoundary } from 'react-error-boundary';
-import ErrorFallback from './components/ErrorFallback';
-import Loading from './components/Loading';
+// import { ErrorBoundary } from 'react-error-boundary';
+// import ErrorFallback from './components/ErrorFallback';
+// import Loading from './components/Loading';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -19,11 +20,11 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <ScrollToTop />
-      <ErrorBoundary fallback={ErrorFallback}>
-        <Suspense fallback={Loading}>
-          <App />
-        </Suspense>
-      </ErrorBoundary>
+      {/* <ErrorBoundary fallback={ErrorFallback}>
+        <Suspense fallback={Loading}> */}
+      <App />
+      {/* </Suspense>
+      </ErrorBoundary> */}
     </BrowserRouter>
   </React.StrictMode>,
 );
