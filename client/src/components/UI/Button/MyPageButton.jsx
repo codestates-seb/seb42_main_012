@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import useStore from '../../../state/useStore';
+import useMyStore from '../../../state/useMyStore';
 
 function MyPageButton({ to, text }) {
   const {
@@ -9,7 +9,7 @@ function MyPageButton({ to, text }) {
     myReviews,
     myGymsBookmarks,
     myBoardsBookmarks,
-  } = useStore();
+  } = useMyStore();
 
   return (
     <li className="z-10 flex-auto w-1/3">

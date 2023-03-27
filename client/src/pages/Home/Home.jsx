@@ -1,11 +1,13 @@
 import useGeolocation from 'react-hook-geolocation';
 import { useEffect } from 'react';
 import logo from '../../assets/images/logo.svg';
-import useStore from '../../state/useStore';
+import useMyStore from '../../state/useMyStore';
+import useGymStore from '../../state/useGymStore';
 import api from '../../utils/api';
 
 function HomePage() {
-  const { setMyLocation, setMyElements } = useStore();
+  const { setMyLocation } = useGymStore();
+  const { setMyElements } = useMyStore();
 
   const geolocation = useGeolocation();
 

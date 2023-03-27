@@ -24,12 +24,10 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLoggedIn === true) {
-      navigate('/', { replace: true });
-    } else {
+    if (isLoggedIn === null) {
       navigate('/login');
     }
-  }, []);
+  }, [isLoggedIn]);
 
   return (
     <>

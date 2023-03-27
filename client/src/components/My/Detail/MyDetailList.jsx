@@ -1,5 +1,5 @@
 import { useLocation, Link } from 'react-router-dom';
-import useStore from '../../../state/useStore';
+import useMyStore from '../../../state/useMyStore';
 import MyDetailListItem from './MyDetailListItem';
 
 function MyDetailList() {
@@ -13,7 +13,7 @@ function MyDetailList() {
     myReviews,
     myGymsBookmarks,
     myBoardsBookmarks,
-  } = useStore();
+  } = useMyStore();
 
   // let nav = '';
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import useGymStore from '../../../state/useStore';
+import useGymStore from '../../../state/useGymStore';
 import StarIcon from '../../UI/Icon/StarIcon';
 import Today from '../../UI/Today';
 

@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 function BasicButton(props) {
-  const { text, page, nav, type, memberId } = props;
-  console.log(memberId);
+  const { text, page, nav, type } = props;
   const navigate = useNavigate();
   const buttonHandler = () => {
     navigate(nav);

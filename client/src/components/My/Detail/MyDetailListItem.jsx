@@ -5,7 +5,7 @@ function MyDetailListItem({ tabName, title, created, grade, image }) {
   const location = useLocation();
 
   return (
-    <li className="flex items-center justify-between w-full px-4 py-8 border-y border-[var(--main-border)] active:bg-[var(--main-active)] w-full cursor-pointer">
+    <li className="flex items-center justify-between w-full px-4 py-8 border-y border-[var(--main-border)] active:bg-[var(--main-active)] cursor-pointer">
       {/* <button
         className="flex items-center justify-between w-full"
         type="button"
