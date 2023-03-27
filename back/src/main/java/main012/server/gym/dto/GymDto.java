@@ -61,7 +61,7 @@ public class GymDto {
     @Setter
     @AllArgsConstructor
     public static class Response {
-        private Long gymId;
+        private Long id;
         private String gymName;
         private List<GymDto.GymImage> gymImages;
         private String address;
