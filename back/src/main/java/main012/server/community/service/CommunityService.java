@@ -17,6 +17,8 @@ import main012.server.image.repository.ImageRepository;
 import main012.server.image.service.ImageService;
 import main012.server.user.entity.Member;
 import main012.server.user.repository.MemberRepository;
+import main012.server.user.service.MemberServiceImpl;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,9 @@ import java.util.Optional;
 @Transactional
 public class CommunityService {
 
+    @Value("${mail.address.admin}")
+    private String adminEmail;
+
     private final CommunityRepository communityRepository;
     private final CommunityMapper communityMapper;
     private final TabRepository tabRepository;
@@ -43,7 +48,6 @@ public class CommunityService {
     private final CommunityImageRepo communityImageRepo;
 
     private final CommunityBookmarkRepository communityBookmarkRepository;
-    private final ImageRepository imageRepository;
 
     private final int size = 15;
 
@@ -59,7 +63,12 @@ public class CommunityService {
 
         // dto로 넘어온 컨텐츠 community로 변환 후 저장
         Community community = communityMapper.communityPostDtoToCommunity(post, memberId);
+        // memberId로 멤버를 찾아서 커뮤니티에 저장
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
+        community.setMember(member);
         community.setTab(tabRepository.findById(post.getTabId()).get());
+
+        communityRepository.save(community);
 
 
         // 첨부파일이 있으면 사진 업로드 기능 동작
@@ -68,7 +77,6 @@ public class CommunityService {
             createCommunityImage(community, uploadedImages);
         }
 
-        communityRepository.save(community);
 
     }
 
@@ -98,7 +106,7 @@ public class CommunityService {
         Community existCommunity = findExistCommunity(patchRequest.getCommunityId());
 
         // 작성자와 로그인한 사용자가 일치하는지 확인
-        if(existCommunity.getMember().getId() != memberId){
+        if(existCommunity.getMember().getId() != memberId) {
             throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_MATCHED);
         }
 
@@ -117,7 +125,7 @@ public class CommunityService {
         // 첨부파일 비었는지 체크
         boolean checkFiles = checkEmptyFile(files);
 
-        // 탭 오운완으로 수정 후 새로운 사진 등록없이 사진 삭제하면 예외발생
+        // 오운완 탭으로 수정 후 새로운 사진 등록없으면 예외발생
         if(existCommunity.getTab().getTabId()==3 && checkFiles == true){
             throw new BusinessLoginException(ExceptionCode.NO_IMAGE_ATTATCHED);
         }
@@ -152,6 +160,7 @@ public class CommunityService {
 
         //존재하는 게시글인지 확인
         Community existCommunity = findExistCommunity(communityId);
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
 
         // 게시글 작성자와 로그인한 작성자가 일치하는지 확인
         if(existCommunity.getMember().getId() != memberId){
@@ -183,7 +192,6 @@ public class CommunityService {
         // 커뮤니티 게시글 번호로 저장된 이미지 찾기
         List<CommunityImage> communityImageList = communityImageRepo.findByCommunityCommunityId(communityId);
 
-
         // 컨텐츠에 저장된 이미지 id, url 응답데이터 추출
         List<CommunityDto.ImageResponse> imageInfo = new ArrayList<>();
         for(CommunityImage image : communityImageList){
@@ -193,19 +201,17 @@ public class CommunityService {
             imageInfo.add(response);
         }
         
-
-        // 멤버 프로필 이미지 얻기 위한 멤버 조회
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
-
+        // api명세서에 맞는 양식으로 설정
         CommunityDto.Response response = communityMapper.communityToResponse(foundCommunity);
-//        response.setProfileImageUrl(member.getImage().getImagePath());
+//        Optional.ofNullable(foundCommunity.getMember().getImage().getImagePath()).ifPresent(imagePath -> response.setProfileImage(imagePath));
+//        response.setProfileImage(foundCommunity.getMember().getImage().getImagePath());
         response.setContentImages(imageInfo);
 
         return response;
     }
 
     // 게시글 전체 조회
-    public CommunityDto.ListResponse findAllCommunity (String lastFeedId) {
+    public CommunityDto.ListResponse findAllCommunity (String lastFeedId, Long memberId) {
 
         Long feedId = getFeedId(lastFeedId);
 
@@ -220,7 +226,6 @@ public class CommunityService {
         List<CommunityDto.AllCommunityResponse> responseList = communityMapper.communitiesToAllCommunityResponses(contents);
         for(CommunityDto.AllCommunityResponse value : responseList){
             Long communityId = value.getCommunityId();
-            Long memberId = value.getMemberId();
             Optional<CommunityBookmark> isBookmarked = communityBookmarkRepository.findByMemberIdAndCommunityCommunityId(memberId, communityId);
             if(isBookmarked.isPresent()){
                 value.setBookmarked(true);
@@ -237,7 +242,7 @@ public class CommunityService {
 
 
     // 게시글 검색 기능
-    public CommunityDto.ListResponse findByKeyword (String keyword, String lastFeedId) {
+    public CommunityDto.ListResponse findByKeyword (String keyword, String lastFeedId, Long memberId) {
 
         Long feedId = getFeedId(lastFeedId);
 
@@ -253,7 +258,6 @@ public class CommunityService {
         List<CommunityDto.AllCommunityResponse> responseList = communityMapper.communitiesToAllCommunityResponses(contents);
         for(CommunityDto.AllCommunityResponse value : responseList) {
             Long communityId = value.getCommunityId();
-            Long memberId = value.getMemberId();
             Optional<CommunityBookmark> isBookmarked = communityBookmarkRepository.findByMemberIdAndCommunityCommunityId(memberId, communityId);
             if (isBookmarked.isPresent()) {
                 value.setBookmarked(true);
@@ -269,7 +273,7 @@ public class CommunityService {
     }
 
     // 게시글 탭별 조회 기능
-    public CommunityDto.ListResponse findTabCommunities (Long tabId, String lastFeedId) {
+    public CommunityDto.ListResponse findTabCommunities (Long tabId, String lastFeedId, Long memberId) {
 
         Long feedId = getFeedId(lastFeedId);
 
@@ -316,7 +320,6 @@ public class CommunityService {
         List<CommunityDto.TabListResponse> responseList = communityMapper.communitiesToTabListResponses(contents);
             for(CommunityDto.TabListResponse value : responseList){
                 Long communityId = value.getCommunityId();
-                Long memberId = value.getMemberId();
                 Optional<CommunityBookmark> isBookmarked = communityBookmarkRepository.findByMemberIdAndCommunityCommunityId(memberId, communityId);
                 if(isBookmarked.isPresent()){
                     value.setBookmarked(true);
@@ -359,11 +362,9 @@ public class CommunityService {
 
     //존재하는 게시글인지 확인
     public Community findExistCommunity(Long communityId) {
-        Optional<Community> optionalCommunity = communityRepository.findById(communityId);
-        Community response = optionalCommunity.orElseThrow(
-                () -> new BusinessLoginException(ExceptionCode.COMMUNITY_NOT_FOUND)
-        );
-        return response;
+        Community community =
+                communityRepository.findById(communityId).orElseThrow(()-> new BusinessLoginException(ExceptionCode.COMMUNITY_NOT_FOUND));
+        return community;
     }
 
 

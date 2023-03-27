@@ -7,6 +7,7 @@ import main012.server.user.entity.Member;
 import org.mapstruct.Mapper;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
@@ -38,7 +39,8 @@ public interface CommentMapper {
         commentResponseDto.setComment(comment.getComment());
         commentResponseDto.setMemberId(comment.getMember().getId());
         commentResponseDto.setDisplayName(comment.getMember().getDisplayName());
-//        commentResponseDto.setUserImageUrl(comment.getMember().getImage().getImagePath());
+//        commentResponseDto.setProfileImage(comment.getMember().getImage().getImagePath());
+        commentResponseDto.setCreatedAt(comment.getCreatedAt().toString());
 
         return commentResponseDto;
     };

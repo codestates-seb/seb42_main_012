@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Optional;
+
 public class CommentDto {
 
     @Getter
@@ -31,7 +33,21 @@ public class CommentDto {
         private Long memberId;
         private String comment;
         private String displayName;
-//        private String userImageUrl;
+        private String profileImage;
+        private String createdAt;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class RequestResponse{
+        private Long commentId;
+        private Long communityId;
+        private String displayName;
+        private String profileImage;
+        private String comment;
+        private String createdAt;
     }
 
 }

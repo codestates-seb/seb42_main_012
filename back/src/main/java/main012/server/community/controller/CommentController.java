@@ -41,9 +41,9 @@ public class CommentController {
                                       @AuthMember Long memberId) {
 
         post.setCommunityId(communityId);
-        CommunityComment response = commentService.createComment(mapper.commentPostDtoToComment(post, memberId));
+        CommentDto.RequestResponse response = commentService.createComment(mapper.commentPostDtoToComment(post, memberId));
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
 
     }
 
@@ -57,7 +57,7 @@ public class CommentController {
         patch.setCommentId(commentId);
 
         CommunityComment comment = mapper.commentPatchDtoToComment(patch);
-        commentService.updateComment(comment);
+        commentService.updateComment(comment, memberId);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -82,7 +82,7 @@ public class CommentController {
     public ResponseEntity deleteComment(@PathVariable("comment_id") Long commentId,
                                         @AuthMember Long memberId) {
 
-        commentService.deleteComment(commentId);
+        commentService.deleteComment(commentId, memberId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

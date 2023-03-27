@@ -102,7 +102,7 @@ public class CommunityController {
     public ResponseEntity getAllCommunity(@AuthMember Long memberId,
                                           @RequestParam String lastFeedId) {
 
-        CommunityDto.ListResponse response = communityService.findAllCommunity(lastFeedId);
+        CommunityDto.ListResponse response = communityService.findAllCommunity(lastFeedId, memberId);
 
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -115,7 +115,7 @@ public class CommunityController {
                                          @RequestParam String lastFeedId,
                                          @AuthMember Long memberId) {
 
-        CommunityDto.ListResponse response = communityService.findTabCommunities(tabId, lastFeedId);
+        CommunityDto.ListResponse response = communityService.findTabCommunities(tabId, lastFeedId, memberId);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -124,9 +124,10 @@ public class CommunityController {
     @GetMapping("/search")
     @RolesAllowed("ROLE_USER")
     public ResponseEntity serchByKeyword(@RequestParam("keyword") String keyword,
-                                         @RequestParam String lastFeedId) {
+                                         @RequestParam String lastFeedId,
+                                         @AuthMember Long memberId) {
 
-        CommunityDto.ListResponse response = communityService.findByKeyword(keyword, lastFeedId);
+        CommunityDto.ListResponse response = communityService.findByKeyword(keyword, lastFeedId, memberId);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
