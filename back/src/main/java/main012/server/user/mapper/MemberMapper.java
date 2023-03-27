@@ -13,16 +13,30 @@ import org.mapstruct.Mapper;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
 
     default MemberResponseDto.Profile memberToProfileDto(Member member, String imagePath) {
+        List<String> memberRoleName = member.getRoles().stream()
+                .map(role -> role.getName()).collect(Collectors.toList());
+
+        String role = "";
+        for (String name : memberRoleName) {
+            if (name.equals("ADMIN")) {
+                role = "ADMIN";
+                break;
+            }
+            role += name;
+        }
+
         MemberResponseDto.Profile response = MemberResponseDto.Profile.builder()
                 .memberId(member.getId())
                 .displayName(member.getDisplayName())
                 .email(member.getEmail())
                 .profileImage(imagePath)
+                .role(role)
                 .build();
 
         return response;

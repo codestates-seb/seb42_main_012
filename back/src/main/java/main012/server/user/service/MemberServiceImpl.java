@@ -179,7 +179,7 @@ public class MemberServiceImpl implements MemberService {
             throw new BusinessLoginException(ExceptionCode.WRONG_PASSWORD);
         }
 
-        // image 삭제
+        // 프사 삭제
         Optional.ofNullable(findMember.getImage())  // 멤버에 기존 프로필 사진이 있을 때
                 .ifPresent(image -> {
                     imageService.remove(image); // 기존 프로필 사진 s3에서 삭제
@@ -188,11 +188,11 @@ public class MemberServiceImpl implements MemberService {
 
         // Community_Bookmark 의 Member null 로 set 해서 orphan = true 로 삭제
         findMember.getCommunityBookmarks().clear();
-        log.info("커뮤니티 북마크 삭제 완료");
+        log.info("## deleteMember: 커뮤니티 북마크 삭제 완료");
 
         // Gym_Bookmark 의 Member null 로 set 해서 orphan = true 로 삭제
         findMember.getGymBookmarks().clear();
-        log.info("짐 북마크 삭제 완료");
+        log.info("## deleteMember: 짐 북마크 삭제 완료");
 
         // Member가 Owner일 때, Gym 의 Member null 로 set 해서 orphan = true 로 삭제
         Set<Role> roles = findMember.getRoles();
@@ -203,8 +203,8 @@ public class MemberServiceImpl implements MemberService {
                 findMember.getGyms().stream()
                         .forEach(gym -> gym.getGymImages()
                                 .forEach(gymImage -> imageService.remove(gymImage.getImage()))); //s3에서 삭제
-                findMember.getGyms().clear(); // gym_facility, gym_image, images 삭제 되는데.. s3에선 삭제 안됨.
-                log.info("짐 클리어 완료");
+                findMember.getGyms().clear();
+                log.info("## deleteMember: 짐 삭제 완료");
             }
         }
 
