@@ -11,7 +11,7 @@ function CommentList() {
   const { comments, setComments } = boardStore();
   const { id } = useParams();
 
-  console.log(comments);
+  // console.log(comments);
 
   useEffect(() => {
     api

@@ -2,11 +2,11 @@
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import BasicButton from '../UI/Button/BasicButton';
+import BasicButton from '../../components/UI/Button/BasicButton';
 import api from '../../utils/api';
 // import TextInput from '../UI/Input/TextInput';
 
-function SignUp() {
+function OwnerSignUpPage() {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const [errorMessage, setErrorMessage] = useState('');
@@ -24,10 +24,11 @@ function SignUp() {
 
   const onSubmit = data => {
     api
-      .post(`/members/common`, {
+      .post(`/members/owners`, {
         email: data.email,
         displayName: data.displayName,
         password: data.password,
+        businessNumber: data.businessNumber,
       })
       .then(res => {
         if (res.status === 201) {
@@ -35,8 +36,9 @@ function SignUp() {
         }
       })
       .catch(err => {
-        if (err.response.status === 401) {
-          setErrorMessage('로그인에 실패했습니다.');
+        if (err.response.status === 400) {
+          setErrorMessage('회원가입에 실패했습니다.');
+          console.log(data);
         }
       });
   };
@@ -63,6 +65,14 @@ function SignUp() {
           placeholder="아이디 (이메일)"
           className="border border-[var(--second-border)] outline-[var(--main)] rounded-sm w-full p-2"
           type="email"
+        />
+        <p className="text-base mt-7">사업자 번호를 입력해주세요.</p>
+        <input
+          {...register('businessNumber', {
+            required: '내용을 입력해주세요',
+          })}
+          placeholder="사업자 번호"
+          className="border border-[var(--second-border)] outline-[var(--main)] rounded-sm w-full p-2"
         />
 
         <div>
@@ -101,4 +111,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default OwnerSignUpPage;

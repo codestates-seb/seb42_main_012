@@ -1,4 +1,15 @@
-function TextInput({ placeholder, type, inputId, text, classname }) {
+function TextInput({
+  placeholder,
+  type,
+  inputId,
+  text,
+  classname,
+  content,
+  setContent,
+}) {
+  const handleChange = value => {
+    setContent(value);
+  };
   return (
     <>
       <p className="mt-2 text-sm text-[var(--main)]">{text}</p>
@@ -13,8 +24,10 @@ function TextInput({ placeholder, type, inputId, text, classname }) {
             ? 'email'
             : 'text'
         }
+        onChange={handleChange}
         placeholder={placeholder}
         className={classname}
+        value={content}
       />
     </>
   );
