@@ -39,8 +39,10 @@ public class CommentService {
 
         // 댓글 달 게시물이 존재하는지 확인
         Community existCommunity = communityService.findExistCommunity(comment.getCommunity().getCommunityId());
-
+        Member member = memberRepository.findById(comment.getMember().getId()).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
+        comment.setMember(member);
         commentRepository.save(comment);
+
 
 
         CommentDto.RequestResponse response = new CommentDto.RequestResponse();
@@ -61,7 +63,7 @@ public class CommentService {
         CommunityComment existComment = findExistComment(comment.getCommentId());
 
         // 로그인한 멤버와 댓글 작성자 일치하는지 확인
-        if(comment.getMember().getId() != memberId){
+        if(existComment.getMember().getId() != memberId){
             throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_MATCHED);
         }
 
@@ -137,6 +139,7 @@ public class CommentService {
         CommunityComment existComment = findExistComment(commentId);
 
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
+
 
         // 댓글 작성자와 로그인한 멤버/관리자 이메일이 일치하는지 확인
         if(existComment.getMember().getId() != memberId){
