@@ -7,14 +7,14 @@ const dateFormat = date => {
   const yearsDiff = Math.abs(now.getFullYear() - createdAt.getFullYear());
 
   if (yearsDiff > 1) {
-    return yearsDiff === 1 ? `${yearsDiff} year ago` : `${yearsDiff} years ago`;
+    return yearsDiff === 1 ? `${yearsDiff}년 전` : `${yearsDiff}년 전`;
   }
 
   if (daysDiff > 1) {
-    return daysDiff === 1 ? `${daysDiff} day ago` : `${daysDiff} days ago`;
+    return daysDiff === 1 ? `${daysDiff}일 전` : `${daysDiff}일 전`;
   }
 
-  return hoursDiff === 1 ? `${hoursDiff} hour ago` : `${hoursDiff} hours ago`;
+  return hoursDiff === 1 ? `${hoursDiff}시간 전` : `${hoursDiff}시간 전`;
 };
 
 export default dateFormat;

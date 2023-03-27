@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { AiFillEdit, AiFillCheckCircle } from 'react-icons/ai';
-import useStore from '../../../state/useStore';
+import useMyStore from '../../../state/useMyStore';
 import DisplayName from '../DisplayName/DisplayName';
 
 function EditButton() {
-  const { myElements } = useStore();
+  const { myElements } = useMyStore();
   const [edit, setEdit] = useState(false);
   const [displayName, setDisplayName] = useState('');
 

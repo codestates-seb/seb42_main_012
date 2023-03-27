@@ -1,14 +1,10 @@
 import { useState } from 'react';
-// import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import BasicButton from '../../UI/Button/BasicButton';
 import api from '../../../utils/api';
-// import useStore from '../../../state/useStore';
 
 function PasswordList() {
   const navigate = useNavigate();
-  // const { members } = useStore();
-  // const { register, handleSubmit } = useForm();
   const [errorMessages, setErrorMessages] = useState('');
   const [originPassword, setOriginPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');

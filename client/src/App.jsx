@@ -11,25 +11,23 @@ import GymPage from './pages/Gym/Gym';
 import GymReviewPage from './pages/Gym/GymReview';
 import HomePage from './pages/Home/Home';
 import MyDetailPage from './pages/My/MyDetail';
-import MyPage from './pages/My/MyPage';
 import AccountDeletePage from './pages/My/AccountDelete';
 import GymPostPage from './pages/Gym/GymPost';
 import SignUpPage from './pages/SignUp/SignUpPage';
 import LoginPage from './pages/Login/Login';
 import BoardEditPage from './pages/Board/BoardEdit';
 import MainLayout from './components/layouts/MainLayout';
+import MyPage from './pages/My/MyPage';
 
 function App() {
   const isLoggedIn = localStorage.getItem('isLoggedIn');
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLoggedIn === true) {
-      navigate('/', { replace: true });
-    } else {
+    if (isLoggedIn === null) {
       navigate('/login');
     }
-  }, []);
+  }, [isLoggedIn]);
 
   return (
     <>

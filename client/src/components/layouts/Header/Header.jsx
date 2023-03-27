@@ -4,10 +4,12 @@ import BackButton from '../../UI/Button/BackButton';
 import PostButton from '../../UI/Button/PostButton';
 import MoreButton from '../../UI/Button/MoreButton';
 import LogoutButton from '../../UI/Button/LogoutButton';
-import useStore from '../../../state/useStore';
+import useMyStore from '../../../state/useMyStore';
+// import useGymStore from '../../../state/useGymStore';
 
 function Header() {
-  const { myElements, gymsDetail } = useStore();
+  const { myElements } = useMyStore();
+  // const { gymsDetail } = useGymStore();
   const param = useParams();
   const location = useLocation();
   const path = location.pathname;
@@ -23,7 +25,11 @@ function Header() {
         <header className={defaultClass}>
           <BackButton />
           <HeaderTitle titleText="GYM" />
-          <PostButton nav="/gyms/gympost" />
+          {myElements.role === 'OWNER' ? (
+            <PostButton memberId={myElements.memberId} nav="/gyms/gympost" />
+          ) : (
+            <div className="w-0 h-0 ml-[36px]" />
+          )}
         </header>
       );
     case `/gyms/${param.id}`:
@@ -31,9 +37,11 @@ function Header() {
         <header className={defaultClass}>
           <BackButton />
           <HeaderTitle titleText="GYM" />
-          {myElements.memberId === gymsDetail.memberId ? (
+          {myElements.role === 'OWNER' ? (
             <MoreButton memberId={myElements.memberId} />
-          ) : null}
+          ) : (
+            <div className="w-0 h-0 ml-[36px]" />
+          )}
         </header>
       );
     case '/board':

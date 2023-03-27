@@ -1,11 +1,9 @@
 import { useLocation, Link } from 'react-router-dom';
-import useStore from '../../../state/useStore';
+import useMyStore from '../../../state/useMyStore';
 import MyDetailListItem from './MyDetailListItem';
 
 function MyDetailList() {
   const location = useLocation();
-  // const { id } = useParams();
-  // const navigate = useNavigate();
 
   const {
     myBoards,
@@ -13,22 +11,7 @@ function MyDetailList() {
     myReviews,
     myGymsBookmarks,
     myBoardsBookmarks,
-  } = useStore();
-
-  // let nav = '';
-
-  // if (
-  //   location.pathname === '/my/board' ||
-  //   location.pathname === '/my/comments' ||
-  //   location.pathname === '/my/bookmarks/board'
-  // ) {
-  //   nav = '/board/:id';
-  // } else if (
-  //   location.pathname === '/my/reviews' ||
-  //   location.pathname === '/my/bookmarks/gyms'
-  // ) {
-  //   nav = '/gyms/:id';
-  // }
+  } = useMyStore();
 
   return (
     <ul>

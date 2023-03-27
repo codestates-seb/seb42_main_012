@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import useStore from '../../../state/useStore';
+import useMyStore from '../../../state/useMyStore';
 
 function MyDetailTitle() {
   const {
@@ -8,7 +8,7 @@ function MyDetailTitle() {
     myReviews,
     myGymsBookmarks,
     myBoardsBookmarks,
-  } = useStore();
+  } = useMyStore();
   const location = useLocation();
   const path = location.pathname;
   const pathArr = [

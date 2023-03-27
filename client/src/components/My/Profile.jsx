@@ -1,15 +1,13 @@
 import { useState, useRef } from 'react';
 import { IoCloseSharp } from 'react-icons/io5';
-import useStore from '../../state/useStore';
+import useMyStore from '../../state/useMyStore';
 import DisplayName from '../UI/DisplayName/DisplayName';
 import api from '../../utils/api';
 
 function Profile() {
-  const { myElements } = useStore();
-  const [image, setImage] = useState([]);
-  const [createObjectURL, setCreateObjectURL] = useState(
-    myElements.profileImage,
-  );
+  const { myElements } = useMyStore();
+  const [image, setImage] = useState(myElements.profileImage);
+  const [createObjectURL, setCreateObjectURL] = useState(null);
   const [edit, setEdit] = useState(false);
   const [displayName, setDisplayName] = useState(myElements.displayName);
   const [isDeletedProfileImage, setIsDeletedProfileImage] = useState(false);
@@ -18,7 +16,7 @@ function Profile() {
     setEdit(!edit);
   };
 
-  const fileInput = useRef();
+  const fileInput = useRef(null);
 
   const uploadToClient = async e => {
     if (createObjectURL) {
@@ -38,14 +36,13 @@ function Profile() {
     // file 값 있으면, isDeletedProfileImage 상관없이 새로운 프사로 저장하고 return
     // file 값 없고, isDeletedProfileImage = true, 기존 프사 있으면 -> 기존 프사 삭제
     // file 값 없고, isDeletedProfileImage = false, 기존 프사 유지
-    if (
-      myElements.profileImage === null ||
-      myElements.profileImage === undefined
-    ) {
-      setIsDeletedProfileImage(!isDeletedProfileImage);
-    } else {
-      setIsDeletedProfileImage(false);
+    if (isDeletedProfileImage === true) {
+      console.log(setImage(null));
     }
+    if (isDeletedProfileImage === false) {
+      console.log(setImage(myElements.profileImage));
+    }
+    setIsDeletedProfileImage(!isDeletedProfileImage);
   };
 
   const onChangeHandler = e => {
@@ -69,10 +66,11 @@ function Profile() {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
         .then(res => {
-          if (res.status === 200) {
-            window.location.reload();
-            alert('회원정보 변경완료!');
-          }
+          setImage(res.data.profileImage);
+          // window.location.reload();
+          alert('회원정보 변경완료!');
+          console.log(res.data);
+          console.log(res.status);
         });
     } catch (err) {
       alert('요청에 실패했어요😭');
@@ -85,15 +83,13 @@ function Profile() {
       <div className="relative mt-4">
         <img
           src={`${
-            myElements.profileImage === undefined ||
-            myElements.profileImage === null
+            createObjectURL === undefined || createObjectURL === null
               ? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
               : myElements.profileImage
           }`}
           className="bg-[var(--second)] rounded-full w-40 h-40 object-cover"
           alt="프로필이미지"
         />
-
         <input
           name="myImage"
           type="file"
@@ -112,7 +108,7 @@ function Profile() {
               <IoCloseSharp />
             </button>
             <button
-              type="button"
+              type="submit"
               className="text-xs text-center font-medium rounded-lg w-full border border-[var(--second-border)] mt-4"
               onClick={() => fileInput.current.click()}
             >
@@ -143,7 +139,7 @@ function Profile() {
       <>
         {edit ? (
           <button
-            type="submit"
+            type="button"
             className="text-xs text-center font-medium rounded-lg p-2 bg-[#000] text-[#fff]"
             onClick={updateHandler}
           >

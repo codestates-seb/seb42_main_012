@@ -3,17 +3,20 @@ import { AiFillHome } from 'react-icons/ai';
 import { GiWeightLiftingUp } from 'react-icons/gi';
 import { BsFillPersonFill, BsFillPeopleFill } from 'react-icons/bs';
 import NavItem from './NavItem';
+import useMyStore from '../../../state/useMyStore';
 
 function Nav() {
   const location = useLocation();
   const path = location.pathname;
+  const { myElements } = useMyStore();
 
   return (
     <>
-      {(path === '/' ||
+      {myElements.role === 'USER' &&
+      (path === '/' ||
         path === '/gyms' ||
         path === '/board' ||
-        path === '/my') && (
+        path === '/my') ? (
         <nav className="fixed bottom-0 w-full bg-[#f8f8f8] py-5">
           <ul className="flex items-center justify-around">
             <NavItem to="/">
@@ -34,7 +37,25 @@ function Nav() {
             </NavItem>
           </ul>
         </nav>
-      )}
+      ) : myElements.role === 'OWNER' &&
+        (path === '/' || path === '/gyms' || path === '/my') ? (
+        <nav className="fixed bottom-0 w-full bg-[#f8f8f8] py-5">
+          <ul className="flex items-center justify-around">
+            <NavItem to="/">
+              <AiFillHome className="text-3xl" />
+              <span className="font-medium text-md">HOME</span>
+            </NavItem>
+            <NavItem to="/gyms">
+              <GiWeightLiftingUp className="text-3xl" />
+              <span className="font-medium text-md">GYM</span>
+            </NavItem>
+            <NavItem to="/my">
+              <BsFillPersonFill className="text-3xl" />
+              <span className="font-medium text-md">MY</span>
+            </NavItem>
+          </ul>
+        </nav>
+      ) : null}
     </>
   );
 }

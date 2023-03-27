@@ -9,21 +9,33 @@ function Board() {
 
   useEffect(() => {
     api
-      .get('/communities?lastFeedId=56')
+      .get('/communities?lastFeedId')
       .then(res => setBoards(res.data.contents));
   }, []);
-  // console.log(boards);
   return (
     <ul>
       {boards.map(board => (
         <BoardContentList
           key={board.communityId}
-          id={board.communityId}
           to={`${board.communityId}`}
-          classname="border-t"
-          tabName={board.tabName}
+          classname="border-t cursor-pointer"
+          tabId={
+            board.tabId === 1
+              ? '자유게시판'
+              : board.tabId === 2
+              ? '꿀팁'
+              : board.tabId === 3
+              ? '오운완인증'
+              : board.tabId === 4
+              ? '자세피드백'
+              : board.tabId === 5
+              ? '파트너모집'
+              : null
+          }
           title={board.title}
-          content={board.content}
+          viewcnt={board.viewCnt}
+          bookmarked={board.bookmarked}
+          createdAt={board.createdAt}
         />
       ))}
     </ul>
