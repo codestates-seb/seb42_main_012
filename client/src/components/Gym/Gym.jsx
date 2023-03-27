@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import GymTagList from './List/GymTagList';
 import HeartButton from '../UI/Button/HeartButton';
-import ReviewScoreList from './Review/ReviewScoreList';
+// import ReviewScoreList from './Review/ReviewScoreList';
 
 // price
 function Gym({
@@ -33,7 +33,7 @@ function Gym({
           <Link to={`/gyms/${gymId}`}>
             <h3 className="mr-1 font-bold line-clamp-1">{gymName}</h3>
           </Link>
-          <ReviewScoreList gymId={gymId} />
+          {/* <ReviewScoreList gymId={gymId} /> */}
           <div className="text-xl">
             <HeartButton />
           </div>

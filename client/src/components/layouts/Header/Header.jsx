@@ -4,11 +4,15 @@ import BackButton from '../../UI/Button/BackButton';
 import PostButton from '../../UI/Button/PostButton';
 import MoreButton from '../../UI/Button/MoreButton';
 import LogoutButton from '../../UI/Button/LogoutButton';
+import useStore from '../../../state/useStore';
 
 function Header() {
+  const { myElements, gymsDetail } = useStore();
   const param = useParams();
   const location = useLocation();
   const path = location.pathname;
+  // console.log(myElements);
+  // console.log(gymsDetail);
 
   const defaultClass =
     'sticky top-0 z-10 flex items-center justify-between w-full py-5 px-2 bg-[#fff]';
@@ -27,7 +31,9 @@ function Header() {
         <header className={defaultClass}>
           <BackButton />
           <HeaderTitle titleText="GYM" />
-          <MoreButton />
+          {myElements.memberId === gymsDetail.memberId ? (
+            <MoreButton memberId={myElements.memberId} />
+          ) : null}
         </header>
       );
     case '/board':

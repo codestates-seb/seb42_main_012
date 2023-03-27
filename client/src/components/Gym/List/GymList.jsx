@@ -6,8 +6,8 @@ function GymList({ gyms }) {
       {gyms &&
         gyms.map(gym => (
           <Gym
-            key={gym.id}
-            gymId={gym.id}
+            key={gym.gymId}
+            gymId={gym.gymId}
             gymName={gym.gymName}
             gymImages={gym.gymImages}
             address={gym.address}
