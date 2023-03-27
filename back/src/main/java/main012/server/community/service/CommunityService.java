@@ -164,7 +164,7 @@ public class CommunityService {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
 
         // 게시글 작성자와 로그인한 작성자가 일치하는지 확인
-        if(existCommunity.getMember().getId() != memberId){
+        if((existCommunity.getMember().getId() != memberId) || !((member.getEmail()).equals(adminEmail))){
             throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_MATCHED);
         }
 
