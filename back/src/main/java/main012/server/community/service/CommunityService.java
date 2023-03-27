@@ -18,7 +18,6 @@ import main012.server.user.entity.Member;
 import main012.server.user.repository.MemberRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.repository.query.SpelQueryContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,21 +48,22 @@ public class CommunityService {
     // 커뮤니티 게시글 등록
     public List<CommunityDto.ImageResponse> createCommunity (CommunityDto.Post post, List<MultipartFile> files, Long memberId) throws IOException {
 
+        // dto로 넘어온 컨텐츠 community로 변환 후 저장
         Community community = communityMapper.communityPostDtoToCommunity(post, memberId);
         community.setTab(tabRepository.findById(post.getTabId()).get());
 
         // 첨부파일이 비었는지 체크
         boolean checkFiles = checkEmptyFile(files);
 
-        List<Image> uploadedImages = null;
+        // 첨부파일이 있으면 사진 업로드 기능 동작
         if(checkFiles != true ){
-            uploadedImages = imageService.upload(files, "upload");
+            List<Image>uploadedImages = imageService.upload(files, "upload");
             createCommunityImage(community, uploadedImages);
         }
 
         communityRepository.save(community);
 
-        // 커뮤니티 등록시 돌려줄 이미지 정보 생성
+        // 커뮤니티 등록시 돌려줄 응답데이터(이미지 정보) 생성
         List<CommunityDto.ImageResponse> imageResponses = new ArrayList<>();
 
         for (CommunityImage value : community.getCommunityImages()){
@@ -73,9 +73,9 @@ public class CommunityService {
             imageResponses.add(imageResponse);
         }
 
-
         return imageResponses;
     }
+
 
     // 게시글 등록시 파일이 비었는지 확인
     private boolean checkEmptyFile(List<MultipartFile> files) {
@@ -85,6 +85,7 @@ public class CommunityService {
         return false;
     }
 
+    // communityImage에 정보 등록
     private void createCommunityImage(Community community, List<Image> images) {
         for(Image image :images) {
             CommunityImage communityImage = new CommunityImage(image, community);
@@ -125,10 +126,10 @@ public class CommunityService {
         //존재하는 게시글인지 확인
         Community existCommunity = findExistCommunity(communityId);
 
-        // 사진 삭제
         // 커뮤니티 게시글 번호로 저장된 이미지 찾기
         List<CommunityImage> communityImageList = communityImageRepo.findByCommunityCommunityId(communityId);
 
+        // 사진 삭제
         for(CommunityImage value : communityImageList){
             imageService.remove(value.getImage());
             communityImageRepo.delete(value);
@@ -159,14 +160,7 @@ public class CommunityService {
             response.setContentImageUrl(image.getImage().getImagePath());
             imageInfo.add(response);
         }
-
-//        // 찾은 이미지들의 url 얻어서 저장
-//        List<String> communityImagesUrl = new ArrayList<>();
-//
-//        for(CommunityImage value : communityImageList){
-//            String imagePath = value.getImage().getImagePath();
-//            communityImagesUrl.add(imagePath);
-//        }
+        
 
         // 멤버 프로필 이미지 얻기 위한 멤버 조회
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
@@ -188,13 +182,7 @@ public class CommunityService {
 
 
         int totalElements = contents.size();
-
-        Long nextCursor;
-        if (totalElements < size) {
-            nextCursor = -1L;
-        } else {
-            nextCursor = contents.get(size - 1).getCommunityId();
-        }
+        Long nextCursor = getNextCursor(contents, totalElements);
 
         // 북마크 되어 있는지 체크
         List<CommunityDto.AllCommunityResponse> responseList = communityMapper.communitiesToAllCommunityResponses(contents);
@@ -226,14 +214,10 @@ public class CommunityService {
         List<Community> contents = foundCommunities.getContent();
 
         int totalElements = contents.size();
+        Long nextCursor = getNextCursor(contents, totalElements);
 
-        Long nextCursor;
-        if (totalElements < size) {
-            nextCursor = -1L;
-        } else {
-            nextCursor = contents.get(size - 1).getCommunityId();
-        }
 
+        // memberId, communityId로 게시물에 해당 멤버가 북마크 했는지 확인
         List<CommunityDto.AllCommunityResponse> responseList = communityMapper.communitiesToAllCommunityResponses(contents);
         for(CommunityDto.AllCommunityResponse value : responseList) {
             Long communityId = value.getCommunityId();
@@ -264,12 +248,12 @@ public class CommunityService {
         String imagePath = null;
 
         if(tabId ==3){
-            // 오운완 탭 조회
+            // 오운완 탭 조회시 검색되는 게시글 목록
             Page<Community> workoutTabCommunities = communityRepository.findAllByTabTabIdAndCommunityIdLessThanOrderByCommunityIdDesc(3L, feedId, PageRequest.of(0, size));
             contents = workoutTabCommunities.getContent();
 
         } else {
-            // 일반 탭별 조회
+            // 일반 탭별 조회시 검색되는 게시글 목록
             Page<Community> communities =
                     communityRepository.findAllByTabTabIdAndCommunityIdLessThanOrderByCommunityIdDesc(tabId, feedId, PageRequest.of(0, size));
             contents = communities.getContent();
@@ -278,14 +262,8 @@ public class CommunityService {
         totalElements = contents.size();
 
 
+        Long nextCursor = getNextCursor(contents, totalElements);
 
-
-        Long nextCursor;
-        if (totalElements < size) {
-            nextCursor = -1L;
-        } else {
-            nextCursor = contents.get(size - 1).getCommunityId();
-        }
 
 
         if(tabId == 3){
@@ -295,14 +273,14 @@ public class CommunityService {
                 CommunityImage communityImage = communityImageRepo.findByCommunityCommunityId(value.getCommunityId()).get(0);
                 String firstImagePath = communityImage.getImage().getImagePath();
                 value.setContentImageUrl(firstImagePath);
-            }
+            }   // 응답 데이터 양식에 맞게 설정
             CommunityDto.ListResponse response = new CommunityDto.ListResponse();
             response.setContents(responseList);
             response.setTotalElements(totalElements);
             response.setNextCursor(nextCursor);
 
             return response;
-        } else {
+        } else {    // 일반 탭 조회시 memberId, communityId로 게시물에 해당 멤버가 북마크 했는지 확인
         List<CommunityDto.TabListResponse> responseList = communityMapper.communitiesToTabListResponses(contents);
             for(CommunityDto.TabListResponse value : responseList){
                 Long communityId = value.getCommunityId();
@@ -312,7 +290,7 @@ public class CommunityService {
                     value.setBookmarked(true);
                 }
             }
-
+        // 응답 데이터 양식에 맞게 설정
         CommunityDto.ListResponse response = new CommunityDto.ListResponse();
         response.setContents(responseList);
         response.setTotalElements(totalElements);
@@ -335,7 +313,19 @@ public class CommunityService {
         return feedId;
     }
 
-    //존재하는 게시글인지 확인하는 메서드
+    // nextCursor 얻기
+    private Long getNextCursor(List<Community> contents, int totalElements) {
+        Long nextCursor;
+        if (totalElements < size) {
+            nextCursor = -1L;
+        } else {
+            nextCursor = contents.get(size - 1).getCommunityId();
+        }
+        return nextCursor;
+    }
+
+
+    //존재하는 게시글인지 확인
     public Community findExistCommunity(Long communityId) {
         Optional<Community> optionalCommunity = communityRepository.findById(communityId);
         Community response = optionalCommunity.orElseThrow(
@@ -343,5 +333,7 @@ public class CommunityService {
         );
         return response;
     }
+
+
 
 }
