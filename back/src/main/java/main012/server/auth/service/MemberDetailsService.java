@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import main012.server.auth.utils.CustomAuthorityUtils;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
+import main012.server.image.entity.Image;
 import main012.server.user.entity.Member;
 import main012.server.user.enums.MemberStatus;
 import main012.server.user.repository.MemberRepository;
@@ -35,8 +36,8 @@ public class MemberDetailsService implements UserDetailsService {
         return new MemberDetails(findMember);
     }
 
-    private final class MemberDetails extends Member implements UserDetails {
-        MemberDetails(Member member) {
+    public static class MemberDetails extends Member implements UserDetails {
+        public MemberDetails(Member member) {
             setId(member.getId());
             setEmail(member.getEmail());
             setPassword(member.getPassword());
@@ -53,6 +54,19 @@ public class MemberDetailsService implements UserDetailsService {
         public String getUsername() {
             return getEmail();
         }
+//
+//        public String getProfileImage() {
+//            String profileImage = null;
+//            if (getImage() != null) {
+//                profileImage = getImage().getImagePath();
+//            }
+//
+//            return profileImage;
+//        }
+//
+//        public String getDisplayName() {
+//            return this.getDisplayName();
+//        }
 
         @Override
         public boolean isAccountNonExpired() {

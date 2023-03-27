@@ -8,6 +8,7 @@ import main012.server.gym.entity.GymBookmark;
 import main012.server.gym.entity.GymReview;
 import main012.server.user.dto.MemberInfoDto;
 import main012.server.user.dto.MemberResponseDto;
+import main012.server.user.entity.Member;
 import org.mapstruct.Mapper;
 
 import java.time.format.DateTimeFormatter;
@@ -16,8 +17,19 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
 
-    default MemberResponseDto.Profile memberToProfileDto(String displayName, String imagePath) {
+    default MemberResponseDto.Profile memberToProfileDto(Member member, String imagePath) {
         MemberResponseDto.Profile response = MemberResponseDto.Profile.builder()
+                .memberId(member.getId())
+                .displayName(member.getDisplayName())
+                .email(member.getEmail())
+                .profileImage(imagePath)
+                .build();
+
+        return response;
+    }
+
+    default MemberResponseDto.ModifiedProfile memberToModifiedProfileDto(String displayName, String imagePath) {
+        MemberResponseDto.ModifiedProfile response = MemberResponseDto.ModifiedProfile.builder()
                 .displayName(displayName)
                 .profileImage(imagePath)
                 .build();

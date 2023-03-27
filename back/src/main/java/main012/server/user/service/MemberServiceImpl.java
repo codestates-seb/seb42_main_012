@@ -13,9 +13,9 @@ import main012.server.exception.ExceptionCode;
 import main012.server.gym.entity.GymBookmark;
 import main012.server.gym.entity.GymReview;
 import main012.server.gym.repository.GymBookmarkRepository;
-import main012.server.gym.repository.GymRepository;
 import main012.server.gym.repository.GymReviewRepository;
 import main012.server.image.entity.Image;
+import main012.server.image.service.ImageService;
 import main012.server.user.dto.MemberInfoDto;
 import main012.server.user.dto.MemberRequestDto;
 import main012.server.user.dto.MemberResponseDto;
@@ -31,7 +31,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -46,13 +48,13 @@ public class MemberServiceImpl implements MemberService {
     private final CommunityRepository communityRepository;
     private final CommunityBookmarkRepository communityBookmarkRepository;
     private final CommentRepository commentRepository;
-    private final GymRepository gymRepository;
     private final GymReviewRepository gymReviewRepository;
     private final GymBookmarkRepository gymBookmarkRepository;
     private final RoleRepository roleRepository;
 
     private final PasswordEncoder passwordEncoder;
     private final MemberMapper memberMapper;
+    private final ImageService imageService;
 
     @Value("${mail.address.admin}")
     private String adminMailAddress;
@@ -128,20 +130,34 @@ public class MemberServiceImpl implements MemberService {
 
     /**
      * 프로필 수정
+     * 닉네임은 무조건 받아와서 setDisplayName
      */
     @Override
-    public MemberResponseDto.Profile updateProfile(Long memberId, MemberRequestDto.ModifyProfile request, Image image) {
+    public MemberResponseDto.ModifiedProfile updateProfile(Long memberId, MemberRequestDto.ModifyProfile request, MultipartFile file) throws IOException {
         Member findMember = findVerifyMember(memberId);
 
-        Optional.ofNullable(request.getDisplayName())
-                .ifPresent(displayName -> findMember.setDisplayName(displayName));
+        findMember.setDisplayName(request.getDisplayName());
 
-        Optional.ofNullable(image)
-                .ifPresent(img -> findMember.setImage(img));
+        if (!file.isEmpty() || request.getIsDeletedProfileImage() != null && request.getIsDeletedProfileImage()) { // 새로운 프사 파일이 들어오거나, 프사 삭제 = true 라면
+            Optional.ofNullable(findMember.getImage())  // 멤버에 기존 프로필 사진이 있을 때
+                    .ifPresent(image -> {
+                        imageService.remove(image); // 기존 프로필 사진 s3에서 삭제
+                        findMember.setImage(null);  // 이미지 테이블에서 기존 프로필 row 삭제
+                    });
+            log.info("## 기존 프사 삭제");
+        }
 
+        if (!file.isEmpty()) {  // 새로운 프사 파일이 들어왔다면
+            log.info("## 프사 content-type : {}", file.getContentType().toString());
+            Image uploadedImage = imageService.upload(file, "upload");  // s3에 업로드
+            findMember.setImage(uploadedImage); // 새로운 프로필 사진 멤버랑 매핑
+            log.info("## 새로운 프사 세팅");
+        }
+
+        // 프로필 사진 있으면 url 가져오고, 없으면 null return
         String profileImageUrl = getProfileImageUrl(findMember);
 
-        MemberResponseDto.Profile response = memberMapper.memberToProfileDto(findMember.getDisplayName(), profileImageUrl);
+        MemberResponseDto.ModifiedProfile response = memberMapper.memberToModifiedProfileDto(findMember.getDisplayName(), profileImageUrl);
 
         return response;
     }
@@ -155,7 +171,7 @@ public class MemberServiceImpl implements MemberService {
         log.info("## deleteMember: {}", findMember.getEmail());
 
         // 탈퇴 동의 확인
-        if (request.getIsAgreed() == null ||  !request.getIsAgreed()) {
+        if (request.getIsAgreed() == null || !request.getIsAgreed()) {
             throw new BusinessLoginException(ExceptionCode.DISAGREE_QUITTING);
         }
         // 비밀번호 확인
@@ -163,28 +179,41 @@ public class MemberServiceImpl implements MemberService {
             throw new BusinessLoginException(ExceptionCode.WRONG_PASSWORD);
         }
 
-        // 탈퇴 상태로 변경
-        findMember.setMemberStatus(MemberStatus.MEMBER_DELETED);
-
         // image 삭제
+        Optional.ofNullable(findMember.getImage())  // 멤버에 기존 프로필 사진이 있을 때
+                .ifPresent(image -> {
+                    imageService.remove(image); // 기존 프로필 사진 s3에서 삭제
+                });
         findMember.setImage(null);
+
+        // Community_Bookmark 의 Member null 로 set 해서 orphan = true 로 삭제
+        findMember.getCommunityBookmarks().clear();
+        log.info("커뮤니티 북마크 삭제 완료");
+
+        // Gym_Bookmark 의 Member null 로 set 해서 orphan = true 로 삭제
+        findMember.getGymBookmarks().clear();
+        log.info("짐 북마크 삭제 완료");
+
+        // Member가 Owner일 때, Gym 의 Member null 로 set 해서 orphan = true 로 삭제
+        Set<Role> roles = findMember.getRoles();
+
+        for (Role role : roles) {
+            log.info("role name : {}", role.getName());
+            if (role.getName().equals("OWNER")) {
+                findMember.getGyms().stream()
+                        .forEach(gym -> gym.getGymImages()
+                                .forEach(gymImage -> imageService.remove(gymImage.getImage()))); //s3에서 삭제
+                findMember.getGyms().clear(); // gym_facility, gym_image, images 삭제 되는데.. s3에선 삭제 안됨.
+                log.info("짐 클리어 완료");
+            }
+        }
 
         // member_role 삭제
         findMember.getRoles().clear();
 
-        // Community_Bookmark 의 Member null 로 set 해서 orphan = true 로 삭제
-        findMember.getCommunityBookmarks().clear();
+        // 탈퇴 상태로 변경
+        findMember.setMemberStatus(MemberStatus.MEMBER_DELETED);
 
-        // Gym_Bookmark 의 Member null 로 set 해서 orphan = true 로 삭제
-        findMember.getGymBookmarks().clear();
-
-        // Member가 Owner일 때, Gym 의 Member null 로 set 해서 orphan = true 로 삭제
-        Set<Role> roles = findMember.getRoles();
-        for (Role role : roles) {
-            if (role.getName().equals("OWNER")) {
-                findMember.getGyms().clear();
-            }
-        }
     }
 
     /**
@@ -215,7 +244,7 @@ public class MemberServiceImpl implements MemberService {
         Member findMember = findVerifyMember(memberId);
         String profileImageUrl = getProfileImageUrl(findMember);
 
-        MemberResponseDto.Profile response = memberMapper.memberToProfileDto(findMember.getDisplayName(), profileImageUrl);
+        MemberResponseDto.Profile response = memberMapper.memberToProfileDto(findMember, profileImageUrl);
 
         return response;
     }
