@@ -44,6 +44,7 @@ public interface GymMapper {
                 .collect(Collectors.toList());
 
         GymDto.Response responseGym = new GymDto.Response(
+                gym.getMember().getId(),
                 gym.getId(),
                 gym.getGymName(),
                 gymToGymImageDtos(gym),

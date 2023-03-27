@@ -3,6 +3,7 @@ package main012.server.gym.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
@@ -13,6 +14,7 @@ public class GymDto {
     @Getter
     @Setter //@ModelAttribute 사용하기위함
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Post {
         @NotBlank(message = "헬스장 이름을 입력해 주세요")
         private String gymName;
@@ -61,7 +63,8 @@ public class GymDto {
     @Setter
     @AllArgsConstructor
     public static class Response {
-        private Long id;
+        private Long memberId;
+        private Long gymId;
         private String gymName;
         private List<GymDto.GymImage> gymImages;
         private String address;
@@ -69,7 +72,7 @@ public class GymDto {
         private String price;
         private String detailPrices;
         private String businessHours;
-        private List<String> FacilityNames;
+        private List<String> facilityName;
         private Long gymBookmarkCnt;
     }
 

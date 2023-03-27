@@ -1,5 +1,6 @@
 package main012.server.gym.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ public class GymReviewDto {
     @Getter
     @Setter
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class Post {
         @Min(1) @Max(5)
         private long gymGrade;
@@ -17,6 +19,11 @@ public class GymReviewDto {
         @NotBlank(message = "리뷰를 작성해주세요")
         @Size(min = 20)
         private String gymComment;
+
+        private Long gymId;
+
+        private Long memberId;
+
     }
     @Getter
     @Setter
@@ -44,7 +51,9 @@ public class GymReviewDto {
     @Setter
     @NoArgsConstructor
     public static class Response {
-        private Long id;
+        private Long memberId;
+        private Long reviewId;
+        private String displayName;
 
         private long gymGrade;
 

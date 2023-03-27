@@ -70,10 +70,7 @@ public class Gym extends Auditable {
     @OneToMany(mappedBy = "gym", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<GymBookmark> gymBookmarks = new ArrayList<>();
 
-    // 1: N
-    @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "gym", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<GymPrice> gymPrices = new ArrayList<>();
+
 
     // 1: N
     @Setter(AccessLevel.NONE)
@@ -98,12 +95,6 @@ public class Gym extends Auditable {
         }
     }
 
-    public void setGymPrice (GymPrice gymPrice) {
-        this.gymPrices.add(gymPrice);
-        if(gymPrice.getGym() != this) {
-            gymPrice.setGym(this);
-        }
-    }
 
     public void setGymReview(GymReview gymReview){
         this.gymReviews.add(gymReview);
