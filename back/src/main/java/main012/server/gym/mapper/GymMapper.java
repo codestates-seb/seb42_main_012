@@ -1,11 +1,16 @@
 package main012.server.gym.mapper;
 
+import main012.server.community.entity.Community;
 import main012.server.gym.dto.GymDto;
 
+import main012.server.gym.entity.Facility;
 import main012.server.gym.entity.Gym;
+import main012.server.user.dto.MemberInfoDto;
 import main012.server.user.entity.Member;
 import org.mapstruct.Mapper;
 
+import java.nio.file.LinkOption;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +19,7 @@ import java.util.stream.Collectors;
 public interface GymMapper {
 
 
+    // 헬스장 등록
     default Gym gymPostDtoToGym(GymDto.Post request, Long gymBookmarkCnt) {
         Gym gym = new Gym(
                 request.getGymName(),
@@ -31,10 +37,11 @@ public interface GymMapper {
         gym.setMember(member);
 
 
-
         return gym;
     }
 
+
+    // 헬스장 수정 (수정해야함)
     Gym gymPatchDtoToGym(GymDto.Patch gymPatchDto);
 
     default GymDto.Response gymToGymResponseDto(Gym gym, Long gymBookmarkCnt) {
@@ -67,32 +74,34 @@ public interface GymMapper {
                             gymImage.getImage().getImagePath()
                     );
                     return dto;
-                } )
+                })
                 .collect(Collectors.toList());
     }
 
-  List<GymDto.ListResponse> gymsToGymResponseDtos(List<Gym> gyms);
-
-
-//    // 헬스장 시설별 조회 응답
-//    default GymDto.facilityListResponse gymToFacilityListResponse(Gym gym, Long gymBookmarkCnt) {
+    //헬스장 전체조회 응답
+//    default GymDto.AllGymResponse gymToAllGymResponse(Gym gym) {
 //        List<String> facilityNames = gym.getFacilities().stream()
 //                .map(facility -> facility.getFacilityName())
 //                .collect(Collectors.toList());
+//        GymDto.AllGymResponse allGymResponse = new GymDto.AllGymResponse();
 //
-//        GymDto.facilityListResponse facilityListResponse = new GymDto.facilityListResponse(
-//                gym.getId(),
-//                gym.getGymName(),
-//                gym.getAddress(),
-//                gym.getPrice(),
-//                gym.getBusinessHours(),
-//                facilityNames,
-//                gymBookmarkCnt
-//        );
-//        return facilityListResponse;
+//        allGymResponse.setGymId(gym.getId());
+//        allGymResponse.setGymName(gym.getGymName());
+//        allGymResponse.setPrice(gym.getPrice());
+//        allGymResponse.setBusinessHours(gym.getBusinessHours());
+//
+//        return allGymResponse;
 
 
+//    default GymDto.AllGyms gymTogymInfo(Gym gym) {
+//        GymDto.AllGyms response = GymDto.AllGyms.builder()
+//                .gymId(gym.getId())
+//                .gymName(gym.getGymName())
+//                .gym();
+//        return response;
 //    }
-//    List<GymDto.RankResponse> gymToGymRankListResponse(List<Gym> gym); // 추천 게시글용 매핑
+    List<GymDto.AllGyms> gymToGymInfos(List<Gym> gyms);
 
 }
+
+

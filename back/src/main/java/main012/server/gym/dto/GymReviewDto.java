@@ -23,6 +23,7 @@ public class GymReviewDto {
         private Long gymId;
 
         private Long memberId;
+        private String displayName;
 
     }
     @Getter

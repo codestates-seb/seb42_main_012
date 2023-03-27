@@ -13,9 +13,14 @@ import java.util.Optional;
 @Repository
 public interface GymBookmarkRepository extends JpaRepository<GymBookmark, Long> {
     Optional<GymBookmark> findByMemberAndGym(Member member, Gym gym);
-//    Page<GymBookmark> findByMemberAndIdLessThanOrderByIdDesc(Member member, Long id, Pageable pageable);
+
+    //    Page<GymBookmark> findByMemberAndIdLessThanOrderByIdDesc(Member member, Long id, Pageable pageable);
     Page<GymBookmark> findByMemberAndIdLessThanOrderByIdDesc(Member member, Long id, Pageable pageable);
+
     Long countByMemberId(Long memberId);
 
     Long countByGymId(Long gymId);
+
+    Optional<GymBookmark> findByMemberIdAndGymId(Long memberId, Long gymId);
 }
+//}

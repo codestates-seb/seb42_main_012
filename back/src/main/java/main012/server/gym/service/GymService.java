@@ -2,38 +2,36 @@ package main012.server.gym.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import main012.server.cursor.CursorResult;
+import main012.server.community.entity.Community;
 import main012.server.gym.dto.GymDto;
 import main012.server.gym.entity.Facility;
 import main012.server.gym.entity.Gym;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
+import main012.server.gym.entity.GymBookmark;
 import main012.server.gym.mapper.GymMapper;
 import main012.server.gym.repository.FacilityRepository;
 import main012.server.gym.repository.GymBookmarkRepository;
+import main012.server.gym.repository.GymImageRepo;
 import main012.server.gym.repository.GymRepository;
-import main012.server.image.entity.CommunityImage;
 import main012.server.image.entity.GymImage;
 import main012.server.image.entity.Image;
+import main012.server.image.repository.ImageRepository;
 import main012.server.image.service.ImageService;
-import main012.server.user.entity.Member;
+import main012.server.user.dto.MemberInfoDto;
+import main012.server.user.dto.MemberResponseDto;
+import main012.server.user.mapper.MemberMapper;
 import main012.server.user.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.plaf.BorderUIResource;
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -47,10 +45,16 @@ public class GymService {
     private final GymMapper gymMapper;
     private final FacilityRepository facilityRepository;
     private final ImageService imageService;
+    private final GymImageRepo gymImageRepo;
     private final GymBookmarkRepository gymBookmarkRepository;
+    private final ImageRepository imageRepository;
+    private final int size = 15;
+    private final PageRequest pageable = PageRequest.of(0,size);
+    private final MemberRepository memberRepository;
+    private final MemberMapper memberMapper;
 
 
-    // 헬스장 생성
+
     public Gym createGym(GymDto.Post request, List<MultipartFile> files) throws IOException {
 
         Gym gym = gymMapper.gymPostDtoToGym(request, request.getGymBookmarkCnt());
@@ -94,47 +98,49 @@ public class GymService {
 
 
     // 헬스장 수정
-    public GymDto.Response updateGym(Gym gym) {
+    public Gym updateGym(GymDto.Patch patchRequest, List<MultipartFile> files) throws IOException {
         // 존재하는 헬스장인지 검증
-        Gym findGym = findVerifiedGym(gym.getId());
+        Gym findGym = findVerifiedGym(patchRequest.getGymId());
 
-        Optional.ofNullable(gym.getGymName())
+        Optional.ofNullable(patchRequest.getGymName())
                 .ifPresent(gymName -> findGym.setGymName(gymName));
-        Optional.ofNullable(gym.getAddress())
+        Optional.ofNullable(patchRequest.getAddress())
                 .ifPresent(address -> findGym.setAddress(address));
-        Optional.ofNullable(gym.getPhoneNumber())
+        Optional.ofNullable(patchRequest.getPhoneNumber())
                 .ifPresent(phoneNumber -> findGym.setPhoneNumber(phoneNumber));
-        Optional.ofNullable(gym.getBusinessHours())
+        Optional.ofNullable(patchRequest.getBusinessHours())
                 .ifPresent(businessHours -> findGym.setBusinessHours(businessHours));
-        Optional.ofNullable(gym.getPrice())
+        Optional.ofNullable(patchRequest.getPrice())
                 .ifPresent(price -> findGym.setPrice(price));
-        Optional.ofNullable(gym.getDetailPrices())
+        Optional.ofNullable(patchRequest.getDetailPrices())
                 .ifPresent(detailPrice -> findGym.setDetailPrices(detailPrice));
 //        Optional.ofNullable(gym.getFacilities())
 //                .ifPresent(facilityList -> findGym.setFacilities((List<Facility>) facilityRepository.findAllById(facilityList).orElseThrow(() -> new BusinessLoginException(ExceptionCode.FACILITY_NOT_FOUND))));
-        Optional.ofNullable(gym.getLatitude())
+        Optional.ofNullable(patchRequest.getLatitude())
                 .ifPresent(latitude -> findGym.setLatitude(latitude));
-        Optional.ofNullable(gym.getLongitude())
+        Optional.ofNullable(patchRequest.getLongitude())
                 .ifPresent(longitude -> findGym.setLongitude(longitude));
 
-        // 첨부파일 비었는지 체크
-//
-//        if(checkFiles != true ){
-//            // 기존 사진 지우기
-//            for(Long value : patchRequest.getDeletedCommunityImageId()){
-//                Image deleteImage = imageRepository.findById(value).orElseThrow(()-> new BusinessLoginException(ExceptionCode.COMMUNITY_NOT_FOUND));
-//                imageService.remove(deleteImage);
-//                List<CommunityImage> foundByImageId = communityImageRepo.findByImageId(value);
-//                for(CommunityImage communityImage : foundByImageId){
-//                    communityImageRepo.delete(communityImage);
-//                }
-//            }
+        boolean checkFiles = checkEmptyFile(files);
 
-        Long gymBookmarkCnt = gymBookmarkRepository.countByGymId(findGym.getId());
+        if(checkFiles != true ) {
+            // 기존 사진 지우기
+            for (Long value : patchRequest.getDeletedGymImageId()) {
+                Image deleteImage = imageRepository.findById(value).orElseThrow(() -> new BusinessLoginException(ExceptionCode.GYM_NOT_FOUND));
+                imageService.remove(deleteImage);
+                List<GymImage> foundByImageId = gymImageRepo.findByImageId(value);
+                for (GymImage gymImage : foundByImageId) {
+                    gymImageRepo.delete(gymImage);
+                }
+            }
+            // 새로운 사진 등록
+            List<Image>uploadedImages = imageService.upload(files, "upload");
+            createGymImage(findGym, uploadedImages);
 
-        GymDto.Response response = gymMapper.gymToGymResponseDto(gym, gymBookmarkCnt);
+        }
 
-        return response;
+
+        return findGym;
     }
 
     // 상세 헬스장 조회
@@ -149,25 +155,48 @@ public class GymService {
     }
 
     // 모든 헬스장 정보 조회
-    public Page<Gym> gymsPage(Pageable pageable) {
+//    public Page<Gym> gymsPage(Pageable pageable) {
+//
+//        return gymRepository.findAll(pageable);
+//    }
+    public GymDto.AllGymResponse findAllGym(String lastFeedId){
+        Long feedId = getFeedId(lastFeedId);
 
-        return gymRepository.findAll(pageable);
+        Page<Gym> pages = gymRepository.findByIdLessThanOrderByIdDesc(feedId, pageable);
+        List<Gym> contents = pages.getContent();
+
+        int totalElements = contents.size();
+
+        Long nextCursor;
+        if (totalElements < size) {
+            nextCursor = -1L;
+        } else {
+            nextCursor = contents.get(size - 1).getId();
+        }
+
+        List<GymDto.AllGyms> responses = gymMapper.gymToGymInfos(contents);
+
+        return new GymDto.AllGymResponse
+                (responses, totalElements, nextCursor);
+
     }
 
-    // cursor 방식 조회
-    public CursorResult<Gym> get(Long cursorId, Pageable page) {
-        final List<Gym> gyms = getGyms(cursorId,page);
-        final Long lastIdOfList = gyms.isEmpty() ?
-                null : gyms.get(gyms.size() - 1).getId();
-
-        return new CursorResult<>(gyms,hasNext(lastIdOfList));
+    // cursor 커서 얻기
+    private Long getNextCursor(List<Gym> contents, int totalElements) {
+        Long nextCursor;
+        if (totalElements < size) {
+            nextCursor = -1L;
+        } else {
+            nextCursor = contents.get(size - 1).getId();
+        }
+        return nextCursor;
     }
-
-    private List<Gym> getGyms(Long id, Pageable page) {
-        return id == null ?
-                this.gymRepository.findAllByOrderByIdDesc(page) :
-                this.gymRepository.findByIdLessThanOrderByIdDesc(id,page);
-    }
+//
+//    private List<Gym> getGyms(Long id, Pageable page) {
+//        return id == null ?
+//                this.gymRepository.findAllByOrderByIdDesc(page) :
+//                this.gymRepository.findByIdLessThanOrderByIdDesc(id,page);
+//    }
 
     private Boolean hasNext(Long id) {
         if (id == null) return false;
@@ -203,6 +232,28 @@ public class GymService {
 //        Page<Gym> gymPage = gymRepository.findAllByKindOfGymName(kindOfGym, pageable);
 //        return gymPage;
 //    }
+// 페이지네이션 feedId 검증
+
+    // 페이지네이션 feedId 검증
+    private Long getFeedId(String lastFeedId) {
+        Long feedId;
+        if (lastFeedId.isEmpty()) {
+            feedId = 9223372036854775807L;
+        } else if (!lastFeedId.matches("[+-]?\\d+")) {
+            throw new BusinessLoginException(ExceptionCode.REQUEST_NOT_SUPPORT);
+        } else {
+            feedId = Long.valueOf(lastFeedId);
+        }
+        return feedId;
+    }
+
+        // 게시글 등록시 파일이 비었는지 확인
+        private boolean checkEmptyFile(List<MultipartFile> files) {
+            for(MultipartFile multipartFile : files){
+                if(multipartFile.isEmpty()) return true;
+            }
+            return false;
+        }
 
 
 

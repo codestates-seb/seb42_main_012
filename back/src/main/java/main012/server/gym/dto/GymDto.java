@@ -1,10 +1,8 @@
 package main012.server.gym.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import main012.server.gym.entity.Facility;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -46,8 +44,9 @@ public class GymDto {
     @Getter
     @Setter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Patch {
-        private Long id;
+        private Long gymId;
         @NotBlank(message = "헬스장 이름을 입력해 주세요")
         private String gymName;
         @NotBlank(message = "주소를 입력해 주세요")
@@ -58,8 +57,18 @@ public class GymDto {
         private String phoneNumber;
         @NotBlank(message = "운영 시간을 입력해 주세요")
         private String businessHours;
-        private List<Long> facilityIdList;
-        private Long[] deletedGymImageId;// 수정하세요
+
+        @NotBlank(message = "대표 가격을 입력해주세요.")
+        private String price;
+        @NotBlank(message = "상세 가격을 입력해주세요.")
+        private String detailPrices;
+
+//        private List<Long> facilityIdList;
+
+        private String latitude; // 위도
+
+        private String longitude; // 경도
+        private Long[] deletedGymImageId;
     }
     @Getter
     @Setter
@@ -80,6 +89,44 @@ public class GymDto {
 
 
     }
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class AllGymResponse<T> {
+        private List<T> contents;
+        private int totalElements;
+        private Long nextCursor;
+
+
+    }
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class FacilityList<T> {
+        private Long facilityId;
+        private Long facilityName;
+    }
+
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @Builder
+    public static class AllGyms {
+        private Long gymId;
+        private String gymName;
+        private List<GymDto.GymImage> gymImages;
+        private String address;
+        private String phoneNumber;
+        private String price;
+        private String detailPrices;
+        private String businessHours;
+        private List<String> facilityName;
+        private Long gymBookmarkCnt;
+    }
+
 
 
     @Getter
@@ -114,15 +161,7 @@ public class GymDto {
 
         private int gymBookmarkCnt;
     }
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class ListResponse<T> {
-        private List<T> contents;
-        private int totalElements;
-        private Long nextCursor;
-    }
+
 
 
 }

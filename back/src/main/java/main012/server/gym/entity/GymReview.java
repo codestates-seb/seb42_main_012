@@ -23,6 +23,7 @@ public class GymReview extends Auditable {
     private long gymGrade;
 
     private String gymComment;
+    private String displayName;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
