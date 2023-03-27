@@ -1,8 +1,5 @@
 import { useForm } from 'react-hook-form';
-// import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-// import { BiCog } from 'react-icons/bi';
 import GymPostName from '../../components/Gym/Post/PostName';
 import GymPostAddress from '../../components/Gym/Post/PostAddress';
 import GymPostPhoneNumber from '../../components/Gym/Post/PostPhoneNumber';
@@ -32,8 +29,6 @@ function GymPostPage() {
   const image4 = watch('image4');
   const image5 = watch('image5');
   const images = [image1, image2, image3, image4, image5];
-
-  // const navigate = useNavigate();
 
   const onSubmit = async data => {
     const imagesData = [
