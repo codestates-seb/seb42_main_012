@@ -18,6 +18,7 @@ import LoginPage from './pages/Login/Login';
 import BoardEditPage from './pages/Board/BoardEdit';
 import MainLayout from './components/layouts/MainLayout';
 import MyPage from './pages/My/MyPage';
+import OwnerSignUpPage from './pages/SignUp/OwnerSignUpPage';
 
 function App() {
   const isLoggedIn = localStorage.getItem('isLoggedIn');
@@ -36,12 +37,14 @@ function App() {
           // 로그인이 되어있는경우 로그인/회원가입 페이지로 접근 시 홈으로 리다이렉트하도록 함
           <Route element={<MainLayout hasHeader hasNav />}>
             <Route path="/signup" element={<Navigate replace to="/" />} />
+            <Route path="/signup/owner" element={<Navigate replace to="/" />} />
             <Route path="/login" element={<Navigate replace to="/" />} />
           </Route>
         ) : (
           // 로그인이 되지 않은 경우 로그인/회원가입 페이지로 접근하도록 함
           <Route element={<MainLayout hasHeader hasNav />}>
             <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/signup/owner" element={<OwnerSignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
           </Route>
         )}
@@ -58,6 +61,7 @@ function App() {
 
             <Route element={<MainLayout hasHeader hasNav />}>
               <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/signup/owner" element={<OwnerSignUpPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/gyms/:id" element={<GymDetailPage />} />
               <Route path="/gyms/gympost" element={<GymPostPage />} />

@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 function BasicButton(props) {
   const { text, page, nav, type } = props;
+
   const navigate = useNavigate();
   const buttonHandler = () => {
     navigate(nav);
@@ -10,9 +11,9 @@ function BasicButton(props) {
   let classes = 'text-md py-2 text-center font-medium rounded-lg ';
 
   if (page === 'my') {
-    classes += 'w-[70%] bg-[var(--main)] text-[#fff] m-2';
+    classes += 'w-[70%] bg-[var(--main)] text-[#fff] m-2 mt-2';
   } else if (page === 'login') {
-    classes += 'w-full bg-[#000] text-[#fff]';
+    classes += 'w-full bg-[#000] text-[#fff] mt-2';
   } else if (page === 'signup') {
     classes += 'w-full bg-[#fff] text-[#000] border border-[#151414]';
   } else if (page === 'board') {

@@ -64,6 +64,14 @@ function Login() {
 
         <div className="mt-10">
           <BasicButton page="signup" text="회원가입" nav="/signup" />
+          <div className="mt-4">
+            <BasicButton
+              className="mt-1"
+              page="signup"
+              text="사업주 회원가입"
+              nav="/signup/owner"
+            />
+          </div>
         </div>
       </div>
     </form>
