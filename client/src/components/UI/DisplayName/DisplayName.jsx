@@ -1,11 +1,12 @@
+import useStore from '../../../state/useStore';
+
 function DisplayName({ displayName }) {
+  const { myElements } = useStore();
   return (
-    <>
-      <span className="ml-4 mr-1 text-xl">
-        {/* TODO: displayName 동적으로 변경 */}
-        <span className="text-[var(--main)]">{displayName}</span>
-      </span>
-    </>
+    <div className="my-4 text-xl">
+      <span className="text-[var(--main)]">{displayName}</span>
+      {myElements.displayName && <span className="ml-1 text-xl">회원님</span>}
+    </div>
   );
 }
 
