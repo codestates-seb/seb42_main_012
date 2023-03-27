@@ -47,7 +47,9 @@ function Gym({
         <span className="text-sm text-[var(--second)] list-disc list-inside line-clamp-1">
           {businessHours}
         </span>
-        <GymTagList facilityNames={facilityNames} />
+        {facilityNames === undefined ? null : (
+          <GymTagList facilityNames={facilityNames} />
+        )}
       </div>
     </li>
   );

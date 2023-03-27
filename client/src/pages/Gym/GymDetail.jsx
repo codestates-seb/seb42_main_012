@@ -22,28 +22,27 @@ function GymDetailPage() {
 
   return (
     <>
-      {[gymsDetail] &&
-        [gymsDetail].map(gym => (
-          <div key={gym.id}>
-            <GymDetailHeader
-              gymName={gym.gymName}
-              gymBookmarkCnt={gym.gymBookmarkCnt}
-            />
-            <div className="flex w-full overflow-x-scroll">
-              {gym.gymImages === undefined ? (
-                <div className="h-48 bg-orange w-90" />
-              ) : (
-                gym.gymImages.map(gymImage => (
-                  <GymDetailMainImg
-                    key={gymImage.gymImageId}
-                    gymImage={gymImage.gymImageUrl}
-                  />
-                ))
-              )}
-            </div>
-            <GymDetailList gym={gym} />
+      {[gymsDetail].map(gym => (
+        <div key={gym.gymId}>
+          <GymDetailHeader
+            gymName={gym.gymName}
+            gymBookmarkCnt={gym.gymBookmarkCnt}
+          />
+          <div className="flex overflow-x-scroll w-90">
+            {gym.gymImages === undefined ? (
+              <div className="h-48 bg-grey w-90" />
+            ) : (
+              gym.gymImages.map(gymImage => (
+                <GymDetailMainImg
+                  key={gymImage.gymImageId}
+                  gymImage={gymImage.gymImageUrl}
+                />
+              ))
+            )}
           </div>
-        ))}
+          <GymDetailList gym={gym} />
+        </div>
+      ))}
     </>
   );
 }

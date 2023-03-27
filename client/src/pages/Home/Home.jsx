@@ -2,9 +2,10 @@ import useGeolocation from 'react-hook-geolocation';
 import { useEffect } from 'react';
 import logo from '../../assets/images/logo.svg';
 import useStore from '../../state/useStore';
+import api from '../../utils/api';
 
 function HomePage() {
-  const { setMyLocation } = useStore();
+  const { setMyLocation, setMyElements, myElements } = useStore();
 
   const geolocation = useGeolocation();
 
@@ -13,6 +14,12 @@ function HomePage() {
       setMyLocation({ Ma: geolocation.longitude, La: geolocation.latitude });
     }
   }, [geolocation]);
+
+  useEffect(() => {
+    api.get('/members/my').then(res => setMyElements(res.data));
+  }, []);
+
+  console.log(myElements);
 
   // console.log(localStorage.getItem('accessToken'));
 
