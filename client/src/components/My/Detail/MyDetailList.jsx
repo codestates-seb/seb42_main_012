@@ -44,7 +44,7 @@ function MyDetailList() {
         ))
       ) : location.pathname === '/my/comments' ? (
         myComments.contents.map((comment, index) => (
-          <Link key={index} to={`/communities/comments/${comment.boardId}`}>
+          <Link key={index} to={`/board/${comment.boardId}`}>
             <MyDetailListItem
               tabName={comment.boardTab}
               title={comment.boardCommentContent}
@@ -54,7 +54,7 @@ function MyDetailList() {
         ))
       ) : location.pathname === '/my/reviews' ? (
         myReviews.contents.map((review, index) => (
-          <Link key={index} to={`/gyms/reviews/${review.gymId}`}>
+          <Link key={index} to={`/gyms/${review.gymId}`}>
             <MyDetailListItem
               grades={review.gymGrade}
               title={review.gymReviewContent}
@@ -73,7 +73,7 @@ function MyDetailList() {
         ))
       ) : location.pathname === '/my/bookmarks/board' ? (
         myBoardsBookmarks.contents.map((boardBookmark, index) => (
-          <Link key={index} to={`/communities/${boardBookmark.boardId}`}>
+          <Link key={index} to={`/board/${boardBookmark.boardId}`}>
             <MyDetailListItem
               tabName={boardBookmark.boardTab}
               title={boardBookmark.boardTitle}
