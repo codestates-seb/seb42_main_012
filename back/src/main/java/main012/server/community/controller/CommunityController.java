@@ -54,9 +54,9 @@ public class CommunityController {
                                         @RequestPart("files") List<MultipartFile> files,
                                         @AuthMember Long memberId) throws IOException {
 
-        List<CommunityDto.ImageResponse> response = communityService.createCommunity(postRequest, files, memberId);
+       communityService.createCommunity(postRequest, files, memberId);
 
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
     
 
@@ -69,7 +69,7 @@ public class CommunityController {
                                          @AuthMember Long memberId) throws IOException {
 
         patchRequest.setCommunityId(communityId);
-        communityService.updateCommunity(patchRequest, files);
+        communityService.updateCommunity(patchRequest, files, memberId);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -80,7 +80,7 @@ public class CommunityController {
     public ResponseEntity deleteCommunity(@PathVariable("community_id") Long communityId,
                                           @AuthMember Long memberId) {
 
-        communityService.deleteCommunity(communityId);
+        communityService.deleteCommunity(communityId, memberId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

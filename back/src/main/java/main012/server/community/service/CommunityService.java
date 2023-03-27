@@ -48,14 +48,19 @@ public class CommunityService {
     private final int size = 15;
 
     // 커뮤니티 게시글 등록
-    public List<CommunityDto.ImageResponse> createCommunity (CommunityDto.Post post, List<MultipartFile> files, Long memberId) throws IOException {
+    public void createCommunity (CommunityDto.Post post, List<MultipartFile> files, Long memberId) throws IOException {
+
+        // 첨부파일이 비었는지 체크
+        boolean checkFiles = checkEmptyFile(files);
+
+        if(post.getTabId() == 3 && checkFiles == true ){
+            throw new BusinessLoginException(ExceptionCode.NO_IMAGE_ATTATCHED);
+        }
 
         // dto로 넘어온 컨텐츠 community로 변환 후 저장
         Community community = communityMapper.communityPostDtoToCommunity(post, memberId);
         community.setTab(tabRepository.findById(post.getTabId()).get());
 
-        // 첨부파일이 비었는지 체크
-        boolean checkFiles = checkEmptyFile(files);
 
         // 첨부파일이 있으면 사진 업로드 기능 동작
         if(checkFiles != true ){
@@ -65,17 +70,6 @@ public class CommunityService {
 
         communityRepository.save(community);
 
-        // 커뮤니티 등록시 돌려줄 응답데이터(이미지 정보) 생성
-        List<CommunityDto.ImageResponse> imageResponses = new ArrayList<>();
-
-        for (CommunityImage value : community.getCommunityImages()){
-            CommunityDto.ImageResponse imageResponse = new CommunityDto.ImageResponse();
-            imageResponse.setContentImageId(value.getImage().getId());
-            imageResponse.setContentImageUrl(value.getImage().getImagePath());
-            imageResponses.add(imageResponse);
-        }
-
-        return imageResponses;
     }
 
 
@@ -96,10 +90,17 @@ public class CommunityService {
     }
 
     // 커뮤니티 게시글 수정
-    public Community updateCommunity (CommunityDto.Patch patchRequest, List<MultipartFile> files) throws IOException {
+    public Community updateCommunity (CommunityDto.Patch patchRequest, List<MultipartFile> files, Long memberId) throws IOException {
+
+
 
         // 게시글이 존재하는지 확인
         Community existCommunity = findExistCommunity(patchRequest.getCommunityId());
+
+        // 작성자와 로그인한 사용자가 일치하는지 확인
+        if(existCommunity.getMember().getId() != memberId){
+            throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_MATCHED);
+        }
 
         //제목수정
         Optional.ofNullable(patchRequest.getTitle())
@@ -120,34 +121,34 @@ public class CommunityService {
         // 첨부파일 비었는지 체크
         boolean checkFiles = checkEmptyFile(files);
 
-        if(checkFiles != true ){
+        if(patchRequest.getDeletedCommunityImageId() != null){
             // 기존 사진 지우기
             for(Long value : patchRequest.getDeletedCommunityImageId()){
-                Image deleteImage = imageRepository.findById(value).orElseThrow(()-> new BusinessLoginException(ExceptionCode.COMMUNITY_NOT_FOUND));
-                imageService.remove(deleteImage);
-                List<CommunityImage> foundByImageId = communityImageRepo.findByImageId(value);
-                for(CommunityImage communityImage : foundByImageId){
-                    communityImageRepo.delete(communityImage);
-                }
+                CommunityImage communityImage = communityImageRepo.findById(value).orElseThrow(() -> new BusinessLoginException(ExceptionCode.IMAGE_NOT_FOUND));
+                imageService.remove(communityImage.getImage());
+                communityImageRepo.delete(communityImage);
             }
-
-            // 새로운 사진 등록
-            List<Image>uploadedImages = imageService.upload(files, "upload");
-            createCommunityImage(existCommunity, uploadedImages);
+            if(checkFiles != true) {
+                // 새로운 사진 등록
+                List<Image> uploadedImages = imageService.upload(files, "upload");
+                createCommunityImage(existCommunity, uploadedImages);
+            }
         }
-
-
-
 
         return existCommunity;
 
     }
 
     // 커뮤니티 게시글 삭제
-    public void deleteCommunity (Long communityId) {
+    public void deleteCommunity (Long communityId, Long memberId) {
 
         //존재하는 게시글인지 확인
         Community existCommunity = findExistCommunity(communityId);
+
+        // 게시글 작성자와 로그인한 작성자가 일치하는지 확인
+        if(existCommunity.getMember().getId() != memberId){
+            throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_MATCHED);
+        }
 
         // 커뮤니티 게시글 번호로 저장된 이미지 찾기
         List<CommunityImage> communityImageList = communityImageRepo.findByCommunityCommunityId(communityId);
@@ -179,7 +180,7 @@ public class CommunityService {
         List<CommunityDto.ImageResponse> imageInfo = new ArrayList<>();
         for(CommunityImage image : communityImageList){
             CommunityDto.ImageResponse response = new CommunityDto.ImageResponse();
-            response.setContentImageId(image.getImage().getId());
+            response.setContentImageId(image.getId());
             response.setContentImageUrl(image.getImage().getImagePath());
             imageInfo.add(response);
         }
@@ -189,7 +190,7 @@ public class CommunityService {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
 
         CommunityDto.Response response = communityMapper.communityToResponse(foundCommunity);
-//        response.setProfileImageUrl(member.getImage().getImagePath());
+        response.setProfileImageUrl(member.getImage().getImagePath());
         response.setContentImages(imageInfo);
 
         return response;

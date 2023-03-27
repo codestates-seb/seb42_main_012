@@ -20,11 +20,14 @@ public enum ExceptionCode {
     QUITED_MEMBER(5007, "탈퇴한 회원입니다."),
     DISAGREE_QUITTING(5008, "탈퇴 동의를 하지 않았습니다."),
 
-    COMMUNITY_NOT_FOUND(404, "존재하지 않는 게시글 입니다."),
+    COMMUNITY_NOT_FOUND(404, "존재하지 않는 게시글입니다."),
     COMMENT_NOT_FOUND(404, "존재하지 않는 댓글입니다."),
 
     COMMUNITY_BOOKMARK_NOT_FOUND(404, "존재하지 않는 찜 입니다."),
-    TAB_NOT_FOUND(404, "존재하지 않는 탭 입니다.")
+    TAB_NOT_FOUND(404, "존재하지 않는 탭 입니다."),
+    MEMBER_NOT_MATCHED(401, "수정/삭제는 본인만 가능합니다."),
+    NO_IMAGE_ATTATCHED(400, "필수 이미지를 1장 이상 첨부해야 합니다."),
+    IMAGE_NOT_FOUND(404, "존재하지 않는 이미지입니다.")
 
     ;
 
