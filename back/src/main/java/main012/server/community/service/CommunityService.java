@@ -367,8 +367,4 @@ public class CommunityService {
         return community;
     }
 
-
-
-
-
 }
