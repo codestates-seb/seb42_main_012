@@ -1,7 +1,8 @@
 // import DisplayName from '../../UI/DisplayName/DisplayName';
+
 import ProfileImg from '../../UI/ProfileImg/ProfileImg';
 
-function BoardHeaderContainer({ profileImage, displayName }) {
+function BoardHeaderContainer({ profileImage, displayName, createdAt }) {
   return (
     <div className="flex">
       <div>
@@ -10,7 +11,7 @@ function BoardHeaderContainer({ profileImage, displayName }) {
 
           <div className="flex flex-col items-start justify-center">
             <span className="ml-4 font-medium">{displayName}</span>
-            <p className="ml-4 text-sm">16분전</p>
+            <p className="ml-4 text-sm">{createdAt}</p>
           </div>
         </div>
       </div>
