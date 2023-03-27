@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../../../utils/api';
-import BoardDetailComment from './DetailComment';
-import BoardDetailBody from './DetailBody';
-import BoardDetailHeader from './DetailHeader';
-import BoardDetailTap from './DetailTab';
-import BoardDetailTitle from './DetailTitle';
+import DetailComment from './DetailComment';
+import DetailBody from './DetailBody';
+import DetailHeader from './DetailHeader';
+import DetailTap from './DetailTab';
+import DetailTitle from './DetailTitle';
 import boardStore from '../../../state/boardStore';
 
 function BoardDetail() {
@@ -15,19 +15,21 @@ function BoardDetail() {
   useEffect(() => {
     api.get(`communities/${id}`).then(res => setBoardDetail(res.data));
   }, []);
-
+  console.log(boardDetail);
   return (
     <>
-      {[boardDetail].map(board => (
-        <div key={board.communityId}>
-          <BoardDetailHeader
-            profileImage={board.profileImage}
-            displayName={board.displayName}
-          />
-          <BoardDetailTap tabName={board.tabName} />
-          <BoardDetailTitle title={board.title} />
-          <BoardDetailBody content={board.content} />
-          <BoardDetailComment />
+      <DetailHeader
+        profileImage={boardDetail.profileImage}
+        displayName={boardDetail.displayName}
+        createdAt={boardDetail.createdAt}
+        bookmarkCnt={boardDetail.bookmarkCnt}
+      />
+      <DetailTap tabName={boardDetail.tabName} />
+      {[boardDetail].map(boardDetails => (
+        <div key={boardDetails.communityId}>
+          <DetailTitle title={boardDetails.title} />
+          <DetailBody content={boardDetails.content} />
+          <DetailComment />
         </div>
       ))}
     </>

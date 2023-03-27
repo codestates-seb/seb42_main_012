@@ -7,7 +7,6 @@ import api from '../../../utils/api';
 function CommentPost() {
   const { register, handleSubmit } = useForm();
   const { id } = useParams();
-  console.log(id);
 
   const onSubmit = async data => {
     const commentsData = {
@@ -17,7 +16,7 @@ function CommentPost() {
     await api
       .post(`/communities/comments/${id}`, commentsData)
       .then(res => {
-        console.log(res);
+        console.log(res.data);
       })
       .catch(() => alert('요청실패'));
   };

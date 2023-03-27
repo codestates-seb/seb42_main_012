@@ -7,18 +7,19 @@ import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 function HeartButton() {
   const [heartChange, setHeartChange] = useState(false);
 
-  const heartHandler = () => {
+  const heartHandler = e => {
+    e.preventDefault();
     setHeartChange(!heartChange);
   };
 
   return (
-    <div>
+    <button type="button">
       {heartChange ? (
-        <AiFillHeart onClick={heartHandler} className="cursor-pointer" />
+        <AiFillHeart onClick={heartHandler} />
       ) : (
-        <AiOutlineHeart onClick={heartHandler} className="cursor-pointer" />
+        <AiOutlineHeart onClick={heartHandler} />
       )}
-    </div>
+    </button>
   );
 }
 

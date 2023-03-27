@@ -11,8 +11,6 @@ function CommentList() {
   const { comments, setComments } = boardStore();
   const { id } = useParams();
 
-  // console.log(comments);
-
   useEffect(() => {
     api
       .get(`/communities/comments/${id}?lastFeedId=`)

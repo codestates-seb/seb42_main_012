@@ -1,12 +1,12 @@
 import HeartButton from './Button/HeartButton';
 
-function HeartContainer({ gymBookmarkCnt }) {
+function HeartContainer({ bookmarkCnt }) {
   return (
     <div className="flex items-center">
       <div className="mt-1">
-        <HeartButton />
+        <HeartButton bookmarkCnt={bookmarkCnt} />
       </div>
-      <span className="ml-0.5 text-[var(--second)]">{gymBookmarkCnt}</span>
+      <span className="ml-0.5 text-[var(--second)]">{bookmarkCnt}</span>
     </div>
   );
 }

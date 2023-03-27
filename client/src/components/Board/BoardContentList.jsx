@@ -3,8 +3,17 @@ import { Link } from 'react-router-dom';
 // import BoardInfo from './BoardInfo';
 import { AiFillEye } from 'react-icons/ai';
 import dateFormat from '../../utils/dateFormat';
+import HeartButton from '../UI/Button/HeartButton';
 
-function BoardContentList({ to, classname, tabId, title, createdAt, viewcnt }) {
+function BoardContentList({
+  to,
+  classname,
+  tabId,
+  title,
+  createdAt,
+  viewcnt,
+  bookmarked,
+}) {
   // const { boards } = boardStore();
   return (
     <>
@@ -16,14 +25,19 @@ function BoardContentList({ to, classname, tabId, title, createdAt, viewcnt }) {
             <p>{title}</p>
             <span className="text-[var(--main)] mt-2">{tabId}</span>
           </div>
-          <div className="flex flex-col items-center justify-cente">
-            <span className="flex items-center justify-end text-sm">
-              <AiFillEye className="mr-1" />
-              {viewcnt}
-            </span>
-            <span className="text-[var(--second)] text-sm">
-              {dateFormat(createdAt)}
-            </span>
+          <div className="flex items-center justify-center">
+            <div className="flex flex-col items-center justify-center">
+              <span className="flex items-center justify-end text-sm">
+                <AiFillEye className="mr-1" />
+                {viewcnt}
+              </span>
+              <span className="text-[var(--second)] text-sm">
+                {dateFormat(createdAt)}
+              </span>
+            </div>
+            <div className="ml-2 text-xl">
+              <HeartButton bookmarked={bookmarked} />
+            </div>
           </div>
         </li>
       </Link>

@@ -31,8 +31,6 @@ function CommentBody({ comment }) {
 
     body.append('request', blob);
 
-    // console.log(body);
-
     try {
       await api
         .patch(`communities/comments/${id}`, body, {

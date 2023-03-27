@@ -34,7 +34,7 @@ function BoardPost() {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
       .then(res => {
-        console.log(res);
+        console.log(res.data);
       })
       .catch(() => alert('요청실패'));
     // navigate('/board');

@@ -5,11 +5,11 @@ import Profile from '../../components/My/Profile';
 
 function MyPage() {
   return (
-    <>
+    <div className="h-screen mb-20">
       <Profile />
       <MyPageList />
       <MyAccount />
-    </>
+    </div>
   );
 }
 

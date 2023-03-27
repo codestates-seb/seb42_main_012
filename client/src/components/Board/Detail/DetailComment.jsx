@@ -1,7 +1,7 @@
 import CommentList from '../Comment/CommentList';
 import CommentPost from '../Comment/CommentPost';
 
-function BoardDetailComment() {
+function DetailComment() {
   return (
     <>
       <CommentPost />
@@ -10,4 +10,4 @@ function BoardDetailComment() {
   );
 }
 
-export default BoardDetailComment;
+export default DetailComment;
