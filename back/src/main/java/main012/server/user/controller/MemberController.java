@@ -3,8 +3,6 @@ package main012.server.user.controller;
 import lombok.RequiredArgsConstructor;
 import main012.server.auth.resolver.AuthMember;
 import main012.server.common.dto.SingleResponseDto;
-import main012.server.image.entity.Image;
-import main012.server.image.service.ImageService;
 import main012.server.user.dto.MemberInfoDto;
 import main012.server.user.dto.MemberRequestDto;
 import main012.server.user.dto.MemberResponseDto;
@@ -28,7 +26,6 @@ import java.io.IOException;
 public class MemberController {
 
     private final MemberService memberService;
-    private final ImageService imageService;
 
     /**
      * 일반 회원 가입
@@ -53,7 +50,6 @@ public class MemberController {
     }
 
 
-
     /**
      * 비밀번호 수정
      */
@@ -72,14 +68,10 @@ public class MemberController {
     @PatchMapping("/info")
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity patchProfile(@AuthMember Long memberId,
-                                       @RequestPart @Valid MemberRequestDto.ModifyProfile request,
-                                       @RequestPart MultipartFile file) throws IOException {
-        Image uploadedImage = null;
+                                       @RequestPart("request") @Valid MemberRequestDto.ModifyProfile request,
+                                       @RequestPart("file") MultipartFile file) throws IOException {
 
-        if (!file.isEmpty()) {
-            uploadedImage = imageService.upload(file, "upload");
-        }
-        MemberResponseDto.Profile response = memberService.updateProfile(memberId, request, uploadedImage);
+        MemberResponseDto.ModifiedProfile response = memberService.updateProfile(memberId, request, file);
 
         return new ResponseEntity(response, HttpStatus.OK);
     }
@@ -115,7 +107,7 @@ public class MemberController {
     public ResponseEntity getMemberCommunity(@AuthMember Long memberId,
                                              @RequestParam String lastFeedId) {
 
-       SearchMemberPage<MemberInfoDto.Communities> response
+        SearchMemberPage<MemberInfoDto.Communities> response
                 = memberService.searchMemberCommunity(memberId, lastFeedId);
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);

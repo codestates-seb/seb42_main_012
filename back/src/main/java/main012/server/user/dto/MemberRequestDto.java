@@ -64,6 +64,7 @@ public class MemberRequestDto {
     public static class ModifyProfile {
         @NotBlank(message = "닉네임을 입력해주세요. 공백은 허용되지 않습니다.")
         private String displayName;
+        private Boolean isDeletedProfileImage;
     }
 
     @Getter

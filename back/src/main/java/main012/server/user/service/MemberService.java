@@ -1,9 +1,11 @@
 package main012.server.user.service;
 
-import main012.server.image.entity.Image;
 import main012.server.user.dto.MemberRequestDto;
 import main012.server.user.dto.MemberResponseDto;
 import main012.server.user.entity.Member;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 public interface MemberService {
     void signUpMember(MemberRequestDto.SignUpMember request);
@@ -18,7 +20,7 @@ public interface MemberService {
 
     void updatePassword(Long memberId, MemberRequestDto.ModifyPassword request);
 
-    MemberResponseDto.Profile updateProfile(Long memberId, MemberRequestDto.ModifyProfile request, Image image);
+    MemberResponseDto.ModifiedProfile updateProfile(Long memberId, MemberRequestDto.ModifyProfile request, MultipartFile file) throws IOException;
 
     void quitMember(Long memberId, MemberRequestDto.Quit request);
 
@@ -30,5 +32,5 @@ public interface MemberService {
 
     MemberResponseDto.SearchMemberPage searchMemberGymBookmark(Long memberId, String lastFeedId);
 
-    MemberResponseDto.SearchMemberPage searchMemberGymReview (Long memberId, String lastFeedId);
+    MemberResponseDto.SearchMemberPage searchMemberGymReview(Long memberId, String lastFeedId);
 }

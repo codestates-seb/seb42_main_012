@@ -12,9 +12,20 @@ public class MemberResponseDto {
     @AllArgsConstructor
     @Builder
     public static class Profile {
+        private Long memberId;
+        private String displayName;
+        private String email;
+        private String profileImage;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class ModifiedProfile {
         private String displayName;
         private String profileImage;
     }
+
 
     @Getter
     @AllArgsConstructor
