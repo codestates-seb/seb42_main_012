@@ -5,6 +5,7 @@ import lombok.*;
 import main012.server.community.entity.Community;
 
 import java.util.List;
+import java.util.Optional;
 
 public class CommunityDto {
 
@@ -33,7 +34,7 @@ public class CommunityDto {
     @AllArgsConstructor
     public static class Response {
         private Long communityId;
-        private String profileImageUrl;
+        private String profileImage;
         private String displayName;
         private String tabName;
         private String title;

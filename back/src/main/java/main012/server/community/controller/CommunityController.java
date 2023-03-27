@@ -54,9 +54,9 @@ public class CommunityController {
                                         @RequestPart("files") List<MultipartFile> files,
                                         @AuthMember Long memberId) throws IOException {
 
-        List<CommunityDto.ImageResponse> response = communityService.createCommunity(postRequest, files, memberId);
+       communityService.createCommunity(postRequest, files, memberId);
 
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
     
 
@@ -69,7 +69,7 @@ public class CommunityController {
                                          @AuthMember Long memberId) throws IOException {
 
         patchRequest.setCommunityId(communityId);
-        communityService.updateCommunity(patchRequest, files);
+        communityService.updateCommunity(patchRequest, files, memberId);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -80,7 +80,7 @@ public class CommunityController {
     public ResponseEntity deleteCommunity(@PathVariable("community_id") Long communityId,
                                           @AuthMember Long memberId) {
 
-        communityService.deleteCommunity(communityId);
+        communityService.deleteCommunity(communityId, memberId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -102,7 +102,7 @@ public class CommunityController {
     public ResponseEntity getAllCommunity(@AuthMember Long memberId,
                                           @RequestParam String lastFeedId) {
 
-        CommunityDto.ListResponse response = communityService.findAllCommunity(lastFeedId);
+        CommunityDto.ListResponse response = communityService.findAllCommunity(lastFeedId, memberId);
 
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -115,7 +115,7 @@ public class CommunityController {
                                          @RequestParam String lastFeedId,
                                          @AuthMember Long memberId) {
 
-        CommunityDto.ListResponse response = communityService.findTabCommunities(tabId, lastFeedId);
+        CommunityDto.ListResponse response = communityService.findTabCommunities(tabId, lastFeedId, memberId);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -124,9 +124,10 @@ public class CommunityController {
     @GetMapping("/search")
     @RolesAllowed("ROLE_USER")
     public ResponseEntity serchByKeyword(@RequestParam("keyword") String keyword,
-                                         @RequestParam String lastFeedId) {
+                                         @RequestParam String lastFeedId,
+                                         @AuthMember Long memberId) {
 
-        CommunityDto.ListResponse response = communityService.findByKeyword(keyword, lastFeedId);
+        CommunityDto.ListResponse response = communityService.findByKeyword(keyword, lastFeedId, memberId);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
