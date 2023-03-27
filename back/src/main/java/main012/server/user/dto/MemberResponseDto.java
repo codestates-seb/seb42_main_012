@@ -16,6 +16,7 @@ public class MemberResponseDto {
         private String displayName;
         private String email;
         private String profileImage;
+        private String role;
     }
 
     @Getter
