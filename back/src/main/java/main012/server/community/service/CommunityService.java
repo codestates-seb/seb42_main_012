@@ -114,17 +114,25 @@ public class CommunityService {
         Optional.ofNullable(patchRequest.getTabId())
                         .ifPresent(tabId -> existCommunity.setTab(tabRepository.findById(tabId).orElseThrow(()->new BusinessLoginException(ExceptionCode.TAB_NOT_FOUND))));
 
-        /* 사진 수정 로직
-        * 첨부파일이 있으면 patch에 담겨온 imageId 사진을 db, s3에서 지우고 -> 다시 등록하는 방식?
-        * */
-
         // 첨부파일 비었는지 체크
         boolean checkFiles = checkEmptyFile(files);
+
+        // 탭 오운완으로 수정 후 새로운 사진 등록없이 사진 삭제하면 예외발생
+        if(existCommunity.getTab().getTabId()==3 && checkFiles == true){
+            throw new BusinessLoginException(ExceptionCode.NO_IMAGE_ATTATCHED);
+        }
+
+        /* 사진 수정 로직
+        * patchDto에 deletedImageUrl이 있으면 사진을 db, s3에서 지우고 첨부파일을 다시 등록하는 방식
+        * */
 
         if(patchRequest.getDeletedCommunityImageId() != null){
             // 기존 사진 지우기
             for(Long value : patchRequest.getDeletedCommunityImageId()){
                 CommunityImage communityImage = communityImageRepo.findById(value).orElseThrow(() -> new BusinessLoginException(ExceptionCode.IMAGE_NOT_FOUND));
+                // 게시글이 첨부된 사진이 아닌 다른 사진을 지우려고 하면 예외발생
+                if(communityImage.getCommunity().getCommunityId() != patchRequest.getCommunityId()){
+                    throw new BusinessLoginException(ExceptionCode.IMAGE_NOT_FOUND);}
                 imageService.remove(communityImage.getImage());
                 communityImageRepo.delete(communityImage);
             }
@@ -190,7 +198,7 @@ public class CommunityService {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
 
         CommunityDto.Response response = communityMapper.communityToResponse(foundCommunity);
-        response.setProfileImageUrl(member.getImage().getImagePath());
+//        response.setProfileImageUrl(member.getImage().getImagePath());
         response.setContentImages(imageInfo);
 
         return response;
