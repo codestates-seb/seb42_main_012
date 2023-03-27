@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-
 import { useNavigate } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
 
@@ -12,7 +11,12 @@ import api from '../../utils/api';
 
 function Login() {
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      email: 'testMember@email.com',
+      password: 'secret1111@',
+    },
+  });
 
   const onSubmit = data => {
     api
@@ -22,7 +26,8 @@ function Login() {
       })
       .then(res => {
         if (res.status === 200) {
-          navigate('/');
+          localStorage.setItem('isLoggedIn', true);
+          navigate('/', { replace: true });
         }
       })
       .catch(err => console.log(err));

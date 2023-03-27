@@ -61,6 +61,13 @@ const useStore = create(
         setBoardsBookmarks: data => {
           set(() => ({ myBoardsBookmarks: data }));
         },
+
+        // login
+        isLoggedIn: false,
+
+        setIsLoggedIn: data => {
+          set(() => ({ isLoggedIn: data }));
+        },
       }),
       { name: 'store' },
     ),

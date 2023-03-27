@@ -63,8 +63,6 @@ function Profile() {
     body.append('file', image);
     body.append('request', blob);
 
-    console.log(body);
-
     try {
       await api
         .patch('/members/info', body, {

@@ -2,7 +2,6 @@ import { useLocation, useParams } from 'react-router-dom';
 import HeaderTitle from '../../UI/Title/HeaderTitle';
 import BackButton from '../../UI/Button/BackButton';
 import PostButton from '../../UI/Button/PostButton';
-// import AlertButton from '../../UI/Button/AlertButton';
 import MoreButton from '../../UI/Button/MoreButton';
 import LogoutButton from '../../UI/Button/LogoutButton';
 
@@ -77,7 +76,6 @@ function Header() {
           <HeaderTitle titleText="MY" />
           <div>
             <LogoutButton />
-            {/* <AlertButton /> */}
           </div>
         </header>
       );
@@ -98,16 +96,7 @@ function Header() {
           <div className="w-0 h-0 ml-[36px]" />
         </header>
       );
-
-    case '/signup/step1':
-      return (
-        <header className={defaultClass}>
-          <BackButton />
-          <HeaderTitle titleText="SIGNUP" />
-          <div className="w-0 h-0 ml-[36px]" />
-        </header>
-      );
-    case '/signup/step2':
+    case '/signup':
       return (
         <header className={defaultClass}>
           <BackButton />
