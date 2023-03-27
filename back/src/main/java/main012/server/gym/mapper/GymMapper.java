@@ -2,13 +2,10 @@ package main012.server.gym.mapper;
 
 import main012.server.gym.dto.GymDto;
 
-import main012.server.gym.entity.Facility;
 import main012.server.gym.entity.Gym;
 import main012.server.user.entity.Member;
 import org.mapstruct.Mapper;
 
-import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,7 +14,7 @@ import java.util.stream.Collectors;
 public interface GymMapper {
 
 
-    default Gym gymPostDtoToGym(GymDto.Post request) {
+    default Gym gymPostDtoToGym(GymDto.Post request, Long gymBookmarkCnt) {
         Gym gym = new Gym(
                 request.getGymName(),
                 request.getAddress(),
@@ -32,6 +29,8 @@ public interface GymMapper {
         Member member = new Member();
         member.setId(request.getMemberId());
         gym.setMember(member);
+
+
 
         return gym;
     }
@@ -72,7 +71,28 @@ public interface GymMapper {
                 .collect(Collectors.toList());
     }
 
-    List<GymDto.Response> gymsToGymResponseDtos(List<Gym> gyms);
+  List<GymDto.ListResponse> gymsToGymResponseDtos(List<Gym> gyms);
+
+
+//    // 헬스장 시설별 조회 응답
+//    default GymDto.facilityListResponse gymToFacilityListResponse(Gym gym, Long gymBookmarkCnt) {
+//        List<String> facilityNames = gym.getFacilities().stream()
+//                .map(facility -> facility.getFacilityName())
+//                .collect(Collectors.toList());
+//
+//        GymDto.facilityListResponse facilityListResponse = new GymDto.facilityListResponse(
+//                gym.getId(),
+//                gym.getGymName(),
+//                gym.getAddress(),
+//                gym.getPrice(),
+//                gym.getBusinessHours(),
+//                facilityNames,
+//                gymBookmarkCnt
+//        );
+//        return facilityListResponse;
+
+
+//    }
 //    List<GymDto.RankResponse> gymToGymRankListResponse(List<Gym> gym); // 추천 게시글용 매핑
 
 }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-03-27T04:10:47+0900",
+    date = "2023-03-27T15:08:55+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.18 (Azul Systems, Inc.)"
 )
 @Component
@@ -42,7 +42,7 @@ public class CommunityMapperImpl implements CommunityMapper {
 
         List<Response> list = new ArrayList<Response>( communities.size() );
         for ( Community community : communities ) {
-            list.add( communityToToResponse( community ) );
+            list.add( communityToResponse( community ) );
         }
 
         return list;

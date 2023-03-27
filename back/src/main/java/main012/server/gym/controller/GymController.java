@@ -6,6 +6,7 @@ import main012.server.common.dto.SingleResponseDto;
 import main012.server.gym.dto.GymBookmarkDto;
 import main012.server.gym.dto.GymDto;
 
+import main012.server.gym.dto.GymReviewDto;
 import main012.server.gym.entity.Facility;
 import main012.server.gym.entity.Gym;
 import main012.server.gym.mapper.GymMapper;
@@ -56,7 +57,9 @@ public class GymController {
         request.setMemberId(memberId);
         Gym gym = gymService.createGym(request, files);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        GymDto.Response response = mapper.gymToGymResponseDto(gym, request.getGymBookmarkCnt());
+        return new ResponseEntity<>(response,HttpStatus.CREATED);
+
     }
 
 
@@ -84,7 +87,7 @@ public class GymController {
         return new ResponseEntity<>(response, HttpStatus.OK);
 
     }
-    // 헬스장 시설별 조회
+     //헬스장 시설별 조회
 //    @GetMapping("facility/{facility_id}")
 //    @RolesAllowed("ROLE_USER")
 //    public ResponseEntity facilityGyms(@PathVariable("facility_id") Long facilityId,
@@ -106,7 +109,7 @@ public class GymController {
 //        return new ResponseEntity<>(response, HttpStatus.OK);
         Page<Gym> gymPage = gymService.gymsPage(pageable);
         List<Gym> gyms = gymPage.getContent();
-        List<GymDto.Response> response = mapper.gymsToGymResponseDtos(gyms);
+        List<GymDto.ListResponse> response = mapper.gymsToGymResponseDtos(gyms);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 //

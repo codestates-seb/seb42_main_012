@@ -12,6 +12,7 @@ import main012.server.gym.mapper.GymMapper;
 import main012.server.gym.repository.FacilityRepository;
 import main012.server.gym.repository.GymBookmarkRepository;
 import main012.server.gym.repository.GymRepository;
+import main012.server.image.entity.CommunityImage;
 import main012.server.image.entity.GymImage;
 import main012.server.image.entity.Image;
 import main012.server.image.service.ImageService;
@@ -52,7 +53,7 @@ public class GymService {
     // 헬스장 생성
     public Gym createGym(GymDto.Post request, List<MultipartFile> files) throws IOException {
 
-        Gym gym = gymMapper.gymPostDtoToGym(request);
+        Gym gym = gymMapper.gymPostDtoToGym(request, request.getGymBookmarkCnt());
         log.info("## 짐 생성 완료 / gymId : {}", gym.getId());
 
         List<Facility> facilities = request.getFacilityIdList().stream()
@@ -71,6 +72,7 @@ public class GymService {
         createGymImage(gym, uploadedImages);
         log.info("## 짐 이미지 등록 완료");
 
+
         return gymRepository.save(gym);
     }
 
@@ -88,6 +90,9 @@ public class GymService {
                 .orElseThrow(() -> new BusinessLoginException(ExceptionCode.FACILITY_NOT_FOUND));
     }
 
+
+
+
     // 헬스장 수정
     public GymDto.Response updateGym(Gym gym) {
         // 존재하는 헬스장인지 검증
@@ -101,6 +106,29 @@ public class GymService {
                 .ifPresent(phoneNumber -> findGym.setPhoneNumber(phoneNumber));
         Optional.ofNullable(gym.getBusinessHours())
                 .ifPresent(businessHours -> findGym.setBusinessHours(businessHours));
+        Optional.ofNullable(gym.getPrice())
+                .ifPresent(price -> findGym.setPrice(price));
+        Optional.ofNullable(gym.getDetailPrices())
+                .ifPresent(detailPrice -> findGym.setDetailPrices(detailPrice));
+//        Optional.ofNullable(gym.getFacilities())
+//                .ifPresent(facilityList -> findGym.setFacilities((List<Facility>) facilityRepository.findAllById(facilityList).orElseThrow(() -> new BusinessLoginException(ExceptionCode.FACILITY_NOT_FOUND))));
+        Optional.ofNullable(gym.getLatitude())
+                .ifPresent(latitude -> findGym.setLatitude(latitude));
+        Optional.ofNullable(gym.getLongitude())
+                .ifPresent(longitude -> findGym.setLongitude(longitude));
+
+        // 첨부파일 비었는지 체크
+//
+//        if(checkFiles != true ){
+//            // 기존 사진 지우기
+//            for(Long value : patchRequest.getDeletedCommunityImageId()){
+//                Image deleteImage = imageRepository.findById(value).orElseThrow(()-> new BusinessLoginException(ExceptionCode.COMMUNITY_NOT_FOUND));
+//                imageService.remove(deleteImage);
+//                List<CommunityImage> foundByImageId = communityImageRepo.findByImageId(value);
+//                for(CommunityImage communityImage : foundByImageId){
+//                    communityImageRepo.delete(communityImage);
+//                }
+//            }
 
         Long gymBookmarkCnt = gymBookmarkRepository.countByGymId(findGym.getId());
 

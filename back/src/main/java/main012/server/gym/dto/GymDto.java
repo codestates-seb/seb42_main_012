@@ -11,6 +11,7 @@ import javax.validation.constraints.Pattern;
 import java.util.List;
 
 public class GymDto {
+
     @Getter
     @Setter //@ModelAttribute 사용하기위함
     @AllArgsConstructor
@@ -39,6 +40,7 @@ public class GymDto {
         private String longitude; // 경도
 
         private Long memberId;
+        private Long gymBookmarkCnt;
     }
 
     @Getter
@@ -56,8 +58,29 @@ public class GymDto {
         private String phoneNumber;
         @NotBlank(message = "운영 시간을 입력해 주세요")
         private String businessHours;
-        private Long facilityId; // 수정하세요
+        private List<Long> facilityIdList;
+        private Long[] deletedGymImageId;// 수정하세요
     }
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class facilityListResponse {
+        private Long gymId;
+        private String gymName;
+//        private String gymImageUrl;
+        private String address;
+        private String price;
+        private String businessHours;
+        private List<String> facilityName;
+
+        private Long gymBookmarkCnt;
+//        private boolean isBookmarked;
+
+
+
+    }
+
 
     @Getter
     @Setter
@@ -88,8 +111,18 @@ public class GymDto {
     @Setter
     @AllArgsConstructor
     public static class RankResponse {
-        @JsonProperty("gymBookmark_Cnt") // ??
+
         private int gymBookmarkCnt;
     }
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ListResponse<T> {
+        private List<T> contents;
+        private int totalElements;
+        private Long nextCursor;
+    }
+
 
 }
