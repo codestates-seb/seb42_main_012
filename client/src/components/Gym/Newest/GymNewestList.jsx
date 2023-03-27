@@ -8,8 +8,8 @@ function GymNewestList({ gyms }) {
         {gyms &&
           gyms.map(gym => (
             <GymNewest
-              key={gym.id}
-              gymId={gym.id}
+              key={gym.gymId}
+              gymId={gym.gymId}
               gymName={gym.gymName}
               gymImage={gym.gymImages}
             />
