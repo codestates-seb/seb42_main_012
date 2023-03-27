@@ -20,6 +20,7 @@ public interface GymReviewMapper {
         Gym gym = new Gym();
         gym.setId(gymId);
 
+
         gymReview.setGymGrade(gymReviewPostDto.getGymGrade());
         gymReview.setGymComment(gymReviewPostDto.getGymComment());
 
@@ -27,8 +28,19 @@ public interface GymReviewMapper {
         gymReview.setGym(gym);
         return gymReview;
     }
+
     GymReview gymReviewPatchDtoToGymReview(GymReviewDto.Patch gymReviewPatchDto);
-    GymReviewDto.Response gymReviewResponseDtoToGymReview(GymReview gymReview);
+    default GymReviewDto.Response gymReviewResponseDtoToGymReview(GymReview gymReview) {
+        GymReviewDto.Response gymReviewResponseDtoToGymReview = new GymReviewDto.Response();
+
+        gymReviewResponseDtoToGymReview.setMemberId(gymReview.getMember().getId());
+        gymReviewResponseDtoToGymReview.setReviewId(gymReview.getId());
+        gymReviewResponseDtoToGymReview.setDisplayName(gymReview.getMember().getDisplayName());
+        gymReviewResponseDtoToGymReview.setGymGrade(gymReview.getGymGrade());
+        gymReviewResponseDtoToGymReview.setGymComment(gymReview.getGymComment());
+
+        return gymReviewResponseDtoToGymReview;
+    }
     List<GymReviewDto.Response> gymReviewsToGymResponseDtos(List<GymReview> gymReviews);
 
 

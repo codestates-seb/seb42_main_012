@@ -372,7 +372,7 @@ public class MemberServiceImpl implements MemberService {
         if (totalElements < size) {
             nextCursor = -1L;
         } else {
-            nextCursor = contents.get(size - 1).getId();
+            nextCursor = contents.get(size - 1).getMember().getId();
         }
 
         List<MemberInfoDto.GymReviews> responses = memberMapper.gymReviewsToGymReviewInfos(contents);
