@@ -63,12 +63,13 @@ public class CommunityController {
     // 커뮤니티 게시글 수정
     @PatchMapping("/{community_id}")
     @RolesAllowed("ROLE_USER")
-    public ResponseEntity patchCommunity(@RequestBody CommunityDto.Patch patchRequest,
+    public ResponseEntity patchCommunity(@RequestPart("request") CommunityDto.Patch patchRequest,
+                                         @RequestPart("files") List<MultipartFile> files,
                                          @PathVariable("community_id") Long communityId,
-                                         @AuthMember Long memberId) {
+                                         @AuthMember Long memberId) throws IOException {
 
         patchRequest.setCommunityId(communityId);
-        communityService.updateCommunity(patchRequest);
+        communityService.updateCommunity(patchRequest, files);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

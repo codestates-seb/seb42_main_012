@@ -24,7 +24,7 @@ public class CommunityDto {
         private String title;
         private String content;
         private Long tabId;
-        private List<String> communityImageUrl;
+        private Long[] deletedCommunityImageId;
     }
 
 

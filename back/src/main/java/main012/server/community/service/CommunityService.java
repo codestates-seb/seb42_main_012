@@ -13,6 +13,7 @@ import main012.server.exception.ExceptionCode;
 import main012.server.image.entity.CommunityImage;
 import main012.server.image.entity.Image;
 import main012.server.image.repository.CommunityImageRepo;
+import main012.server.image.repository.ImageRepository;
 import main012.server.image.service.ImageService;
 import main012.server.user.entity.Member;
 import main012.server.user.repository.MemberRepository;
@@ -42,6 +43,7 @@ public class CommunityService {
     private final CommunityImageRepo communityImageRepo;
 
     private final CommunityBookmarkRepository communityBookmarkRepository;
+    private final ImageRepository imageRepository;
 
     private final int size = 15;
 
@@ -57,7 +59,7 @@ public class CommunityService {
 
         // 첨부파일이 있으면 사진 업로드 기능 동작
         if(checkFiles != true ){
-            List<Image>uploadedImages = imageService.upload(files, "upload");
+            List<Image>uploadedImages =imageService.upload(files, "upload");
             createCommunityImage(community, uploadedImages);
         }
 
@@ -94,7 +96,7 @@ public class CommunityService {
     }
 
     // 커뮤니티 게시글 수정
-    public Community updateCommunity (CommunityDto.Patch patchRequest) {
+    public Community updateCommunity (CommunityDto.Patch patchRequest, List<MultipartFile> files) throws IOException {
 
         // 게시글이 존재하는지 확인
         Community existCommunity = findExistCommunity(patchRequest.getCommunityId());
@@ -111,9 +113,30 @@ public class CommunityService {
         Optional.ofNullable(patchRequest.getTabId())
                         .ifPresent(tabId -> existCommunity.setTab(tabRepository.findById(tabId).orElseThrow(()->new BusinessLoginException(ExceptionCode.TAB_NOT_FOUND))));
 
-        /* 사진 수정 로직 구현해야함
-        * 현재 저장된 사진을 db, s3에서 지우고 -> 다시 등록하는 방식?
+        /* 사진 수정 로직
+        * 첨부파일이 있으면 patch에 담겨온 imageId 사진을 db, s3에서 지우고 -> 다시 등록하는 방식?
         * */
+
+        // 첨부파일 비었는지 체크
+        boolean checkFiles = checkEmptyFile(files);
+
+        if(checkFiles != true ){
+            // 기존 사진 지우기
+            for(Long value : patchRequest.getDeletedCommunityImageId()){
+                Image deleteImage = imageRepository.findById(value).orElseThrow(()-> new BusinessLoginException(ExceptionCode.COMMUNITY_NOT_FOUND));
+                imageService.remove(deleteImage);
+                List<CommunityImage> foundByImageId = communityImageRepo.findByImageId(value);
+                for(CommunityImage communityImage : foundByImageId){
+                    communityImageRepo.delete(communityImage);
+                }
+            }
+
+            // 새로운 사진 등록
+            List<Image>uploadedImages = imageService.upload(files, "upload");
+            createCommunityImage(existCommunity, uploadedImages);
+        }
+
+
 
 
         return existCommunity;
