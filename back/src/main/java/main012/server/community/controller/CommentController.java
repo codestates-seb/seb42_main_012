@@ -71,7 +71,7 @@ public class CommentController {
 
         communityService.findExistCommunity(communityId);
 
-        CommunityDto.listResponse responses = commentService.findComments(communityId, lastFeedId);
+        CommunityDto.ListResponse responses = commentService.findComments(communityId, lastFeedId);
 
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }

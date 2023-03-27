@@ -21,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,28 +50,26 @@ public class CommunityController {
     // 커뮤니티 게시글 등록
     @PostMapping
     @RolesAllowed("ROLE_USER")
-    public ResponseEntity postCommunity(@RequestBody CommunityDto.Post postRequest,
-                                        @AuthMember Long memberId) {
+    public ResponseEntity postCommunity(@RequestPart("request") CommunityDto.Post postRequest,
+                                        @RequestPart("files") List<MultipartFile> files,
+                                        @AuthMember Long memberId) throws IOException {
 
+        List<CommunityDto.ImageResponse> response = communityService.createCommunity(postRequest, files, memberId);
 
-        Community community = mapper.communityPostDtoToCommunity(postRequest, memberId);
-        Tab tab = tabRepository.findById(postRequest.getTabId()).orElseThrow(() -> new RuntimeException("존재하지 않는 탭"));
-        community.setTab(tab);
-        communityService.createCommunity(community);
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
     
 
     // 커뮤니티 게시글 수정
     @PatchMapping("/{community_id}")
     @RolesAllowed("ROLE_USER")
-    public ResponseEntity patchCommunity(@RequestBody CommunityDto.Patch patchRequest,
+    public ResponseEntity patchCommunity(@RequestPart("request") CommunityDto.Patch patchRequest,
+                                         @RequestPart("files") List<MultipartFile> files,
                                          @PathVariable("community_id") Long communityId,
-                                         @AuthMember Long memberId) {
+                                         @AuthMember Long memberId) throws IOException {
 
         patchRequest.setCommunityId(communityId);
-        communityService.updateCommunity(patchRequest);
+        communityService.updateCommunity(patchRequest, files);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -92,8 +91,7 @@ public class CommunityController {
     public ResponseEntity getCommunity(@PathVariable("community_id") Long communityId,
                                        @AuthMember Long memberId) {
 
-        Community community = communityService.findCommunity(communityId);
-        CommunityDto.Response response = mapper.communityToToResponse(community);
+        CommunityDto.Response response = communityService.findCommunity(communityId, memberId);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -104,7 +102,7 @@ public class CommunityController {
     public ResponseEntity getAllCommunity(@AuthMember Long memberId,
                                           @RequestParam String lastFeedId) {
 
-        CommunityDto.listResponse response = communityService.findAllCommunity(lastFeedId);
+        CommunityDto.ListResponse response = communityService.findAllCommunity(lastFeedId);
 
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -117,7 +115,7 @@ public class CommunityController {
                                          @RequestParam String lastFeedId,
                                          @AuthMember Long memberId) {
 
-        CommunityDto.listResponse response = communityService.findTabCommunities(tabId, lastFeedId);
+        CommunityDto.ListResponse response = communityService.findTabCommunities(tabId, lastFeedId);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -128,7 +126,7 @@ public class CommunityController {
     public ResponseEntity serchByKeyword(@RequestParam("keyword") String keyword,
                                          @RequestParam String lastFeedId) {
 
-        CommunityDto.listResponse response = communityService.findByKeyword(keyword, lastFeedId);
+        CommunityDto.ListResponse response = communityService.findByKeyword(keyword, lastFeedId);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

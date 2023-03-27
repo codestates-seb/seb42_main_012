@@ -51,7 +51,7 @@ public class CommentService {
 
 
     // 커뮤니티 댓글 조회
-    public CommunityDto.listResponse findComments (Long communityId, String lastFeedId) {
+    public CommunityDto.ListResponse findComments (Long communityId, String lastFeedId) {
 
         int size = 15;
         Long feedId = getFeedId(lastFeedId);
@@ -72,7 +72,7 @@ public class CommentService {
 
         List<CommentDto.Response> responseList = commentMapper.commentsToCommentResponseDtos(contents);
 
-        CommunityDto.listResponse response = new CommunityDto.listResponse();
+        CommunityDto.ListResponse response = new CommunityDto.ListResponse();
         response.setContents(responseList);
         response.setTotalElements(totalElements);
         response.setNextCursor(nextCursor);

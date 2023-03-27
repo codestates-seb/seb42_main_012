@@ -1,14 +1,20 @@
 package main012.server.community.mapper;
 
+import lombok.RequiredArgsConstructor;
 import main012.server.community.dto.CommunityDto;
 import main012.server.community.entity.Community;
+import main012.server.community.repository.CommunityBookmarkRepository;
+import main012.server.image.entity.CommunityImage;
 import main012.server.user.entity.Member;
 import org.mapstruct.Mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
+
 public interface CommunityMapper {
+
 
     // postDto -> entity
     default Community communityPostDtoToCommunity (CommunityDto.Post post, Long memberId) {
@@ -29,8 +35,8 @@ public interface CommunityMapper {
     // patchDto -> entity
     Community communityPatchDtoToCommunity(CommunityDto.Patch patch);
 
-    // entity -> responseDto
-    default CommunityDto.Response communityToToResponse (Community community){
+    // 커뮤니티 상세 조회 응답
+    default CommunityDto.Response communityToResponse (Community community){
 
         CommunityDto.Response responseCommunity = new CommunityDto.Response();
 
@@ -54,10 +60,12 @@ public interface CommunityMapper {
         CommunityDto.AllCommunityResponse allCommunityResponse = new CommunityDto.AllCommunityResponse();
 
         allCommunityResponse.setCommunityId(community.getCommunityId());
+        allCommunityResponse.setMemberId(community.getMember().getId());
+        allCommunityResponse.setTabId(community.getTab().getTabId());
         allCommunityResponse.setTitle(community.getTitle());
-        allCommunityResponse.setTabName(community.getTab().getTabName());
         allCommunityResponse.setCreatedAt(community.getCreatedAt().toString());
         allCommunityResponse.setViewCnt(community.getViewCnt());
+
 
         return allCommunityResponse;
     };
@@ -71,6 +79,7 @@ public interface CommunityMapper {
         CommunityDto.TabListResponse tabListResponse = new CommunityDto.TabListResponse();
 
         tabListResponse.setCommunityId(community.getCommunityId());
+        tabListResponse.setMemberId(community.getMember().getId());
         tabListResponse.setTabId(community.getTab().getTabId());
         tabListResponse.setTabName(community.getTab().getTabName());
         tabListResponse.setTitle(community.getTitle());
@@ -86,10 +95,11 @@ public interface CommunityMapper {
     // 커뮤니티 오운완 탭 조회 응답
     default CommunityDto.WorkoutTabResponse communityToWorkoutTabResponse(Community community){
 
+
         CommunityDto.WorkoutTabResponse workoutTabResponse = new CommunityDto.WorkoutTabResponse();
 
         workoutTabResponse.setTabId(community.getTab().getTabId());
-//        workoutTabResponse.setContentImageUrl(community.getCommunityImages());
+        workoutTabResponse.setCommunityId(community.getCommunityId());
 
         return workoutTabResponse;
     };

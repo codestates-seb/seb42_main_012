@@ -1,6 +1,8 @@
 package main012.server.community.dto;
 
+import javassist.compiler.ast.Member;
 import lombok.*;
+import main012.server.community.entity.Community;
 
 import java.util.List;
 
@@ -12,7 +14,6 @@ public class CommunityDto {
         private String title;
         private String Content;
         private Long tabId;
-        private List<String> communityImageUrl;
     }
 
 
@@ -23,7 +24,7 @@ public class CommunityDto {
         private String title;
         private String content;
         private Long tabId;
-        private List<String> communityImageUrl;
+        private Long[] deletedCommunityImageId;
     }
 
 
@@ -37,9 +38,18 @@ public class CommunityDto {
         private String tabName;
         private String title;
         private String content;
-        private List<String> communityImageUrl;
+        private List<ImageResponse> contentImages;
         private String createdAt;
         private long bookmarkCnt;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ImageResponse{
+        private Long contentImageId;
+        private String contentImageUrl;
     }
 
     @Getter
@@ -49,10 +59,12 @@ public class CommunityDto {
     public static class AllCommunityResponse{
 
         private Long communityId;
+        private Long memberId;
+        private Long tabId;
         private String title;
-        private String tabName;
-        private String createdAt;
         private int viewCnt;
+        private String createdAt;
+        private boolean isBookmarked;
 
     }
 
@@ -62,11 +74,13 @@ public class CommunityDto {
     @NoArgsConstructor
     public static class TabListResponse{
         private Long communityId;
+        private Long memberId;
         private Long tabId;
         private String tabName;
         private String title;
         private String createdAt;
         private int viewCnt;
+        private boolean isBookmarked;
     }
 
     @Getter
@@ -75,14 +89,15 @@ public class CommunityDto {
     @NoArgsConstructor
     public static class WorkoutTabResponse{
         private Long tabId;
-        private List<String> contentImageUrl;
+        private Long communityId;
+        private String contentImageUrl;
     }
 
     @Getter
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class listResponse<T> {
+    public static class ListResponse<T> {
         private List<T> contents;
         private int totalElements;
         private Long nextCursor;
