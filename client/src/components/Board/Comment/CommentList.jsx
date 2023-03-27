@@ -11,9 +11,11 @@ function CommentList() {
   const { comments, setComments } = boardStore();
   const { id } = useParams();
 
+  console.log(comments);
+
   useEffect(() => {
     api
-      .get(`/communities/comments/${id}?lastFeedId=20`)
+      .get(`/communities/comments/${id}?lastFeedId=`)
       .then(res => setComments(res.data.contents));
   }, []);
 

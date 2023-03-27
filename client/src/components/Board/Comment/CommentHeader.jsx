@@ -1,6 +1,5 @@
 // import DisplayName from '../../UI/DisplayName/DisplayName';
 // import ProfileImg from '../../UI/ProfileImg/ProfileImg';
-import CommentContainer from './CommentContainer';
 
 function CommentHeader({ displayName, imageUrl }) {
   return (
@@ -15,7 +14,6 @@ function CommentHeader({ displayName, imageUrl }) {
           {displayName}
         </span>
       </div>
-      <CommentContainer />
     </li>
   );
 }
