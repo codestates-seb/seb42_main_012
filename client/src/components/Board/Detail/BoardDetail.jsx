@@ -15,7 +15,7 @@ function BoardDetail() {
   useEffect(() => {
     api.get(`communities/${id}`).then(res => setBoardDetail(res.data));
   }, []);
-  console.log(boardDetail);
+
   return (
     <>
       <DetailHeader
