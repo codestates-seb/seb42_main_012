@@ -20,7 +20,7 @@ public class GymReview extends Auditable {
     @Column(name = "gym_review_id")
     private Long id;
 
-    private long gymGrade;
+    private int gymGrade;
 
     private String gymComment;
 
