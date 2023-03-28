@@ -1,6 +1,5 @@
 package main012.server.gym.service;
 
-import com.sun.source.tree.Tree;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import main012.server.exception.BusinessLoginException;
@@ -9,8 +8,6 @@ import main012.server.gym.dto.GymDto;
 import main012.server.gym.dto.GymWithDistance;
 import main012.server.gym.entity.Facility;
 import main012.server.gym.entity.Gym;
-import main012.server.gym.entity.GymBookmark;
-import main012.server.gym.entity.GymReview;
 import main012.server.gym.mapper.GymMapper;
 import main012.server.gym.repository.FacilityRepository;
 import main012.server.gym.repository.GymBookmarkRepository;
@@ -25,7 +22,6 @@ import main012.server.user.mapper.MemberMapper;
 import main012.server.user.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -80,8 +76,6 @@ public class GymService {
 
         createGymImage(gym, uploadedImages);
         log.info("## 짐 이미지 등록 완료");
-
-
 
 
         return gymRepository.save(gym);
@@ -174,7 +168,7 @@ public class GymService {
                     if (result <= 5000) {
                         GymWithDistance gymWithDistance = new GymWithDistance(gym, result);
                         gymInFiveKiloMeter.add(gymWithDistance);
-                        log.info("## distance : {}", result);
+
                     }
                 });
 
@@ -195,9 +189,67 @@ public class GymService {
         return responses;
     }
 
+    /**
+     * 헬스장 필터링 목록
+     */
+    public List<GymDto.GymInfo> findFilteredGymList(Long memberId, Double latitude, Double longitude, String filter) {
+        List<Gym> all = gymRepository.findAll();
+        List<GymWithDistance> gymInFiveKiloMeter = new ArrayList<>();
+
+        all.stream()
+                .forEach(gym -> {
+                    Double result = gym.distanceMeter(latitude, longitude);
+                    if (result <= 5000) {
+                        double avgGymGrade = getAvgGymGrade(gym);
+                        int size = gym.getGymBookmarks().size();
+                        GymWithDistance gymWithDistance = new GymWithDistance(gym, result, avgGymGrade, size);
+                        gymInFiveKiloMeter.add(gymWithDistance);
+                        log.info("## gymId : {} , distance : {}", gym.getId(), result);
+                        log.info("## gymId : {} , avg : {}", gym.getId(), avgGymGrade);
+                        log.info("## gymId : {} , bookmarkCnt : {}", gym.getId(), size);
+                    }
+                });
+
+        List<Gym> contents = new ArrayList<>();
+
+        if (filter.equals("grade")) {
+            contents = gymInFiveKiloMeter.stream()
+                    .sorted(Comparator.comparing(GymWithDistance::getAvgGymGrade).reversed())
+                    .map(gymWithDistance -> gymWithDistance.getGym())
+                    .collect(Collectors.toList());
+        } else if (filter.equals("bookmark")) {
+            contents = gymInFiveKiloMeter.stream()
+                    .sorted(Comparator.comparing(GymWithDistance::getBookmarkSize).reversed())
+                    .map(gymWithDistance -> gymWithDistance.getGym())
+                    .collect(Collectors.toList());
+        } else {
+            contents = gymInFiveKiloMeter.stream()
+                    .sorted(Comparator.comparing(GymWithDistance::getDistance))
+                    .map(gymWithDistance -> gymWithDistance.getGym())
+                    .collect(Collectors.toList());
+        }
+
+        List<GymDto.GymInfo> responses = new ArrayList<>();
+        contents.stream()
+                .forEach(gym -> {
+                    Boolean isBookmarked = gymBookmarkRepository.findByMemberIdAndGymId(memberId, gym.getId())
+                            .isPresent();
+                    GymDto.GymInfo response = gymMapper.gymToGimInfo(gym, isBookmarked);
+                    responses.add(response);
+                });
+
+        return responses;
 
 
+    }
 
+    private double getAvgGymGrade(Gym gym) {
+        OptionalDouble average = gym.getGymReviews().stream()
+                .mapToLong(gymReview -> gymReview.getGymGrade())
+                .average();
+
+        return average.orElse(0);
+    }
 
 
     // cursor 커서 얻기
@@ -227,19 +279,18 @@ public class GymService {
         Gym findGym = findVerifiedGym(gymId);
         Member member = memberRepository.findById(gymId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        if(member.getEmail().equals(adminEmail) || findGym.getMember().getId() == memberId){
+        if (member.getEmail().equals(adminEmail) || findGym.getMember().getId() == memberId) {
             gymRepository.delete(findGym);
-        }else throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND);
+        } else throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND);
 
         List<GymImage> gymImageList = gymImageRepo.findByGymId(gymId);
 
 
         // 사진삭제
-        for(GymImage value : gymImageList){
+        for (GymImage value : gymImageList) {
             imageService.remove(value.getImage());
             gymImageRepo.delete(value);
         }
-
 
 
     }
