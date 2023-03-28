@@ -1,63 +1,71 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { IoCloseSharp } from 'react-icons/io5';
 import useMyStore from '../../state/useMyStore';
 import DisplayName from '../UI/DisplayName/DisplayName';
 import api from '../../utils/api';
 
 function Profile() {
-  const { myElements } = useMyStore();
-  const [image, setImage] = useState(myElements.profileImage);
-  const [createObjectURL, setCreateObjectURL] = useState(null);
-  const [edit, setEdit] = useState(false);
-  const [displayName, setDisplayName] = useState(myElements.displayName);
-  const [isDeletedProfileImage, setIsDeletedProfileImage] = useState(false);
+  const { myElements, setMyElements } = useMyStore();
 
-  const editHandler = () => {
-    setEdit(!edit);
-  };
+  useEffect(() => {
+    api.get('/members/my').then(res => setMyElements(res.data));
+  }, []);
 
   const fileInput = useRef(null);
 
-  const uploadToClient = async e => {
-    if (createObjectURL) {
-      URL.revokeObjectURL(createObjectURL);
+  const [image, setImage] = useState(null);
+  const [imageFile, setImageFile] = useState(myElements.profileImage);
+
+  const handleOnChange = e => {
+    const file = e.target.files[0];
+    if (e.target.files && e.target.files[0]) {
+      setImageFile(file);
     }
 
-    if (e.target.files && e.target.files[0]) {
-      const i = e.target.files[0];
-      setImage(i);
-      setCreateObjectURL(URL.createObjectURL(i));
-    }
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    return new Promise(resolve => {
+      reader.onload = () => {
+        setImage(reader.result || image);
+        resolve();
+      };
+    });
   };
+
+  const [isDeletedProfileImage, setIsDeletedProfileImage] = useState(false);
 
   const handleDelete = () => {
-    // displayName 은 변경사항 없어도 무조건 넣어서 보내주세요
-    // file도 key는 꼭 있어야 합니다.
-    // file 값 있으면, isDeletedProfileImage 상관없이 새로운 프사로 저장하고 return
-    // file 값 없고, isDeletedProfileImage = true, 기존 프사 있으면 -> 기존 프사 삭제
-    // file 값 없고, isDeletedProfileImage = false, 기존 프사 유지
-    if (isDeletedProfileImage === true) {
-      console.log(setImage(null));
+    if (isDeletedProfileImage) {
+      setImage(image);
+      setIsDeletedProfileImage(!isDeletedProfileImage);
+    } else {
+      setImage(myElements.profileImage ? null : myElements.profileImage);
     }
-    if (isDeletedProfileImage === false) {
-      console.log(setImage(myElements.profileImage));
-    }
-    setIsDeletedProfileImage(!isDeletedProfileImage);
   };
+
+  const [displayName, setDisplayName] = useState(myElements.displayName);
 
   const onChangeHandler = e => {
     setDisplayName(e.target.value);
   };
 
+  const [edit, setEdit] = useState(false);
+  const editHandler = () => {
+    setDisplayName(myElements.displayName);
+    setImage(myElements.profileImage);
+    setEdit(!edit);
+  };
+
   const updateHandler = async () => {
     const body = new FormData();
     const blob = new Blob(
-      [JSON.stringify(displayName), JSON.stringify(isDeletedProfileImage)],
+      [JSON.stringify({ displayName, isDeletedProfileImage })],
       {
         type: 'application/json',
       },
     );
-    body.append('file', image);
+    body.append('file', imageFile);
     body.append('request', blob);
 
     try {
@@ -66,11 +74,13 @@ function Profile() {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
         .then(res => {
-          setImage(res.data.profileImage);
-          // window.location.reload();
+          if (res.status === 200) {
+            setImage(res.data.profileImage);
+            setDisplayName(res.data.displayName);
+          }
+          window.location.replace('/my');
           alert('회원정보 변경완료!');
           console.log(res.data);
-          console.log(res.status);
         });
     } catch (err) {
       alert('요청에 실패했어요😭');
@@ -81,22 +91,34 @@ function Profile() {
   return (
     <div className="flex flex-col items-center">
       <div className="relative mt-4">
-        <img
-          src={`${
-            createObjectURL === undefined || createObjectURL === null
-              ? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-              : myElements.profileImage
-          }`}
-          className="bg-[var(--second)] rounded-full w-40 h-40 object-cover"
-          alt="프로필이미지"
-        />
+        {edit ? (
+          <img
+            src={
+              image === null
+                ? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+                : image
+            }
+            className="bg-[var(--second)] rounded-full w-40 h-40 object-cover"
+            alt="프로필이미지"
+          />
+        ) : (
+          <img
+            src={
+              myElements.profileImage === null
+                ? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+                : myElements.profileImage
+            }
+            className="bg-[var(--second)] rounded-full w-40 h-40 object-cover"
+            alt="프로필이미지"
+          />
+        )}
         <input
           name="myImage"
           type="file"
           accept="image/*"
           className="hidden"
           ref={fileInput}
-          onChange={uploadToClient}
+          onChange={handleOnChange}
         />
         {edit && (
           <div className="flex flex-row">
@@ -108,7 +130,7 @@ function Profile() {
               <IoCloseSharp />
             </button>
             <button
-              type="submit"
+              type="button"
               className="text-xs text-center font-medium rounded-lg w-full border border-[var(--second-border)] mt-4"
               onClick={() => fileInput.current.click()}
             >
@@ -126,20 +148,12 @@ function Profile() {
           onChange={onChangeHandler}
         />
       ) : (
-        <DisplayName
-          displayName={
-            myElements.displayName === null ||
-            myElements.displayName === undefined ||
-            myElements.displayName === ''
-              ? '닉네임을 설정해주세요'
-              : myElements.displayName
-          }
-        />
+        <DisplayName displayName={displayName} />
       )}
       <>
         {edit ? (
           <button
-            type="button"
+            type="submit"
             className="text-xs text-center font-medium rounded-lg p-2 bg-[#000] text-[#fff]"
             onClick={updateHandler}
           >
@@ -147,7 +161,7 @@ function Profile() {
           </button>
         ) : (
           <button
-            type="button"
+            type="submit"
             className="text-xs text-center font-medium rounded-lg p-2 bg-[#000] text-[#fff]"
             onClick={editHandler}
           >
