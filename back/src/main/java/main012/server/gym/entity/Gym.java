@@ -128,11 +128,8 @@ public class Gym extends Auditable {
 
 
     public Double distanceMeter(Double oLat, Double oLng) {
-        Double myLat = latitude;
-        Double myLng = longitude;
-
-        Double theta = myLng - oLng;
-        Double dist = Math.sin(deg2rad(myLat)) * Math.sin(deg2rad(oLat)) + Math.cos(deg2rad(myLat)) * Math.cos(deg2rad(oLat)) * Math.cos(deg2rad(theta));
+        Double theta = longitude - oLng;
+        Double dist = Math.sin(deg2rad(latitude)) * Math.sin(deg2rad(oLat)) + Math.cos(deg2rad(latitude)) * Math.cos(deg2rad(oLat)) * Math.cos(deg2rad(theta));
         dist = Math.acos(dist);
         dist = rad2deg(dist);
         dist *= 60 * 1.1515;
