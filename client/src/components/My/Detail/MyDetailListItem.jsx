@@ -23,9 +23,11 @@ function MyDetailListItem({ tabName, title, created, grade, image }) {
         ) : null}
         <h3 className="mx-2 line-clamp-1">{title}</h3>
       </div>
-      <span className="justify-self-end text-[var(--second)]">
-        {dateFormat(created)}
-      </span>
+      {location.pathname !== '/my/bookmarks/gyms' ? (
+        <span className="justify-self-end text-[var(--second)]">
+          {dateFormat(created)}
+        </span>
+      ) : null}
     </li>
   );
 }

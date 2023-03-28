@@ -1,4 +1,4 @@
-import TextInput from '../../UI/Input/TextInput';
+// import TextInput from '../../UI/Input/TextInput';
 
 function PasswordNewCheck() {
   return (
