@@ -56,8 +56,13 @@ public interface GymMapper {
                 gym.getDetailPrices(),
                 gym.getBusinessHours(),
                 facilityNames,
-                gymBookmarkCnt
+                gym.getGymBookmarkCnt(),
+                gym.getGymBookmarks().isEmpty()
         );
+
+//        GymDto.Response responseGym = new GymDto.Response();
+//        responseGym
+//        responseGym.setGymBookmarkCnt(gym.getGymBookmarkCnt());
 
         return responseGym;
     }
