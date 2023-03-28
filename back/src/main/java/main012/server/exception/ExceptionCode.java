@@ -4,8 +4,8 @@ import lombok.Getter;
 
 public enum ExceptionCode {
     GYM_NOT_FOUND(404, "헬스장을 찾지 못했습니다."),
-    GYM_EXISTS(409, "GYM exists"),
-    GYMREVIEW_NOT_FOUND(404,"GymReview Not Found"),
+    GYM_EXISTS(409, "이미 존재하는 헬스장 이름입니다."),
+    GYMREVIEW_NOT_FOUND(404,"리뷰를 찾지 못했습니다."),
     FACILITY_NOT_FOUND(404,"존재하지 않는 헬스장 시설입니다."),
 
     PARAMETER_NOT_VALID(3001, "유효하지 않은 요청값입니다."),

@@ -8,6 +8,7 @@ import main012.server.gym.dto.GymDto;
 import main012.server.gym.entity.Facility;
 import main012.server.gym.entity.Gym;
 import main012.server.gym.entity.GymBookmark;
+import main012.server.gym.entity.GymReview;
 import main012.server.gym.mapper.GymMapper;
 import main012.server.gym.repository.FacilityRepository;
 import main012.server.gym.repository.GymBookmarkRepository;
@@ -21,6 +22,7 @@ import main012.server.user.entity.Member;
 import main012.server.user.mapper.MemberMapper;
 import main012.server.user.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class GymService {
+    @Value("${mail.address.admin}")
+    private String adminEmail;
     @Autowired
     private final GymRepository gymRepository;
     private final GymMapper gymMapper;
@@ -53,8 +57,9 @@ public class GymService {
     private final MemberMapper memberMapper;
 
 
-    public Gym createGym(GymDto.Post request, List<MultipartFile> files) throws IOException {
+    public Gym createGym(GymDto.Post request, List<MultipartFile> files, Long memberId) throws IOException {
 
+        verifyExistsGymName(request.getGymName());
         Gym gym = gymMapper.gymPostDtoToGym(request, request.getGymBookmarkCnt());
         log.info("## 짐 생성 완료 / gymId : {}", gym.getId());
 
@@ -64,8 +69,10 @@ public class GymService {
 
         gym.setFacilities(facilities);
         log.info("## 짐 시설 등록 완료");
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
+        gym.setMember(member);
 
-
+        Gym response = gymRepository.save(gym);
         List<Image> uploadedImages = null;
         if (!files.isEmpty()) {
             uploadedImages = imageService.upload(files, "upload");
@@ -73,6 +80,8 @@ public class GymService {
 
         createGymImage(gym, uploadedImages);
         log.info("## 짐 이미지 등록 완료");
+
+
 
 
         return gymRepository.save(gym);
@@ -213,9 +222,24 @@ public class GymService {
     }
 
     // 특정 헬스장 삭제
-    public void deleteGym(Long gymId) {
+    public void deleteGym(Long gymId, Long memberId) {
         Gym findGym = findVerifiedGym(gymId);
-        gymRepository.delete(findGym);
+        Member member = memberRepository.findById(gymId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        if(member.getEmail().equals(adminEmail) || findGym.getMember().getId() == memberId){
+            gymRepository.delete(findGym);
+        }else throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND);
+
+        List<GymImage> gymImageList = gymImageRepo.findByGymId(gymId);
+
+
+        // 사진삭제
+        for(GymImage value : gymImageList){
+            imageService.remove(value.getImage());
+            gymImageRepo.delete(value);
+        }
+
+
 
     }
 
