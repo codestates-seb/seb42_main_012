@@ -163,10 +163,10 @@ public class CommunityService {
         Community existCommunity = findExistCommunity(communityId);
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        // 게시글 작성자와 로그인한 작성자가 일치하는지 확인-----------------------------------------------------------
-        if((existCommunity.getMember().getId() != memberId) || !((member.getEmail()).equals(adminEmail))){
-            throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_MATCHED);
-        }
+        // 게시글 작성자와 로그인한 작성자가 일치하는지 확인 후 삭제 (관리자 이메일도 삭제 가능)
+        if(member.getEmail().equals(adminEmail) || existCommunity.getMember().getId() == memberId){
+            communityRepository.delete(existCommunity);
+        } else throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_MATCHED);
 
         // 커뮤니티 게시글 번호로 저장된 이미지 찾기
         List<CommunityImage> communityImageList = communityImageRepo.findByCommunityCommunityId(communityId);
@@ -176,9 +176,6 @@ public class CommunityService {
             imageService.remove(value.getImage());
             communityImageRepo.delete(value);
         }
-
-        // 게시글 삭제
-        communityRepository.delete(existCommunity);
     }
 
     // 게시글 상세 조회
@@ -201,11 +198,17 @@ public class CommunityService {
             response.setContentImageUrl(image.getImage().getImagePath());
             imageInfo.add(response);
         }
-        
-        // api명세서에 맞는 양식으로 설정-------------------------------------------------------------------------------------
+
+        // 유저 프로필 이미지 설정
+        String imagePath = null;
+        Optional<Image> getImage = Optional.ofNullable(foundCommunity.getMember().getImage());
+        if(!getImage.isEmpty()){
+            imagePath = foundCommunity.getMember().getImage().getImagePath();
+        }
+
+        // api명세서에 맞는 양식으로 설정
         CommunityDto.Response response = communityMapper.communityToResponse(foundCommunity);
-//        Optional.ofNullable(foundCommunity.getMember().getImage().getImagePath()).ifPresent(imagePath -> response.setProfileImage(imagePath));
-//        response.setProfileImage(Optional.ofNullable(foundCommunity.getMember().getImage().getImagePath()).orElse(""));
+        response.setProfileImage(imagePath);
         response.setContentImages(imageInfo);
 
         return response;
