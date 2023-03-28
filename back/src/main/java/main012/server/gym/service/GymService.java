@@ -155,41 +155,6 @@ public class GymService {
 
 
     /**
-     * 헬스장 목록 거리순 조회
-     */
-    public List<GymDto.GymInfo> findAllGym(Long memberId, Double latitude, Double longitude) {
-
-        List<Gym> all = gymRepository.findAll();
-        List<GymWithDistance> gymInFiveKiloMeter = new ArrayList<>();
-
-        all.stream()
-                .forEach(gym -> {
-                    Double result = gym.distanceMeter(latitude, longitude);
-                    if (result <= 5000) {
-                        GymWithDistance gymWithDistance = new GymWithDistance(gym, result);
-                        gymInFiveKiloMeter.add(gymWithDistance);
-
-                    }
-                });
-
-        List<Gym> contents = gymInFiveKiloMeter.stream()
-                .sorted(Comparator.comparing(GymWithDistance::getDistance))
-                .map(gymWithDistance -> gymWithDistance.getGym())
-                .collect(Collectors.toList());
-
-        List<GymDto.GymInfo> responses = new ArrayList<>();
-        contents.stream()
-                .forEach(gym -> {
-                    Boolean isBookmarked = gymBookmarkRepository.findByMemberIdAndGymId(memberId, gym.getId())
-                            .isPresent();
-                    GymDto.GymInfo response = gymMapper.gymToGimInfo(gym, isBookmarked);
-                    responses.add(response);
-                });
-
-        return responses;
-    }
-
-    /**
      * 헬스장 필터링 목록
      */
     public List<GymDto.GymInfo> findFilteredGymList(Long memberId, Double latitude, Double longitude, String filter) {
@@ -217,16 +182,19 @@ public class GymService {
                     .sorted(Comparator.comparing(GymWithDistance::getAvgGymGrade).reversed())
                     .map(gymWithDistance -> gymWithDistance.getGym())
                     .collect(Collectors.toList());
+            log.info("## 평점순 목록 조회");
         } else if (filter.equals("bookmark")) {
             contents = gymInFiveKiloMeter.stream()
                     .sorted(Comparator.comparing(GymWithDistance::getBookmarkSize).reversed())
                     .map(gymWithDistance -> gymWithDistance.getGym())
                     .collect(Collectors.toList());
+            log.info("## 찜순 목록 조회");
         } else {
             contents = gymInFiveKiloMeter.stream()
                     .sorted(Comparator.comparing(GymWithDistance::getDistance))
                     .map(gymWithDistance -> gymWithDistance.getGym())
                     .collect(Collectors.toList());
+            log.info("## 거리순 목록 조회");
         }
 
         List<GymDto.GymInfo> responses = new ArrayList<>();
@@ -237,12 +205,11 @@ public class GymService {
                     GymDto.GymInfo response = gymMapper.gymToGimInfo(gym, isBookmarked);
                     responses.add(response);
                 });
-
+        log.info("## 헬스장 목록 반환");
         return responses;
-
-
     }
 
+    // 헬스장별 평균 평점 구하기
     private double getAvgGymGrade(Gym gym) {
         OptionalDouble average = gym.getGymReviews().stream()
                 .mapToLong(gymReview -> gymReview.getGymGrade())

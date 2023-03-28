@@ -81,6 +81,7 @@ public class MemberServiceImpl implements MemberService {
         }
 
         memberRepository.save(member);
+        log.info("## 일반 회원가입 memberId : {}", member.getId());
     }
 
     /**
@@ -98,6 +99,7 @@ public class MemberServiceImpl implements MemberService {
         assignRole("OWNER", member);
 
         memberRepository.save(member);
+        log.info("## 헬스장 회원가입 memberId : {}", member.getId());
     }
 
     /**
@@ -137,6 +139,7 @@ public class MemberServiceImpl implements MemberService {
         Member findMember = findVerifyMember(memberId);
 
         findMember.setDisplayName(request.getDisplayName());
+        log.info("## modified DisplayName : {}", findMember.getDisplayName());
 
         if (!file.isEmpty() || request.getIsDeletedProfileImage() != null && request.getIsDeletedProfileImage()) { // 새로운 프사 파일이 들어오거나, 프사 삭제 = true 라면
             Optional.ofNullable(findMember.getImage())  // 멤버에 기존 프로필 사진이 있을 때
@@ -159,6 +162,7 @@ public class MemberServiceImpl implements MemberService {
 
         MemberResponseDto.ModifiedProfile response = memberMapper.memberToModifiedProfileDto(findMember.getDisplayName(), profileImageUrl);
 
+        log.info("## 프로필 변경 완료");
         return response;
     }
 
@@ -168,14 +172,16 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void quitMember(Long memberId, MemberRequestDto.Quit request) {
         Member findMember = findVerifyMember(memberId);
-        log.info("## deleteMember: {}", findMember.getEmail());
+        log.info("## deleteMember Email : {}", findMember.getEmail());
 
         // 탈퇴 동의 확인
         if (request.getIsAgreed() == null || !request.getIsAgreed()) {
+            log.warn("## deleteMember: 탈퇴 동의 안함");
             throw new BusinessLoginException(ExceptionCode.DISAGREE_QUITTING);
         }
         // 비밀번호 확인
         if (!passwordEncoder.matches(request.getPassword(), findMember.getPassword())) {
+            log.warn("## deleteMember: 비밀번호 다름");
             throw new BusinessLoginException(ExceptionCode.WRONG_PASSWORD);
         }
 
@@ -245,7 +251,7 @@ public class MemberServiceImpl implements MemberService {
         String profileImageUrl = getProfileImageUrl(findMember);
 
         MemberResponseDto.Profile response = memberMapper.memberToProfileDto(findMember, profileImageUrl);
-
+        log.info("## 마이페이지 메인 조회");
         return response;
     }
 
@@ -270,6 +276,8 @@ public class MemberServiceImpl implements MemberService {
         }
 
         List<MemberInfoDto.Communities> responses = memberMapper.communityToCommunityInfos(contents);
+
+        log.info("## 마이페이지 내가 쓴 게시글 조회");
 
         return new MemberResponseDto.SearchMemberPage
                 (memberId, totalCnt, responses, totalElements, nextCursor);
@@ -296,6 +304,8 @@ public class MemberServiceImpl implements MemberService {
         }
 
         List<MemberInfoDto.Comments> responses = memberMapper.commentsToCommentInfos(contents);
+
+        log.info("## 마이페이지 내가 쓴 댓글 조회");
 
         return new MemberResponseDto.SearchMemberPage(
                 memberId, totalCnt, responses, totalElements, nextCursor);
@@ -324,6 +334,8 @@ public class MemberServiceImpl implements MemberService {
 
         List<MemberInfoDto.Communities> responses = memberMapper.communityBookmarksToCommunityInfos(contents);
 
+        log.info("## 마이페이지 게시글 찜 조회");
+
         return new MemberResponseDto.SearchMemberPage(
                 memberId, totalCnt, responses, totalElements, nextCursor);
     }
@@ -351,6 +363,8 @@ public class MemberServiceImpl implements MemberService {
 
         List<MemberInfoDto.GymBookmarks> responses = memberMapper.gymsToGymInfos(contents);
 
+        log.info("## 마이페이지 헬스장 찜 조회");
+
         return new MemberResponseDto.SearchMemberPage(
                 memberId, totalCnt, responses, totalElements, nextCursor);
     }
@@ -376,6 +390,8 @@ public class MemberServiceImpl implements MemberService {
         }
 
         List<MemberInfoDto.GymReviews> responses = memberMapper.gymReviewsToGymReviewInfos(contents);
+
+        log.info("## 마이페이지 내가 쓴 헬스장 리뷰 조회");
 
         return new MemberResponseDto.SearchMemberPage(
                 memberId, totalCnt, responses, totalElements, nextCursor);
