@@ -19,15 +19,11 @@ public interface CommunityMapper {
     // postDto -> entity
     default Community communityPostDtoToCommunity (CommunityDto.Post post, Long memberId) {
 
+
         Community community = new Community();
-
-        Member member = new Member();
-        member.setId(memberId);
-
         community.setTitle(post.getTitle());
         community.setContent(post.getContent());
 
-        community.setMember(member);
 
         return community;
     };
@@ -42,6 +38,7 @@ public interface CommunityMapper {
 
 
         responseCommunity.setCommunityId(community.getCommunityId());
+        responseCommunity.setMemberId(community.getMember().getId());
         responseCommunity.setDisplayName(community.getMember().getDisplayName());
         responseCommunity.setTitle(community.getTitle());
         responseCommunity.setContent(community.getContent());

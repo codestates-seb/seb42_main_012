@@ -17,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -37,13 +38,13 @@ public class CommentController {
     @PostMapping("/{community_id}")
     @RolesAllowed("ROLE_USER")
     public ResponseEntity postComment(@PathVariable("community_id") Long communityId,
-                                      @RequestBody CommentDto.Post post,
+                                      @RequestBody @Valid CommentDto.Post post,
                                       @AuthMember Long memberId) {
 
         post.setCommunityId(communityId);
-        CommunityComment response = commentService.createComment(mapper.commentPostDtoToComment(post, memberId));
+        CommentDto.RequestResponse response = commentService.createComment(mapper.commentPostDtoToComment(post, memberId));
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
 
     }
 
@@ -51,13 +52,13 @@ public class CommentController {
     @PatchMapping("/{comment_id}")
     @RolesAllowed("ROLE_USER")
     public ResponseEntity patchComment(@PathVariable("comment_id") Long commentId,
-                                       @RequestBody CommentDto.Patch patch,
+                                       @RequestBody @Valid CommentDto.Patch patch,
                                        @AuthMember Long memberId) {
 
         patch.setCommentId(commentId);
 
         CommunityComment comment = mapper.commentPatchDtoToComment(patch);
-        commentService.updateComment(comment);
+        commentService.updateComment(comment, memberId);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -82,7 +83,7 @@ public class CommentController {
     public ResponseEntity deleteComment(@PathVariable("comment_id") Long commentId,
                                         @AuthMember Long memberId) {
 
-        commentService.deleteComment(commentId);
+        commentService.deleteComment(commentId, memberId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

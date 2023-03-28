@@ -4,15 +4,21 @@ import javassist.compiler.ast.Member;
 import lombok.*;
 import main012.server.community.entity.Community;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Optional;
 
 public class CommunityDto {
 
     @Getter
     @Setter
     public static class Post {
+        @NotBlank(message = "제목을 입력하세요.")
         private String title;
+        @NotBlank(message = "내용을 입력하세요.")
         private String Content;
+        @NotNull(message = "탭을 선택하세요.")
         private Long tabId;
     }
 
@@ -33,7 +39,8 @@ public class CommunityDto {
     @AllArgsConstructor
     public static class Response {
         private Long communityId;
-        private String profileImageUrl;
+        private Long memberId;
+        private String profileImage;
         private String displayName;
         private String tabName;
         private String title;
