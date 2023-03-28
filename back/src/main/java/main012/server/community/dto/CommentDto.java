@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Optional;
 
 public class CommentDto {
@@ -13,6 +14,7 @@ public class CommentDto {
     @Setter
     public static class Post {
         private Long communityId;
+        @NotBlank(message = "댓글 내용을 입력하세요.")
         private String comment;
     }
 
@@ -20,6 +22,7 @@ public class CommentDto {
     @Setter
     public static class Patch {
         private Long commentId;
+        @NotBlank(message = "댓글 내용을 입력하세요.")
         private String comment;
     }
 

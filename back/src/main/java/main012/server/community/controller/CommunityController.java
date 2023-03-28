@@ -50,7 +50,7 @@ public class CommunityController {
     // 커뮤니티 게시글 등록
     @PostMapping
     @RolesAllowed("ROLE_USER")
-    public ResponseEntity postCommunity(@RequestPart("request") CommunityDto.Post postRequest,
+    public ResponseEntity postCommunity(@RequestPart("request") @Valid CommunityDto.Post postRequest,
                                         @RequestPart("files") List<MultipartFile> files,
                                         @AuthMember Long memberId) throws IOException {
 

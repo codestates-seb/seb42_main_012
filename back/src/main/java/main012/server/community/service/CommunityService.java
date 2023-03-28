@@ -52,7 +52,7 @@ public class CommunityService {
     private final int size = 15;
 
     // 커뮤니티 게시글 등록
-    public void createCommunity (CommunityDto.Post post, List<MultipartFile> files, Long memberId) throws IOException {
+    public Community createCommunity (CommunityDto.Post post, List<MultipartFile> files, Long memberId) throws IOException {
 
         // 첨부파일이 비었는지 체크
         boolean checkFiles = checkEmptyFile(files);
@@ -68,7 +68,7 @@ public class CommunityService {
         community.setMember(member);
         community.setTab(tabRepository.findById(post.getTabId()).get());
 
-        communityRepository.save(community);
+        Community response = communityRepository.save(community);
 
 
         // 첨부파일이 있으면 사진 업로드 기능 동작
@@ -77,6 +77,7 @@ public class CommunityService {
             createCommunityImage(community, uploadedImages);
         }
 
+        return response;
 
     }
 
@@ -162,8 +163,8 @@ public class CommunityService {
         Community existCommunity = findExistCommunity(communityId);
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        // 게시글 작성자와 로그인한 작성자가 일치하는지 확인
-        if(existCommunity.getMember().getId() != memberId){
+        // 게시글 작성자와 로그인한 작성자가 일치하는지 확인-----------------------------------------------------------
+        if((existCommunity.getMember().getId() != memberId) || !((member.getEmail()).equals(adminEmail))){
             throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_MATCHED);
         }
 
@@ -201,10 +202,10 @@ public class CommunityService {
             imageInfo.add(response);
         }
         
-        // api명세서에 맞는 양식으로 설정
+        // api명세서에 맞는 양식으로 설정-------------------------------------------------------------------------------------
         CommunityDto.Response response = communityMapper.communityToResponse(foundCommunity);
 //        Optional.ofNullable(foundCommunity.getMember().getImage().getImagePath()).ifPresent(imagePath -> response.setProfileImage(imagePath));
-//        response.setProfileImage(foundCommunity.getMember().getImage().getImagePath());
+//        response.setProfileImage(Optional.ofNullable(foundCommunity.getMember().getImage().getImagePath()).orElse(""));
         response.setContentImages(imageInfo);
 
         return response;
