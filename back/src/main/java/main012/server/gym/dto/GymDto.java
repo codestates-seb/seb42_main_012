@@ -32,9 +32,9 @@ public class GymDto {
 
         private List<Long> facilityIdList;
 
-        private String latitude; // 위도
+        private Double latitude; // 위도
 
-        private String longitude; // 경도
+        private Double longitude; // 경도
 
         private Long memberId;
         private Long gymBookmarkCnt;
@@ -64,9 +64,9 @@ public class GymDto {
 
 //        private List<Long> facilityIdList;
 
-        private String latitude; // 위도
+        private Double latitude; // 위도
 
-        private String longitude; // 경도
+        private Double longitude; // 경도
         private Long[] deletedGymImageId;
     }
     @Getter
@@ -158,13 +158,6 @@ public class GymDto {
 //        private int gymBookmarkCnt;
 //    }
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    public static class Location {
-        private String latitude;
-        private String longitude;
-    }
 
 
 }

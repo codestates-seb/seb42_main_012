@@ -40,10 +40,10 @@ public class Gym extends Auditable {
     private String detailPrices; // 상세 가격
 
     @Column(length = 100, nullable = false)
-    private String latitude; // 위도
+    private Double latitude; // 위도
 
     @Column(length = 100, nullable = false)
-    private String longitude; // 경도
+    private Double longitude; // 경도
 
     // N : 1
     @ManyToOne(fetch = FetchType.LAZY) // 유저는 여러개의 헬스장 등록을 할 수 있다.
@@ -112,7 +112,7 @@ public class Gym extends Auditable {
         this.gymName = gymName;
     }
 
-    public Gym(String gymName, String address, String phoneNumber, String businessHours, String price, String detailPrices, String latitude, String longitude) {
+    public Gym(String gymName, String address, String phoneNumber, String businessHours, String price, String detailPrices, Double latitude, Double longitude) {
         this.gymName = gymName;
         this.address = address;
         this.phoneNumber = phoneNumber;
@@ -124,11 +124,9 @@ public class Gym extends Auditable {
     }
 
 
-    public Double distanceMeter(String otherLatitude, String otherLongitude) {
-        Double oLat = Double.parseDouble(otherLatitude);
-        Double oLng = Double.parseDouble(otherLongitude);
-        Double myLat = Double.parseDouble(latitude);
-        Double myLng = Double.parseDouble(longitude);
+    public Double distanceMeter(Double oLat, Double oLng) {
+        Double myLat = latitude;
+        Double myLng = longitude;
 
         Double theta = myLng - oLng;
         Double dist = Math.sin(deg2rad(myLat)) * Math.sin(deg2rad(oLat)) + Math.cos(deg2rad(myLat)) * Math.cos(deg2rad(oLat)) * Math.cos(deg2rad(theta));
