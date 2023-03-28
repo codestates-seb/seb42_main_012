@@ -21,6 +21,9 @@ public interface GymReviewMapper {
         gym.setId(gymId);
 
 
+
+
+
         gymReview.setGymGrade(gymReviewPostDto.getGymGrade());
         gymReview.setGymComment(gymReviewPostDto.getGymComment());
 

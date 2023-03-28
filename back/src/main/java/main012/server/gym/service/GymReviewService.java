@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import main012.server.cursor.CursorResult;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
+import main012.server.gym.dto.GymReviewDto;
 import main012.server.gym.entity.Gym;
 import main012.server.gym.entity.GymReview;
 import main012.server.gym.repository.GymReviewRepository;
@@ -64,6 +65,8 @@ public class GymReviewService {
         GymReview findGymReview = findVerifiedGymReview(gymReviewId);
         gymReviewRepository.delete(findGymReview);
     }
+
+
 
     public CursorResult<GymReview> get(Long cursorId, Pageable page) {
         final List<GymReview> gymReviews = getGymReviews(cursorId, page);

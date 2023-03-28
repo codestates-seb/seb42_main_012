@@ -2,23 +2,13 @@ package main012.server.gym.controller;
 
 import lombok.RequiredArgsConstructor;
 import main012.server.auth.resolver.AuthMember;
-import main012.server.common.dto.SingleResponseDto;
-import main012.server.gym.dto.GymBookmarkDto;
+import main012.server.community.dto.CommunityDto;
 import main012.server.gym.dto.GymDto;
 
-import main012.server.gym.entity.Facility;
 import main012.server.gym.entity.Gym;
 import main012.server.gym.mapper.GymMapper;
-import main012.server.gym.repository.FacilityRepository;
 import main012.server.gym.service.GymBookmarkService;
 import main012.server.gym.service.GymService;
-import main012.server.image.entity.Image;
-import main012.server.image.service.ImageService;
-import main012.server.user.service.MemberService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,7 +46,9 @@ public class GymController {
         request.setMemberId(memberId);
         Gym gym = gymService.createGym(request, files);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        GymDto.Response response = mapper.gymToGymResponseDto(gym, request.getGymBookmarkCnt());
+        return new ResponseEntity<>(response,HttpStatus.CREATED);
+
     }
 
 
@@ -64,13 +56,14 @@ public class GymController {
     //     헬스장 정보 수정
     @PatchMapping("/{gym_id}")
     @RolesAllowed({"ROLE_OWNER"})
-    public ResponseEntity patchGym(@PathVariable("gym_id") @Positive Long gymId,
-                                   @Valid @RequestBody GymDto.Patch gymPatchDto) {
-        gymPatchDto.setId(gymId);
+    public ResponseEntity patchGym(@RequestPart("request") GymDto.Patch patchRequest,
+                                   @RequestPart("files") List<MultipartFile> files,
+                                   @PathVariable("gym_id") Long gymId,
+                                   @AuthMember Long memberId) throws IOException {
+        patchRequest.setGymId(gymId);
+        gymService.updateGym(patchRequest,files);
 
-        GymDto.Response response = gymService.updateGym(mapper.gymPatchDtoToGym(gymPatchDto));
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
@@ -84,7 +77,7 @@ public class GymController {
         return new ResponseEntity<>(response, HttpStatus.OK);
 
     }
-    // 헬스장 시설별 조회
+     //헬스장 시설별 조회
 //    @GetMapping("facility/{facility_id}")
 //    @RolesAllowed("ROLE_USER")
 //    public ResponseEntity facilityGyms(@PathVariable("facility_id") Long facilityId,
@@ -97,21 +90,31 @@ public class GymController {
 
 
 
-    // 헬스장 전체조회
+//    // 헬스장 전체조회
+//    @GetMapping
+//    @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
+//    public ResponseEntity getGyms(@PageableDefault(size=15, direction = Sort.Direction.DESC) Pageable pageable) {
+//        // (7)
+////        List<Gym> response = gymService.findGyms();
+////        return new ResponseEntity<>(response, HttpStatus.OK);
+//        Page<Gym> gymPage = gymService.gymsPage(pageable);
+//        List<Gym> gyms = gymPage.getContent();
+//        List<GymDto.ListResponse> response = mapper.gymsToGymResponseDtos(gyms);
+//        return new ResponseEntity<>(response,HttpStatus.OK);
+//    }
+//
+    //헬스장 전체 조회
     @GetMapping
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
-    public ResponseEntity getGyms(@PageableDefault(size=15, direction = Sort.Direction.DESC) Pageable pageable) {
-        // (7)
-//        List<Gym> response = gymService.findGyms();
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-        Page<Gym> gymPage = gymService.gymsPage(pageable);
-        List<Gym> gyms = gymPage.getContent();
-        List<GymDto.Response> response = mapper.gymsToGymResponseDtos(gyms);
+    public ResponseEntity getAllGym(@AuthMember Long memberId,
+                                    @RequestParam String lastFeedId) {
+        GymDto.AllGymResponse response = gymService.findAllGym(lastFeedId);
+
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
-//
 
-    //
+
+
     @DeleteMapping("/{gym_id}")
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity deleteGym(@PathVariable("gym_id") @Positive Long gymId) {

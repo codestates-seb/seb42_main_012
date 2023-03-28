@@ -3,15 +3,16 @@ package main012.server.gym.mapper;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
+import main012.server.gym.dto.GymDto.AllGyms;
+import main012.server.gym.dto.GymDto.AllGyms.AllGymsBuilder;
 import main012.server.gym.dto.GymDto.GymImage;
 import main012.server.gym.dto.GymDto.Patch;
-import main012.server.gym.dto.GymDto.Response;
 import main012.server.gym.entity.Gym;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-03-27T11:09:46+0900",
+    date = "2023-03-28T01:44:59+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.18 (Azul Systems, Inc.)"
 )
 @Component
@@ -25,24 +26,27 @@ public class GymMapperImpl implements GymMapper {
 
         Gym gym = new Gym();
 
-        gym.setId( gymPatchDto.getId() );
         gym.setGymName( gymPatchDto.getGymName() );
         gym.setAddress( gymPatchDto.getAddress() );
         gym.setPhoneNumber( gymPatchDto.getPhoneNumber() );
         gym.setBusinessHours( gymPatchDto.getBusinessHours() );
+        gym.setPrice( gymPatchDto.getPrice() );
+        gym.setDetailPrices( gymPatchDto.getDetailPrices() );
+        gym.setLatitude( gymPatchDto.getLatitude() );
+        gym.setLongitude( gymPatchDto.getLongitude() );
 
         return gym;
     }
 
     @Override
-    public List<Response> gymsToGymResponseDtos(List<Gym> gyms) {
+    public List<AllGyms> gymToGymInfos(List<Gym> gyms) {
         if ( gyms == null ) {
             return null;
         }
 
-        List<Response> list = new ArrayList<Response>( gyms.size() );
+        List<AllGyms> list = new ArrayList<AllGyms>( gyms.size() );
         for ( Gym gym : gyms ) {
-            list.add( gymToResponse( gym ) );
+            list.add( gymToAllGyms( gym ) );
         }
 
         return list;
@@ -74,34 +78,21 @@ public class GymMapperImpl implements GymMapper {
         return list1;
     }
 
-    protected Response gymToResponse(Gym gym) {
+    protected AllGyms gymToAllGyms(Gym gym) {
         if ( gym == null ) {
             return null;
         }
 
-        String gymName = null;
-        List<GymImage> gymImages = null;
-        String address = null;
-        String phoneNumber = null;
-        String price = null;
-        String detailPrices = null;
-        String businessHours = null;
+        AllGymsBuilder allGyms = AllGyms.builder();
 
-        gymName = gym.getGymName();
-        gymImages = gymImageListToGymImageList( gym.getGymImages() );
-        address = gym.getAddress();
-        phoneNumber = gym.getPhoneNumber();
-        price = gym.getPrice();
-        detailPrices = gym.getDetailPrices();
-        businessHours = gym.getBusinessHours();
+        allGyms.gymName( gym.getGymName() );
+        allGyms.gymImages( gymImageListToGymImageList( gym.getGymImages() ) );
+        allGyms.address( gym.getAddress() );
+        allGyms.phoneNumber( gym.getPhoneNumber() );
+        allGyms.price( gym.getPrice() );
+        allGyms.detailPrices( gym.getDetailPrices() );
+        allGyms.businessHours( gym.getBusinessHours() );
 
-        Long memberId = null;
-        Long gymId = null;
-        List<String> facilityName = null;
-        Long gymBookmarkCnt = null;
-
-        Response response = new Response( memberId, gymId, gymName, gymImages, address, phoneNumber, price, detailPrices, businessHours, facilityName, gymBookmarkCnt );
-
-        return response;
+        return allGyms.build();
     }
 }

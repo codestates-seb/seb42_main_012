@@ -16,11 +16,11 @@ import java.util.Optional;
 @EnableJpaRepositories
 public interface GymRepository extends JpaRepository<Gym, Long> {
     Optional<Gym> findByGymName(String gymName);
-    List<Gym> findAllByOrderByIdDesc(Pageable page);
+//    Page<Gym> findAllByOrderByIdDesc(Long feedId,Pageable pageable);
     // 목록별 전체검색
 //    Page<Gym> findAllByKindOfGymName(Gym.KindOfGym kindOfGym, Pageable pageable);
 
-    List<Gym> findByIdLessThanOrderByIdDesc(Long id, Pageable page);
+    Page<Gym> findByIdLessThanOrderByIdDesc(Long id, Pageable pageable);
 
     Boolean existsByIdLessThan(Long id);
 
