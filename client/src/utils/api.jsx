@@ -2,7 +2,10 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
-  timeout: 10000,
+  // headers: {
+  //   'Content-Type': `application/json`,
+  // },
+  retryCount: 3,
 });
 
 const refreshApi = axios.create({
@@ -10,7 +13,7 @@ const refreshApi = axios.create({
   headers: {
     'authorization-refresh': localStorage.getItem('refreshToken'),
   },
-  timeout: 10000,
+  retryCount: 3,
 });
 
 api.interceptors.response.use(
@@ -29,6 +32,9 @@ api.interceptors.response.use(
   async error => {
     const originalRequest = error.config;
     if (error.response.status === 401) {
+      if (error.response.data.status === 5003) {
+        return Promise.reject(error);
+      }
       await refreshApi.post('/auth/refresh').then(res => {
         localStorage.setItem('accessToken', res.headers.authorization);
         localStorage.setItem(

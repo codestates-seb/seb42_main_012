@@ -9,9 +9,13 @@ function GymReviewList() {
   return (
     <div>
       {location.pathname.slice(-7) === 'reviews'
-        ? reviews.map(review => <GymReview key={review.id} review={review} />)
+        ? reviews.map(review => (
+            <GymReview key={review.reviewId} review={review} />
+          ))
         : reviews.map((review, idx) =>
-            idx <= 2 ? <GymReview key={review.id} review={review} /> : null,
+            idx <= 2 ? (
+              <GymReview key={review.reviewId} review={review} />
+            ) : null,
           )}
     </div>
   );

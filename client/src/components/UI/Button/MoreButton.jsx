@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FiMoreVertical } from 'react-icons/fi';
 import More from '../More';
 
-function MoreButton({ memberId }) {
+function MoreButton() {
   const [openMore, setOpenMore] = useState(false);
   const openMoreHandler = () => {
     setOpenMore(!openMore);
@@ -13,7 +13,7 @@ function MoreButton({ memberId }) {
       <button type="button" className="pr-2 text-xl">
         <FiMoreVertical onClick={openMoreHandler} />
       </button>
-      {openMore && <More setOpenMore={setOpenMore} memberId={memberId} />}
+      {openMore && <More setOpenMore={setOpenMore} />}
     </>
   );
 }

@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware';
 const useMyStore = create(
   persist(
     set => ({
-      myElements: [],
+      myElements: '',
       myBoards: [],
       myComments: [],
       myReviews: [],

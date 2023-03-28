@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import GymPostName from '../../components/Gym/Post/PostName';
 import GymPostAddress from '../../components/Gym/Post/PostAddress';
 import GymPostPhoneNumber from '../../components/Gym/Post/PostPhoneNumber';
@@ -10,18 +11,23 @@ import GymPostHours from '../../components/Gym/Post/PostHours';
 import GymPostPrice from '../../components/Gym/Post/PostPrice';
 import BasicButton from '../../components/UI/Button/BasicButton';
 import gymAxios from './gymAxios';
+import useGymStore from '../../state/useGymStore';
 
 function GymPostPage() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm();
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  const path = location.pathname;
+  const { gymsDetail, setGymsDetail } = useGymStore();
+  useEffect(() => {
+    if (path === '/gyms/gympost') {
+      setGymsDetail({});
+    }
+  }, []);
   const [address, setAddress] = useState('');
-
   const [map, setMap] = useState({ Ma: 0, La: 0 });
+  const [patchMap, setPatchMap] = useState({ Ma: 0, La: 0 });
+  const { register, handleSubmit, watch } = useForm();
+  const [deletedGymImageId, setDeletedGymImageId] = useState([]);
 
   const image1 = watch('image1');
   const image2 = watch('image2');
@@ -50,52 +56,121 @@ function GymPostPage() {
       facility.splice(facility.indexOf(''), 1);
     }
 
-    const gymsData = {
-      gymName: data.gymName,
-      address: `${address} ${data.detailAddress}`,
-      phoneNumber: data.phoneNumber,
-      businessHours: data.businessHours,
-      price: data.price,
-      detailPrices: data.detailPrice,
-      facilityIdList: facility,
-      latitude: map.Ma,
-      longitude: map.La,
-    };
+    if (path === '/gyms/gymedit') {
+      const gymsData = {
+        gymName: !data.gymName ? gymsDetail.gymName : data.gymName,
+        address: !address ? gymsDetail.address : address,
+        phoneNumber: !data.phoneNumber
+          ? gymsDetail.phoneNumber
+          : data.phoneNumber,
+        businessHours: !data.businessHours
+          ? gymsDetail.businessHours
+          : data.businessHours,
+        price: !data.price ? gymsDetail.price : data.price,
+        detailPrices: !data.detailPrices
+          ? gymsDetail.detailPrices
+          : data.detailPrices,
+        facilityIdList: facility,
+        latitude: !map.La ? patchMap.La : map.La,
+        longitude: !map.Ma ? patchMap.Ma : map.Ma,
+        deletedGymImageId,
+      };
 
-    const formData = new FormData();
-    const blob = new Blob([JSON.stringify(gymsData)], {
-      type: 'application/json',
-    });
-    imagesData.map(image => formData.append('files', image));
-    formData.append('request', blob);
+      const formData = new FormData();
+      const blob = new Blob([JSON.stringify(gymsData)], {
+        type: 'application/json',
+      });
+      imagesData.map(image => formData.append('files', image));
+      formData.append('request', blob);
 
-    await gymAxios
-      .post('/gyms', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(() => alert('요청실패'));
-    // navigate('/gyms');
+      await gymAxios
+        .patch(`/gyms/${gymsDetail.gymId}`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        })
+        .then(res => {
+          console.log(res);
+          navigate(`/gyms/${gymsDetail.gymId}`);
+        })
+        .catch(() => {
+          console.log(gymsData);
+          console.log(imagesData);
+          alert('입력하신 내용을 확인해주세요');
+        });
+    } else {
+      const gymsData = {
+        gymName: !data.gymName ? gymsDetail.gymName : data.gymName,
+        address: !address ? gymsDetail.address : address,
+        phoneNumber: !data.phoneNumber
+          ? gymsDetail.phoneNumber
+          : data.phoneNumber,
+        businessHours: !data.businessHours
+          ? gymsDetail.businessHours
+          : data.businessHours,
+        price: !data.price ? gymsDetail.price : data.price,
+        detailPrices: !data.detailPrices
+          ? gymsDetail.detailPrices
+          : data.detailPrices,
+        facilityIdList: facility,
+        latitude: !map.La ? patchMap.La : map.La,
+        longitude: !map.Ma ? patchMap.Ma : map.Ma,
+      };
+
+      const formData = new FormData();
+      const blob = new Blob([JSON.stringify(gymsData)], {
+        type: 'application/json',
+      });
+      imagesData.map(image => formData.append('files', image));
+      formData.append('request', blob);
+
+      await gymAxios
+        .post(`/gyms`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        })
+        .then(res => {
+          console.log(res);
+          navigate(`/gyms`);
+        })
+        .catch(() => {
+          console.log(gymsData);
+          alert('입력하신 내용을 확인해주세요');
+        });
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <GymPostName register={register} errors={errors} />
-      <GymPostImageList register={register} errors={errors} images={images} />
-      <GymPostFacilities register={register} />
-      <GymPostPrice register={register} errors={errors} />
-      <GymPostDetailPrice register={register} errors={errors} />
-      <GymPostHours register={register} errors={errors} />
-      <GymPostAddress
+      <GymPostName register={register} patchGymName={gymsDetail.gymName} />
+      <GymPostImageList
         register={register}
-        errors={errors}
+        images={images}
+        PatchGymImages={
+          gymsDetail.gymImages === undefined ? [] : gymsDetail.gymImages
+        }
+        setDeletedGymImageId={setDeletedGymImageId}
+        deletedGymImageId={deletedGymImageId}
+      />
+      <GymPostFacilities
+        register={register}
+        facilityName={gymsDetail.facilityName}
+      />
+      <GymPostPrice register={register} patchPrice={gymsDetail.price} />
+      <GymPostDetailPrice
+        register={register}
+        patchDetailPrice={gymsDetail.detailPrices}
+      />
+      <GymPostHours register={register} patchHours={gymsDetail.businessHours} />
+      <GymPostAddress
+        // register={register}
         setAddress={setAddress}
         address={address}
         setMap={setMap}
+        setPatchMap={setPatchMap}
+        patchAddress={gymsDetail.address}
       />
-      <GymPostPhoneNumber register={register} errors={errors} />
+      <GymPostPhoneNumber
+        register={register}
+        patchPhoneNumber={gymsDetail.phoneNumber}
+      />
       <BasicButton page="board" text="Post" />
     </form>
   );

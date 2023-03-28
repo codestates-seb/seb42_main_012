@@ -1,8 +1,14 @@
 // import AWS from 'aws-sdk';
-import { ErrorMessage } from '@hookform/error-message';
 import GymPostImage from './PostImage';
 
-function GymPostImageList({ register, errors, images }) {
+function GymPostImageList({
+  register,
+  images,
+  PatchGymImages,
+  setDeletedGymImageId,
+  deletedGymImageId,
+}) {
+  console.log(PatchGymImages);
   const ids = ['image1', 'image2', 'image3', 'image4', 'image5'];
   return (
     <>
@@ -12,18 +18,15 @@ function GymPostImageList({ register, errors, images }) {
           {ids.map((id, idx) => (
             <GymPostImage
               key={idx}
+              idx={idx}
               register={register}
               image={images[idx]}
               id={id}
+              PatchGymImages=""
+              setDeletedGymImageId={setDeletedGymImageId}
+              deletedGymImageId={deletedGymImageId}
             />
           ))}
-          <ErrorMessage
-            errors={errors}
-            name="gymsImage"
-            render={({ message }) => (
-              <p className="ml-1 text-sm text-red">{message}</p>
-            )}
-          />
         </div>
       </div>
     </>
