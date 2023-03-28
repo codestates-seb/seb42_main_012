@@ -1,6 +1,6 @@
 import BasicButton from '../../UI/Button/BasicButton';
 
-function Modal({ setOpenModal }) {
+function Modal({ setOpenModal, displayName, onSubmit, onClick }) {
   const classes =
     'text-md py-2 text-center font-medium rounded-lg px-5 py-1 mt-4 mx-2 border border-[var(--main)] bg-[#fff] text-[var(--main)] active:bg-[var(--main)] active:text-[#fff] text-xs';
 
@@ -13,11 +13,16 @@ function Modal({ setOpenModal }) {
       <div className="w-80 p-14 bg-[#fff] text-center">
         {/* displayName 동적으로 변환 */}
         <p className="mb-2 font-bold">
-          <span className="text-[var(--main)]">김코딩</span>회원님!
+          <span className="text-[var(--main)]">{displayName}</span>회원님!
         </p>
         <span>정말 회원 탈퇴를 진행할까요?</span>
         <div>
-          <BasicButton page="modal" text="네" nav="/login" />
+          <BasicButton
+            page="modal"
+            text="네"
+            onClick={onClick}
+            onSubmit={onSubmit}
+          />
           <button className={classes} type="button" onClick={closeModalHandler}>
             아니오
           </button>

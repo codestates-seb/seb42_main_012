@@ -7,7 +7,7 @@ function MyPasswordEdit() {
   return (
     <>
       {myElements.role === 'USER' ? (
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center mb-28">
           <BasicButton
             nav="/my/info/password"
             page="my"
@@ -22,7 +22,7 @@ function MyPasswordEdit() {
           />
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center mt-10">
+        <div className="flex flex-col items-center justify-center">
           <BasicButton
             nav="/my/info/password"
             page="my"
