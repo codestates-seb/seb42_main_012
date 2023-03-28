@@ -20,12 +20,15 @@ function CommentList() {
   return (
     <ul className="mt-5">
       {comments.map(comment => (
-        <div key={comment.communityId} id={comment.communityId}>
+        <div key={comment.communityId}>
           <CommentHeader
             displayName={comment.displayName}
             imageUrl={comment.imageUrl}
           />
-          <CommentBody comment={comment.comment} />
+          <CommentBody
+            comment={comment.comment}
+            createdAt={comment.createdAt}
+          />
           <div className="w-full border-[0.3px] border-[#d9d9d9] mt-3 mb-3" />
         </div>
       ))}
