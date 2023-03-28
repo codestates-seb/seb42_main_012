@@ -1,26 +1,26 @@
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
-import useGymStore from '../../../state/useGymStore';
+import { ErrorMessage } from '@hookform/error-message';
+import { BsSend } from 'react-icons/bs';
 import StarIcon from '../../UI/Icon/StarIcon';
-import Today from '../../UI/Today';
+import gymAxios from '../../../pages/Gym/gymAxios';
 
 function GymReviewPost() {
-  const { register, handleSubmit } = useForm();
-  const { reviews } = useGymStore();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const { id } = useParams();
 
   const onSubmit = async data => {
-    await axios
-      .post(`/gyms/reviews${id}`, {
-        id: reviews.length + 1,
-        gymId: Number(id),
-        displayName: '******',
-        grade: Number(data.grade),
-        comment: data.review,
-        createdAt: Today(),
+    await gymAxios
+      .post(`/gyms/reviews/${id}`, {
+        gymGrade: Number(data.grade),
+        gymComment: data.review,
       })
-      .then((document.getElementById('textArea').value = null));
+      .then(window.location.reload())
+      .catch(err => console.log(err));
   };
 
   return (
@@ -51,9 +51,22 @@ function GymReviewPost() {
             })}
             className="w-full p-2 border border-grey rounded-xl focus:outline-[var(--main)]"
           />
+          <ErrorMessage
+            errors={errors}
+            name="review"
+            render={({ message }) => (
+              <p className="ml-2 text-sm text-red">{message}</p>
+            )}
+          />
         </div>
         <div className="mt-2">
-          <input id="reviewsubmit" type="submit" />
+          <button
+            id="reviewsubmit"
+            type="submit"
+            className="flex items-center mt-3 text-xl"
+          >
+            <BsSend />
+          </button>
         </div>
       </form>
     </div>

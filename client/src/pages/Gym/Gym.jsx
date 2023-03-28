@@ -6,10 +6,15 @@ import GymTabList from '../../components/Gym/List/GymTabList';
 import useGymStore from '../../state/useGymStore';
 
 function GymPage() {
-  const { gyms, setGyms } = useGymStore();
+  const { gyms, setGyms, myLocation } = useGymStore();
+
+  const params = {
+    latitude: myLocation.La,
+    longitude: myLocation.Ma,
+  };
 
   useEffect(() => {
-    gymAxios.get('/gyms').then(res => setGyms(res.data));
+    gymAxios.get('/gyms', { params }).then(res => setGyms(res.data.data));
   }, []);
 
   return (

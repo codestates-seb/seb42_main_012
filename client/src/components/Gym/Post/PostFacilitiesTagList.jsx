@@ -1,32 +1,24 @@
 import GymPostTag from '../../UI/Gym/GymPostTag';
 
 function GymPostFacilitiesTagList({ register }) {
+  const tagList = [
+    { id: 1, text: '샤워실', registerName: 'shower' },
+    { id: 2, text: '주차장', registerName: 'parking' },
+    { id: 3, text: '운동복', registerName: 'sportsWear' },
+    { id: 4, text: '락커', registerName: 'locker' },
+  ];
+
   return (
     <ul className="flex items-center w-full mt-3">
-      <GymPostTag
-        text="샤워실"
-        register={register}
-        registerName="shower"
-        id="check1"
-      />
-      <GymPostTag
-        text="주차장"
-        register={register}
-        registerName="locker"
-        id="check2"
-      />
-      <GymPostTag
-        text="운동복"
-        register={register}
-        registerName="sportsWear"
-        id="check3"
-      />
-      <GymPostTag
-        text="락커"
-        register={register}
-        registerName="parking"
-        id="check4"
-      />
+      {tagList.map(tag => (
+        <GymPostTag
+          key={tag.id}
+          text={tag.text}
+          register={register}
+          registerName={tag.registerName}
+          id={tag.id}
+        />
+      ))}
     </ul>
   );
 }

@@ -7,13 +7,14 @@ import api from '../../utils/api';
 
 function HomePage() {
   const { setMyLocation } = useGymStore();
-  const { setMyElements } = useMyStore();
+  const { setMyElements, myElements } = useMyStore();
+  console.log(myElements);
 
   const geolocation = useGeolocation();
 
   useEffect(() => {
     if (geolocation) {
-      setMyLocation({ Ma: geolocation.longitude, La: geolocation.latitude });
+      setMyLocation({ Ma: geolocation.latitude, La: geolocation.longitude });
     }
   }, [geolocation]);
 

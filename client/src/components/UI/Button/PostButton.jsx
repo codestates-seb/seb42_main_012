@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { BsPencilSquare } from 'react-icons/bs';
 
-function PostButton({ nav, memberId }) {
+function PostButton({ nav }) {
   const navigate = useNavigate();
 
   const handlerClickPost = () => {
@@ -10,7 +10,7 @@ function PostButton({ nav, memberId }) {
 
   return (
     <button type="button" className="pr-2 text-xl">
-      <BsPencilSquare onClick={handlerClickPost} memberId={memberId} />
+      <BsPencilSquare onClick={handlerClickPost} />
     </button>
   );
 }

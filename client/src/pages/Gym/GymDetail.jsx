@@ -11,11 +11,11 @@ import gymAxios from './gymAxios';
 function GymDetailPage() {
   const { gymsDetail, setGymsDetail, setReviews } = useGymStore();
   const { id } = useParams();
-
   useEffect(() => {
-    gymAxios.get(`/gyms/${id}`).then(res => setGymsDetail(res.data));
+    gymAxios.get(`/gyms/${id}`).then(res => {
+      setGymsDetail(res.data);
+    });
   }, []);
-
   useEffect(() => {
     gymAxios.get(`/gyms/reviews/${id}`).then(res => setReviews(res.data));
   }, []);

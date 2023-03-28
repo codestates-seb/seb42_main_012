@@ -6,6 +6,8 @@ import MoreButton from '../../UI/Button/MoreButton';
 import LogoutButton from '../../UI/Button/LogoutButton';
 import useMyStore from '../../../state/useMyStore';
 // import useGymStore from '../../../state/useGymStore';
+// import useMyStore from '../../../state/useMyStore';
+// import useGymStore from '../../../state/useGymStore';
 
 function Header() {
   const { myElements } = useMyStore();
@@ -13,8 +15,6 @@ function Header() {
   const param = useParams();
   const location = useLocation();
   const path = location.pathname;
-  // console.log(myElements);
-  // console.log(gymsDetail);
 
   const defaultClass =
     'sticky top-0 z-10 flex items-center justify-between w-full py-5 px-2 bg-[#fff]';
