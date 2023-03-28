@@ -90,8 +90,8 @@ public class GymService {
     }
 
     // 헬스장 시설 조회
-    private Facility findFacility(Long facilityId) {
-        return facilityRepository.findById(facilityId)
+    private Facility findFacility(Long id) {
+        return facilityRepository.findById(id)
                 .orElseThrow(() -> new BusinessLoginException(ExceptionCode.FACILITY_NOT_FOUND));
     }
 

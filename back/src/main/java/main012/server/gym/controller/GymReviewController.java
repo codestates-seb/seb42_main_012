@@ -76,11 +76,11 @@ public class GymReviewController {
 
 
 
-    @DeleteMapping("{review_id}")
+    @DeleteMapping("/{review_id}")
     @RolesAllowed({"ROLE_USER"})
-    public ResponseEntity gymReviewDelete(@PathVariable("gymReview_id") @Positive long gymReviewId,
+    public ResponseEntity gymReviewDelete(@PathVariable("review_id") @Positive Long gymReviewId,
                                           @AuthMember Long memberId){
-        gymReviewService.gymReviewDelete(gymReviewId);
+        gymReviewService.gymReviewDelete(gymReviewId,memberId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 

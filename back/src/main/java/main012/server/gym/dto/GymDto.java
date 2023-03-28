@@ -69,25 +69,11 @@ public class GymDto {
         private Double longitude; // 경도
         private Long[] deletedGymImageId;
     }
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class facilityListResponse {
-        private Long gymId;
-        private String gymName;
-//        private String gymImageUrl;
-        private String address;
-        private String price;
-        private String businessHours;
-        private List<String> facilityName;
-
-        private Long gymBookmarkCnt;
-//        private boolean isBookmarked;
 
 
 
-    }
+
+
     @Getter
     @Setter
     @AllArgsConstructor
@@ -103,7 +89,7 @@ public class GymDto {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class FacilityInfo {
+    public static class FacilityInfo<T> {
         private Long facilityId;
         private String facilityName;
     }

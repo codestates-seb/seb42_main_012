@@ -54,7 +54,7 @@ public class GymReviewDto {
     @NoArgsConstructor
     public static class Response {
         private Long memberId;
-        private Long reviewId;
+        private Long gymReviewId;
         private String displayName;
 
         private int gymGrade;
@@ -69,7 +69,7 @@ public class GymReviewDto {
     @Setter
     @AllArgsConstructor
     public static class ReviewInfo {
-        private Long reviewId;
+        private Long gymReviewId;
         private Long memberId;
         private String displayName;
         private int grade;

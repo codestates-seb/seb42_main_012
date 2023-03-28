@@ -37,7 +37,7 @@ public interface GymReviewMapper {
         GymReviewDto.Response gymReviewResponseDtoToGymReview = new GymReviewDto.Response();
 
         gymReviewResponseDtoToGymReview.setMemberId(gymReview.getMember().getId());
-        gymReviewResponseDtoToGymReview.setReviewId(gymReview.getId());
+        gymReviewResponseDtoToGymReview.setGymReviewId(gymReview.getId());
         gymReviewResponseDtoToGymReview.setDisplayName(gymReview.getMember().getDisplayName());
         gymReviewResponseDtoToGymReview.setGymGrade(gymReview.getGymGrade());
         gymReviewResponseDtoToGymReview.setGymComment(gymReview.getGymComment());

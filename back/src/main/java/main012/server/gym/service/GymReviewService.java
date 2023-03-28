@@ -12,6 +12,9 @@ import main012.server.gym.entity.GymReview;
 import main012.server.gym.mapper.GymReviewMapper;
 import main012.server.gym.repository.GymRepository;
 import main012.server.gym.repository.GymReviewRepository;
+import main012.server.user.entity.Member;
+import main012.server.user.repository.MemberRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,9 +29,12 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 public class GymReviewService {
+    @Value("${mail.address.admin}")
+    private String adminEmail;
     private final GymReviewRepository gymReviewRepository;
     private final GymRepository gymRepository;
     private final GymReviewMapper gymReviewMapper;
+    private final MemberRepository memberRepository;
 
     public GymReview createGymReview(GymReview gymReview) {
 
@@ -47,7 +53,7 @@ public class GymReviewService {
     }
 
     // 헬스장 리뷰가 있는지 확인
-    public GymReview findVerifiedGymReview(long gymReviewId) {
+    public GymReview findVerifiedGymReview(Long gymReviewId) {
         Optional<GymReview> optionalGymReview =
                 gymReviewRepository.findById(gymReviewId);
         GymReview findGymReview =
@@ -78,8 +84,16 @@ public class GymReviewService {
     }
 
     // 헬스장 리뷰 삭제
-    public void gymReviewDelete(Long gymReviewId) {
+    public void gymReviewDelete(Long gymReviewId,Long memberId) {
         GymReview findGymReview = findVerifiedGymReview(gymReviewId);
+
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        if(member.getEmail().equals(adminEmail)) {
+            gymReviewRepository.delete(findGymReview);
+        }else if(findGymReview.getMember().getId() != memberId){
+            throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_MATCHED);
+        }
         gymReviewRepository.delete(findGymReview);
     }
 

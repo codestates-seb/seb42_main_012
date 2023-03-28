@@ -23,13 +23,14 @@ public interface GymMapper {
                 request.getPhoneNumber(),
                 request.getBusinessHours(),
                 request.getPrice(),
+
                 request.getDetailPrices(),
                 request.getLatitude(),
                 request.getLongitude()
         );
 
         Member member = new Member();
-        member.setId(request.getMemberId());
+        member.setId(member.getId());
         gym.setMember(member);
 
 
