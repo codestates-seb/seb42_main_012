@@ -21,7 +21,6 @@ public class GymReviewDto {
         @NotBlank(message = "리뷰를 작성해주세요")
         @Size(min = 20)
         private String gymComment;
-
         private Long gymId;
 
         private Long memberId;
@@ -54,7 +53,7 @@ public class GymReviewDto {
     @NoArgsConstructor
     public static class Response {
         private Long memberId;
-        private Long reviewId;
+        private Long gymReviewId;
         private String displayName;
 
         private int gymGrade;
@@ -69,7 +68,7 @@ public class GymReviewDto {
     @Setter
     @AllArgsConstructor
     public static class ReviewInfo {
-        private Long reviewId;
+        private Long gymReviewId;
         private Long memberId;
         private String displayName;
         private int grade;
