@@ -3,6 +3,7 @@ package main012.server.gym.controller;
 
 import lombok.RequiredArgsConstructor;
 import main012.server.auth.resolver.AuthMember;
+import main012.server.common.dto.SingleResponseDto;
 import main012.server.gym.dto.GymReviewDto;
 import main012.server.gym.entity.GymReview;
 import main012.server.gym.mapper.GymReviewMapper;
@@ -34,7 +35,7 @@ public class GymReviewController {
 
 
 //     gym_id 번 헬스장에 리뷰 등록
-    @PostMapping("{gym_id}")
+    @PostMapping("/{gym_id}")
     @RolesAllowed({"ROLE_USER"})
     public ResponseEntity<?> postGymReview(@Valid @RequestBody GymReviewDto.Post gymReviewPostDto,
                                            @PathVariable("gym_id") Long gymId,
@@ -60,16 +61,13 @@ public class GymReviewController {
     }
 
 
-    @GetMapping("{gym_id}")
+    @GetMapping("/{gym_id}")
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
-    public ResponseEntity getGymReviews(@PathVariable("gym_id") @Positive long Id,
-                                        @PageableDefault(size=15, sort = "createdAt", direction = Sort.Direction.DESC)Pageable pageable) {
+    public ResponseEntity getGymReviews(@PathVariable("gym_id") @Positive Long gymId) {
 
-        Page<GymReview> gymReviewPage = gymReviewService.gymReviewPage(pageable); //페이지형식으로 모든 리뷰를 받아온다
-        List<GymReview> gymReviews = gymReviewPage.getContent(); // 받아온 리뷰를 리스트형식으로 바꾼다.
-        List<GymReviewDto.Response> response = mapper.gymReviewsToGymResponseDtos(gymReviews);
+        List<GymReviewDto.ReviewInfo> response = gymReviewService.findGymReviews(gymId);
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
 
     }
 
