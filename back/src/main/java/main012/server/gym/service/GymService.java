@@ -163,7 +163,7 @@ public class GymService {
     /**
      * 헬스장 목록 거리순 조회
      */
-    public List<GymDto.GymInfo> findAllGym(Long memberId, String latitude, String longitude) {
+    public List<GymDto.GymInfo> findAllGym(Long memberId, Double latitude, Double longitude) {
 
         List<Gym> all = gymRepository.findAll();
         List<GymWithDistance> gymInFiveKiloMeter = new ArrayList<>();

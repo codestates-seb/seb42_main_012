@@ -1,6 +1,7 @@
 package main012.server.gym.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import main012.server.auth.resolver.AuthMember;
 import main012.server.common.dto.SingleResponseDto;
 import main012.server.community.dto.CommunityDto;
@@ -25,8 +26,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/gyms")
-//@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
+@Slf4j
 public class GymController {
     private final GymBookmarkService gymBookmarkService;
     private final GymService gymService;
@@ -108,9 +109,10 @@ public class GymController {
     @GetMapping
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity getAllGym(@AuthMember Long memberId,
-                                    @RequestParam String latitude,
-                                    @RequestParam String longitude) {
-
+                                    @RequestParam Double latitude,
+                                    @RequestParam Double longitude) {
+        log.info("## latitude : {}", latitude);
+        log.info("## longitude : {}", longitude);
         List<GymDto.GymInfo> response = gymService.findAllGym(memberId, latitude, longitude);
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
