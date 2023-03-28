@@ -104,7 +104,7 @@ public interface GymMapper {
 //    }
     default GymDto.GymInfo gymToGimInfo(Gym gym, Boolean isBookmarked){
         String gymImageUrl = null;
-        if (gym.getGymImages().size() >= 1) {
+        if (!gym.getGymImages().isEmpty()) {
             gymImageUrl = gym.getGymImages().get(0).getImage().getImagePath();
         }
 

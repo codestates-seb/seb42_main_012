@@ -109,14 +109,31 @@ public class GymController {
     @GetMapping
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity getAllGym(@AuthMember Long memberId,
+                                    @RequestParam String filter,
                                     @RequestParam Double latitude,
                                     @RequestParam Double longitude) {
+        log.info("## filter : {}", filter);
         log.info("## latitude : {}", latitude);
         log.info("## longitude : {}", longitude);
-        List<GymDto.GymInfo> response = gymService.findAllGym(memberId, latitude, longitude);
+        List<GymDto.GymInfo> response = gymService.findFilteredGymList(memberId, latitude, longitude, filter);
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
+
+    // 헬스장 필터링
+//    @GetMapping("/filters")
+//    @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
+//    public ResponseEntity getFilteredGymList (@AuthMember Long memberId,
+//                                    @RequestParam String filter,
+//                                    @RequestParam Double latitude,
+//                                    @RequestParam Double longitude) {
+//        log.info("## filter : {}", filter);
+//        log.info("## latitude : {}", latitude);
+//        log.info("## longitude : {}", longitude);
+//        List<GymDto.GymInfo> response = gymService.findFilteredGymList(memberId, latitude, longitude, filter);
+//
+//        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
+//    }
 
 
 

@@ -11,4 +11,12 @@ import main012.server.gym.entity.Gym;
 public class GymWithDistance {
     private Gym gym;
     private Double distance;
+
+    private double avgGymGrade;
+    private int bookmarkSize;
+
+    public GymWithDistance(Gym gym, Double distance) {
+        this.gym = gym;
+        this.distance = distance;
+    }
 }
