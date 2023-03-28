@@ -37,13 +37,18 @@ public class GymReviewController {
 //     gym_id 번 헬스장에 리뷰 등록
     @PostMapping("/{gym_id}")
     @RolesAllowed({"ROLE_USER"})
-    public ResponseEntity<?> postGymReview(@Valid @RequestBody GymReviewDto.Post gymReviewPostDto,
+    public ResponseEntity postGymReview(@Valid @RequestBody GymReviewDto.Post gymReviewPostDto,
                                            @PathVariable("gym_id") Long gymId,
                                            @AuthMember Long memberId)
     {
         GymReview gymReview = mapper.gymReviewPostDtoToGymReview(gymReviewPostDto, memberId, gymId);//DTO -> Entity 변환
         GymReview createGymReview = gymReviewService.createGymReview(gymReview); //테이블 저장
-        GymReviewDto.Response response = mapper.gymReviewResponseDtoToGymReview(createGymReview); //Entity -> ResponseDto
+        GymReviewDto.Response response = mapper.gymReviewResponseDtoToGymReview(createGymReview);
+
+
+
+
+
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

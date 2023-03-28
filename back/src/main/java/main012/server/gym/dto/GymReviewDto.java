@@ -21,7 +21,6 @@ public class GymReviewDto {
         @NotBlank(message = "리뷰를 작성해주세요")
         @Size(min = 20)
         private String gymComment;
-
         private Long gymId;
 
         private Long memberId;
