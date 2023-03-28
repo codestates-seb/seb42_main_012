@@ -32,16 +32,26 @@ api.interceptors.response.use(
   async error => {
     const originalRequest = error.config;
     if (error.response.status === 401) {
+      // 그외의 오류
+      if (
+        localStorage.getItem('refreshToken') === null &&
+        localStorage.getItem('accessToken') === null
+      ) {
+        return Promise.reject(error);
+      }
+      if (error.response.data.status === 5001) {
+        // 회원정보 일치하지 않을경우(비밀번호 잘못입력했을경우)
+        await refreshApi.post('/auth/refresh').then(res => {
+          localStorage.setItem('accessToken', res.headers.authorization);
+          localStorage.setItem(
+            'refreshToken',
+            res.headers['authorization-refresh'],
+          );
+        });
+      }
       if (error.response.data.status === 5003) {
         return Promise.reject(error);
       }
-      await refreshApi.post('/auth/refresh').then(res => {
-        localStorage.setItem('accessToken', res.headers.authorization);
-        localStorage.setItem(
-          'refreshToken',
-          res.headers['authorization-refresh'],
-        );
-      });
 
       return api(originalRequest);
     }

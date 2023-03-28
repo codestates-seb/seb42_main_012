@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
 
 import { FcGoogle } from 'react-icons/fc';
@@ -10,7 +10,7 @@ import BasicButton from '../UI/Button/BasicButton';
 import api from '../../utils/api';
 
 function Login() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { register, handleSubmit } = useForm({
     defaultValues: {
       email: 'testMember@email.com',
@@ -20,17 +20,26 @@ function Login() {
 
   const onSubmit = data => {
     api
-      .post('/auth/login', {
-        email: data.email,
-        password: data.password,
-      })
+      .post(
+        '/auth/login',
+        {
+          email: data.email,
+          password: data.password,
+        },
+        // { withCredentials: true },
+      )
+
       .then(res => {
         if (res.status === 200) {
           localStorage.setItem('isLoggedIn', true);
-          navigate('/', { replace: true });
+          window.location.reload();
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        alert('로그인에 실패했어요!');
+        window.location.replace('/');
+      });
   };
 
   return (

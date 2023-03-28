@@ -24,28 +24,28 @@ function MyDetailTitle() {
       {path === pathArr[0] ? (
         <>
           <h2>내가 쓴 글</h2>
-          <span className="text-[var(--main)]">{`(${myBoards.contents.length})`}</span>
+          <span className="text-[var(--main)]">{`(${myBoards.totalCnt})`}</span>
         </>
       ) : path === pathArr[1] ? (
         <>
           <h2>내가 쓴 댓글</h2>
-          <span className="text-[var(--main)]">{`(${myComments.contents.length})`}</span>
+          <span className="text-[var(--main)]">{`(${myComments.totalCnt})`}</span>
         </>
       ) : path === pathArr[2] ? (
         <>
           <h2>내가 쓴 리뷰</h2>
-          <span className="text-[var(--main)]">{`(${myReviews.contents.length})`}</span>
+          <span className="text-[var(--main)]">{`(${myReviews.totalCnt})`}</span>
         </>
       ) : path === pathArr[3] ? (
         <>
           <h2>헬스장 찜 목록</h2>
-          <span className="text-[var(--main)]">{`(${myGymsBookmarks.contents.length})`}</span>
+          <span className="text-[var(--main)]">{`(${myGymsBookmarks.totalCnt})`}</span>
         </>
       ) : path === pathArr[4] ? (
         <>
           <h2>게시글 찜 목록</h2>
           <span className="text-[var(--main)]">
-            {`(${myBoardsBookmarks.contents.length})`}
+            {`(${myBoardsBookmarks.totalCnt})`}
           </span>
         </>
       ) : null}
