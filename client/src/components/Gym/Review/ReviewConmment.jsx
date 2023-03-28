@@ -1,4 +1,4 @@
 function GymReviewConmment({ review }) {
-  return <p className="text-sm w-80">{review.gymComment}</p>;
+  return <p className="w-full text-sm">{review.gymComment}</p>;
 }
 export default GymReviewConmment;

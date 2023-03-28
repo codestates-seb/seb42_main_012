@@ -12,6 +12,7 @@ function GymNewestList({ gyms }) {
               gymId={gym.gymId}
               gymName={gym.gymName}
               gymImage={gym.gymImageUrl}
+              isBookmarked={gym.isBookmarked}
             />
           ))}
       </ul>

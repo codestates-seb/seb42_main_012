@@ -19,6 +19,7 @@ function GymDetailPage() {
   useEffect(() => {
     gymAxios.get(`/gyms/reviews/${id}`).then(res => setReviews(res.data));
   }, []);
+  console.log(gymsDetail);
 
   return (
     <>
@@ -27,6 +28,8 @@ function GymDetailPage() {
           <GymDetailHeader
             gymName={gym.gymName}
             gymBookmarkCnt={gym.gymBookmarkCnt}
+            isBookmarked={gym.bookmarked}
+            gymId={gym.gymId}
           />
           <div className="flex overflow-x-scroll w-90">
             {gym.gymImages === undefined ? (

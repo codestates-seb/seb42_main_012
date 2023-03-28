@@ -4,6 +4,7 @@ import { ErrorMessage } from '@hookform/error-message';
 import { BsSend } from 'react-icons/bs';
 import StarIcon from '../../UI/Icon/StarIcon';
 import gymAxios from '../../../pages/Gym/gymAxios';
+import useGymStore from '../../../state/useGymStore';
 
 function GymReviewPost() {
   const {
@@ -12,6 +13,7 @@ function GymReviewPost() {
     formState: { errors },
   } = useForm();
   const { id } = useParams();
+  const { setReviews } = useGymStore();
 
   const onSubmit = async data => {
     await gymAxios
@@ -19,8 +21,9 @@ function GymReviewPost() {
         gymGrade: Number(data.grade),
         gymComment: data.review,
       })
-      .then(window.location.reload())
+      .then((document.getElementById('textArea').value = null))
       .catch(err => console.log(err));
+    gymAxios.get(`/gyms/reviews/${id}`).then(res => setReviews(res.data));
   };
 
   return (
