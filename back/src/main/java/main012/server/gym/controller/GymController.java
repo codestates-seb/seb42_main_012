@@ -108,10 +108,10 @@ public class GymController {
     @GetMapping
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity getAllGym(@AuthMember Long memberId,
-                                    @RequestParam(required = false) String lastFeedId,
-                                    @RequestBody GymDto.Location request ) {
+                                    @RequestParam String latitude,
+                                    @RequestParam String longitude) {
 
-        GymDto.AllGymResponse response = gymService.findAllGym(memberId, lastFeedId);
+        List<GymDto.GymInfo> response = gymService.findAllGym(memberId, latitude, longitude);
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }

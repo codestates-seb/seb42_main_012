@@ -1,6 +1,7 @@
 package main012.server.gym.dto;
 
 import lombok.*;
+import main012.server.gym.entity.Gym;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -122,7 +123,6 @@ public class GymDto {
         private List<FacilityInfo> facilities ;
         private Boolean isBookmarked;
     }
-
 
 
     @Getter

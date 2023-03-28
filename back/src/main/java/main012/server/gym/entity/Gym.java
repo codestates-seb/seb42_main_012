@@ -8,9 +8,7 @@ import main012.server.user.entity.Member;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -23,13 +21,13 @@ public class Gym extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 100, nullable = false, updatable = false,unique = true) // 헬스장 이름은 unique
+    @Column(length = 100, nullable = false, updatable = false, unique = true) // 헬스장 이름은 unique
     private String gymName;
 
     @Column(length = 100, nullable = false)
     private String address;
 
-    @Column(length = 15,nullable = false)
+    @Column(length = 15, nullable = false)
     private String phoneNumber;
 
     @Column(length = 100, nullable = false)
@@ -71,7 +69,6 @@ public class Gym extends Auditable {
     private List<GymBookmark> gymBookmarks = new ArrayList<>();
 
 
-
     // 1: N
     @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "gym", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -85,10 +82,10 @@ public class Gym extends Auditable {
     private List<GymImage> gymImages = new ArrayList<>();
 
     /*
-    * 양방향 매핑 설정
-    */
+     * 양방향 매핑 설정
+     */
 
-    public void setGymBookmarks (GymBookmark gymBookmark) {
+    public void setGymBookmarks(GymBookmark gymBookmark) {
         this.gymBookmarks.add(gymBookmark);
         if (gymBookmark.getGym() != this) {
             gymBookmark.setGym(this);
@@ -96,9 +93,9 @@ public class Gym extends Auditable {
     }
 
 
-    public void setGymReview(GymReview gymReview){
+    public void setGymReview(GymReview gymReview) {
         this.gymReviews.add(gymReview);
-        if(gymReview.getGym() != this) {
+        if (gymReview.getGym() != this) {
             gymReview.setGym(this);
         }
     }
@@ -124,5 +121,29 @@ public class Gym extends Auditable {
         this.detailPrices = detailPrices;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+
+    public Double distanceMeter(String otherLatitude, String otherLongitude) {
+        Double oLat = Double.parseDouble(otherLatitude);
+        Double oLng = Double.parseDouble(otherLongitude);
+        Double myLat = Double.parseDouble(latitude);
+        Double myLng = Double.parseDouble(longitude);
+
+        Double theta = myLng - oLng;
+        Double dist = Math.sin(deg2rad(myLat)) * Math.sin(deg2rad(oLat)) + Math.cos(deg2rad(myLat)) * Math.cos(deg2rad(oLat)) * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist *= 60 * 1.1515;
+
+        return dist * 1609.344;
+    }
+
+    private Double deg2rad(Double deg) {
+        return deg * Math.PI / 180.0;
+    }
+
+    private Double rad2deg(Double rad) {
+        return rad * 180.0 / Math.PI;
     }
 }

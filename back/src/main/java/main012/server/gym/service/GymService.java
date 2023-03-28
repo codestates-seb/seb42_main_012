@@ -1,10 +1,12 @@
 package main012.server.gym.service;
 
+import com.sun.source.tree.Tree;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
 import main012.server.gym.dto.GymDto;
+import main012.server.gym.dto.GymWithDistance;
 import main012.server.gym.entity.Facility;
 import main012.server.gym.entity.Gym;
 import main012.server.gym.entity.GymBookmark;
@@ -30,9 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -159,45 +159,46 @@ public class GymService {
         return response;
     }
 
-    // 모든 헬스장 정보 조회
-//    public Page<Gym> gymsPage(Pageable pageable) {
-//
-//        return gymRepository.findAll(pageable);
-//    }
-    public GymDto.AllGymResponse findAllGym(Long memberId, String lastFeedId) {
-        Long feedId = getFeedId(lastFeedId);
-        log.info("## feedId : {}", feedId);
 
-        Page<Gym> pages = gymRepository.findByIdLessThanOrderByIdDesc(feedId, pageable);
-        List<Gym> contents = pages.getContent();
+    /**
+     * 헬스장 목록 거리순 조회
+     */
+    public List<GymDto.GymInfo> findAllGym(Long memberId, String latitude, String longitude) {
 
-        int totalElements = contents.size();
+        List<Gym> all = gymRepository.findAll();
+        List<GymWithDistance> gymInFiveKiloMeter = new ArrayList<>();
 
-        Long nextCursor;
-        if (totalElements < size) {
-            nextCursor = -1L;
-        } else {
-            nextCursor = contents.get(size - 1).getId();
-        }
+        all.stream()
+                .forEach(gym -> {
+                    Double result = gym.distanceMeter(latitude, longitude);
+                    if (result <= 5000) {
+                        GymWithDistance gymWithDistance = new GymWithDistance(gym, result);
+                        gymInFiveKiloMeter.add(gymWithDistance);
+                        log.info("## distance : {}", result);
+                    }
+                });
+
+        List<Gym> contents = gymInFiveKiloMeter.stream()
+                .sorted(Comparator.comparing(GymWithDistance::getDistance))
+                .map(gymWithDistance -> gymWithDistance.getGym())
+                .collect(Collectors.toList());
 
         List<GymDto.GymInfo> responses = new ArrayList<>();
         contents.stream()
                 .forEach(gym -> {
                     Boolean isBookmarked = gymBookmarkRepository.findByMemberIdAndGymId(memberId, gym.getId())
                             .isPresent();
-                    String gymImageUrl = null;
-                    if (gym.getGymImages().size() >= 1) {
-                        gymImageUrl = gym.getGymImages().get(0).getImage().getImagePath();
-                    }
-                    GymDto.GymInfo response = gymMapper.gymToGimInfo(gym, isBookmarked, gymImageUrl);
+                    GymDto.GymInfo response = gymMapper.gymToGimInfo(gym, isBookmarked);
                     responses.add(response);
                 });
 
-
-        return new GymDto.AllGymResponse
-                (responses, totalElements, nextCursor);
-
+        return responses;
     }
+
+
+
+
+
 
     // cursor 커서 얻기
     private Long getNextCursor(List<Gym> contents, int totalElements) {
@@ -271,7 +272,7 @@ public class GymService {
     // 페이지네이션 feedId 검증
     private Long getFeedId(String lastFeedId) {
         Long feedId;
-        if (lastFeedId == null) {
+        if (lastFeedId.isEmpty()) {
             feedId = 9223372036854775807L;
         } else if (!lastFeedId.matches("[+-]?\\d+")) {
             throw new BusinessLoginException(ExceptionCode.REQUEST_NOT_SUPPORT);

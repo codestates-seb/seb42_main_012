@@ -97,7 +97,12 @@ public interface GymMapper {
 //                .gym();
 //        return response;
 //    }
-    default GymDto.GymInfo gymToGimInfo(Gym gym, Boolean isBookmarked, String gymImageUrl){
+    default GymDto.GymInfo gymToGimInfo(Gym gym, Boolean isBookmarked){
+        String gymImageUrl = null;
+        if (gym.getGymImages().size() >= 1) {
+            gymImageUrl = gym.getGymImages().get(0).getImage().getImagePath();
+        }
+
         GymDto.GymInfo response = new GymDto.GymInfo(
                 gym.getId(),
                 gym.getGymName(),
