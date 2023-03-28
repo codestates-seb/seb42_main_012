@@ -128,6 +128,7 @@ public class GymDto {
     @Getter
     @Setter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Response {
         private Long memberId;
         private Long gymId;
@@ -139,7 +140,8 @@ public class GymDto {
         private String detailPrices;
         private String businessHours;
         private List<String> facilityName;
-        private Long gymBookmarkCnt;
+        private int gymBookmarkCnt;
+        private boolean isBookmarked;
     }
 
     @Getter
