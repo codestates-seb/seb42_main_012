@@ -141,7 +141,7 @@ public class CommentService {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
 
 
-        // 댓글 작성자와 로그인한 멤버/관리자 이메일이 일치하는지 확인
+        // 댓글 작성자와 로그인한 멤버/관리자 이메일이 일치하는지 확인-------------------------------------------------------------
         if(existComment.getMember().getId() != memberId || !(member.getEmail()).equals(adminEmail)){
             throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_MATCHED);
         }

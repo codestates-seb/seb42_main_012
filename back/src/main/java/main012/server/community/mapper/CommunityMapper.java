@@ -38,6 +38,7 @@ public interface CommunityMapper {
 
 
         responseCommunity.setCommunityId(community.getCommunityId());
+        responseCommunity.setMemberId(community.getMember().getId());
         responseCommunity.setDisplayName(community.getMember().getDisplayName());
         responseCommunity.setTitle(community.getTitle());
         responseCommunity.setContent(community.getContent());

@@ -163,7 +163,7 @@ public class CommunityService {
         Community existCommunity = findExistCommunity(communityId);
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        // 게시글 작성자와 로그인한 작성자가 일치하는지 확인
+        // 게시글 작성자와 로그인한 작성자가 일치하는지 확인-----------------------------------------------------------
         if((existCommunity.getMember().getId() != memberId) || !((member.getEmail()).equals(adminEmail))){
             throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_MATCHED);
         }
@@ -202,7 +202,7 @@ public class CommunityService {
             imageInfo.add(response);
         }
         
-        // api명세서에 맞는 양식으로 설정
+        // api명세서에 맞는 양식으로 설정-------------------------------------------------------------------------------------
         CommunityDto.Response response = communityMapper.communityToResponse(foundCommunity);
 //        Optional.ofNullable(foundCommunity.getMember().getImage().getImagePath()).ifPresent(imagePath -> response.setProfileImage(imagePath));
 //        response.setProfileImage(Optional.ofNullable(foundCommunity.getMember().getImage().getImagePath()).orElse(""));
