@@ -61,7 +61,7 @@ public class GymReviewService {
     }
 
     // 헬스장 리뷰 삭제
-    public void gymReviewDelete(long gymReviewId) {
+    public void gymReviewDelete(Long gymReviewId) {
         GymReview findGymReview = findVerifiedGymReview(gymReviewId);
         gymReviewRepository.delete(findGymReview);
     }

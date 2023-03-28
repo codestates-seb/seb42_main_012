@@ -46,7 +46,7 @@ public class GymController {
                                   @RequestPart("files")List<MultipartFile> files) throws IOException {
 
         request.setMemberId(memberId);
-        Gym gym = gymService.createGym(request, files);
+        Gym gym = gymService.createGym(request, files,memberId);
 
         GymDto.Response response = mapper.gymToGymResponseDto(gym, request.getGymBookmarkCnt());
         return new ResponseEntity<>(response,HttpStatus.CREATED);
@@ -122,10 +122,11 @@ public class GymController {
 
     @DeleteMapping("/{gym_id}")
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
-    public ResponseEntity deleteGym(@PathVariable("gym_id") @Positive Long gymId) {
+    public ResponseEntity deleteGym(@PathVariable("gym_id") @Positive Long gymId,
+                                    @AuthMember Long memberId) {
         System.out.println("# deleted gymId: " + gymId);
         // No need business logic
-        gymService.deleteGym(gymId);
+        gymService.deleteGym(gymId,memberId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -137,8 +138,6 @@ public class GymController {
         gymBookmarkService.addGymBookmark(memberId, gymId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
 
 
 

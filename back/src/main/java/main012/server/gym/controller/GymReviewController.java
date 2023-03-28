@@ -61,7 +61,7 @@ public class GymReviewController {
 
 
     @GetMapping("{gym_id}")
-    @RolesAllowed({"ROLE_USER"})
+    @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity getGymReviews(@PathVariable("gym_id") @Positive long Id,
                                         @PageableDefault(size=15, sort = "createdAt", direction = Sort.Direction.DESC)Pageable pageable) {
 
@@ -80,7 +80,8 @@ public class GymReviewController {
 
     @DeleteMapping("{review_id}")
     @RolesAllowed({"ROLE_USER"})
-    public ResponseEntity gymReviewDelete(@PathVariable("gymReview_id") @Positive long gymReviewId){
+    public ResponseEntity gymReviewDelete(@PathVariable("gymReview_id") @Positive long gymReviewId,
+                                          @AuthMember Long memberId){
         gymReviewService.gymReviewDelete(gymReviewId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

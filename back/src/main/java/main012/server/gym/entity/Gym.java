@@ -65,13 +65,13 @@ public class Gym extends Auditable {
 
     // 1 : N
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "gym", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "gym", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
     private List<GymBookmark> gymBookmarks = new ArrayList<>();
 
 
     // 1: N
     @Setter(AccessLevel.NONE)
-    @OneToMany(mappedBy = "gym", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "gym", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GymReview> gymReviews = new ArrayList<>();
 
 
