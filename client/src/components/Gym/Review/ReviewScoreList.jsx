@@ -7,7 +7,7 @@ function ReviewScoreList({ gymId }) {
   useEffect(() => {
     gymAxios.get(`/gyms/reviews/${gymId}`).then(res => setReviews(res.data));
   }, []);
-  const grade = reviews.map(review => review.grade);
+  const grade = reviews.map(review => review.gymGrade);
 
   return (
     <div className="flex items-center mr-auto">
