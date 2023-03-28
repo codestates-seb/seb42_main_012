@@ -1,16 +1,12 @@
 package main012.server.gym.mapper;
 
-import main012.server.community.entity.Community;
 import main012.server.gym.dto.GymDto;
 
-import main012.server.gym.entity.Facility;
 import main012.server.gym.entity.Gym;
-import main012.server.user.dto.MemberInfoDto;
 import main012.server.user.entity.Member;
 import org.mapstruct.Mapper;
 
-import java.nio.file.LinkOption;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -66,6 +62,7 @@ public interface GymMapper {
         return responseGym;
     }
 
+
     default List<GymDto.GymImage> gymToGymImageDtos(Gym gym) {
         return gym.getGymImages().stream()
                 .map(gymImage -> {
@@ -100,7 +97,32 @@ public interface GymMapper {
 //                .gym();
 //        return response;
 //    }
-    List<GymDto.AllGyms> gymToGymInfos(List<Gym> gyms);
+    default GymDto.GymInfo gymToGimInfo(Gym gym, Boolean isBookmarked, String gymImageUrl){
+        GymDto.GymInfo response = new GymDto.GymInfo(
+                gym.getId(),
+                gym.getGymName(),
+                gymImageUrl,
+                gym.getAddress(),
+                gym.getPrice(),
+                gym.getBusinessHours(),
+                gymToFacilityList(gym),
+                isBookmarked
+        );
+
+        return response;
+    }
+
+    default List<GymDto.FacilityInfo> gymToFacilityList(Gym gym) {
+        List<GymDto.FacilityInfo> lists = new ArrayList<>();
+        gym.getFacilities().stream()
+                .forEach(facility -> {
+                    GymDto.FacilityInfo facilityInfo = new GymDto.FacilityInfo(
+                            facility.getId(),
+                            facility.getFacilityName());
+                    lists.add(facilityInfo);
+                });
+        return lists;
+    }
 
 }
 

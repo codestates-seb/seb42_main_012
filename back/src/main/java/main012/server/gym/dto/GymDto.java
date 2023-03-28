@@ -1,8 +1,6 @@
 package main012.server.gym.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import main012.server.gym.entity.Facility;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -104,9 +102,9 @@ public class GymDto {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class FacilityList<T> {
+    public static class FacilityInfo {
         private Long facilityId;
-        private Long facilityName;
+        private String facilityName;
     }
 
 
@@ -114,17 +112,15 @@ public class GymDto {
     @Setter
     @AllArgsConstructor
     @Builder
-    public static class AllGyms {
+    public static class GymInfo {
         private Long gymId;
         private String gymName;
-        private List<GymDto.GymImage> gymImages;
+        private String gymImageUrl;
         private String address;
-        private String phoneNumber;
         private String price;
-        private String detailPrices;
         private String businessHours;
-        private List<String> facilityName;
-        private Long gymBookmarkCnt;
+        private List<FacilityInfo> facilities ;
+        private Boolean isBookmarked;
     }
 
 
@@ -162,6 +158,13 @@ public class GymDto {
 //        private int gymBookmarkCnt;
 //    }
 
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class Location {
+        private String latitude;
+        private String longitude;
+    }
 
 
 }

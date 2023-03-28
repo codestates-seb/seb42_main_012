@@ -2,6 +2,7 @@ package main012.server.gym.controller;
 
 import lombok.RequiredArgsConstructor;
 import main012.server.auth.resolver.AuthMember;
+import main012.server.common.dto.SingleResponseDto;
 import main012.server.community.dto.CommunityDto;
 import main012.server.gym.dto.GymDto;
 
@@ -107,10 +108,12 @@ public class GymController {
     @GetMapping
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity getAllGym(@AuthMember Long memberId,
-                                    @RequestParam String lastFeedId) {
-        GymDto.AllGymResponse response = gymService.findAllGym(lastFeedId);
+                                    @RequestParam(required = false) String lastFeedId,
+                                    @RequestBody GymDto.Location request ) {
 
-        return new ResponseEntity<>(response,HttpStatus.OK);
+        GymDto.AllGymResponse response = gymService.findAllGym(memberId, lastFeedId);
+
+        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
 
