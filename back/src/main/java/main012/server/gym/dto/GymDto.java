@@ -1,6 +1,7 @@
 package main012.server.gym.dto;
 
 import lombok.*;
+import main012.server.gym.entity.Facility;
 import main012.server.gym.entity.Gym;
 
 import javax.validation.constraints.NotBlank;
@@ -45,7 +46,6 @@ public class GymDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Patch {
-        private Long gymId;
         @NotBlank(message = "헬스장 이름을 입력해 주세요")
         private String gymName;
         @NotBlank(message = "주소를 입력해 주세요")
@@ -62,12 +62,12 @@ public class GymDto {
         @NotBlank(message = "상세 가격을 입력해주세요.")
         private String detailPrices;
 
-//        private List<Long> facilityIdList;
+        private List<Long> facilityIdList;
 
         private Double latitude; // 위도
 
         private Double longitude; // 경도
-        private Long[] deletedGymImageId;
+        private List<Long> deletedGymImageId;
     }
     @Getter
     @Setter
@@ -121,17 +121,16 @@ public class GymDto {
         private String price;
         private String businessHours;
         private List<FacilityInfo> facilities ;
-        private Boolean isBookmarked;
+        private Boolean Bookmarked;
     }
 
 
     @Getter
     @Setter
     @AllArgsConstructor
-    @NoArgsConstructor
     public static class Response {
-        private Long memberId;
         private Long gymId;
+        private Long memberId;
         private String gymName;
         private List<GymDto.GymImage> gymImages;
         private String address;
@@ -139,9 +138,9 @@ public class GymDto {
         private String price;
         private String detailPrices;
         private String businessHours;
-        private List<String> facilityName;
         private int gymBookmarkCnt;
-        private boolean isBookmarked;
+        private List<GymDto.FacilityInfo> facilities;
+        private Boolean isBookmarked;
     }
 
     @Getter
