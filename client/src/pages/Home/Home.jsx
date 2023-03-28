@@ -1,22 +1,10 @@
-import useGeolocation from 'react-hook-geolocation';
 import { useEffect } from 'react';
 import logo from '../../assets/images/logo.svg';
 import useMyStore from '../../state/useMyStore';
-import useGymStore from '../../state/useGymStore';
 import api from '../../utils/api';
 
 function HomePage() {
-  const { setMyLocation } = useGymStore();
-  const { setMyElements, myElements } = useMyStore();
-  console.log(myElements);
-
-  const geolocation = useGeolocation();
-
-  useEffect(() => {
-    if (geolocation) {
-      setMyLocation({ Ma: geolocation.latitude, La: geolocation.longitude });
-    }
-  }, [geolocation]);
+  const { setMyElements } = useMyStore();
 
   useEffect(() => {
     api.get('/members/my').then(res => setMyElements(res.data));
