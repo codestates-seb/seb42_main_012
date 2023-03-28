@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 // import useGeolocation from 'react-hook-geolocation';
 import gymAxios from './gymAxios';
 import GymList from '../../components/Gym/List/GymList';
@@ -8,7 +8,9 @@ import useGymStore from '../../state/useGymStore';
 // import useGeoLocation from '../../utils/useGeoLocation';
 
 function GymPage() {
-  const { gyms, setGyms } = useGymStore();
+  const { gyms, setGyms, setGymsDetail } = useGymStore();
+  const filters = ['distance', 'grade', 'bookmark'];
+  const [filterOn, setFilterOn] = useState([true, false, false]);
   // const geolocation = useGeolocation();
   // const location = useGeoLocation();
 
@@ -23,6 +25,7 @@ function GymPage() {
   useEffect(() => {
     // if (location.loaded === true) {
     gymAxios.get('/gyms', { params }).then(res => setGyms(res.data.data));
+    setGymsDetail({});
     // }
   }, []);
   // }, [location]);
@@ -30,7 +33,11 @@ function GymPage() {
   return (
     <div className="mb-24">
       <GymNewestList gyms={gyms} />
-      <GymTabList />
+      <GymTabList
+        filters={filters}
+        filterOn={filterOn}
+        setFilterOn={setFilterOn}
+      />
       <GymList gyms={gyms} />
     </div>
   );

@@ -17,14 +17,13 @@ function GymDetailPage() {
     });
   }, []);
   useEffect(() => {
-    gymAxios.get(`/gyms/reviews/${id}`).then(res => setReviews(res.data));
+    gymAxios.get(`/gyms/reviews/${id}`).then(res => setReviews(res.data.data));
   }, []);
-  console.log(gymsDetail);
 
   return (
     <>
-      {[gymsDetail].map(gym => (
-        <div key={gym.gymId}>
+      {[gymsDetail].map((gym, idx) => (
+        <div key={idx}>
           <GymDetailHeader
             gymName={gym.gymName}
             gymBookmarkCnt={gym.gymBookmarkCnt}

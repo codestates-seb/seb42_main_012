@@ -23,7 +23,7 @@ function GymReviewPost() {
       })
       .then((document.getElementById('textArea').value = null))
       .catch(err => console.log(err));
-    gymAxios.get(`/gyms/reviews/${id}`).then(res => setReviews(res.data));
+    gymAxios.get(`/gyms/reviews/${id}`).then(res => setReviews(res.data.data));
   };
 
   return (
