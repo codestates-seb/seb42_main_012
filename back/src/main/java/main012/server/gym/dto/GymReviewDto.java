@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.validation.constraints.*;
+import java.time.LocalDateTime;
 
 public class GymReviewDto {
     @Getter
@@ -58,6 +60,8 @@ public class GymReviewDto {
         private long gymGrade;
 
         private String gymComment;
+        @Column(name = "created_at", updatable = false)
+        private LocalDateTime createdAt = LocalDateTime.now();
 
     }
 
