@@ -14,7 +14,7 @@ function GymList({ gyms }) {
             price={gym.price}
             facilities={gym.facilities}
             businessHours={gym.businessHours}
-            isBookmarked={gym.isBookmarked}
+            bookmarked={gym.bookmarked}
           />
         ))}
     </ul>

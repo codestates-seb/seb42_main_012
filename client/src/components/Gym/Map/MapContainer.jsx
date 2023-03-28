@@ -17,7 +17,7 @@ function GymMapContainer({ gymAddress }) {
         setMap(coords);
       }
     });
-  }, []);
+  }, [gymAddress]);
 
   return (
     <Map center={{ lat: map.Ma, lng: map.La }} className="w-full h-64 mt-1">

@@ -1,11 +1,11 @@
 import GymTag from '../../UI/Gym/GymTag';
 
-function GymTagList({ facilityNames }) {
+function GymTagList({ facilities }) {
   return (
-    <ul className="relative flex h-10 mt-2 overflow-x-scroll scrollbar-hide top-6">
-      {facilityNames === null
+    <ul className="relative flex h-10 mt-2 overflow-x-scroll scrollbar-hide top-1">
+      {facilities === null
         ? null
-        : facilityNames.map(facility => (
+        : facilities.map(facility => (
             <GymTag
               key={facility.facilityId}
               facilityName={facility.facilityName}

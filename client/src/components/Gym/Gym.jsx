@@ -9,10 +9,10 @@ function Gym({
   gymImageUrl,
   address,
   gymId,
-  facilityNames,
+  facilities,
   price,
   businessHours,
-  isBookmarked,
+  bookmarked,
 }) {
   return (
     <li className="flex pb-3 mb-3 border-b border-[var(--second-border)]">
@@ -36,7 +36,7 @@ function Gym({
           </Link>
           <ReviewScoreList gymId={gymId} />
           <div className="text-xl">
-            <HeartButton isBookmarked={isBookmarked} gymId={gymId} />
+            <HeartButton bookmarked={bookmarked} gymId={gymId} />
           </div>
         </div>
         <span className="text-sm text-[var(--second)] mb-1 line-clamp-1">
@@ -48,8 +48,8 @@ function Gym({
         <span className="text-sm text-[var(--second)] list-disc list-inside line-clamp-1">
           {businessHours}
         </span>
-        {facilityNames === undefined ? null : (
-          <GymTagList facilityNames={facilityNames} />
+        {facilities === undefined ? null : (
+          <GymTagList facilities={facilities} />
         )}
       </div>
     </li>
