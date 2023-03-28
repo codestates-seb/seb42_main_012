@@ -57,7 +57,7 @@ function Postcode({ setAddress, setMap, setPatchMap, patchAddress, address }) {
       >
         주소검색
       </button>
-      <p className="w-full h-8 pl-2 mt-2 text-xs border rounded-lg border-grey line-clamp-1">
+      <p className="w-full h-8 pt-2 pl-2 mt-2 text-xs border rounded-lg border-grey line-clamp-1">
         {address === ''
           ? patchAddress === undefined
             ? address
