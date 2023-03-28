@@ -9,6 +9,7 @@ import main012.server.community.mapper.CommentMapper;
 import main012.server.community.repository.CommentRepository;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
+import main012.server.image.entity.Image;
 import main012.server.user.entity.Member;
 import main012.server.user.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,13 +45,21 @@ public class CommentService {
         commentRepository.save(comment);
 
 
+        // 유저 프로필 이미지 설정
+        String imagePath = null;
+        Optional<Image> getImage = Optional.ofNullable(member.getImage());
+        if(!getImage.isEmpty()){
+            imagePath = member.getImage().getImagePath();
+        }
+
+
 
         CommentDto.RequestResponse response = new CommentDto.RequestResponse();
         response.setCommentId(comment.getCommentId());
         response.setCommunityId(comment.getCommunity().getCommunityId());
         response.setComment(comment.getComment());
         response.setDisplayName(comment.getMember().getDisplayName());
-//        response.setProfileImage(comment.getMember().getImage().getImagePath());
+        response.setProfileImage(imagePath);
         response.setCreatedAt(comment.getCreatedAt().toString());
 
         return response;
@@ -72,13 +81,20 @@ public class CommentService {
                 .ifPresent(editedComment -> existComment.setComment(editedComment));
 
 
+        // 유저 프로필 이미지 설정
+        String imagePath = null;
+        Optional<Image> getImage = Optional.ofNullable(existComment.getMember().getImage());
+        if(!getImage.isEmpty()){
+            imagePath = existComment.getMember().getImage().getImagePath();
+        }
+
 
         CommentDto.RequestResponse response = new CommentDto.RequestResponse();
         response.setCommentId(existComment.getCommentId());
         response.setCommunityId(existComment.getCommunity().getCommunityId());
         response.setComment(existComment.getComment());
         response.setDisplayName(existComment.getMember().getDisplayName());
-//        response.setProfileImage(Optional.of(existComment.getMember().getImage().getImagePath()).orElse(""));
+        response.setProfileImage(imagePath);
         response.setCreatedAt(existComment.getCreatedAt().toString());
 
         return response;
@@ -141,10 +157,13 @@ public class CommentService {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
 
 
-        // 댓글 작성자와 로그인한 멤버/관리자 이메일이 일치하는지 확인-------------------------------------------------------------
-        if(existComment.getMember().getId() != memberId || !(member.getEmail()).equals(adminEmail)){
+        // 댓글 작성자와 로그인한 멤버/관리자 이메일이 일치하는지 확인
+        if(member.getEmail().equals(adminEmail)){
+            commentRepository.delete(existComment);
+        } else if (existComment.getMember().getId() != memberId){
             throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_MATCHED);
         }
+
         commentRepository.delete(existComment);
     }
 
