@@ -45,6 +45,9 @@ public class Gym extends Auditable {
     @Column(length = 100, nullable = false)
     private Double longitude; // 경도
 
+    @Column(columnDefinition = "integer default 0", nullable = false) // 조회수 기본값 0으로 설정.
+    private int gymBookmarkCnt;
+
     // N : 1
     @ManyToOne(fetch = FetchType.LAZY) // 유저는 여러개의 헬스장 등록을 할 수 있다.
     @JoinColumn(name = "member_id")
