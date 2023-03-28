@@ -61,7 +61,7 @@ public class GymReviewController {
 
 
     @GetMapping("{gym_id}")
-    @RolesAllowed({"ROLE_USER"})
+    @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity getGymReviews(@PathVariable("gym_id") @Positive long Id,
                                         @PageableDefault(size=15, sort = "createdAt", direction = Sort.Direction.DESC)Pageable pageable) {
 
