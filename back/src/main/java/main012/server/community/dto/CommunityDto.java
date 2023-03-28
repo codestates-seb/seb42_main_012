@@ -1,13 +1,10 @@
 package main012.server.community.dto;
 
-import javassist.compiler.ast.Member;
 import lombok.*;
-import main012.server.community.entity.Community;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Optional;
 
 public class CommunityDto {
 
