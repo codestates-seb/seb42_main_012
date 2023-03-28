@@ -154,13 +154,13 @@ public class GymDto {
         private String gymImageUrl;
     }
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    public static class RankResponse {
-
-        private int gymBookmarkCnt;
-    }
+//    @Getter
+//    @Setter
+//    @AllArgsConstructor
+//    public static class RankResponse {
+//
+//        private int gymBookmarkCnt;
+//    }
 
 
 

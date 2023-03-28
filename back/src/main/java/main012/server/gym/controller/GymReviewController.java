@@ -75,6 +75,9 @@ public class GymReviewController {
 
 
 
+
+
+
     @DeleteMapping("{review_id}")
     @RolesAllowed({"ROLE_USER"})
     public ResponseEntity gymReviewDelete(@PathVariable("gymReview_id") @Positive long gymReviewId){

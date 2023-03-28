@@ -1,6 +1,8 @@
 package main012.server.gym.service;
 
 import lombok.RequiredArgsConstructor;
+import main012.server.exception.BusinessLoginException;
+import main012.server.exception.ExceptionCode;
 import main012.server.gym.entity.Gym;
 import main012.server.gym.entity.GymBookmark;
 import main012.server.gym.repository.GymBookmarkRepository;
@@ -25,12 +27,12 @@ public class GymBookmarkService {
 
     public Gym addGymBookmark(Long memberId, Long gymId) {
 
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("존재하지않는 회원"));
-        Gym gym = gymRepository.findById(gymId).orElseThrow(() -> new RuntimeException("존재하지 않는 헬스장"));
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
+        Gym gym = gymRepository.findById(gymId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.GYM_NOT_FOUND));
         Optional<GymBookmark> foundBookmark = gymBookmarkRepository.findByMemberAndGym(member, gym);
 
         if (foundBookmark.isPresent()) {
-            gymBookmarkRepository.delete(foundBookmark.orElseThrow(() -> new RuntimeException("존재하지 않는 찜")));
+            gymBookmarkRepository.delete(foundBookmark.orElseThrow(() -> new BusinessLoginException(ExceptionCode.GYMREVIEW_NOT_FOUND)));
         } else {
             GymBookmark gymBookmark = new GymBookmark(member, gym);
             gymBookmarkRepository.save(gymBookmark);
