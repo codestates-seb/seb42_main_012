@@ -5,9 +5,11 @@ import gymAxios from '../../../pages/Gym/gymAxios';
 function ReviewScoreList({ gymId }) {
   const [reviews, setReviews] = useState([]);
   useEffect(() => {
-    gymAxios.get(`/gyms/reviews/${gymId}`).then(res => setReviews(res.data));
+    gymAxios
+      .get(`/gyms/reviews/${gymId}`)
+      .then(res => setReviews(res.data.data));
   }, []);
-  const grade = reviews.map(review => review.gymGrade);
+  const grade = reviews.map(review => review.grade);
 
   return (
     <div className="flex items-center mr-auto">

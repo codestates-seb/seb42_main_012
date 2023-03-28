@@ -16,9 +16,7 @@ function HeartButton({ isBookmarked, gymId }) {
   };
 
   const heartHandler = async () => {
-    await gymAxios
-      .post(`gyms/bookmarks/${gymId}`)
-      .then(res => console.log(res));
+    await gymAxios.post(`gyms/bookmarks/${gymId}`);
     await gymAxios.get('/gyms', { params }).then(res => setGyms(res.data.data));
     setHeartChange(!heartChange);
   };

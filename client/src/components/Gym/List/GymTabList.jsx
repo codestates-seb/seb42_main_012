@@ -1,10 +1,7 @@
-import { useState } from 'react';
 import TabButton from '../../UI/Button/TabButton';
 
-function GymTabList() {
+function GymTabList({ filters, filterOn, setFilterOn }) {
   const tabs = ['거리', '평점', '찜'];
-  const filters = ['distance', 'grade', 'bookmark'];
-  const [filterOn, setFilterOn] = useState([true, false, false]);
 
   return (
     <ul className="flex pb-3 my-2">

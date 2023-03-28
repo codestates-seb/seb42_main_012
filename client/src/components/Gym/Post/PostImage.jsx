@@ -8,7 +8,9 @@ function GymPostImage({
   setDeletedGymImageId,
   deletedGymImageId,
 }) {
-  const [imagePreview, setImagePreview] = useState('');
+  const [imagePreview, setImagePreview] = useState(
+    PatchGymImages === undefined ? null : PatchGymImages.gymImageUrl,
+  );
   const [imagePatchView, setImagePatchView] = useState(false);
   useEffect(() => {
     if (image && image.length > 0) {
@@ -21,6 +23,7 @@ function GymPostImage({
     if (PatchGymImages !== null) {
       setDeletedGymImageId([PatchGymImages.gymImageId, ...deletedGymImageId]);
       setImagePatchView(true);
+      setImagePreview(null);
     }
   };
 
@@ -28,17 +31,7 @@ function GymPostImage({
     <div>
       <div className="flex flex-col mr-3">
         <img
-          src={
-            imagePatchView === true
-              ? imagePreview === ''
-                ? ''
-                : imagePreview
-              : imagePreview === ''
-              ? PatchGymImages === null
-                ? imagePreview
-                : PatchGymImages.gymImageUrl
-              : imagePreview
-          }
+          src={imagePreview}
           alt=""
           className="object-cover rounded-lg w-36 h-36"
         />
@@ -55,7 +48,7 @@ function GymPostImage({
         >
           사진 선택
         </label>
-        {imagePatchView === true ? null : PatchGymImages !== null ? (
+        {imagePatchView === true ? null : PatchGymImages !== undefined ? (
           <button
             type="button"
             onClick={imageDelete}

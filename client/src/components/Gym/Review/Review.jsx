@@ -14,8 +14,8 @@ function GymReview({ review }) {
   const { setReviews } = useGymStore();
   const { myElements } = useMyStore();
   const [edit, setEdit] = useState(false);
-  const [comment, setComment] = useState(review.gymComment);
-  const [grade, setGrade] = useState(review.gymGrade);
+  const [comment, setComment] = useState(review.comment);
+  const [grade, setGrade] = useState(review.grade);
   const { id } = useParams();
 
   const handleText = e => {
@@ -40,16 +40,15 @@ function GymReview({ review }) {
         gymGrade: grade,
         gymComment: comment,
       })
-      .then(res => console.log(res))
       .catch(err => console.log(err));
 
     await gymAxios.get(`/gyms/reviews/${id}`).then(res => {
-      console.log(res.data);
-      setReviews(res.data);
-      const resFil = res.data.filter(re => re.reviewId === review.reviewId);
-      console.log(resFil);
-      setComment(resFil[0].gymComment);
-      setGrade(resFil[0].gymGrade);
+      setReviews(res.data.data);
+      const resFil = res.data.data.filter(
+        re => re.reviewId === review.reviewId,
+      );
+      setComment(resFil[0].comment);
+      setGrade(resFil[0].grade);
     });
 
     setEdit(false);

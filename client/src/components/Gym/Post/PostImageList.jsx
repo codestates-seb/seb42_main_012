@@ -8,7 +8,6 @@ function GymPostImageList({
   setDeletedGymImageId,
   deletedGymImageId,
 }) {
-  console.log(PatchGymImages);
   const ids = ['image1', 'image2', 'image3', 'image4', 'image5'];
   return (
     <>
@@ -22,7 +21,7 @@ function GymPostImageList({
               register={register}
               image={images[idx]}
               id={id}
-              PatchGymImages=""
+              PatchGymImages={PatchGymImages[idx]}
               setDeletedGymImageId={setDeletedGymImageId}
               deletedGymImageId={deletedGymImageId}
             />

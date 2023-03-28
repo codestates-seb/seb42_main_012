@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import GymPostName from '../../components/Gym/Post/PostName';
 import GymPostAddress from '../../components/Gym/Post/PostAddress';
@@ -17,18 +17,12 @@ function GymPostPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname;
-  const { gymsDetail, setGymsDetail } = useGymStore();
-  useEffect(() => {
-    if (path === '/gyms/gympost') {
-      setGymsDetail({});
-    }
-  }, []);
+  const { gymsDetail } = useGymStore();
   const [address, setAddress] = useState('');
   const [map, setMap] = useState({ Ma: 0, La: 0 });
   const [patchMap, setPatchMap] = useState({ Ma: 0, La: 0 });
   const { register, handleSubmit, watch } = useForm();
   const [deletedGymImageId, setDeletedGymImageId] = useState([]);
-
   const image1 = watch('image1');
   const image2 = watch('image2');
   const image3 = watch('image3');
