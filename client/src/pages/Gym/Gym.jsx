@@ -6,11 +6,12 @@ import GymTabList from '../../components/Gym/List/GymTabList';
 import useGymStore from '../../state/useGymStore';
 
 function GymPage() {
-  const { gyms, setGyms, myLocation } = useGymStore();
+  const { gyms, myLocation, setGyms } = useGymStore();
 
   const params = {
-    latitude: myLocation.La,
-    longitude: myLocation.Ma,
+    filter: 'distance',
+    latitude: myLocation.Ma,
+    longitude: myLocation.La,
   };
 
   useEffect(() => {

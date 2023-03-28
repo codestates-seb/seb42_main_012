@@ -71,8 +71,8 @@ function GymPostPage() {
           ? gymsDetail.detailPrices
           : data.detailPrices,
         facilityIdList: facility,
-        latitude: !map.La ? patchMap.La : map.La,
-        longitude: !map.Ma ? patchMap.Ma : map.Ma,
+        latitude: !map.Ma ? patchMap.Ma : map.Ma,
+        longitude: !map.La ? patchMap.La : map.La,
         deletedGymImageId,
       };
 
@@ -111,8 +111,8 @@ function GymPostPage() {
           ? gymsDetail.detailPrices
           : data.detailPrices,
         facilityIdList: facility,
-        latitude: !map.La ? patchMap.La : map.La,
-        longitude: !map.Ma ? patchMap.Ma : map.Ma,
+        latitude: !map.Ma ? patchMap.Ma : map.Ma,
+        longitude: !map.La ? patchMap.La : map.La,
       };
 
       const formData = new FormData();

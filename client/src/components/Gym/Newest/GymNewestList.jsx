@@ -11,7 +11,7 @@ function GymNewestList({ gyms }) {
               key={gym.gymId}
               gymId={gym.gymId}
               gymName={gym.gymName}
-              gymImage={gym.gymImages}
+              gymImage={gym.gymImageUrl}
             />
           ))}
       </ul>

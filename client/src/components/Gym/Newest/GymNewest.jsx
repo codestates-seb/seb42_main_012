@@ -9,11 +9,7 @@ function GymNewest({ gymName, gymImage, gymId }) {
           {gymImage.length === 0 ? (
             <div className="w-full h-full bg-grey" />
           ) : (
-            <img
-              src={gymImage[0].gymImageUrl}
-              alt="헬스장 사진"
-              className="w-full h-full"
-            />
+            <img src={gymImage} alt="헬스장 사진" className="w-full h-full" />
           )}
         </div>
         <div className="flex items-center justify-between">
