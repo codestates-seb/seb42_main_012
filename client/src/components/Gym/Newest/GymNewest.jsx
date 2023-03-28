@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import HeartButton from '../../UI/Button/HeartButton';
 
 function GymNewest({ gymName, gymImage, gymId }) {
   return (
@@ -16,7 +15,6 @@ function GymNewest({ gymName, gymImage, gymId }) {
           <div className="text-[14px]">
             <span>{gymName}</span>
           </div>
-          <HeartButton />
         </div>
       </Link>
     </li>

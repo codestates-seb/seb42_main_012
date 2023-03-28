@@ -12,6 +12,7 @@ function Gym({
   facilityNames,
   price,
   businessHours,
+  isBookmarked,
 }) {
   return (
     <li className="flex pb-3 mb-3 border-b border-[var(--second-border)]">
@@ -35,7 +36,7 @@ function Gym({
           </Link>
           <ReviewScoreList gymId={gymId} />
           <div className="text-xl">
-            <HeartButton />
+            <HeartButton isBookmarked={isBookmarked} gymId={gymId} />
           </div>
         </div>
         <span className="text-sm text-[var(--second)] mb-1 line-clamp-1">

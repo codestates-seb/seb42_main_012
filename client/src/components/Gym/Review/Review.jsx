@@ -1,17 +1,22 @@
 import { useState } from 'react';
 import { CiEraser } from 'react-icons/ci';
 import { BiMessageSquareCheck } from 'react-icons/bi';
+import { useParams } from 'react-router-dom';
+import { RiDeleteBin5Line } from 'react-icons/ri';
 import GymReviewConmment from './ReviewConmment';
 import GymReviewTitle from './ReviewTitle';
 import gymAxios from '../../../pages/Gym/gymAxios';
 import StarIcon from '../../UI/Icon/StarIcon';
+import useGymStore from '../../../state/useGymStore';
+import useMyStore from '../../../state/useMyStore';
 
 function GymReview({ review }) {
+  const { setReviews } = useGymStore();
+  const { myElements } = useMyStore();
   const [edit, setEdit] = useState(false);
   const [comment, setComment] = useState(review.gymComment);
   const [grade, setGrade] = useState(review.gymGrade);
-
-  console.log(review);
+  const { id } = useParams();
 
   const handleText = e => {
     setComment(e.target.value);
@@ -21,14 +26,33 @@ function GymReview({ review }) {
     setGrade(e.target.value);
   };
 
-  const handleEdit = () => {
+  const handleDelete = () => {
     gymAxios
+      .delete(`gyms/reviews/${review.reviewId}`)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  };
+
+  const handleEdit = async e => {
+    e.preventDefault();
+    await gymAxios
       .patch(`/gyms/reviews/${review.reviewId}`, {
         gymGrade: grade,
         gymComment: comment,
       })
-      .then(window.location.reload())
+      .then(res => console.log(res))
       .catch(err => console.log(err));
+
+    await gymAxios.get(`/gyms/reviews/${id}`).then(res => {
+      console.log(res.data);
+      setReviews(res.data);
+      const resFil = res.data.filter(re => re.reviewId === review.reviewId);
+      console.log(resFil);
+      setComment(resFil[0].gymComment);
+      setGrade(resFil[0].gymGrade);
+    });
+
+    setEdit(false);
   };
 
   return (
@@ -37,12 +61,24 @@ function GymReview({ review }) {
       {edit === false ? (
         <div className="flex">
           <GymReviewConmment review={review} />
-          <button
-            type="button"
-            className="absolute text-xl right-4 top-50 hover:bg-grey"
-          >
-            <CiEraser onClick={() => setEdit(!edit)} />
-          </button>
+          {myElements.memberId === review.memberId ? (
+            <div className="ml-4">
+              <button
+                type="button"
+                className="text-xl rounded-md hover:bg-grey"
+                onClick={() => setEdit(!edit)}
+              >
+                <CiEraser />
+              </button>
+              <button
+                type="button"
+                className="text-xl rounded-md hover:bg-grey text-darkGrey"
+                onClick={handleDelete}
+              >
+                <RiDeleteBin5Line />
+              </button>
+            </div>
+          ) : null}
         </div>
       ) : (
         <form className="flex items-center">
