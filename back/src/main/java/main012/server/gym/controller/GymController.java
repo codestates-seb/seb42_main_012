@@ -46,35 +46,38 @@ public class GymController {
                                   @RequestPart("files")List<MultipartFile> files) throws IOException {
 
         request.setMemberId(memberId);
-        Gym gym = gymService.createGym(request, files,memberId);
+        gymService.createGym(request, files,memberId);
 
-        GymDto.Response response = mapper.gymToGymResponseDto(gym, request.getGymBookmarkCnt());
-        return new ResponseEntity<>(response,HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
 
 
-
-    //     헬스장 정보 수정
+    /**
+     * 헬스장 수정
+     */
     @PatchMapping("/{gym_id}")
     @RolesAllowed({"ROLE_OWNER"})
-    public ResponseEntity patchGym(@RequestPart("request") GymDto.Patch patchRequest,
+    public ResponseEntity patchGym(@RequestPart("request") GymDto.Patch response,
                                    @RequestPart("files") List<MultipartFile> files,
                                    @PathVariable("gym_id") Long gymId,
                                    @AuthMember Long memberId) throws IOException {
-        patchRequest.setGymId(gymId);
-        gymService.updateGym(patchRequest,files);
+
+        gymService.updateGym(response, files, gymId, memberId);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
-    // 헬스장 상세조회
+    /**
+     * 헬스장 상세 조회
+     */
     @GetMapping("/{gym_id}")
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
-    public ResponseEntity getGym(@PathVariable("gym_id") @Positive Long gymId) {
+    public ResponseEntity getGym(@PathVariable("gym_id") @Positive Long gymId,
+                                 @AuthMember Long memberId) {
 
-        GymDto.Response response = gymService.findGym(gymId);
+        GymDto.Response response = gymService.findGym(gymId, memberId);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
 
