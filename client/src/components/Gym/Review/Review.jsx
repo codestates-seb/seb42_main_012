@@ -26,11 +26,15 @@ function GymReview({ review }) {
     setGrade(e.target.value);
   };
 
-  const handleDelete = () => {
-    gymAxios
-      .delete(`gyms/reviews/${review.reviewId}`)
+  const handleDelete = async () => {
+    await gymAxios
+      .delete(`gyms/reviews/${review.gymReviewId}`)
       .then(res => console.log(res))
       .catch(err => console.log(err));
+
+    await gymAxios.get(`/gyms/reviews/${id}`).then(res => {
+      setReviews(res.data.data);
+    });
   };
 
   const handleEdit = async e => {

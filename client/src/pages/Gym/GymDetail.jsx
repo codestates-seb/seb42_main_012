@@ -27,7 +27,7 @@ function GymDetailPage() {
           <GymDetailHeader
             gymName={gym.gymName}
             gymBookmarkCnt={gym.gymBookmarkCnt}
-            isBookmarked={gym.bookmarked}
+            isBookmarked={gym.isBookmarked}
             gymId={gym.gymId}
           />
           <div className="flex overflow-x-scroll w-90">
