@@ -51,7 +51,7 @@ public class CommunityController {
     @PostMapping
     @RolesAllowed("ROLE_USER")
     public ResponseEntity postCommunity(@RequestPart("request") @Valid CommunityDto.Post postRequest,
-                                        @RequestPart("files") List<MultipartFile> files,
+                                        @RequestPart(value = "files", required = false) List<MultipartFile> files,
                                         @AuthMember Long memberId) throws IOException {
 
        communityService.createCommunity(postRequest, files, memberId);
@@ -64,7 +64,7 @@ public class CommunityController {
     @PatchMapping("/{community_id}")
     @RolesAllowed("ROLE_USER")
     public ResponseEntity patchCommunity(@RequestPart("request") CommunityDto.Patch patchRequest,
-                                         @RequestPart("files") List<MultipartFile> files,
+                                         @RequestPart(value = "files", required = false) List<MultipartFile> files,
                                          @PathVariable("community_id") Long communityId,
                                          @AuthMember Long memberId) throws IOException {
 
@@ -117,7 +117,7 @@ public class CommunityController {
 
         CommunityDto.ListResponse response = communityService.findTabCommunities(tabId, lastFeedId, memberId);
 
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     // 커뮤니티 게시글 검색(내용으로 검색)

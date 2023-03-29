@@ -13,11 +13,9 @@ import main012.server.exception.ExceptionCode;
 import main012.server.image.entity.CommunityImage;
 import main012.server.image.entity.Image;
 import main012.server.image.repository.CommunityImageRepo;
-import main012.server.image.repository.ImageRepository;
 import main012.server.image.service.ImageService;
 import main012.server.user.entity.Member;
 import main012.server.user.repository.MemberRepository;
-import main012.server.user.service.MemberServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -84,6 +82,9 @@ public class CommunityService {
 
     // 게시글 등록시 파일이 비었는지 확인
     private boolean checkEmptyFile(List<MultipartFile> files) {
+        if(files == null){
+            return true;
+        }
         for(MultipartFile multipartFile : files){
             if(multipartFile.isEmpty()) return true;
         }
@@ -232,7 +233,7 @@ public class CommunityService {
             Long communityId = value.getCommunityId();
             Optional<CommunityBookmark> isBookmarked = communityBookmarkRepository.findByMemberIdAndCommunityCommunityId(memberId, communityId);
             if(isBookmarked.isPresent()){
-                value.setBookmarked(true);
+                value.setIsBookmarked(true);
             }
         }
 
@@ -264,7 +265,7 @@ public class CommunityService {
             Long communityId = value.getCommunityId();
             Optional<CommunityBookmark> isBookmarked = communityBookmarkRepository.findByMemberIdAndCommunityCommunityId(memberId, communityId);
             if (isBookmarked.isPresent()) {
-                value.setBookmarked(true);
+                value.setIsBookmarked(true);
             }
         }
 
@@ -326,7 +327,7 @@ public class CommunityService {
                 Long communityId = value.getCommunityId();
                 Optional<CommunityBookmark> isBookmarked = communityBookmarkRepository.findByMemberIdAndCommunityCommunityId(memberId, communityId);
                 if(isBookmarked.isPresent()){
-                    value.setBookmarked(true);
+                    value.setIsBookmarked(true);
                 }
             }
         // 응답 데이터 양식에 맞게 설정

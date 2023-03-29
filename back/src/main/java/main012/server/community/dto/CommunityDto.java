@@ -1,13 +1,10 @@
 package main012.server.community.dto;
 
-import javassist.compiler.ast.Member;
 import lombok.*;
-import main012.server.community.entity.Community;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Optional;
 
 public class CommunityDto {
 
@@ -71,7 +68,7 @@ public class CommunityDto {
         private String title;
         private int viewCnt;
         private String createdAt;
-        private boolean isBookmarked;
+        private Boolean isBookmarked;
 
     }
 
@@ -87,7 +84,7 @@ public class CommunityDto {
         private String title;
         private String createdAt;
         private int viewCnt;
-        private boolean isBookmarked;
+        private Boolean isBookmarked;
     }
 
     @Getter
