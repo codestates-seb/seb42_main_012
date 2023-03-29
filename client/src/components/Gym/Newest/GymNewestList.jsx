@@ -7,8 +7,8 @@ function GymNewestList() {
   const { gymNewest, setGymNewest } = useGymStore();
   const params = {
     filter: 'distance',
-    latitude: 36.6172509,
-    longitude: 127.4501604,
+    latitude: 37.490231,
+    longitude: 127.01645,
   };
 
   useEffect(() => {
