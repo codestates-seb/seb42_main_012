@@ -1,10 +1,17 @@
 import { useNavigate } from 'react-router-dom';
+import gymAxios from '../../../pages/Gym/gymAxios';
 
 function BasicButton(props) {
-  const { text, page, nav, type } = props;
-
+  const { text, page, nav, type, path, id } = props;
   const navigate = useNavigate();
-  const buttonHandler = () => {
+  const buttonHandler = async () => {
+    if (path !== undefined) {
+      if (path.slice(0, 5) === '/gyms') {
+        if (window.confirm('정말 삭제하시겠어요?🥺')) {
+          await gymAxios.delete(`/gyms/${id}`);
+        }
+      }
+    }
     navigate(nav);
   };
 

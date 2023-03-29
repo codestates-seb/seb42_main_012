@@ -32,7 +32,7 @@ function GymPage() {
 
   return (
     <div className="mb-24">
-      <GymNewestList gyms={gyms} />
+      <GymNewestList />
       <GymTabList
         filters={filters}
         filterOn={filterOn}

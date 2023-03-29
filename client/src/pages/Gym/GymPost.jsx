@@ -74,7 +74,11 @@ function GymPostPage() {
       const blob = new Blob([JSON.stringify(gymsData)], {
         type: 'application/json',
       });
-      imagesData.map(image => formData.append('files', image));
+      if (imagesData.filter(i => i === undefined).length === 5) {
+        formData.append('files', 'File');
+      } else {
+        imagesData.map(image => formData.append('files', image));
+      }
       formData.append('request', blob);
 
       await gymAxios
@@ -130,7 +134,6 @@ function GymPostPage() {
         });
     }
   };
-
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <GymPostName register={register} patchGymName={gymsDetail.gymName} />
@@ -145,7 +148,7 @@ function GymPostPage() {
       />
       <GymPostFacilities
         register={register}
-        facilityName={gymsDetail.facilityName}
+        facilities={gymsDetail.facilities}
       />
       <GymPostPrice register={register} patchPrice={gymsDetail.price} />
       <GymPostDetailPrice

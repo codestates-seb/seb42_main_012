@@ -10,11 +10,11 @@ function GymReviewList() {
     <div>
       {location.pathname.slice(-7) === 'reviews'
         ? reviews.map(review => (
-            <GymReview key={review.gymReviewId} review={review} />
+            <GymReview key={review.reviewId} review={review} />
           ))
         : reviews.map((review, idx) =>
             idx <= 2 ? (
-              <GymReview key={review.gymReviewId} review={review} />
+              <GymReview key={review.reviewId} review={review} />
             ) : null,
           )}
     </div>
