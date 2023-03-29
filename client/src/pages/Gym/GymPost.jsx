@@ -146,10 +146,7 @@ function GymPostPage() {
         setDeletedGymImageId={setDeletedGymImageId}
         deletedGymImageId={deletedGymImageId}
       />
-      <GymPostFacilities
-        register={register}
-        facilities={gymsDetail.facilities}
-      />
+      <GymPostFacilities register={register} />
       <GymPostPrice register={register} patchPrice={gymsDetail.price} />
       <GymPostDetailPrice
         register={register}

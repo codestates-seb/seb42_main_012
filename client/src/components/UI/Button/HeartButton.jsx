@@ -7,16 +7,14 @@ import useGymStore from '../../../state/useGymStore';
 // import useBoardStore from '../../../state/useBoardStore';
 // import api from '../../../utils/api';
 
-function HeartButton({ bookmarked, isBookmarked, gymId }) {
+function HeartButton({ bookmarked, gymId }) {
   const location = useLocation();
   const path = location.pathname.slice(1);
-  const { setGyms, setGymsDetail } = useGymStore();
+  const { setGyms, setGymsDetail, gymsDetail } = useGymStore();
   // const { setBoards } = useBoardStore();
-  const [heartChange, setHeartChange] = useState(
-    path === 'gyms' ? bookmarked : isBookmarked,
-    path === 'board' ? bookmarked : isBookmarked,
-  );
-
+  const check = path === 'gyms' ? bookmarked : gymsDetail.isBookmarked;
+  const [heartChange, setHeartChange] = useState(check);
+  // path === 'board' ? bookmarked : isBookmarked,
   const params = {
     filter: 'distance',
     latitude: 36.6172509,
@@ -24,7 +22,7 @@ function HeartButton({ bookmarked, isBookmarked, gymId }) {
   };
 
   const heartHandler = async () => {
-    if (path === 'gyms') {
+    if (path === 'gyms' || path === `gyms/${gymId}`) {
       await gymAxios.post(`gyms/bookmarks/${gymId}`);
       await gymAxios.get(`gyms/${gymId}`).then(res => {
         setGymsDetail(res.data);

@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import BoardTapList from '../Tab/TabList';
 import BoardPostTitle from './PostTitle';
@@ -8,6 +8,7 @@ import BasicButton from '../../UI/Button/BasicButton';
 import api from '../../../utils/api';
 
 function BoardPost() {
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
 
   const onSubmit = async data => {
@@ -16,6 +17,8 @@ function BoardPost() {
       content: data.content,
       tabId: 1,
     };
+
+    // 자유게시판 꿀팁 오운완 자세피드백 파트너모집
 
     const formData = new FormData();
     const blob = new Blob([JSON.stringify(boardsData)], {
@@ -28,9 +31,7 @@ function BoardPost() {
       .post('/communities', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
-      .then(res => {
-        console.log(res.data);
-      })
+      .then(navigate('/board'))
       .catch(() => alert('요청실패'));
   };
 

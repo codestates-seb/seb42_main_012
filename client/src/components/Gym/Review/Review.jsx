@@ -28,7 +28,7 @@ function GymReview({ review }) {
 
   const handleDelete = async () => {
     await gymAxios
-      .delete(`gyms/reviews/${review.gymReviewId}`)
+      .delete(`gyms/reviews/${review.reviewId}`)
       .then(res => console.log(res))
       .catch(err => console.log(err));
 
@@ -40,7 +40,7 @@ function GymReview({ review }) {
   const handleEdit = async e => {
     e.preventDefault();
     await gymAxios
-      .patch(`/gyms/reviews/${review.gymReviewId}`, {
+      .patch(`/gyms/reviews/${review.reviewId}`, {
         gymGrade: grade,
         gymComment: comment,
       })

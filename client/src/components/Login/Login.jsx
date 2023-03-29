@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
-// import { useNavigate } from 'react-router-dom';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { FcGoogle } from 'react-icons/fc';
 import { RiKakaoTalkFill } from 'react-icons/ri';
@@ -10,7 +9,7 @@ import BasicButton from '../UI/Button/BasicButton';
 import api from '../../utils/api';
 
 function Login() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm({
     defaultValues: {
       email: 'testMember@email.com',
@@ -32,6 +31,8 @@ function Login() {
       .then(res => {
         if (res.status === 200) {
           localStorage.setItem('isLoggedIn', true);
+          alert('로그인 성공!');
+          navigate('/');
         }
       })
       .catch(err => {
@@ -69,7 +70,6 @@ function Login() {
           <FcGoogle className="w-10 h-10 mr-10" />
           <RiKakaoTalkFill className="w-10 h-10 " />
         </div>
-
         <div className="mt-10">
           <BasicButton page="signup" text="회원가입" nav="/signup" />
           <div className="mt-4">
