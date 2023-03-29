@@ -68,7 +68,7 @@ public class CommunityDto {
         private String title;
         private int viewCnt;
         private String createdAt;
-        private boolean isBookmarked;
+        private Boolean isBookmarked;
 
     }
 
@@ -84,7 +84,7 @@ public class CommunityDto {
         private String title;
         private String createdAt;
         private int viewCnt;
-        private boolean isBookmarked;
+        private Boolean isBookmarked;
     }
 
     @Getter
