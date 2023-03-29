@@ -136,9 +136,13 @@ public class GymService {
         log.info("## 헬스장 시설 수정 완료");
 
 
-        if (!files.isEmpty()) {
+        if (!checkEmptyFile(files)) {
+            log.info("이미지 파일 저장 시작");
            List<Image> uploadedImages = imageService.upload(files, "upload");
-           createGymImage(gym, uploadedImages);
+            log.info("이미지 파일 s3 저장 완료");
+            createGymImage(gym, uploadedImages);
+            log.info("이미지 파일 저장 끝");
+
         }
         log.info("## 헬스장 이미지 수정 완료");
     }
