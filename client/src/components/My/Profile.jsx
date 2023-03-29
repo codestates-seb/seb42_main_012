@@ -74,7 +74,7 @@ function Profile() {
             setImage(res.data.profileImage);
             setDisplayName(res.data.displayName);
           }
-          window.location.replace('/my');
+          window.location.replace();
           alert('회원정보 변경완료!');
           console.log(res.data);
         });
