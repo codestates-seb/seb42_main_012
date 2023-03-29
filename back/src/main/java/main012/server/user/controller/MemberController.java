@@ -69,7 +69,7 @@ public class MemberController {
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity patchProfile(@AuthMember Long memberId,
                                        @RequestPart("request") @Valid MemberRequestDto.ModifyProfile request,
-                                       @RequestPart("file") MultipartFile file) throws IOException {
+                                       @RequestPart(value = "file", required = false) MultipartFile file) throws IOException {
 
         MemberResponseDto.ModifiedProfile response = memberService.updateProfile(memberId, request, file);
 
