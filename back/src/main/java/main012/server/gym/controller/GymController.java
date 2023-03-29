@@ -43,7 +43,7 @@ public class GymController {
     @RolesAllowed("ROLE_OWNER")
     public ResponseEntity postGym(@AuthMember Long memberId,
                                   @RequestPart("request") GymDto.Post request,
-                                  @RequestPart("files")List<MultipartFile> files) throws IOException {
+                                  @RequestPart(value = "files", required = false)List<MultipartFile> files) throws IOException {
 
         request.setMemberId(memberId);
         gymService.createGym(request, files,memberId);
@@ -59,10 +59,11 @@ public class GymController {
     @PatchMapping("/{gym_id}")
     @RolesAllowed({"ROLE_OWNER"})
     public ResponseEntity patchGym(@RequestPart("request") GymDto.Patch response,
-                                   @RequestPart("files") List<MultipartFile> files,
+                                   @RequestPart(value = "files",required = false) List<MultipartFile> files,
                                    @PathVariable("gym_id") Long gymId,
                                    @AuthMember Long memberId) throws IOException {
 
+        log.info("## files : {}", files);
         gymService.updateGym(response, files, gymId, memberId);
 
         return new ResponseEntity<>(HttpStatus.OK);

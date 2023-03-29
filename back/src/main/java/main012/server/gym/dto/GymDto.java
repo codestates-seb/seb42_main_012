@@ -38,7 +38,6 @@ public class GymDto {
         private Double longitude; // 경도
 
         private Long memberId;
-        private Long gymBookmarkCnt;
     }
 
     @Getter

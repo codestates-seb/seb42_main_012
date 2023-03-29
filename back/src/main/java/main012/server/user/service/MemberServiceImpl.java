@@ -141,7 +141,7 @@ public class MemberServiceImpl implements MemberService {
         findMember.setDisplayName(request.getDisplayName());
         log.info("## modified DisplayName : {}", findMember.getDisplayName());
 
-        if (!file.isEmpty() || request.getIsDeletedProfileImage() != null && request.getIsDeletedProfileImage()) { // 새로운 프사 파일이 들어오거나, 프사 삭제 = true 라면
+        if (file != null && !file.isEmpty() || request.getIsDeletedProfileImage() != null && request.getIsDeletedProfileImage()) { // 새로운 프사 파일이 들어오거나, 프사 삭제 = true 라면
             Optional.ofNullable(findMember.getImage())  // 멤버에 기존 프로필 사진이 있을 때
                     .ifPresent(image -> {
                         imageService.remove(image); // 기존 프로필 사진 s3에서 삭제
@@ -150,7 +150,7 @@ public class MemberServiceImpl implements MemberService {
             log.info("## 기존 프사 삭제");
         }
 
-        if (!file.isEmpty()) {  // 새로운 프사 파일이 들어왔다면
+        if (file != null && !file.isEmpty()) {  // 새로운 프사 파일이 들어왔다면
             log.info("## 프사 content-type : {}", file.getContentType().toString());
             Image uploadedImage = imageService.upload(file, "upload");  // s3에 업로드
             findMember.setImage(uploadedImage); // 새로운 프로필 사진 멤버랑 매핑
