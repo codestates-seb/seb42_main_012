@@ -1,15 +1,13 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import api from '../../../utils/api';
-
 import CommentHeader from './CommentHeader';
 import CommentBody from './CommentBody';
-
-import boardStore from '../../../state/boardStore';
+import useBoardStore from '../../../state/useBoardStore';
+import api from '../../../utils/api';
 
 function CommentList() {
-  const { comments, setComments } = boardStore();
   const { id } = useParams();
+  const { comments, setComments } = useBoardStore();
 
   useEffect(() => {
     api
@@ -19,18 +17,23 @@ function CommentList() {
 
   return (
     <ul className="mt-5">
-      {comments.map(comment => (
-        <div key={comment.communityId}>
+      {comments.map((commented, idx) => (
+        <li
+          key={idx}
+          className="flex items-center w-full border-b border-[#d9d9d9] py-3"
+        >
           <CommentHeader
-            displayName={comment.displayName}
-            imageUrl={comment.imageUrl}
+            memberId={commented.memberId}
+            profileImage={commented.profileImage}
           />
           <CommentBody
-            comment={comment.comment}
-            createdAt={comment.createdAt}
+            memberId={commented.memberId}
+            displayName={commented.displayName}
+            createdAt={commented.createdAt}
+            commented={commented.comment}
+            commentId={commented.commentId}
           />
-          <div className="w-full border-[0.3px] border-[#d9d9d9] mt-3 mb-3" />
-        </div>
+        </li>
       ))}
     </ul>
   );

@@ -1,20 +1,12 @@
-// import DisplayName from '../../UI/DisplayName/DisplayName';
-// import ProfileImg from '../../UI/ProfileImg/ProfileImg';
-
-function CommentHeader({ displayName, imageUrl }) {
+function CommentHeader({ profileImage }) {
   return (
-    <li className="flex items-center justify-between">
-      <div className="flex">
-        <img
-          className="object-cover w-10 h-10"
-          src={imageUrl}
-          alt="profileImage"
-        />
-        <span className="mt-2 ml-4 mr-1 font-medium text-md">
-          {displayName}
-        </span>
-      </div>
-    </li>
+    <div className="flex items-start mr-4">
+      <img
+        className="object-cover w-10 h-10 rounded-full"
+        src={profileImage}
+        alt="profileImage"
+      />
+    </div>
   );
 }
 

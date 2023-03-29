@@ -6,10 +6,10 @@ import DetailBody from './DetailBody';
 import DetailHeader from './DetailHeader';
 import DetailTap from './DetailTab';
 import DetailTitle from './DetailTitle';
-import boardStore from '../../../state/boardStore';
+import useBoardStore from '../../../state/useBoardStore';
 
 function BoardDetail() {
-  const { boardDetail, setBoardDetail } = boardStore();
+  const { boardDetail, setBoardDetail } = useBoardStore();
   const { id } = useParams();
 
   useEffect(() => {
@@ -18,12 +18,7 @@ function BoardDetail() {
 
   return (
     <>
-      <DetailHeader
-        profileImage={boardDetail.profileImage}
-        displayName={boardDetail.displayName}
-        createdAt={boardDetail.createdAt}
-        bookmarkCnt={boardDetail.bookmarkCnt}
-      />
+      <DetailHeader bookmarkCnt={boardDetail.bookmarkCnt} />
       <DetailTap tabName={boardDetail.tabName} />
       {[boardDetail].map(boardDetails => (
         <div key={boardDetails.communityId}>

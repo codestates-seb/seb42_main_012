@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import api from '../../utils/api';
 import BoardContentList from './BoardContentList';
-import boardStore from '../../state/boardStore';
+import useBoardStore from '../../state/useBoardStore';
 // import BoardCard from './BoardCard';
 
 function Board() {
-  const { boards, setBoards } = boardStore();
+  const { boards, setBoards } = useBoardStore();
 
   useEffect(() => {
     api
@@ -19,7 +19,7 @@ function Board() {
         <BoardContentList
           key={board.communityId}
           to={`${board.communityId}`}
-          classname="border-t cursor-pointer"
+          classname="cursor-pointer"
           tabId={
             board.tabId === 1
               ? '자유게시판'

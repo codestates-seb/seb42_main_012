@@ -32,7 +32,6 @@ function Login() {
       .then(res => {
         if (res.status === 200) {
           localStorage.setItem('isLoggedIn', true);
-          window.location.reload();
         }
       })
       .catch(err => {
