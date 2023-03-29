@@ -1,13 +1,23 @@
 import { FiChevronLeft } from 'react-icons/fi';
 import { useNavigate, useLocation } from 'react-router-dom';
-import useGymStore from '../../../state/useGymStore';
 
 function BackButton() {
-  const { gymsDetail } = useGymStore();
   const navigate = useNavigate();
+  // const param = useParams();
   const location = useLocation();
   let classes = '';
-  let nav = -1;
+  let nav = '';
+  const path = location.pathname.slice(1);
+
+  if (path === 'gyms') {
+    nav = '/gyms';
+  } else if (path === 'board') {
+    nav = '/board';
+  } else if (path === 'my') {
+    nav = '/my';
+  } else {
+    nav = -1;
+  }
 
   if (
     !(
@@ -23,13 +33,6 @@ function BackButton() {
     classes += 'w-0 h-0 ml-[36px] cursor-pointer';
   }
 
-  if (location.pathname === '/gyms/gympost') {
-    nav = '/gyms';
-  } else if (location.pathname === '/gyms/gymedit') {
-    nav = `/gyms/${gymsDetail.gymId}`;
-  } else if (location.pathname === `/gyms/${gymsDetail.gymId}`) {
-    nav = `/gyms`;
-  }
   return (
     <div className="h-[36px]">
       <FiChevronLeft className={classes} onClick={() => navigate(nav)} />

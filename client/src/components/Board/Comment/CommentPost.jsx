@@ -26,7 +26,7 @@ function CommentPost() {
       })
       .catch(() => alert('요청실패'));
 
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (
@@ -35,7 +35,7 @@ function CommentPost() {
         <div className="flex mt-8">
           <input
             onKeyDown={handleKeyPress}
-            className="w-full border border-[var(--second-border)]"
+            className="w-full border border-[var(--second-border)] outline-[var(--main)] rounded-md p-2"
             placeholder="댓글 입력 후 엔터를 누르세요."
             {...register('comment', {
               required: '댓글을 입력해주세요',

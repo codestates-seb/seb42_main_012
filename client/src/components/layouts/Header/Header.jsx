@@ -56,7 +56,8 @@ function Header() {
         <header className={defaultClass}>
           <BackButton />
           <HeaderTitle titleText="BOARD" />
-          <MoreButton />
+          <div className="w-0 h-0 ml-[36px]" />
+          {/* <MoreButton /> */}
         </header>
       );
     case '/gyms/gympost':

@@ -5,15 +5,10 @@ import BoardTapList from '../Tab/TabList';
 import BoardPostTitle from './PostTitle';
 import BoardPostBody from './PostBody';
 import BasicButton from '../../UI/Button/BasicButton';
-// import boardStore from '../../../state/boardStore';
-// import boardAxios from './boardAxios';
 import api from '../../../utils/api';
 
 function BoardPost() {
   const { register, handleSubmit } = useForm();
-
-  // const { boards } = boardStore();
-  // const navigate = useNavigate();
 
   const onSubmit = async data => {
     const boardsData = {
@@ -37,7 +32,6 @@ function BoardPost() {
         console.log(res.data);
       })
       .catch(() => alert('요청실패'));
-    // navigate('/board');
   };
 
   return (

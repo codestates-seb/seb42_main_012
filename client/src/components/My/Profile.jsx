@@ -1,15 +1,11 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { IoCloseSharp } from 'react-icons/io5';
 import useMyStore from '../../state/useMyStore';
 import DisplayName from '../UI/DisplayName/DisplayName';
 import api from '../../utils/api';
 
 function Profile() {
-  const { myElements, setMyElements } = useMyStore();
-
-  useEffect(() => {
-    api.get('/members/my').then(res => setMyElements(res.data));
-  }, []);
+  const { myElements } = useMyStore();
 
   const fileInput = useRef(null);
 

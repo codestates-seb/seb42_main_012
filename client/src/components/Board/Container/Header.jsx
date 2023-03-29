@@ -1,17 +1,21 @@
-// import DisplayName from '../../UI/DisplayName/DisplayName';
+import useBoardStore from '../../../state/useBoardStore';
+import dateFormat from '../../../utils/dateFormat';
 
-import ProfileImg from '../../UI/ProfileImg/ProfileImg';
-
-function BoardHeaderContainer({ profileImage, displayName, createdAt }) {
+function BoardHeaderContainer() {
+  const { boardDetail } = useBoardStore();
   return (
     <div className="flex">
       <div>
         <div className="flex items-center justify-center">
-          <ProfileImg page="board" src={profileImage} alt="profileImage" />
+          <img
+            src={boardDetail.profileImage}
+            alt="프로필사진"
+            className="bg-[var(--second)] rounded-full w-10 h-10 object-cover"
+          />
 
           <div className="flex flex-col items-start justify-center">
-            <span className="ml-4 font-medium">{displayName}</span>
-            <p className="ml-4 text-sm">{createdAt}</p>
+            <span className="ml-4 font-medium">{boardDetail.displayName}</span>
+            <p className="ml-4 text-sm">{dateFormat(boardDetail.createdAt)}</p>
           </div>
         </div>
       </div>
