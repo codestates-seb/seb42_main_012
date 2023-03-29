@@ -51,6 +51,7 @@ function MyDetailList() {
             <MyDetailListItem
               image={gymBookmark.gymImage}
               title={gymBookmark.gymName}
+              gymId={gymBookmark.gymId}
             />
           </Link>
         ))
