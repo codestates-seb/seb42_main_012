@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import gymAxios from '../../../pages/Gym/gymAxios';
+import api from '../../../utils/api';
 
 function BasicButton(props) {
   const { text, page, nav, type, path, id } = props;
@@ -10,9 +11,13 @@ function BasicButton(props) {
         if (window.confirm('정말 삭제하시겠어요?🥺')) {
           await gymAxios.delete(`/gyms/${id}`);
         }
+      } else if (path.slice(0, 6) === '/board') {
+        if (window.confirm('정말 삭제하시겠어요?🥺')) {
+          await api.delete(`/communities/${id}`);
+        }
+        navigate(nav);
       }
     }
-    navigate(nav);
   };
 
   let classes = 'text-md py-2 text-center font-medium rounded-lg ';

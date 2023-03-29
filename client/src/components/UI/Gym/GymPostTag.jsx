@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-function GymPostTag({ text, register, registerName, id, facility }) {
-  const [buttonOn, setButtonOn] = useState(facility.length !== 0);
+function GymPostTag({ text, register, registerName, id }) {
+  const [buttonOn, setButtonOn] = useState(false);
 
   const buttonHandler = () => {
     setButtonOn(!buttonOn);

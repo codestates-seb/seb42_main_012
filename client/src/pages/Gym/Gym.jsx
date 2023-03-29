@@ -18,8 +18,8 @@ function GymPage() {
     filter: 'distance',
     // latitude: location.coordinates.lat,
     // longitude: location.coordinates.lng,
-    latitude: 36.6172509,
-    longitude: 127.4501604,
+    latitude: 37.490231,
+    longitude: 127.01645,
   };
 
   useEffect(() => {

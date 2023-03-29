@@ -1,6 +1,6 @@
 import GymPostTag from '../../UI/Gym/GymPostTag';
 
-function GymPostFacilitiesTagList({ register, facilities }) {
+function GymPostFacilitiesTagList({ register }) {
   const tagList = [
     { id: 1, text: '샤워실', registerName: 'shower' },
     { id: 2, text: '주차장', registerName: 'parking' },
@@ -17,11 +17,6 @@ function GymPostFacilitiesTagList({ register, facilities }) {
           register={register}
           registerName={tag.registerName}
           id={tag.id}
-          facility={
-            facilities === undefined
-              ? ''
-              : facilities.filter(fa => fa.facilityId === tag.id)
-          }
         />
       ))}
     </ul>
