@@ -1,10 +1,12 @@
 import { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { IoCloseSharp } from 'react-icons/io5';
 import useMyStore from '../../state/useMyStore';
 import DisplayName from '../UI/DisplayName/DisplayName';
 import api from '../../utils/api';
 
 function Profile() {
+  const navigate = useNavigate();
   const { myElements } = useMyStore();
 
   const fileInput = useRef(null);
@@ -74,7 +76,7 @@ function Profile() {
             setImage(res.data.profileImage);
             setDisplayName(res.data.displayName);
           }
-          window.location.replace();
+          navigate('/');
           alert('회원정보 변경완료!');
           console.log(res.data);
         });
