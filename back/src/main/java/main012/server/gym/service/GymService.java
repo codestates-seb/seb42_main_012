@@ -56,7 +56,7 @@ public class GymService {
     public void createGym(GymDto.Post request, List<MultipartFile> files, Long memberId) throws IOException {
 
         verifyExistsGymName(request.getGymName());
-        Gym gym = gymMapper.gymPostDtoToGym(request, request.getGymBookmarkCnt());
+        Gym gym = gymMapper.gymPostDtoToGym(request);
         log.info("## 짐 생성 완료 / gymId : {}", gym.getId());
 
         List<Facility> facilities = request.getFacilityIdList().stream()
@@ -65,18 +65,14 @@ public class GymService {
 
         gym.setFacilities(facilities);
         log.info("## 짐 시설 등록 완료");
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
-        gym.setMember(member);
 
-        Gym response = gymRepository.save(gym);
-        List<Image> uploadedImages = null;
-        if (!files.isEmpty()) {
-            uploadedImages = imageService.upload(files, "upload");
+        if (!checkEmptyFile(files)) {
+            List<Image> uploadedImages = imageService.upload(files, "upload");
+            log.info("이미지 파일 s3 저장 완료");
+            createGymImage(gym, uploadedImages);
+            log.info("짐 이미지 저장 롼료");
         }
-
-        createGymImage(gym, uploadedImages);
         log.info("## 짐 이미지 등록 완료");
-
 
         gymRepository.save(gym);
     }
@@ -136,9 +132,11 @@ public class GymService {
         log.info("## 헬스장 시설 수정 완료");
 
 
-        if (!files.isEmpty()) {
+        if (!checkEmptyFile(files)) {
            List<Image> uploadedImages = imageService.upload(files, "upload");
-           createGymImage(gym, uploadedImages);
+            log.info("이미지 파일 s3 저장 완료");
+            createGymImage(gym, uploadedImages);
+            log.info("짐 이미지 저장 롼료");
         }
         log.info("## 헬스장 이미지 수정 완료");
     }
@@ -306,6 +304,9 @@ public class GymService {
 
     // 게시글 등록시 파일이 비었는지 확인
     private boolean checkEmptyFile(List<MultipartFile> files) {
+        if( files == null) {
+            return true;
+        }
         for (MultipartFile multipartFile : files) {
             if (multipartFile.isEmpty()) return true;
         }

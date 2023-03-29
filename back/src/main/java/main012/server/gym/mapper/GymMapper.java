@@ -16,14 +16,13 @@ public interface GymMapper {
 
 
     // 헬스장 등록
-    default Gym gymPostDtoToGym(GymDto.Post request, Long gymBookmarkCnt) {
+    default Gym gymPostDtoToGym(GymDto.Post request) {
         Gym gym = new Gym(
                 request.getGymName(),
                 request.getAddress(),
                 request.getPhoneNumber(),
                 request.getBusinessHours(),
                 request.getPrice(),
-
                 request.getDetailPrices(),
                 request.getLatitude(),
                 request.getLongitude()
@@ -33,13 +32,8 @@ public interface GymMapper {
         member.setId(request.getMemberId());
         gym.setMember(member);
 
-
         return gym;
     }
-
-
-    // 헬스장 수정 (수정해야함)
-    Gym gymPatchDtoToGym(GymDto.Patch gymPatchDto);
 
     default GymDto.Response gymToGymResponseDto(Gym gym, int gymBookmarkCnt, Boolean isBookmarked) {
         GymDto.Response response = new GymDto.Response(
