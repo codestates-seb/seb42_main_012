@@ -17,8 +17,8 @@ function HeartButton({ bookmarked, gymId }) {
   // path === 'board' ? bookmarked : isBookmarked,
   const params = {
     filter: 'distance',
-    latitude: 36.6172509,
-    longitude: 127.4501604,
+    latitude: 37.490231,
+    longitude: 127.01645,
   };
 
   const heartHandler = async () => {
