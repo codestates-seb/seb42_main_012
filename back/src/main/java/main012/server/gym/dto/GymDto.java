@@ -89,7 +89,7 @@ public class GymDto {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class FacilityInfo<T> {
+    public static class FacilityInfo {
         private Long facilityId;
         private String facilityName;
     }

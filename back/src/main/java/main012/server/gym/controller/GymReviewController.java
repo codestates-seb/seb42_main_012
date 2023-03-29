@@ -45,11 +45,6 @@ public class GymReviewController {
         GymReview createGymReview = gymReviewService.createGymReview(gymReview); //테이블 저장
         GymReviewDto.Response response = mapper.gymReviewResponseDtoToGymReview(createGymReview);
 
-
-
-
-
-
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -77,10 +72,6 @@ public class GymReviewController {
     }
 
 
-
-
-
-
     @DeleteMapping("/{review_id}")
     @RolesAllowed({"ROLE_USER"})
     public ResponseEntity gymReviewDelete(@PathVariable("review_id") @Positive Long gymReviewId,
@@ -90,8 +81,6 @@ public class GymReviewController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }
-
-
 
 
 }

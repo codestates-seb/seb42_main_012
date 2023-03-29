@@ -40,12 +40,6 @@ public class GymReviewDto {
         @Size(min = 20)
         private String gymComment;
 
-        public long getId() {
-            return id;
-        }
-        public void setId(Long id) {
-            this.id = id;
-        }
     }
 
     @Getter
@@ -53,7 +47,7 @@ public class GymReviewDto {
     @NoArgsConstructor
     public static class Response {
         private Long memberId;
-        private Long gymReviewId;
+        private Long reviewId;
         private String displayName;
 
         private int gymGrade;
@@ -68,7 +62,7 @@ public class GymReviewDto {
     @Setter
     @AllArgsConstructor
     public static class ReviewInfo {
-        private Long gymReviewId;
+        private Long reviewId;
         private Long memberId;
         private String displayName;
         private int grade;
