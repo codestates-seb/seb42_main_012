@@ -40,7 +40,7 @@ function GymReview({ review }) {
   const handleEdit = async e => {
     e.preventDefault();
     await gymAxios
-      .patch(`/gyms/reviews/${review.reviewId}`, {
+      .patch(`/gyms/reviews/${review.gymReviewId}`, {
         gymGrade: grade,
         gymComment: comment,
       })
@@ -49,7 +49,7 @@ function GymReview({ review }) {
     await gymAxios.get(`/gyms/reviews/${id}`).then(res => {
       setReviews(res.data.data);
       const resFil = res.data.data.filter(
-        re => re.reviewId === review.reviewId,
+        re => re.gymReviewId === review.gymReviewId,
       );
       setComment(resFil[0].comment);
       setGrade(resFil[0].grade);
@@ -81,7 +81,9 @@ function GymReview({ review }) {
                 <RiDeleteBin5Line />
               </button>
             </div>
-          ) : null}
+          ) : (
+            <div className="w-10 ml-4" />
+          )}
         </div>
       ) : (
         <form className="flex items-center">

@@ -35,13 +35,7 @@ function GymPostImage({
           alt=""
           className="object-cover rounded-lg w-36 h-36"
         />
-        <input
-          id={id}
-          type="file"
-          {...register(`${id}`)}
-          className="hidden"
-          multiple
-        />
+        <input id={id} type="file" {...register(`${id}`)} className="hidden" />
         <label
           htmlFor={id}
           className="w-36 px-2 py-1 mt-1 mb-1 text-center border rounded-lg border-grey hover:bg-grey text-[var(--second)]"

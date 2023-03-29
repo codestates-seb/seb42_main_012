@@ -8,6 +8,8 @@ const useGymStore = create(
       gymsDetail: [],
       reviews: [],
       reviewsList: [],
+      gymNewest: [],
+      gymEnd: '',
 
       myLocation: { Ma: 0, La: 0 },
 
@@ -20,6 +22,10 @@ const useGymStore = create(
       setReviews: data => set({ reviews: data }),
 
       setReviewsList: data => set({ reviewsList: data }),
+
+      setGymNewest: data => set({ gymNewest: data }),
+
+      setGymEnd: data => set({ gymEnd: data }),
     }),
     { name: 'store' },
   ),

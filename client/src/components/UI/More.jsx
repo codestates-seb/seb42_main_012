@@ -16,7 +16,13 @@ function More() {
       ) : (
         <div className="absolute top-20 right-4 z-10 bg-[#fff] border border-[var(--main)] rounded-lg text-center flex flex-col justify-center items-center">
           <BasicButton page="more" text="수정하기" nav="/gyms/gymedit" />
-          <BasicButton page="more" text="삭제하기" nav="/gyms" />
+          <BasicButton
+            page="more"
+            text="삭제하기"
+            nav="/gyms"
+            path={path}
+            id={param.id}
+          />
         </div>
       )}
     </>

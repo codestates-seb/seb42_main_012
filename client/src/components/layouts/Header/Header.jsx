@@ -5,13 +5,11 @@ import PostButton from '../../UI/Button/PostButton';
 import MoreButton from '../../UI/Button/MoreButton';
 import LogoutButton from '../../UI/Button/LogoutButton';
 import useMyStore from '../../../state/useMyStore';
-// import useGymStore from '../../../state/useGymStore';
-// import useMyStore from '../../../state/useMyStore';
-// import useGymStore from '../../../state/useGymStore';
+import useGymStore from '../../../state/useGymStore';
 
 function Header() {
   const { myElements } = useMyStore();
-  // const { gymsDetail } = useGymStore();
+  const { gymsDetail } = useGymStore();
   const param = useParams();
   const location = useLocation();
   const path = location.pathname;
@@ -37,7 +35,8 @@ function Header() {
         <header className={defaultClass}>
           <BackButton />
           <HeaderTitle titleText="GYM" />
-          {myElements.role === 'OWNER' ? (
+          {myElements.role === 'OWNER' &&
+          myElements.memberId === gymsDetail.memberId ? (
             <MoreButton memberId={myElements.memberId} />
           ) : (
             <div className="w-0 h-0 ml-[36px]" />
