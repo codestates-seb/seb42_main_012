@@ -30,7 +30,7 @@ public interface GymMapper {
         );
 
         Member member = new Member();
-        member.setId(member.getId());
+        member.setId(request.getMemberId());
         gym.setMember(member);
 
 

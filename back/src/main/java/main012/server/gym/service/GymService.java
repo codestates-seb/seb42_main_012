@@ -106,7 +106,7 @@ public class GymService {
 
         if (gym.getMember().getId() != memberId) {
             log.warn("## 다른 사람이 헬스장 수정하려고 함");
-            throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND);
+            throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_MATCHED);
         }
 
         gym.setGymName(request.getGymName());
@@ -252,7 +252,7 @@ public class GymService {
 
         if (member.getEmail().equals(adminEmail) || findGym.getMember().getId() == memberId) {
             gymRepository.delete(findGym);
-        } else throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND);
+        } else throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_MATCHED);
 
         List<GymImage> gymImageList = gymImageRepo.findByGymId(gymId);
 

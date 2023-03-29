@@ -1,7 +1,6 @@
 package main012.server.gym.mapper;
 
 
-import main012.server.gym.dto.GymDto;
 import main012.server.gym.dto.GymReviewDto;
 import main012.server.gym.entity.Gym;
 import main012.server.gym.entity.GymReview;
@@ -37,7 +36,7 @@ public interface GymReviewMapper {
         GymReviewDto.Response gymReviewResponseDtoToGymReview = new GymReviewDto.Response();
 
         gymReviewResponseDtoToGymReview.setMemberId(gymReview.getMember().getId());
-        gymReviewResponseDtoToGymReview.setGymReviewId(gymReview.getId());
+        gymReviewResponseDtoToGymReview.setReviewId(gymReview.getId());
         gymReviewResponseDtoToGymReview.setDisplayName(gymReview.getMember().getDisplayName());
         gymReviewResponseDtoToGymReview.setGymGrade(gymReview.getGymGrade());
         gymReviewResponseDtoToGymReview.setGymComment(gymReview.getGymComment());
