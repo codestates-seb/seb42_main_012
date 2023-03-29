@@ -46,35 +46,38 @@ public class GymController {
                                   @RequestPart("files")List<MultipartFile> files) throws IOException {
 
         request.setMemberId(memberId);
-        Gym gym = gymService.createGym(request, files,memberId);
+        gymService.createGym(request, files,memberId);
 
-        GymDto.Response response = mapper.gymToGymResponseDto(gym, request.getGymBookmarkCnt());
-        return new ResponseEntity<>(response,HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
 
     }
 
 
-
-    //     헬스장 정보 수정
+    /**
+     * 헬스장 수정
+     */
     @PatchMapping("/{gym_id}")
     @RolesAllowed({"ROLE_OWNER"})
-    public ResponseEntity patchGym(@RequestPart("request") GymDto.Patch patchRequest,
+    public ResponseEntity patchGym(@RequestPart("request") GymDto.Patch response,
                                    @RequestPart("files") List<MultipartFile> files,
                                    @PathVariable("gym_id") Long gymId,
                                    @AuthMember Long memberId) throws IOException {
-        patchRequest.setGymId(gymId);
-        gymService.updateGym(patchRequest,files);
+
+        gymService.updateGym(response, files, gymId, memberId);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
-    // 헬스장 상세조회
+    /**
+     * 헬스장 상세 조회
+     */
     @GetMapping("/{gym_id}")
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
-    public ResponseEntity getGym(@PathVariable("gym_id") @Positive Long gymId) {
+    public ResponseEntity getGym(@PathVariable("gym_id") @Positive Long gymId,
+                                 @AuthMember Long memberId) {
 
-        GymDto.Response response = gymService.findGym(gymId);
+        GymDto.Response response = gymService.findGym(gymId, memberId);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
 
@@ -105,7 +108,10 @@ public class GymController {
 //        return new ResponseEntity<>(response,HttpStatus.OK);
 //    }
 //
-    //헬스장 전체 조회
+
+    /**
+     * 헬스장 목록 조회 (거리순, 평점순, 찜순)
+     */
     @GetMapping
     @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
     public ResponseEntity getAllGym(@AuthMember Long memberId,
@@ -119,22 +125,6 @@ public class GymController {
 
         return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
     }
-
-    // 헬스장 필터링
-//    @GetMapping("/filters")
-//    @RolesAllowed({"ROLE_USER", "ROLE_OWNER"})
-//    public ResponseEntity getFilteredGymList (@AuthMember Long memberId,
-//                                    @RequestParam String filter,
-//                                    @RequestParam Double latitude,
-//                                    @RequestParam Double longitude) {
-//        log.info("## filter : {}", filter);
-//        log.info("## latitude : {}", latitude);
-//        log.info("## longitude : {}", longitude);
-//        List<GymDto.GymInfo> response = gymService.findFilteredGymList(memberId, latitude, longitude, filter);
-//
-//        return new ResponseEntity(new SingleResponseDto<>(response), HttpStatus.OK);
-//    }
-
 
 
     @DeleteMapping("/{gym_id}")

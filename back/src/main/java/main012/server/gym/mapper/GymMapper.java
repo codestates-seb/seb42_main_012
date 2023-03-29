@@ -23,6 +23,7 @@ public interface GymMapper {
                 request.getPhoneNumber(),
                 request.getBusinessHours(),
                 request.getPrice(),
+
                 request.getDetailPrices(),
                 request.getLatitude(),
                 request.getLongitude()
@@ -40,14 +41,10 @@ public interface GymMapper {
     // 헬스장 수정 (수정해야함)
     Gym gymPatchDtoToGym(GymDto.Patch gymPatchDto);
 
-    default GymDto.Response gymToGymResponseDto(Gym gym, Long gymBookmarkCnt) {
-        List<String> facilityNames = gym.getFacilities().stream()
-                .map(facility -> facility.getFacilityName())
-                .collect(Collectors.toList());
-
-        GymDto.Response responseGym = new GymDto.Response(
-                gym.getMember().getId(),
+    default GymDto.Response gymToGymResponseDto(Gym gym, int gymBookmarkCnt, Boolean isBookmarked) {
+        GymDto.Response response = new GymDto.Response(
                 gym.getId(),
+                gym.getMember().getId(),
                 gym.getGymName(),
                 gymToGymImageDtos(gym),
                 gym.getAddress(),
@@ -55,16 +52,12 @@ public interface GymMapper {
                 gym.getPrice(),
                 gym.getDetailPrices(),
                 gym.getBusinessHours(),
-                facilityNames,
-                gym.getGymBookmarkCnt(),
-                gym.getGymBookmarks().isEmpty()
+                gymBookmarkCnt,
+                gymToFacilityList(gym),
+                isBookmarked
         );
 
-//        GymDto.Response responseGym = new GymDto.Response();
-//        responseGym
-//        responseGym.setGymBookmarkCnt(gym.getGymBookmarkCnt());
-
-        return responseGym;
+        return response;
     }
 
 

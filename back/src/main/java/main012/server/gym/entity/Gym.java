@@ -21,7 +21,7 @@ public class Gym extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 100, nullable = false, updatable = false, unique = true) // 헬스장 이름은 unique
+    @Column(length = 100, nullable = false, unique = true) // 헬스장 이름은 unique
     private String gymName;
 
     @Column(length = 100, nullable = false)
@@ -44,9 +44,6 @@ public class Gym extends Auditable {
 
     @Column(length = 100, nullable = false)
     private Double longitude; // 경도
-
-    @Column(columnDefinition = "integer default 0", nullable = false) // 조회수 기본값 0으로 설정.
-    private int gymBookmarkCnt;
 
     // N : 1
     @ManyToOne(fetch = FetchType.LAZY) // 유저는 여러개의 헬스장 등록을 할 수 있다.
@@ -128,11 +125,8 @@ public class Gym extends Auditable {
 
 
     public Double distanceMeter(Double oLat, Double oLng) {
-        Double myLat = latitude;
-        Double myLng = longitude;
-
-        Double theta = myLng - oLng;
-        Double dist = Math.sin(deg2rad(myLat)) * Math.sin(deg2rad(oLat)) + Math.cos(deg2rad(myLat)) * Math.cos(deg2rad(oLat)) * Math.cos(deg2rad(theta));
+        Double theta = longitude - oLng;
+        Double dist = Math.sin(deg2rad(latitude)) * Math.sin(deg2rad(oLat)) + Math.cos(deg2rad(latitude)) * Math.cos(deg2rad(oLat)) * Math.cos(deg2rad(theta));
         dist = Math.acos(dist);
         dist = rad2deg(dist);
         dist *= 60 * 1.1515;

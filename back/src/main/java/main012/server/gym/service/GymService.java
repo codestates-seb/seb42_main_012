@@ -53,7 +53,7 @@ public class GymService {
     private final MemberMapper memberMapper;
 
 
-    public Gym createGym(GymDto.Post request, List<MultipartFile> files, Long memberId) throws IOException {
+    public void createGym(GymDto.Post request, List<MultipartFile> files, Long memberId) throws IOException {
 
         verifyExistsGymName(request.getGymName());
         Gym gym = gymMapper.gymPostDtoToGym(request, request.getGymBookmarkCnt());
@@ -78,7 +78,7 @@ public class GymService {
         log.info("## 짐 이미지 등록 완료");
 
 
-        return gymRepository.save(gym);
+        gymRepository.save(gym);
     }
 
     // 짐 이미지 등록 기능
@@ -90,104 +90,73 @@ public class GymService {
     }
 
     // 헬스장 시설 조회
-    private Facility findFacility(Long facilityId) {
-        return facilityRepository.findById(facilityId)
+    private Facility findFacility(Long id) {
+        return facilityRepository.findById(id)
                 .orElseThrow(() -> new BusinessLoginException(ExceptionCode.FACILITY_NOT_FOUND));
     }
 
 
-    // 헬스장 수정
-    public Gym updateGym(GymDto.Patch patchRequest, List<MultipartFile> files) throws IOException {
+    /**
+     * 헬스장 수정
+     */
+    public void updateGym(GymDto.Patch request, List<MultipartFile> files, Long gymId, Long memberId) throws IOException {
         // 존재하는 헬스장인지 검증
-        Gym findGym = findVerifiedGym(patchRequest.getGymId());
+        Gym gym = findVerifiedGym(gymId);
+        log.info("## 헬스장 수정 : {}", gymId);
 
-        Optional.ofNullable(patchRequest.getGymName())
-                .ifPresent(gymName -> findGym.setGymName(gymName));
-        Optional.ofNullable(patchRequest.getAddress())
-                .ifPresent(address -> findGym.setAddress(address));
-        Optional.ofNullable(patchRequest.getPhoneNumber())
-                .ifPresent(phoneNumber -> findGym.setPhoneNumber(phoneNumber));
-        Optional.ofNullable(patchRequest.getBusinessHours())
-                .ifPresent(businessHours -> findGym.setBusinessHours(businessHours));
-        Optional.ofNullable(patchRequest.getPrice())
-                .ifPresent(price -> findGym.setPrice(price));
-        Optional.ofNullable(patchRequest.getDetailPrices())
-                .ifPresent(detailPrice -> findGym.setDetailPrices(detailPrice));
-//        Optional.ofNullable(gym.getFacilities())
-//                .ifPresent(facilityList -> findGym.setFacilities((List<Facility>) facilityRepository.findAllById(facilityList).orElseThrow(() -> new BusinessLoginException(ExceptionCode.FACILITY_NOT_FOUND))));
-        Optional.ofNullable(patchRequest.getLatitude())
-                .ifPresent(latitude -> findGym.setLatitude(latitude));
-        Optional.ofNullable(patchRequest.getLongitude())
-                .ifPresent(longitude -> findGym.setLongitude(longitude));
-
-        boolean checkFiles = checkEmptyFile(files);
-
-        if (checkFiles != true) {
-            // 기존 사진 지우기
-            for (Long value : patchRequest.getDeletedGymImageId()) {
-                Image deleteImage = imageRepository.findById(value).orElseThrow(() -> new BusinessLoginException(ExceptionCode.GYM_NOT_FOUND));
-                imageService.remove(deleteImage);
-                List<GymImage> foundByImageId = gymImageRepo.findByImageId(value);
-                for (GymImage gymImage : foundByImageId) {
-                    gymImageRepo.delete(gymImage);
-                }
-            }
-            // 새로운 사진 등록
-            List<Image> uploadedImages = imageService.upload(files, "upload");
-            createGymImage(findGym, uploadedImages);
-
+        if (gym.getMember().getId() != memberId) {
+            log.warn("## 다른 사람이 헬스장 수정하려고 함");
+            throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_MATCHED);
         }
 
+        gym.setGymName(request.getGymName());
+        gym.setAddress(request.getAddress());
+        gym.setPhoneNumber(request.getPhoneNumber());
+        gym.setBusinessHours(request.getBusinessHours());
+        gym.setPrice(request.getPrice());
+        gym.setDetailPrices(request.getDetailPrices());
+        gym.setLatitude(request.getLatitude());
+        gym.setLongitude(request.getLongitude());
 
-        return findGym;
+        List<Long> deletedGymImageId = request.getDeletedGymImageId();
+        for (Long deletedId : deletedGymImageId) {
+            gymImageRepo.findById(deletedId)
+                    .ifPresent(gymImage -> {
+                            imageService.remove(gymImage.getImage());
+                            gymImageRepo.delete(gymImage);
+                    });
+        }
+        log.info("## 헬스장 이미지 삭제 완료");
+
+
+        List<Facility> facilities = request.getFacilityIdList().stream()
+                .map(id -> findFacility(id))
+                .collect(Collectors.toList());
+        gym.setFacilities(facilities);
+        log.info("## 헬스장 시설 수정 완료");
+
+
+        if (!files.isEmpty()) {
+           List<Image> uploadedImages = imageService.upload(files, "upload");
+           createGymImage(gym, uploadedImages);
+        }
+        log.info("## 헬스장 이미지 수정 완료");
     }
 
-    // 상세 헬스장 조회
-    public GymDto.Response findGym(Long gymId) {
+    /**
+     * 헬스장 상세 조회
+     */
+    public GymDto.Response findGym(Long gymId, Long memberId) {
         Gym findGym = findVerifiedGym(gymId);
 
-        Long gymBookmarkCnt = gymBookmarkRepository.countByGymId(findGym.getId());
+        int gymBookmarkCnt = findGym.getGymBookmarks().size();
+        Boolean isBookmarked = gymBookmarkRepository.findByMemberIdAndGymId(memberId, gymId).isPresent();
 
-        GymDto.Response response = gymMapper.gymToGymResponseDto(findGym, gymBookmarkCnt);
+        GymDto.Response response = gymMapper.gymToGymResponseDto(findGym, gymBookmarkCnt, isBookmarked);
 
         return response;
     }
 
-
-    /**
-     * 헬스장 목록 거리순 조회
-     */
-    public List<GymDto.GymInfo> findAllGym(Long memberId, Double latitude, Double longitude) {
-
-        List<Gym> all = gymRepository.findAll();
-        List<GymWithDistance> gymInFiveKiloMeter = new ArrayList<>();
-
-        all.stream()
-                .forEach(gym -> {
-                    Double result = gym.distanceMeter(latitude, longitude);
-                    if (result <= 5000) {
-                        GymWithDistance gymWithDistance = new GymWithDistance(gym, result);
-                        gymInFiveKiloMeter.add(gymWithDistance);
-
-                    }
-                });
-
-        List<Gym> contents = gymInFiveKiloMeter.stream()
-                .sorted(Comparator.comparing(GymWithDistance::getDistance))
-                .map(gymWithDistance -> gymWithDistance.getGym())
-                .collect(Collectors.toList());
-
-        List<GymDto.GymInfo> responses = new ArrayList<>();
-        contents.stream()
-                .forEach(gym -> {
-                    Boolean isBookmarked = gymBookmarkRepository.findByMemberIdAndGymId(memberId, gym.getId())
-                            .isPresent();
-                    GymDto.GymInfo response = gymMapper.gymToGimInfo(gym, isBookmarked);
-                    responses.add(response);
-                });
-
-        return responses;
-    }
 
     /**
      * 헬스장 필터링 목록
@@ -217,16 +186,19 @@ public class GymService {
                     .sorted(Comparator.comparing(GymWithDistance::getAvgGymGrade).reversed())
                     .map(gymWithDistance -> gymWithDistance.getGym())
                     .collect(Collectors.toList());
+            log.info("## 평점순 목록 조회");
         } else if (filter.equals("bookmark")) {
             contents = gymInFiveKiloMeter.stream()
                     .sorted(Comparator.comparing(GymWithDistance::getBookmarkSize).reversed())
                     .map(gymWithDistance -> gymWithDistance.getGym())
                     .collect(Collectors.toList());
+            log.info("## 찜순 목록 조회");
         } else {
             contents = gymInFiveKiloMeter.stream()
                     .sorted(Comparator.comparing(GymWithDistance::getDistance))
                     .map(gymWithDistance -> gymWithDistance.getGym())
                     .collect(Collectors.toList());
+            log.info("## 거리순 목록 조회");
         }
 
         List<GymDto.GymInfo> responses = new ArrayList<>();
@@ -237,12 +209,11 @@ public class GymService {
                     GymDto.GymInfo response = gymMapper.gymToGimInfo(gym, isBookmarked);
                     responses.add(response);
                 });
-
+        log.info("## 헬스장 목록 반환");
         return responses;
-
-
     }
 
+    // 헬스장별 평균 평점 구하기
     private double getAvgGymGrade(Gym gym) {
         OptionalDouble average = gym.getGymReviews().stream()
                 .mapToLong(gymReview -> gymReview.getGymGrade())
@@ -281,7 +252,7 @@ public class GymService {
 
         if (member.getEmail().equals(adminEmail) || findGym.getMember().getId() == memberId) {
             gymRepository.delete(findGym);
-        } else throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND);
+        } else throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_MATCHED);
 
         List<GymImage> gymImageList = gymImageRepo.findByGymId(gymId);
 

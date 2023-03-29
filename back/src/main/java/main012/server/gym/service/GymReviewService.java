@@ -2,27 +2,39 @@ package main012.server.gym.service;
 
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import main012.server.cursor.CursorResult;
 import main012.server.exception.BusinessLoginException;
 import main012.server.exception.ExceptionCode;
 import main012.server.gym.dto.GymReviewDto;
 import main012.server.gym.entity.Gym;
 import main012.server.gym.entity.GymReview;
+import main012.server.gym.mapper.GymReviewMapper;
+import main012.server.gym.repository.GymRepository;
 import main012.server.gym.repository.GymReviewRepository;
+import main012.server.user.entity.Member;
+import main012.server.user.repository.MemberRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
-@AllArgsConstructor // 생성자 주입
+@RequiredArgsConstructor
 public class GymReviewService {
+    @Value("${mail.address.admin}")
+    private String adminEmail;
     private final GymReviewRepository gymReviewRepository;
-
+    private final GymRepository gymRepository;
+    private final GymReviewMapper gymReviewMapper;
+    private final MemberRepository memberRepository;
 
     public GymReview createGymReview(GymReview gymReview) {
 
@@ -41,7 +53,7 @@ public class GymReviewService {
     }
 
     // 헬스장 리뷰가 있는지 확인
-    public GymReview findVerifiedGymReview(long gymReviewId) {
+    public GymReview findVerifiedGymReview(Long gymReviewId) {
         Optional<GymReview> optionalGymReview =
                 gymReviewRepository.findById(gymReviewId);
         GymReview findGymReview =
@@ -54,15 +66,34 @@ public class GymReviewService {
 //    public Page<GymReview> findGymReviews(int page, int size) {
 //        return gymReviewRepository.findAll(PageRequest.of(page,size, Sort.by("id").descending()));
 //    }
-    /*헬스장 리뷰 조회*/
-    public Page<GymReview> gymReviewPage(Pageable pageable) {
-        // .findAll - 해당 페이지 형식에 맞춰서 모든 리뷰 가져오기
-        return gymReviewRepository.findAll(pageable);
+
+    /**
+     * 헬스장별 리뷰 조회
+     */
+    public List<GymReviewDto.ReviewInfo> findGymReviews(Long gymId) {
+        Gym gym = gymRepository.findById(gymId)
+                .orElseThrow(() -> new BusinessLoginException(ExceptionCode.GYM_NOT_FOUND));
+
+        List<GymReview> gymReviews = gym.getGymReviews();
+
+        Collections.reverse(gymReviews);
+
+        List<GymReviewDto.ReviewInfo> responses = gymReviewMapper.gymReviewsToGymReviewInfoDtos(gymReviews);
+
+        return responses;
     }
 
     // 헬스장 리뷰 삭제
-    public void gymReviewDelete(Long gymReviewId) {
+    public void gymReviewDelete(Long gymReviewId,Long memberId) {
         GymReview findGymReview = findVerifiedGymReview(gymReviewId);
+
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new BusinessLoginException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        if(member.getEmail().equals(adminEmail)) {
+            gymReviewRepository.delete(findGymReview);
+        }else if(findGymReview.getMember().getId() != memberId){
+            throw new BusinessLoginException(ExceptionCode.MEMBER_NOT_MATCHED);
+        }
         gymReviewRepository.delete(findGymReview);
     }
 

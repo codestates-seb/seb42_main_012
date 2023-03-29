@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Component
@@ -25,5 +26,4 @@ public interface GymReviewRepository extends JpaRepository<GymReview, Long> {
     Page<GymReview> findByMemberIdAndIdLessThanOrderByIdDesc(Long memberId, Long id, Pageable pageable);
 
     Long countByMemberId(Long memberId);
-
 }

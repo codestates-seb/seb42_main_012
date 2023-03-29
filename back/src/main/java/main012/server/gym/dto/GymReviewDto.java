@@ -16,12 +16,11 @@ public class GymReviewDto {
     @AllArgsConstructor
     public static class Post {
         @Min(1) @Max(5)
-        private long gymGrade;
+        private int gymGrade;
 
         @NotBlank(message = "리뷰를 작성해주세요")
         @Size(min = 20)
         private String gymComment;
-
         private Long gymId;
 
         private Long memberId;
@@ -35,18 +34,12 @@ public class GymReviewDto {
 
 
         @Min(1) @Max(5)
-        private long gymGrade;
+        private int gymGrade;
 
         @NotBlank(message = "리뷰를 작성해주세요")
         @Size(min = 20)
         private String gymComment;
 
-        public long getId() {
-            return id;
-        }
-        public void setId(Long id) {
-            this.id = id;
-        }
     }
 
     @Getter
@@ -57,7 +50,7 @@ public class GymReviewDto {
         private Long reviewId;
         private String displayName;
 
-        private long gymGrade;
+        private int gymGrade;
 
         private String gymComment;
         @Column(name = "created_at", updatable = false)
@@ -65,6 +58,17 @@ public class GymReviewDto {
 
     }
 
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class ReviewInfo {
+        private Long reviewId;
+        private Long memberId;
+        private String displayName;
+        private int grade;
+        private String comment;
+        private String createdAt;
+    }
 
 
 }
