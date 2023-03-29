@@ -32,11 +32,12 @@ function SignUp() {
       .then(res => {
         if (res.status === 201) {
           navigate('/login');
+          alert('회원가입 성공!');
         }
       })
       .catch(err => {
         if (err.response.status === 401) {
-          setErrorMessage('로그인에 실패했습니다.');
+          setErrorMessage('회원가입 실패...😭');
         }
       });
   };

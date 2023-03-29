@@ -22,7 +22,7 @@ function MyPasswordEdit() {
           />
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center mt-10">
           <BasicButton
             nav="/my/info/password"
             page="my"
