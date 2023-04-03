@@ -12,6 +12,7 @@ function GymPostImage({
     PatchGymImages === undefined ? null : PatchGymImages.gymImageUrl,
   );
   const [imagePatchView, setImagePatchView] = useState(false);
+
   useEffect(() => {
     if (image && image.length > 0) {
       const file1 = image[0];

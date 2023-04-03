@@ -85,13 +85,8 @@ function GymPostPage() {
         .patch(`/gyms/${gymsDetail.gymId}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
-        .then(res => {
-          console.log(res);
-          navigate(`/gyms/${gymsDetail.gymId}`);
-        })
+        .then(navigate(`/gyms/${gymsDetail.gymId}`))
         .catch(() => {
-          console.log(gymsData);
-          console.log(imagesData);
           alert('입력하신 내용을 확인해주세요');
         });
     } else {
