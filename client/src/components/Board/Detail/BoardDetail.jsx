@@ -7,6 +7,7 @@ import DetailHeader from './DetailHeader';
 import DetailTap from './DetailTab';
 import DetailTitle from './DetailTitle';
 import useBoardStore from '../../../state/useBoardStore';
+import BoardDetailImage from './BoardDetailImage';
 
 function BoardDetail() {
   const { boardDetail, setBoardDetail } = useBoardStore();
@@ -23,6 +24,9 @@ function BoardDetail() {
       {[boardDetail].map(boardDetails => (
         <div key={boardDetails.communityId}>
           <DetailTitle title={boardDetails.title} />
+          <BoardDetailImage
+            contentImages={boardDetail.contentImages[0].contentImageUrl}
+          />
           <DetailBody content={boardDetails.content} />
           <DetailComment />
         </div>

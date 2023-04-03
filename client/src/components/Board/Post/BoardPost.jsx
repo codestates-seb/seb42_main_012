@@ -1,24 +1,28 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-
-import BoardTapList from '../Tab/TabList';
+import { useState } from 'react';
 import BoardPostTitle from './PostTitle';
 import BoardPostBody from './PostBody';
 import BasicButton from '../../UI/Button/BasicButton';
 import api from '../../../utils/api';
+import BoardPostTapList from './PostTabList';
+import BoardImageButton from '../../UI/Board/BoardImageButton';
+import useBoardStore from '../../../state/useBoardStore';
 
 function BoardPost() {
+  const { setBoards } = useBoardStore();
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, watch } = useForm();
+  const [tabId, setTabId] = useState(1);
 
+  const image = watch('image');
   const onSubmit = async data => {
+    const imageData = data.image[0];
     const boardsData = {
       title: data.title,
       content: data.content,
-      tabId: 1,
+      tabId,
     };
-
-    // 자유게시판 꿀팁 오운완 자세피드백 파트너모집
 
     const formData = new FormData();
     const blob = new Blob([JSON.stringify(boardsData)], {
@@ -26,6 +30,7 @@ function BoardPost() {
     });
 
     formData.append('request', blob);
+    formData.append('files', imageData);
 
     await api
       .post('/communities', formData, {
@@ -33,16 +38,20 @@ function BoardPost() {
       })
       .then(navigate('/board'))
       .catch(() => alert('요청실패'));
+
+    api
+      .get('/communities?lastFeedId')
+      .then(res => setBoards(res.data.contents));
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="border-t border-[var(--second-border)]">
-        <BoardTapList />
+        <BoardPostTapList setTabId={setTabId} />
         <BoardPostTitle register={register} />
         <BoardPostBody register={register} />
         <div className="mt-1">
-          <BasicButton page="board" text="이미지 업로드" />
+          <BoardImageButton register={register} image={image} />
           <BasicButton page="board" text="Post" />
         </div>
       </div>

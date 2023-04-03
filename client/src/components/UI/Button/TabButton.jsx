@@ -4,7 +4,15 @@ import useBoardStore from '../../../state/useBoardStore';
 import useGymStore from '../../../state/useGymStore';
 import api from '../../../utils/api';
 
-function TabButton({ tabName, setFilterOn, idx, filterOn, classname, filter }) {
+function TabButton({
+  tabName,
+  setFilterOn,
+  idx,
+  filterOn,
+  classname,
+  filter,
+  setTabId,
+}) {
   const { setGyms } = useGymStore();
   const { setBoards } = useBoardStore();
   const location = useLocation();
@@ -31,6 +39,8 @@ function TabButton({ tabName, setFilterOn, idx, filterOn, classname, filter }) {
           setBoards(res.data.contents);
         });
       }
+    } else if (path === 'board/boardpost') {
+      setTabId(idx + 1);
     } else {
       gymAxios.get('/gyms', { params }).then(res => setGyms(res.data.data));
     }
