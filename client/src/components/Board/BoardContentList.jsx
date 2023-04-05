@@ -1,9 +1,26 @@
 import { Link } from 'react-router-dom';
-import { AiFillEye } from 'react-icons/ai';
+import { useState } from 'react';
+import { AiFillEye, AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import dateFormat from '../../utils/dateFormat';
-// import HeartButton from '../UI/Button/HeartButton'
 
-function BoardContentList({ to, classname, tabId, title, createdAt, viewcnt }) {
+function BoardContentList({
+  to,
+  classname,
+  tabId,
+  title,
+  createdAt,
+  viewcnt,
+  bookmarked,
+}) {
+  const [heartOn, setHeartOn] = useState(bookmarked);
+
+  const buttonHandler = () => {
+    if (bookmarked === null) {
+      setHeartOn(!heartOn);
+    }
+    setHeartOn(!heartOn);
+  };
+
   return (
     <>
       <Link to={to}>
@@ -24,12 +41,19 @@ function BoardContentList({ to, classname, tabId, title, createdAt, viewcnt }) {
                 {dateFormat(createdAt)}
               </span>
             </div>
-            {/* <div className="ml-2 text-xl">
-              <HeartButton bookmarked={bookmarked} />
-            </div> */}
           </div>
         </li>
       </Link>
+      <div className="right-0 ml-2 text-xl ">
+        <button type="button" onClick={buttonHandler}>
+          {heartOn && bookmarked ? (
+            <AiFillHeart className="text-orange" />
+          ) : (
+            <AiOutlineHeart />
+          )}
+          {console.log(bookmarked, heartOn)}
+        </button>
+      </div>
     </>
   );
 }
