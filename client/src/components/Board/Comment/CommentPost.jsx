@@ -3,10 +3,12 @@ import { useParams } from 'react-router-dom';
 import { AiOutlineUpCircle } from 'react-icons/ai';
 // import TextInput from '../../UI/Input/TextInput';
 import api from '../../../utils/api';
+import useBoardStore from '../../../state/useBoardStore';
 
 function CommentPost() {
   const { register, handleSubmit } = useForm();
   const { id } = useParams();
+  const { setComments, comments } = useBoardStore();
 
   const handleKeyPress = event => {
     if (event.key === 'Enter') {
@@ -26,9 +28,15 @@ function CommentPost() {
       })
       .catch(() => alert('요청실패'));
 
-    // window.location.reload();
+    api
+      .get(`/communities/comments/${id}?lastFeedId=`)
+      .then(res => {
+        setComments(res.data.contents);
+      })
+      .catch(() => alert('요청실패'));
   };
 
+  console.log(comments);
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>

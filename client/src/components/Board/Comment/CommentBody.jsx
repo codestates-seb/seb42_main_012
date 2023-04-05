@@ -6,8 +6,10 @@ import { FaPencilAlt } from 'react-icons/fa';
 
 import dateFormat from '../../../utils/dateFormat';
 import api from '../../../utils/api';
+import useMyStore from '../../../state/useMyStore';
 
 function CommentBody({ displayName, createdAt, commented, commentId }) {
+  const { myElements } = useMyStore();
   const { id } = useParams();
   const [edit, setEdit] = useState(false);
   const [commentContent, setCommentContent] = useState(commented);
@@ -20,8 +22,8 @@ function CommentBody({ displayName, createdAt, commented, commentId }) {
     setEdit(!edit);
   };
 
-  const handleUpdate = async e => {
-    e.preventDefault();
+  const handleUpdate = async () => {
+    // e.preventDefault();
     await api
       .patch(`/communities/comments/${id}`, {
         comment: commentContent,
@@ -36,14 +38,15 @@ function CommentBody({ displayName, createdAt, commented, commentId }) {
     api
       .get(`/communities/comments/${id}?lastFeedId=`)
       .then(res => {
-        setCommentContent(res.data.contents);
-        alert('수정 성공!');
-        console.log(
+        setCommentContent(
           res.data.contents.fliter(content => content.commentId === commentId),
         );
+        alert('수정 성공!');
       })
       .catch(err => console.log(err.response));
   };
+
+  // console.log(commentContent);
 
   return (
     <div className="flex flex-col w-full">
@@ -57,30 +60,36 @@ function CommentBody({ displayName, createdAt, commented, commentId }) {
           </div>
           <p className="text-sm">{commented}</p>
         </div>
-        <div className="flex text-[#d9d9d9] text-md">
-          {edit ? (
-            <button
-              type="button"
-              className="mr-2 text-sm"
-              onClick={handleUpdate}
-            >
-              수정완료
-            </button>
-          ) : (
-            <button type="button" className="mr-2" onClick={handleEdit}>
-              <FaPencilAlt />
-            </button>
-          )}
-          {edit ? (
-            <button type="button" className="mr-2 text-sm" onClick={handleEdit}>
-              수정취소
-            </button>
-          ) : (
-            <button type="button">
-              <BsTrash3Fill />
-            </button>
-          )}
-        </div>
+        {commentContent.memberId === myElements.memberId ? (
+          <div className="flex text-[#d9d9d9] text-md">
+            {edit ? (
+              <button
+                type="button"
+                className="mr-2 text-sm"
+                onClick={handleUpdate}
+              >
+                수정완료
+              </button>
+            ) : (
+              <button type="button" className="mr-2" onClick={handleEdit}>
+                <FaPencilAlt />
+              </button>
+            )}
+            {edit ? (
+              <button
+                type="button"
+                className="mr-2 text-sm"
+                onClick={handleEdit}
+              >
+                수정취소
+              </button>
+            ) : (
+              <button type="button">
+                <BsTrash3Fill />
+              </button>
+            )}
+          </div>
+        ) : null}
       </div>
       {edit ? (
         <input
