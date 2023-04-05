@@ -11,8 +11,13 @@ function HeartButton({ bookmarked, gymId }) {
   const location = useLocation();
   const path = location.pathname.slice(1);
   const { setGyms, setGymsDetail, gymsDetail } = useGymStore();
-  // const { setBoards } = useBoardStore();
-  const check = path === 'gyms' ? bookmarked : gymsDetail.isBookmarked;
+  // const { setBoards, boards } = useBoardStore();
+  const check =
+    path === 'gyms'
+      ? bookmarked
+      : gymsDetail.isBookmarked
+      ? path === 'board'
+      : bookmarked;
   const [heartChange, setHeartChange] = useState(check);
   // path === 'board' ? bookmarked : isBookmarked,
   const params = {
@@ -32,16 +37,19 @@ function HeartButton({ bookmarked, gymId }) {
         setGyms(res.data.data);
       });
     }
-    // if (path === 'board') {
+    // } else if (path === 'board') {
     //   await api.post(`communities/bookmarks/${communityId}`);
     //   await api.get(`communities/${communityId}`).then(res => {
-    //     setHeartChange(res.data.isBookmarked);
+    //     setHeartChange(res.data.contents.isBookmarked);
     //   });
     //   await api.get('/communities').then(res => {
-    //     setBoards(res.data.data);
+    //     setBoards(res.data.contents);
     //   });
     // }
   };
+  // console.log(heartChange);
+  // console.log(boards.isBookmarked);
+  // console.log(boards);
 
   return (
     <button type="button">

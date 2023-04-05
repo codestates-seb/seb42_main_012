@@ -12,12 +12,14 @@ function Board() {
       .get('/communities?lastFeedId')
       .then(res => setBoards(res.data.contents));
   }, []);
+  console.log(boards);
 
   return (
     <ul>
       {boards.map(board => (
         <BoardContentList
           key={board.communityId}
+          communityId={board.communityId}
           to={`${board.communityId}`}
           classname="cursor-pointer"
           tabId={
@@ -35,7 +37,7 @@ function Board() {
           }
           title={board.title}
           viewcnt={board.viewCnt}
-          bookmarked={board.bookmarked}
+          bookmarked={board.isBookmarked}
           createdAt={board.createdAt}
         />
       ))}
