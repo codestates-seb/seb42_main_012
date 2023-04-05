@@ -1,17 +1,59 @@
+server:
+  port: 8080
+  servlet:
+    encoding:
+      force-response: true
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2
   datasource:
-    url: jdbc:h2:mem:test
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${AWS_RDS_URL}
+    username: ${AWS_RDS_USERNAME}
+    password: ${AWS_RDS_PASSWORD}
+  #    url: jdbc:mysql://localhost:3306/main012?serverTimezone=Asia/Seoul
+  #    username: ${MYSQL_USERNAME}
+  #    password: ${MYSQL_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: create  # (1) ??? ?? ??
-    show-sql: true      # (2) SQL ?? ??
+      ddl-auto: update
+    show-sql: true
     properties:
       hibernate:
-        format_sql: true  # (3) SQL pretty print
-  sql:
-    init:
-      data-locations: classpath*:db/h2/data.sql
+        format_sql: true
+  servlet:
+    multipart:
+      maxFileSize: 100MB
+      maxRequestSize: 100MB
+logging:
+  level:
+    org:
+      springframework:
+      orm:
+        jpa: DEBUG
+  file:
+    path: /home/ubuntu/log
+cloud:
+  aws:
+    credentials:
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
+    s3:
+      bucket: ${S3_IMAGE_BUCKET_NAME}
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+jwt:
+  key: ${JWT_SECRET_KEY}
+  access:
+    expiration: 7200 # 60(s) * 60(minute) * 2(hour) = 7200
+    header: Authorization
+  refresh:
+    expiration: 1209600 # 60(s) * 60(minute) * 24(hour) * 14(day) = 1209600
+    header: Authorization-Refresh
+
+mail:
+  address:
+    admin: admin@email.com
+#config:
+#  domain: ${AWS_S3_ENDPOINT}
