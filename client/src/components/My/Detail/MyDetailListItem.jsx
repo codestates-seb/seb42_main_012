@@ -1,23 +1,13 @@
-import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import ReviewScore from '../../Gym/Review/ReviewScore';
+import ReviewScoreList from '../../Gym/Review/ReviewScoreList';
 import dateFormat from '../../../utils/dateFormat';
-import gymAxios from '../../../pages/Gym/gymAxios';
 import useGymStore from '../../../state/useGymStore';
 
-function MyDetailListItem({ tabName, title, created, grade, gymId }) {
+function MyDetailListItem({ tabName, title, created, grades, gymId }) {
+  const { gymsDetail } = useGymStore();
   const location = useLocation();
   const classes =
     'border border-[var(--second)] w-24 rounded-full flex justify-center mr-2 text-[var(--second)] text-xs';
-
-  const { gymsDetail, setGymsDetail } = useGymStore();
-
-  useEffect(() => {
-    // if (location.loaded === true) {
-    gymAxios.get(`/gyms/${gymId}`).then(res => setGymsDetail(res.data));
-    // }
-  }, []);
-  // }, [location]);
 
   return (
     <li className="flex items-center justify-between w-full p-4 border-y border-[var(--main-border)] active:bg-[var(--main-active)] cursor-pointer">
@@ -27,12 +17,17 @@ function MyDetailListItem({ tabName, title, created, grade, gymId }) {
         ) : location.pathname === '/my/comments' ? (
           <div className={classes}>{tabName}</div>
         ) : location.pathname === '/my/reviews' ? (
-          <ReviewScore grades={grade} />
+          <ReviewScoreList gymId={gymId} grades={grades} />
         ) : location.pathname === '/my/bookmarks/gyms' ? (
           <div className="mr-2">
             <img
               className="object-cover w-48 h-32"
-              src={gymsDetail.gymImages[0].gymImageUrl}
+              src={
+                gymsDetail.gymImages[0].gymImageUrl === undefined ||
+                gymsDetail.gymImages[0].gymImageUrl === null
+                  ? null
+                  : gymsDetail.gymImages[0].gymImageUrl
+              }
               alt="헬스장이미지"
             />
           </div>

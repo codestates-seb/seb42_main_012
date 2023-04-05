@@ -1,46 +1,6 @@
-import { useEffect } from 'react';
-import useMyStore from '../../state/useMyStore';
 import MyPageButton from '../UI/Button/MyPageButton';
-import api from '../../utils/api';
 
 function MyPageList() {
-  const {
-    setMyBoards,
-    setMyComments,
-    setMyReviews,
-    setMyGymsBookmarks,
-    setBoardsBookmarks,
-  } = useMyStore();
-
-  useEffect(() => {
-    api
-      .get('/members/my/communities?lastFeedId=')
-      .then(res => setMyBoards(res.data.data));
-  }, []);
-
-  useEffect(() => {
-    api
-      .get('/members/my/comments?lastFeedId=')
-      .then(res => setMyComments(res.data.data));
-  }, []);
-
-  useEffect(() => {
-    api
-      .get('/members/my/reviews?lastFeedId=')
-      .then(res => setMyReviews(res.data.data));
-  }, []);
-
-  useEffect(() => {
-    api
-      .get('/members/my/bookmarks/gyms?lastFeedId=')
-      .then(res => setMyGymsBookmarks(res.data.data));
-  }, []);
-
-  useEffect(() => {
-    api
-      .get('/members/my/bookmarks/communities?lastFeedId=')
-      .then(res => setBoardsBookmarks(res.data.data));
-  }, []);
   return (
     <>
       <ul className="w-full bg-[var(--main-active)] flex flex-wrap flex-auto justify-between mt-10 mb-10 border border-[var(--main)] rounded-xl">
