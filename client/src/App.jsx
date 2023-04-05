@@ -31,7 +31,7 @@ function App() {
   }, [isLoggedIn]);
 
   return (
-    <div className="flex justify-center bg-fixed bg-opacity-25 bg-lightGrey">
+    <div className="flex justify-center bg-opacity-25 bg-lightGrey">
       <div className="w-2/6 overflow-hidden">
         <Routes>
           {isLoggedIn ? (
