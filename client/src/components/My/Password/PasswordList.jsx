@@ -27,10 +27,9 @@ function PasswordList() {
           originPassword: originsPassword,
           newPassword: newPasswords,
         })
-        .then(res => {
+        .then(() => {
           window.location.replace('/my');
           alert('비밀번호 변경완료!');
-          console.log(res);
         });
     } catch (err) {
       alert('요청에 실패했어요😭');

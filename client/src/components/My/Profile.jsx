@@ -78,7 +78,6 @@ function Profile() {
           }
           navigate('/');
           alert('회원정보 변경완료!');
-          console.log(res.data);
         });
     } catch (err) {
       alert('요청에 실패했어요😭');

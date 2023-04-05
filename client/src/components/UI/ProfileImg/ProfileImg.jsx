@@ -34,9 +34,8 @@ function ProfileImg({ page }) {
 
     try {
       const res = await axios.patch('/members/info');
-      const data = await res.json();
+      await res.json();
       alert('이미지 변경완료!');
-      console.log(data);
     } catch (err) {
       alert('요청에 실패했어요😭');
       console.log(err);

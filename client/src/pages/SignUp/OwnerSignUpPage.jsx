@@ -38,7 +38,6 @@ function OwnerSignUpPage() {
       .catch(err => {
         if (err.response.status === 400) {
           setErrorMessage('회원가입에 실패했습니다.');
-          console.log(data);
         }
       });
   };

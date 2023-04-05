@@ -119,12 +119,10 @@ function GymPostPage() {
         .post(`/gyms`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         })
-        .then(res => {
-          console.log(res);
+        .then(() => {
           navigate(`/gyms`);
         })
         .catch(() => {
-          console.log(gymsData);
           alert('입력하신 내용을 확인해주세요');
         });
     }

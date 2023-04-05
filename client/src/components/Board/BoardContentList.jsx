@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
 import { AiFillEye } from 'react-icons/ai';
 import dateFormat from '../../utils/dateFormat';
-// import HeartButton from '../UI/Button/HeartButton';
+// import HeartButton from '../UI/Button/HeartButton'
 
 function BoardContentList({ to, classname, tabId, title, createdAt, viewcnt }) {
-  // const { boards } = boardStore();
   return (
     <>
       <Link to={to}>
