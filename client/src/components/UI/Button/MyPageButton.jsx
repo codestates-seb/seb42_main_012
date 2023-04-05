@@ -1,15 +1,43 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
 import useMyStore from '../../../state/useMyStore';
+import api from '../../../utils/api';
 
 function MyPageButton({ to, text }) {
   const {
+    setMyBoards,
+    setMyComments,
+    setMyReviews,
+    setMyGymsBookmarks,
+    setBoardsBookmarks,
     myBoards,
     myComments,
     myReviews,
     myGymsBookmarks,
     myBoardsBookmarks,
   } = useMyStore();
+
+  useEffect(() => {
+    const apiData = async () => {
+      try {
+        const [data1, data2, data3, data4, data5] = await Promise.all([
+          api.get('/members/my/communities?lastFeedId='),
+          api.get('/members/my/comments?lastFeedId='),
+          api.get('/members/my/reviews?lastFeedId='),
+          api.get('/members/my/bookmarks/gyms?lastFeedId='),
+          api.get('/members/my/bookmarks/communities?lastFeedId='),
+        ]);
+        setMyBoards(data1.data.data);
+        setMyComments(data2.data.data);
+        setMyReviews(data3.data.data);
+        setMyGymsBookmarks(data4.data.data);
+        setBoardsBookmarks(data5.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    apiData();
+  }, []);
 
   return (
     <li className="z-10 flex-auto w-1/3">

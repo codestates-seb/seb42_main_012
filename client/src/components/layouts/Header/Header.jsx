@@ -6,12 +6,12 @@ import MoreButton from '../../UI/Button/MoreButton';
 import LogoutButton from '../../UI/Button/LogoutButton';
 import useMyStore from '../../../state/useMyStore';
 import useGymStore from '../../../state/useGymStore';
-import useBoardStore from '../../../state/useBoardStore';
+// import useBoardStore from '../../../state/useBoardStore';
 
 function Header() {
   const { myElements } = useMyStore();
   const { gymsDetail } = useGymStore();
-  const { boardDetail } = useBoardStore();
+  // const { boardDetail } = useBoardStore();
   const param = useParams();
   const location = useLocation();
   const path = location.pathname;
@@ -58,11 +58,7 @@ function Header() {
         <header className={defaultClass}>
           <BackButton />
           <HeaderTitle titleText="BOARD" />
-          {myElements.memberId === boardDetail.memberId ? (
-            <MoreButton />
-          ) : (
-            <div className="relative" />
-          )}
+          <div className="relative" />
         </header>
       );
     case '/gyms/gympost':
