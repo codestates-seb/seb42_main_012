@@ -4,11 +4,11 @@ import BoardList from '../../components/Board/BoardList';
 
 function BoardPage() {
   return (
-    <>
+    <div className="mb-32">
       <BoardSearchContainer />
       <BoardTapList />
       <BoardList />
-    </>
+    </div>
   );
 }
 

@@ -13,7 +13,7 @@ function BoardHeaderContainer({
   boardMemberId,
 }) {
   return (
-    <div className="flex items-center justify-center">
+    <div className="relative flex items-center w-full h-full">
       <img
         src={boardDetail.profileImage}
         alt="프로필사진"
@@ -24,7 +24,7 @@ function BoardHeaderContainer({
         <p className="ml-4 text-sm">{dateFormat(boardDetail.createdAt)}</p>
       </div>
       {myMemberId === boardMemberId ? (
-        <div className="absolute flex text-2xl right-5">
+        <div className="absolute right-0 flex text-2xl">
           <BoardEdit
             edit={edit}
             setEdit={setEdit}

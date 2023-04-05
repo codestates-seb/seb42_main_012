@@ -29,9 +29,9 @@ function BoardContentList({
 
   return (
     <div className="flex items-center border-b border-[var(--second-border)] border-opacity-10 active:bg-[var(--main-active)] active:bg-opacity-10 cursor-pointer">
-      <Link to={to} className="h-24 mb-2 w-80">
+      <Link to={to} className="w-full h-24 mb-3">
         <li className={`flex justify-between items-center pt-4 ${classname}`}>
-          <div className="flex flex-col">
+          <div className="flex flex-col mt-2 ml-3">
             <p>{title}</p>
             <span className="text-[var(--main)] mt-2">{tabId}</span>
           </div>
