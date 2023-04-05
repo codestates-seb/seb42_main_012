@@ -3,7 +3,7 @@ import ReviewScore from '../../components/Gym/Review/ReviewScore';
 
 function GymReviewPage() {
   return (
-    <div>
+    <div className="mb-40">
       <ReviewScore />
       <GymReviewList />
     </div>
