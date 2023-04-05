@@ -16,22 +16,20 @@ function BoardDetail() {
   useEffect(() => {
     api.get(`communities/${id}`).then(res => setBoardDetail(res.data));
   }, []);
+
   return (
     <>
       <DetailHeader bookmarkCnt={boardDetail.bookmarkCnt} />
       <DetailTap tabName={boardDetail.tabName} />
-      {[boardDetail].map(boardDetails => (
-        <div key={boardDetails.communityId}>
-          <DetailTitle title={boardDetails.title} />
-          {boardDetail.contentImages.length === 0 ? null : (
-            <BoardDetailImage
-              contentImages={boardDetail.contentImages[0].contentImageUrl}
-            />
-          )}
-          <DetailBody content={boardDetails.content} />
-          <DetailComment />
-        </div>
-      ))}
+
+      <DetailTitle title={boardDetail.title} />
+      {boardDetail.contentImages && boardDetail.contentImages.length > 0 ? (
+        <BoardDetailImage
+          contentImages={boardDetail.contentImages[0].contentImageUrl}
+        />
+      ) : null}
+      <DetailBody content={boardDetail.content} />
+      <DetailComment />
     </>
   );
 }
