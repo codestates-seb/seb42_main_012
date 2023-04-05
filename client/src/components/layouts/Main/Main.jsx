@@ -3,7 +3,9 @@
 function Main({ children }) {
   return (
     <>
-      <div className="w-full px-4 bg-white">{children}</div>
+      <div className="w-full h-screen px-4 overflow-y-scroll bg-white">
+        {children}
+      </div>
       {/* <ChatButton /> */}
     </>
   );

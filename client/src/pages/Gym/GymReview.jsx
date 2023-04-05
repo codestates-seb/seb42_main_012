@@ -3,10 +3,10 @@ import ReviewScore from '../../components/Gym/Review/ReviewScore';
 
 function GymReviewPage() {
   return (
-    <>
+    <div>
       <ReviewScore />
       <GymReviewList />
-    </>
+    </div>
   );
 }
 

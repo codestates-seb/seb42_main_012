@@ -17,7 +17,7 @@ function Nav() {
         path === '/gyms' ||
         path === '/board' ||
         path === '/my') ? (
-        <nav className="fixed bottom-0 w-full bg-[#f8f8f8] py-5 z-10">
+        <nav className="fixed bottom-0 w-2/6 bg-[#f8f8f8] py-5 z-10">
           <ul className="flex items-center justify-around">
             <NavItem to="/">
               <AiFillHome className="text-3xl" />
@@ -39,7 +39,7 @@ function Nav() {
         </nav>
       ) : myElements.role === 'OWNER' &&
         (path === '/' || path === '/gyms' || path === '/my') ? (
-        <nav className="fixed bottom-0 w-full bg-[#f8f8f8] py-5">
+        <nav className="fixed bottom-0 bg-[#f8f8f8] py-5 w-2/6">
           <ul className="flex items-center justify-around">
             <NavItem to="/">
               <AiFillHome className="text-3xl" />

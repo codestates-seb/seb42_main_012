@@ -12,7 +12,6 @@ function Board() {
       .get('/communities?lastFeedId')
       .then(res => setBoards(res.data.contents));
   }, []);
-  console.log(boards);
 
   return (
     <ul>

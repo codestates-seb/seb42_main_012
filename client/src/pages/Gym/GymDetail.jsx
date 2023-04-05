@@ -21,7 +21,7 @@ function GymDetailPage() {
   }, []);
 
   return (
-    <>
+    <div>
       {[gymsDetail].map((gym, idx) => (
         <div key={idx}>
           <GymDetailHeader
@@ -45,7 +45,7 @@ function GymDetailPage() {
           <GymDetailList gym={gym} />
         </div>
       ))}
-    </>
+    </div>
   );
 }
 

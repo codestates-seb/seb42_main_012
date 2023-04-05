@@ -5,7 +5,7 @@ import Nav from './Nav/Nav';
 
 function MainLayout({ hasHeader, hasNav, titleText, nav }) {
   return (
-    <main>
+    <main className="h-screen">
       {hasHeader && <Header titleText={titleText} nav={nav} />}
       <Main>
         <Outlet />

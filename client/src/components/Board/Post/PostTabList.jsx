@@ -2,15 +2,9 @@ import { useState } from 'react';
 import TabButton from '../../UI/Button/TabButton';
 
 function BoardPostTapList({ setTabId }) {
-  const tabName = [
-    '자유게시판',
-    '꿀팁',
-    '오운완인증',
-    '자세피드백',
-    '파트너모집',
-  ];
-  const tabId = [1, 2, 3, 4, 5];
-  const [filterOn, setFilterOn] = useState([true, false, false, false, false]);
+  const tabName = ['자유게시판', '꿀팁', '자세피드백', '파트너모집'];
+  const tabId = [1, 2, 4, 5];
+  const [filterOn, setFilterOn] = useState([true, false, false, false]);
 
   return (
     <>

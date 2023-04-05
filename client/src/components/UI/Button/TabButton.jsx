@@ -44,7 +44,7 @@ function TabButton({
         });
       }
     } else if (path === 'board/boardpost') {
-      setTabId(idx + 1);
+      setTabId(filter);
     } else {
       gymAxios.get('/gyms', { params }).then(res => setGyms(res.data.data));
     }
