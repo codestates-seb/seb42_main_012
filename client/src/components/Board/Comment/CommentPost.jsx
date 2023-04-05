@@ -8,13 +8,7 @@ import useBoardStore from '../../../state/useBoardStore';
 function CommentPost() {
   const { register, handleSubmit } = useForm();
   const { id } = useParams();
-  const { setComments, comments } = useBoardStore();
-
-  const handleKeyPress = event => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-    }
-  };
+  const { setComments } = useBoardStore();
 
   const onSubmit = async data => {
     const commentsData = {
@@ -23,9 +17,7 @@ function CommentPost() {
 
     await api
       .post(`/communities/comments/${id}`, commentsData)
-      .then(res => {
-        console.log(res.data);
-      })
+      .then((document.getElementById('comment').value = null))
       .catch(() => alert('요청실패'));
 
     api
@@ -36,13 +28,19 @@ function CommentPost() {
       .catch(() => alert('요청실패'));
   };
 
-  console.log(comments);
+  const handleKeyPress = event => {
+    if (event.key === 'Enter') {
+      handleSubmit(onSubmit);
+    }
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex mt-8">
           <input
-            onKeyDown={handleKeyPress}
+            id="comment"
+            onKeyUp={event => handleKeyPress(event)}
             className="w-full border border-[var(--second-border)] outline-[var(--main)] rounded-md p-2"
             placeholder="댓글 입력 후 엔터를 누르세요."
             {...register('comment', {

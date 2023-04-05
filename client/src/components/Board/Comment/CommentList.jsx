@@ -14,7 +14,6 @@ function CommentList() {
       .get(`/communities/comments/${id}?lastFeedId=`)
       .then(res => setComments(res.data.contents));
   }, []);
-
   return (
     <ul className="mt-5">
       {comments.map((commented, idx) => (

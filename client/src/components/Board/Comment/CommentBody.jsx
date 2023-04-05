@@ -22,6 +22,10 @@ function CommentBody({ displayName, createdAt, commented, commentId }) {
     setEdit(!edit);
   };
 
+  const handleDelete = async () => {
+    api.delete(`comments/${commentId}`);
+  };
+
   const handleUpdate = async () => {
     // e.preventDefault();
     await api
@@ -46,7 +50,7 @@ function CommentBody({ displayName, createdAt, commented, commentId }) {
       .catch(err => console.log(err.response));
   };
 
-  // console.log(commentContent);
+  console.log(commentContent);
 
   return (
     <div className="flex flex-col w-full">
@@ -84,7 +88,7 @@ function CommentBody({ displayName, createdAt, commented, commentId }) {
                 수정취소
               </button>
             ) : (
-              <button type="button">
+              <button type="button" onClick={handleDelete}>
                 <BsTrash3Fill />
               </button>
             )}
