@@ -34,6 +34,10 @@ function TabButton({
         api.get('/communities?lastFeedId=').then(res => {
           setBoards(res.data.contents);
         });
+      } else if (filter === 3) {
+        api.get(`/communities/${filter}?lastFeedId=`).then(res => {
+          setBoards(res.data.contents);
+        });
       } else {
         api.get(`/communities/tab/${filter}?lastFeedId=`).then(res => {
           setBoards(res.data.contents);
