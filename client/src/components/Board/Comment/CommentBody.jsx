@@ -7,9 +7,17 @@ import { FaPencilAlt } from 'react-icons/fa';
 import dateFormat from '../../../utils/dateFormat';
 import api from '../../../utils/api';
 import useMyStore from '../../../state/useMyStore';
+import useBoardStore from '../../../state/useBoardStore';
 
-function CommentBody({ displayName, createdAt, commented, commentId }) {
+function CommentBody({
+  displayName,
+  createdAt,
+  commented,
+  commentId,
+  memberId,
+}) {
   const { myElements } = useMyStore();
+  const { setComments } = useBoardStore();
   const { id } = useParams();
   const [edit, setEdit] = useState(false);
   const [commentContent, setCommentContent] = useState(commented);
@@ -20,37 +28,27 @@ function CommentBody({ displayName, createdAt, commented, commentId }) {
 
   const handleEdit = () => {
     setEdit(!edit);
+    setCommentContent(commented);
   };
 
   const handleDelete = async () => {
-    api.delete(`comments/${commentId}`);
+    await api.delete(`/communities/comments/${commentId}`);
+    api
+      .get(`/communities/comments/${id}?lastFeedId=`)
+      .then(res => setComments(res.data.contents));
   };
 
   const handleUpdate = async () => {
-    // e.preventDefault();
     await api
-      .patch(`/communities/comments/${id}`, {
+      .patch(`/communities/comments/${commentId}`, {
         comment: commentContent,
       })
-      .then(res => {
-        // alert('수정 성공!');
-        console.log(res);
-        console.log(res.data);
-      })
-      .catch(err => console.log(err.response));
+      .then(setEdit(!edit));
 
     api
       .get(`/communities/comments/${id}?lastFeedId=`)
-      .then(res => {
-        setCommentContent(
-          res.data.contents.fliter(content => content.commentId === commentId),
-        );
-        alert('수정 성공!');
-      })
-      .catch(err => console.log(err.response));
+      .then(res => setComments(res.data.contents));
   };
-
-  console.log(commentContent);
 
   return (
     <div className="flex flex-col w-full">
@@ -62,35 +60,36 @@ function CommentBody({ displayName, createdAt, commented, commentId }) {
               {dateFormat(createdAt)}
             </span>
           </div>
-          <p className="text-sm">{commented}</p>
+          {edit ? null : <p className="w-56 text-sm">{commented}</p>}
         </div>
-        {commentContent.memberId === myElements.memberId ? (
+        {memberId === myElements.memberId ? (
           <div className="flex text-[#d9d9d9] text-md">
             {edit ? (
-              <button
-                type="button"
-                className="mr-2 text-sm"
-                onClick={handleUpdate}
-              >
-                수정완료
-              </button>
+              <div>
+                <button
+                  type="button"
+                  className="mr-2 text-sm"
+                  onClick={handleUpdate}
+                >
+                  수정완료
+                </button>
+                <button
+                  type="button"
+                  className="mr-2 text-sm"
+                  onClick={handleEdit}
+                >
+                  수정취소
+                </button>
+              </div>
             ) : (
-              <button type="button" className="mr-2" onClick={handleEdit}>
-                <FaPencilAlt />
-              </button>
-            )}
-            {edit ? (
-              <button
-                type="button"
-                className="mr-2 text-sm"
-                onClick={handleEdit}
-              >
-                수정취소
-              </button>
-            ) : (
-              <button type="button" onClick={handleDelete}>
-                <BsTrash3Fill />
-              </button>
+              <div>
+                <button type="button" className="mr-2" onClick={handleEdit}>
+                  <FaPencilAlt />
+                </button>
+                <button type="button" onClick={handleDelete}>
+                  <BsTrash3Fill />
+                </button>
+              </div>
             )}
           </div>
         ) : null}
