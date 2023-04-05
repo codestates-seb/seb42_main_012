@@ -17,7 +17,7 @@ function Nav() {
         path === '/gyms' ||
         path === '/board' ||
         path === '/my') ? (
-        <nav className="fixed bottom-0 w-full bg-[#f8f8f8] py-5">
+        <nav className="fixed bottom-0 w-full bg-[#f8f8f8] py-5 z-10">
           <ul className="flex items-center justify-around">
             <NavItem to="/">
               <AiFillHome className="text-3xl" />
