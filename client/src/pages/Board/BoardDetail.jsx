@@ -1,7 +1,11 @@
 import BoardDetail from '../../components/Board/Detail/BoardDetail';
 
 function BoardDetailPage() {
-  return <BoardDetail />;
+  return (
+    <>
+      <BoardDetail />
+    </>
+  );
 }
 
 export default BoardDetailPage;
