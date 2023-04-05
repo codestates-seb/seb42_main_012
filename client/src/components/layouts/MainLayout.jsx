@@ -5,7 +5,7 @@ import Nav from './Nav/Nav';
 
 function MainLayout({ hasHeader, hasNav, titleText, nav }) {
   return (
-    <main className="h-screen">
+    <main className="h-screen scrollbar-hide">
       {hasHeader && <Header titleText={titleText} nav={nav} />}
       <Main>
         <Outlet />
