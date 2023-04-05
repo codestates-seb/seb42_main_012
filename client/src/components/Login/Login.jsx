@@ -11,22 +11,20 @@ import api from '../../utils/api';
 function Login() {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm({
-    // defaultValues: {
-    //   email: 'testMember@email.com',
-    //   password: 'secret1111@',
-    // },
+    defaultValues: {
+      email: 'testMember1@email.com',
+      password: 'secret1111@',
+    },
   });
 
   const onSubmit = data => {
     api
-      .post(
-        '/auth/login',
-        {
-          email: data.email,
-          password: data.password,
-        },
-        // { withCredentials: true },
-      )
+      .post('/auth/login', {
+        email: data.email,
+        // email: 'testMember1@email.com',
+        password: data.password,
+        // password: 'secret1111@',
+      })
 
       .then(res => {
         if (res.status === 200) {

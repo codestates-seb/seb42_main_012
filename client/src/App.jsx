@@ -31,8 +31,8 @@ function App() {
   }, [isLoggedIn]);
 
   return (
-    <div className="flex justify-center bg-opacity-25 bg-lightGrey">
-      <div className="w-2/6">
+    <div className="flex justify-center bg-fixed bg-opacity-25 bg-lightGrey">
+      <div className="w-2/6 overflow-hidden">
         <Routes>
           {isLoggedIn ? (
             // 로그인이 되어있는경우 로그인/회원가입 페이지로 접근 시 홈으로 리다이렉트하도록 함

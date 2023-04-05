@@ -31,7 +31,7 @@ function GymPage() {
   // }, [location]);
 
   return (
-    <div className="mb-24">
+    <div className="mb-56">
       <GymNewestList />
       <GymTabList
         filters={filters}

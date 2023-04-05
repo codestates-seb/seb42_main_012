@@ -4,7 +4,7 @@ import BoardList from '../../components/Board/BoardList';
 
 function BoardPage() {
   return (
-    <div className="mb-32">
+    <div className="mb-56">
       <BoardSearchContainer />
       <BoardTapList />
       <BoardList />
