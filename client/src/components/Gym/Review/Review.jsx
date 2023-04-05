@@ -29,7 +29,6 @@ function GymReview({ review }) {
   const handleDelete = async () => {
     await gymAxios
       .delete(`gyms/reviews/${review.reviewId}`)
-      .then(res => console.log(res))
       .catch(err => console.log(err));
 
     await gymAxios.get(`/gyms/reviews/${id}`).then(res => {

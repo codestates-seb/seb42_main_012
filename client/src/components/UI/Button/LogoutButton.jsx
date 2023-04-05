@@ -8,7 +8,6 @@ function LogoutButton() {
     api
       .post('/auth/logout')
       .then(res => {
-        console.log(res.data);
         if (res.status === 200) {
           localStorage.clear();
           alert('로그아웃 성공!');

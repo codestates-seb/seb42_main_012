@@ -5,7 +5,6 @@ function More() {
   const param = useParams();
   const location = useLocation();
   const path = location.pathname;
-  console.log(path);
 
   return (
     <>
