@@ -1,10 +1,8 @@
 import { useLocation } from 'react-router-dom';
 import ReviewScoreList from '../../Gym/Review/ReviewScoreList';
 import dateFormat from '../../../utils/dateFormat';
-import useGymStore from '../../../state/useGymStore';
 
-function MyDetailListItem({ tabName, title, created, grades, gymId }) {
-  const { gymsDetail } = useGymStore();
+function MyDetailListItem({ tabName, title, created, grades, gymId, image }) {
   const location = useLocation();
   const classes =
     'border border-[var(--second)] w-24 rounded-full flex justify-center mr-2 text-[var(--second)] text-xs';
@@ -22,12 +20,7 @@ function MyDetailListItem({ tabName, title, created, grades, gymId }) {
           <div className="mr-2">
             <img
               className="object-cover w-48 h-32"
-              src={
-                gymsDetail.gymImages[0].gymImageUrl === undefined ||
-                gymsDetail.gymImages[0].gymImageUrl === null
-                  ? null
-                  : gymsDetail.gymImages[0].gymImageUrl
-              }
+              src={image === undefined ? null : image}
               alt="헬스장이미지"
             />
           </div>

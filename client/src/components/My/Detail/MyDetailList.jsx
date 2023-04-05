@@ -79,7 +79,7 @@ function MyDetailList() {
         myGymsBookmarks.contents.map((gymBookmark, index) => (
           <Link key={index} to={`/gyms/${gymBookmark.gymId}`}>
             <MyDetailListItem
-              image={gymBookmark.gymImage}
+              image={`https://main-012-bucket.s3.ap-northeast-2.amazonaws.com/${gymBookmark.gymImage}`}
               title={gymBookmark.gymName}
               gymId={gymBookmark.gymId}
             />
