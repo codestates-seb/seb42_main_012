@@ -5,11 +5,12 @@ function TabButton({
   filterOn,
   classname,
   setTabId,
+  filter,
 }) {
   const buttonHandler = () => {
     const tr = filterOn.map((i, index) => index === idx);
     setFilterOn(tr);
-    setTabId(idx + 1);
+    setTabId(filter);
   };
   return (
     <li>

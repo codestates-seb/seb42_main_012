@@ -128,7 +128,7 @@ function GymPostPage() {
     }
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="mb-24">
       <GymPostName register={register} patchGymName={gymsDetail.gymName} />
       <GymPostImageList
         register={register}

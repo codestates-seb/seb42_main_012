@@ -76,7 +76,7 @@ function BoardDetail() {
   };
 
   return (
-    <>
+    <div className="relative">
       <DetailHeader
         boardDetail={boardDetail}
         setEdit={setEdit}
@@ -90,7 +90,7 @@ function BoardDetail() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <button type="submit">
           {edit ? (
-            <div className="absolute text-2xl right-5 top-20">
+            <div className="absolute text-2xl top-3 right-5">
               <BsCheckCircle />
             </div>
           ) : null}
@@ -167,7 +167,7 @@ function BoardDetail() {
         )}
       </form>
       <DetailComment />
-    </>
+    </div>
   );
 }
 
