@@ -32,7 +32,7 @@ function App() {
 
   return (
     <div className="flex justify-center bg-opacity-25 bg-lightGrey">
-      <div className="w-2/6 overflow-hidden">
+      <div className="w-full overflow-hidden md:w-5/12">
         <Routes>
           {isLoggedIn ? (
             // 로그인이 되어있는경우 로그인/회원가입 페이지로 접근 시 홈으로 리다이렉트하도록 함

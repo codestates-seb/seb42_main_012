@@ -7,7 +7,7 @@ import useMyStore from '../../state/useMyStore';
 function MyPage() {
   const { myElements } = useMyStore();
   return (
-    <div className="h-full mb-20">
+    <div className="h-full mb-36">
       <Profile />
       {myElements.role === 'USER' && <MyPageList />}
       <MyAccount />

@@ -43,7 +43,7 @@ function MyDetailList() {
   }, []);
 
   return (
-    <ul>
+    <ul className="mb-36">
       {location.pathname === '/my/board' ? (
         myBoards.contents.map((board, index) => (
           <Link key={index} to={`/board/${board.boardId}`}>
